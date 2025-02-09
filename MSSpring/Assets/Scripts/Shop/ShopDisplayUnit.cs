@@ -13,20 +13,22 @@ public class ShopDisplayUnit : MonoBehaviour
 
 	public void SetUp(ShopAnimal shopAnimal)
 	{
-		this.shopAnimal=shopAnimal;
+		this.shopAnimal = shopAnimal;
 		image.sprite = shopAnimal.GetAnimalProperty().animalCoreImg;
 		priceText.text = shopAnimal.GetAnimalProperty().animalPrice.ToString();
 		outOfStock.SetActive(false);
 	}
 
-	public void Buy(GameObject gameObject){
-		//TODO:修改购买逻辑，先检测是否可以购买再进行购买
-		ShopManager.Instance.Buy(gameObject);
-		outOfStock.SetActive(true);
-		buyButton.gameObject.SetActive(false);
+	public void Buy(GameObject gameObject)
+	{
+		if (ShopManager.Instance.Buy(gameObject)) {
+			outOfStock.SetActive(true);
+			buyButton.gameObject.SetActive(false);
+		}
 	}
 
-	public ShopAnimal GetShopAnimal(){
+	public ShopAnimal GetShopAnimal()
+	{
 		return shopAnimal;
 	}
 }

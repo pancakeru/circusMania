@@ -8,7 +8,8 @@ public class ShopAnimal
 		this.animalProperty = animalProperty;
 	}
 
-	public animalProperty GetAnimalProperty(){
+	public animalProperty GetAnimalProperty()
+	{
 		return animalProperty;
 	}
 }

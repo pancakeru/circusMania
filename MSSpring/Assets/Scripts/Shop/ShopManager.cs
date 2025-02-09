@@ -6,10 +6,10 @@ public class ShopManager : MonoBehaviour
 {
 	public static ShopManager Instance { get; private set; }
 
-	private string animalPropertiesFolder = "animalProperties";
-	private animalProperty[] animalPropertyArray;
+	[SerializeField] private AnimalPool animalPool;
+
 	private List<ShopAnimal> animalInventory;
-	private int animalInventoryCount = 12;
+
 	private List<ShopAnimal> displayingList;
 	private List<ShopAnimal> boughtList;
 	private int displayColumnNumber = 4;
@@ -31,13 +31,12 @@ public class ShopManager : MonoBehaviour
 		}
 		Instance = this;
 
-		animalPropertyArray = Resources.LoadAll<animalProperty>(animalPropertiesFolder);
-
 		animalInventory = new List<ShopAnimal>();
-        //TODO:动物池子用新的AnimalPool实现，之后可以定义/加载不同的池子
-        for (int i = 0; i < animalInventoryCount; i++) {
-			int randomAnimal = Random.Range(0, animalPropertyArray.Length);
-			animalInventory.Add(new ShopAnimal(animalPropertyArray[randomAnimal]));
+		foreach (AnimalPool.AnimalEntry animalEntry in animalPool.animals) {
+			int count = animalEntry.count;
+			for (int i = 0; i < count; i++) {
+				animalInventory.Add(new ShopAnimal(animalEntry.animalProperty));
+			}
 		}
 
 		displayingList = new List<ShopAnimal>();
@@ -70,7 +69,7 @@ public class ShopManager : MonoBehaviour
 		}
 	}
 
-	public void Buy(GameObject gameObject)
+	public bool Buy(GameObject gameObject)
 	{
 		ShopAnimal shopAnimal = gameObject.GetComponent<ShopDisplayUnit>().GetShopAnimal();
 		int shopAnimalPrice = shopAnimal.GetAnimalProperty().animalPrice;
@@ -79,8 +78,10 @@ public class ShopManager : MonoBehaviour
 			coinText.text = coin.ToString();
 			animalInventory.Remove(shopAnimal);
 			boughtList.Add(shopAnimal);
+			return true;
 		} else {
 			Debug.Log("You do not have sufficient coins to buy this!");
+			return false;
 		}
 	}
 
@@ -90,6 +91,8 @@ public class ShopManager : MonoBehaviour
 			coin -= rollPrice;
 			coinText.text = coin.ToString();
 			Display();
+		} else {
+			Debug.Log("You do not have sufficient coins to roll!");
 		}
 	}
 
