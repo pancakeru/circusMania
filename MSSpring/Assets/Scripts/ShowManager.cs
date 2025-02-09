@@ -56,4 +56,9 @@ public class ShowManager : MonoBehaviour
 
     }
 
+    //创动物prefab
+    public void AnimalFactory() {
+
+    }
+
 }
