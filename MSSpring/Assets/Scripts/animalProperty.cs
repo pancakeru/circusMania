@@ -1,7 +1,7 @@
 
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "AnimalProperty")]
+[CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "Animal System/AnimalProperty")]
 public class animalProperty : ScriptableObject
 {
     public string animalName;

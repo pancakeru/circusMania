@@ -14,6 +14,7 @@ public class ShopManager : MonoBehaviour
 	private List<ShopAnimal> boughtList;
 	private int displayColumnNumber = 4;
 
+	//TODO: coin 需要改成 从Global Manager获取
 	private int coin = 114514;
 	private int rollPrice = 3;
 
@@ -33,7 +34,8 @@ public class ShopManager : MonoBehaviour
 		animalPropertyArray = Resources.LoadAll<animalProperty>(animalPropertiesFolder);
 
 		animalInventory = new List<ShopAnimal>();
-		for (int i = 0; i < animalInventoryCount; i++) {
+        //TODO:动物池子用新的AnimalPool实现，之后可以定义/加载不同的池子
+        for (int i = 0; i < animalInventoryCount; i++) {
 			int randomAnimal = Random.Range(0, animalPropertyArray.Length);
 			animalInventory.Add(new ShopAnimal(animalPropertyArray[randomAnimal]));
 		}

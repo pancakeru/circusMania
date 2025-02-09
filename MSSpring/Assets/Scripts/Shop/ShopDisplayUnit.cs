@@ -20,6 +20,7 @@ public class ShopDisplayUnit : MonoBehaviour
 	}
 
 	public void Buy(GameObject gameObject){
+		//TODO:修改购买逻辑，先检测是否可以购买再进行购买
 		ShopManager.Instance.Buy(gameObject);
 		outOfStock.SetActive(true);
 		buyButton.gameObject.SetActive(false);
