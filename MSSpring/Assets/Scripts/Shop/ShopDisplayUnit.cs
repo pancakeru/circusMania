@@ -8,6 +8,7 @@ public class ShopDisplayUnit : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI priceText;
 	[SerializeField] private Button buyButton;
 	[SerializeField] private GameObject outOfStock;
+	[SerializeField] private TextMeshProUGUI hoverExplanationText;
 
 	private ShopAnimal shopAnimal;
 
@@ -17,6 +18,7 @@ public class ShopDisplayUnit : MonoBehaviour
 		image.sprite = shopAnimal.GetAnimalProperty().animalCoreImg;
 		priceText.text = shopAnimal.GetAnimalProperty().animalPrice.ToString();
 		outOfStock.SetActive(false);
+		hoverExplanationText.text = shopAnimal.GetAnimalProperty().scoreActionTemplate + "\n" + shopAnimal.GetAnimalProperty().ballActionTemplate;
 	}
 
 	public void Buy(GameObject gameObject)
@@ -24,6 +26,7 @@ public class ShopDisplayUnit : MonoBehaviour
 		if (ShopManager.Instance.Buy(gameObject)) {
 			outOfStock.SetActive(true);
 			buyButton.gameObject.SetActive(false);
+			image.GetComponent<HoverExplainSystem>().enabled=false;
 		}
 	}
 
