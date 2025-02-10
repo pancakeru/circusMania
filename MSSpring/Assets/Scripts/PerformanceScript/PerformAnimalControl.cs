@@ -30,6 +30,9 @@ public class PerformAnimalControl : MonoBehaviour
     internal int selfIndexInShow;
     internal bool ifInRest = false;//这个是为了防止投球时吃香蕉，只有inrest才吃
 
+    [Header("For Score Effect")]
+    public ScoreTextEffectGenerator generator;
+
     private float ratioTimer = 1;
     private Vector3 originalScale;
     private Vector3 baseRatio;
@@ -213,6 +216,11 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     public int ballPassChangeIndex;
     public int restTurn;
 
+    [Header("Score Related")]
+    public float baseRedScore;
+    public float baseBlueScore;
+    public float baseYellowScore;
+
     public void InitBrain(PerformUnit _unit, PerformAnimalControl _body)
     {
         controlUnit = _unit;
@@ -227,6 +235,21 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifHaveBall = false;
         //animalManager.Instance.changeScore(interactionYellowScore, interactionRedScore, interactionBlueScore, selfIndex);
         //TODO:分数展示和改变逻辑
+        if (baseRedScore != 0)
+        {
+            animalBody.generator.RequestTextEffect(baseRedScore, ScoreTextEffectGenerator.ScoreType.Red);
+        }
+        if (baseYellowScore != 0)
+        {
+            animalBody.generator.RequestTextEffect(baseYellowScore, ScoreTextEffectGenerator.ScoreType.Yellow);
+        }
+        if (baseBlueScore != 0)
+        {
+            animalBody.generator.RequestTextEffect(baseBlueScore, ScoreTextEffectGenerator.ScoreType.Blue);
+        }
+
+        
+
         animalBody.ifReadyToInteract = false;
     }
 
