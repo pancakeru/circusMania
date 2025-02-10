@@ -7,8 +7,13 @@ public class iconAnimal : MonoBehaviour
 {
     //换动物图片
     private SpriteRenderer mySprite;
-    public Image uiImage;
+    private Image uiImage;
     private string animalType;
+    private Transform myPosition;
+
+    //动物图片
+    public List<Sprite> spriteList;
+    public List<string> typeList;
 
     private enum iconState {
         appear,
@@ -19,27 +24,30 @@ public class iconAnimal : MonoBehaviour
     }
     private iconState currentState;
 
-
     void Start()
     {
-        mySprite = this.GetComponent<SpriteRenderer>();
-
+        myPosition = this.GetComponent<Transform>();
     }
 
     //新的constructor，直接写动物种类
     public void Initialize(string type)
     {
         animalType = type; //动物种类
-        LoadSprite(type);
-    }
 
-    //换成适合的图片
-    private void LoadSprite(string type)
-    {
-        /*
-        Sprite loadedSprite = //type 的图片
-        mySprite.sprite = loadedSprite;
-        */
+        mySprite = this.GetComponent<SpriteRenderer>();
+        uiImage = GetComponentInChildren<Image>();
+
+        for (int i = 0; i < typeList.Count; i++) {
+            if (animalType != null && typeList[i] == animalType) {
+               // mySprite.sprite = spriteList[i];
+                uiImage.sprite = spriteList[i];
+                Debug.Log(spriteList[i]);
+            } else {
+                Debug.Log("animal type is: " + animalType);
+            }
+        }
+
+        
     }
 
     void Update()
