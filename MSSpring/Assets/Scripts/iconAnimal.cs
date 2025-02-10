@@ -117,20 +117,19 @@ public class iconAnimal : MonoBehaviour
         Debug.Log("not hovered");
     }
 
-    void OnMouseDrag() {
-        //这个跟着mouse (selected state)
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isHovered = true;
         Debug.Log("hovered");
     }
 
-    // 🚀 Correct way to detect UI hover exit instead of OnMouseExit
     public void OnPointerExit(PointerEventData eventData)
     {
-        isHovered = false;
+        Debug.Log("no hover");
+    }
+
+    void OnMouseDrag() {
+        //这个跟着mouse (selected state)
     }
 
     void OnMouseUp() {
