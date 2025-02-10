@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class iconAnimal : MonoBehaviour
+public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     //换动物图片
     private SpriteRenderer mySprite;
@@ -16,21 +16,21 @@ public class iconAnimal : MonoBehaviour
     //idle state animation
     private Vector2 originalPosition;
     private Vector2 hoverPosition;
-    private bool isHovered = false;
+    public bool isHovered = false;
     private float hoverSpeed = 200f;
 
     //动物图片
     public List<Sprite> spriteList;
     public List<string> typeList;
 
-    private enum iconState {
+    public enum iconState {
         appear,
         selected,
         idle,
         half,
         disappear
     }
-    private iconState currentState;
+    public iconState currentState;
 
     void Start()
     {
@@ -70,7 +70,7 @@ public class iconAnimal : MonoBehaviour
                     myPosition.anchoredPosition += Vector2.up * 500 * Time.deltaTime;
                 } else {
                     originalPosition = myPosition.anchoredPosition;
-                    hoverPosition = originalPosition + Vector2.up * 10;
+                    hoverPosition = originalPosition + Vector2.up * 100;
                     this.currentState = iconState.idle;
                 }
 
@@ -105,26 +105,15 @@ public class iconAnimal : MonoBehaviour
         }
     }
 
-    void OnMouseEnter() {
-        //animation (idle state)
-        isHovered = true;
-        Debug.Log("hovered");
-    }
-
-    void OnMouseExit() {
-        //animation (idle state)
-        isHovered = false;
-        Debug.Log("not hovered");
-    }
-
-
     public void OnPointerEnter(PointerEventData eventData)
     {
+        isHovered = true;
         Debug.Log("hovered");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        isHovered = false;
         Debug.Log("no hover");
     }
 
