@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 
-public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     //换动物图片
     private SpriteRenderer mySprite;
@@ -18,8 +18,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Vector2 originalPosition;
     private Vector2 hoverPosition;
     private Vector2 halfPosition;
+    private Vector2 dragOffset;
     public bool isHovered = false;
     private float hoverSpeed = 15f;
+    private bool isDragging = false;
+    private Canvas canvas;
 
     //动物图片
     public List<Sprite> spriteList;
@@ -37,6 +40,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     void Start()
     {
         myPosition = this.GetComponentInChildren<RectTransform>();
+        canvas = GetComponentInParent<Canvas>();
     }
 
     //新的constructor，直接写动物种类
@@ -59,8 +63,6 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
 
         currentState = iconState.appear;
-
-        
     }
 
     void Update()
@@ -76,44 +78,46 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     halfPosition = originalPosition + Vector2.down * 200;
                     this.currentState = iconState.idle;
                 }
-
-            break;
+                break;
 
             case iconState.selected:
                 //跟着mouse，查位置
-
-
-
-
-            break;
+                if (isDragging)
+                {
+                    Vector2 localPoint;
+                    RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out localPoint);
+                    myPosition.anchoredPosition = localPoint;
+                }
+                break;
 
             case iconState.idle:
                 //animation
                 //玩着还没选
                 if (isHovered) {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.Mouse0)) {
+                        currentState = iconState.selected;
+                    } 
                 } else {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, originalPosition, hoverSpeed * Time.deltaTime);
                     if (Input.GetKey(KeyCode.Mouse0)) {
                         currentState = iconState.half;
                     } 
                 }
-
-            break;
+                break;
 
             case iconState.half:
                 //往下藏一半
                 myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, halfPosition, hoverSpeed * Time.deltaTime);
-
                 if (Input.GetKeyUp(KeyCode.Mouse0)) {
-                        currentState = iconState.idle;
-                    } 
-
-            break;
+                    currentState = iconState.idle;
+                } 
+                break;
 
             case iconState.disappear:
                 //不见了
-            break;
+                break;
         }
     }
 
@@ -129,13 +133,28 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
        // Debug.Log("no hover");
     }
 
-    void OnMouseDrag() {
-        //这个跟着mouse (selected state)
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        isDragging = true;
+        currentState = iconState.selected;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out dragOffset);
     }
 
-    void OnMouseUp() {
-        //查位置
-        //make prefab or reset list
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (currentState == iconState.selected)
+        {
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform, eventData.position, canvas.worldCamera, out localPoint);
+            myPosition.anchoredPosition = localPoint - dragOffset;
+        }
     }
 
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        isDragging = false;
+        currentState = iconState.idle;
+    }
 }
