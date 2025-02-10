@@ -350,13 +350,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1536560665074741320, guid: 2adaa47af52914b939966c52309706b3, type: 3}
+      propertyPath: ballPassChangeIndex
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 2592057016686602374, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: m_Name
       value: TestPerformanceUnit
       objectReference: {fileID: 0}
     - target: {fileID: 6018669582459501976, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6018669582459501976, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: m_LocalPosition.y
