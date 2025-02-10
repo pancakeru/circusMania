@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TroupeController : MonoBehaviour
 {
@@ -8,11 +10,22 @@ public class TroupeController : MonoBehaviour
     List<animalProperty> tempTroupe = new List<animalProperty>();
     List<GameObject> troupeCards = new List<GameObject>();
 
-    Vector2 startPos = new Vector2 (-650f, 50f);
+    GameObject cardsGroup;
+    GameObject slide;
+
+    Vector2 cardStartPos = new Vector2 (-700f, 50f);
+    Vector2 slideStartPos = new Vector2();
+    Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 4;
 
     void Start()
     {
+        DisableSelf();
+
+        cardsGroup = transform.GetChild(0).gameObject;
+        slide = transform.GetChild(1).gameObject;
+        slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
+
         for (int i = 0; i < 9; i++)
         {
             tempTroupe.Add(CreateTempAnimalInstance());
@@ -27,6 +40,15 @@ public class TroupeController : MonoBehaviour
             GetComponent<Canvas>().enabled = true;
             DisplayCards();
         }
+
+        if (GetComponent<Canvas>().enabled)
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll != 0)
+            {
+                slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.2f);
+            }
+        }
     }
 
     void DisplayCards()
@@ -39,7 +61,7 @@ public class TroupeController : MonoBehaviour
 
         for (int i = 0; i < tempTroupe.Count; i++)
         {
-            GameObject newCard = Instantiate(troupeCard, transform.GetChild(0).transform);
+            GameObject newCard = Instantiate(troupeCard, cardsGroup.transform);
             troupeCards.Add(newCard);
         }
 
@@ -48,8 +70,11 @@ public class TroupeController : MonoBehaviour
 
         for (int i = 0; i < troupeCards.Count; i++)
         {
-            troupeCards[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(startPos.x + (i % cardsPerRow) * width, startPos.y - (i / cardsPerRow) * height);
+            troupeCards[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(cardStartPos.x + (i % cardsPerRow) * width, cardStartPos.y - (i / cardsPerRow) * height);
         }
+
+        slideStartPos = new Vector2(0, cardStartPos.y);
+        slideEndPos = new Vector2(0, cardStartPos.y + height * troupeCards.Count / cardsPerRow);
     }
 
     public void DisableSelf()
@@ -57,7 +82,12 @@ public class TroupeController : MonoBehaviour
         GetComponent<Canvas>().enabled = false;
     }
 
-    private animalProperty CreateTempAnimalInstance()
+    public void SlideCards(float value)
+    {
+        cardsGroup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Mathf.Lerp(slideStartPos.y, slideEndPos.y, value));
+    }
+
+    animalProperty CreateTempAnimalInstance()
     {
         animalProperty newAnimal = ScriptableObject.CreateInstance<animalProperty>();
 
