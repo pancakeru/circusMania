@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
@@ -62,6 +63,10 @@ public class TroupeController : MonoBehaviour
         for (int i = 0; i < tempTroupe.Count; i++)
         {
             GameObject newCard = Instantiate(troupeCard, cardsGroup.transform);
+            if (tempTroupe[i].animalCoreImg != null) newCard.transform.GetChild(1).GetComponent<Image>().sprite = tempTroupe[i].animalCoreImg;
+            newCard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = tempTroupe[i].animalName;
+            newCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = tempTroupe[i].returnScoreAction();
+            newCard.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = tempTroupe[i].returnBallAction();
             troupeCards.Add(newCard);
         }
 
