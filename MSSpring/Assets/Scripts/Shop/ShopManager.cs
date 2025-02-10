@@ -64,9 +64,15 @@ public class ShopManager : MonoBehaviour
 		if (displayingList != null) {
 			foreach (ShopAnimal shopAnimal in displayingList) {
 				GameObject shopDisplayUnit = Instantiate(shopDisplayUnitPrefab, shopDisplayUnitContainer.transform);
+				shopDisplayUnit.GetComponent<ShopDisplayUnit>().displayIndex = displayingList.IndexOf(shopAnimal);
 				shopDisplayUnit.GetComponent<ShopDisplayUnit>().SetUp(shopAnimal);
 			}
 		}
+	}
+
+	public int GetDisplayingListCount()
+	{
+		return displayingList.Count;
 	}
 
 	public bool Buy(GameObject gameObject)

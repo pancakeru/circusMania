@@ -8,9 +8,11 @@ public class ShopDisplayUnit : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI priceText;
 	[SerializeField] private Button buyButton;
 	[SerializeField] private GameObject outOfStock;
-	[SerializeField] private TextMeshProUGUI hoverExplanationText;
+	[SerializeField] private HoverExplainSystem hoverExplainSystem;
 
 	private ShopAnimal shopAnimal;
+
+	[HideInInspector] public int displayIndex;
 
 	public void SetUp(ShopAnimal shopAnimal)
 	{
@@ -18,7 +20,8 @@ public class ShopDisplayUnit : MonoBehaviour
 		image.sprite = shopAnimal.GetAnimalProperty().animalCoreImg;
 		priceText.text = shopAnimal.GetAnimalProperty().animalPrice.ToString();
 		outOfStock.SetActive(false);
-		hoverExplanationText.text = shopAnimal.GetAnimalProperty().scoreActionTemplate + "\n" + shopAnimal.GetAnimalProperty().ballActionTemplate;
+
+		hoverExplainSystem.OnHover += HoverExplainSystem_OnHover;
 	}
 
 	public void Buy(GameObject gameObject)
@@ -26,7 +29,18 @@ public class ShopDisplayUnit : MonoBehaviour
 		if (ShopManager.Instance.Buy(gameObject)) {
 			outOfStock.SetActive(true);
 			buyButton.gameObject.SetActive(false);
-			image.GetComponent<HoverExplainSystem>().enabled=false;
+			image.GetComponent<HoverExplainSystem>().enabled = false;
+		}
+	}
+
+	private void HoverExplainSystem_OnHover(object sender, HoverExplainSystem.OnHoverEventArgs e)
+	{
+		int displayingListCount = ShopManager.Instance.GetDisplayingListCount();
+		e.hoverExplanation.GetComponent<ShopHoverExplanationSingle>().SetUp(this);
+		if (displayIndex <= displayingListCount / 2 - 1) {
+			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(-400, 0);
+		} else {
+			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(100, 0);
 		}
 	}
 
