@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class PerformAnimalControl : MonoBehaviour
 {
@@ -19,13 +21,14 @@ public class PerformAnimalControl : MonoBehaviour
     [Header("Performance Related")]
     public Transform ThrowPos;
     public Transform AcceptPos;
+    public TextMeshPro restText;
     internal bool ifHaveBall = false;
     internal bool ifReadyToInteract = true;
     internal bool ifJustInteract = false;
-    [SerializeField]
     internal int curRestTurn = -1;
     internal BallScript ball;
     internal int selfIndexInShow;
+    internal bool ifInRest = false;//这个是为了防止投球时吃香蕉，只有inrest才吃
 
     private float ratioTimer = 1;
     private Vector3 originalScale;
@@ -35,15 +38,15 @@ public class PerformAnimalControl : MonoBehaviour
     {
 
         
-        originalScale = transform.localScale; // 记录原始缩放
-        baseRatio = transform.localScale;
+        originalScale = renderer.transform.localScale; // 记录原始缩放
+        baseRatio = renderer.transform.localScale;
         
         //StartState(animalSceneState.inShop);
     }
 
     private void Update()
     {
-        transform.localScale = baseRatio * ratioTimer;
+        renderer.transform.localScale = baseRatio * ratioTimer;
     }
 
     public void ShowStart(PerformUnit controlUnit, int index)
@@ -76,7 +79,7 @@ public class PerformAnimalControl : MonoBehaviour
     {
         if (ifJustInteract)
         {
-            FlipSprite(2, false);
+            
             animalBrain.EnterRest();
             ifJustInteract = false;
         }
@@ -102,15 +105,19 @@ public class PerformAnimalControl : MonoBehaviour
 
     public void TakeBanana(int n)
     {
+        
         curRestTurn = Mathf.Max(curRestTurn - n, 0);
         animalBrain.ConsumeBanana(n);
-        if (curRestTurn < 1)
+        if (ifInRest)
         {
-            animalBrain.Recover();
-        }
-        else
-        {
-            ChangeRestCount(curRestTurn);
+            if (curRestTurn < 1)
+            {
+                animalBrain.Recover();
+            }
+            else
+            {
+                ChangeRestCount(curRestTurn);
+            }
         }
     }
 
@@ -118,30 +125,41 @@ public class PerformAnimalControl : MonoBehaviour
     {
         //TODO:实现改变休息count 的逻辑
         curRestTurn = num;
+        if (curRestTurn > 0)
+        {
+            restText.text = curRestTurn.ToString();
+            if (!restText.gameObject.activeInHierarchy)
+                restText.gameObject.SetActive(true);
+
+        }
+        else
+        {
+            restText.gameObject.SetActive(false);
+        }
     }
 
-    public void FlipSprite(int state, bool ifDirect)
+    public void FlipSprite(int state, bool ifDirect,Action doInFlip = null )
     {
         if (flipCor != null)
             Debug.LogError("在翻面执行中时再次翻面");
         Debug.Log("触发翻面");
-        flipCor = StartCoroutine(FlipSpriteCor(displaySprites[state], ifDirect));
+        flipCor = StartCoroutine(FlipSpriteCor(displaySprites[state], ifDirect,doInFlip));
         if (state == 2)
             renderer.color = Color.gray;
         else
             renderer.color = Color.white;
     }
 
-    public void FlipSprite(Sprite newSpr, bool ifDirect)
+    public void FlipSprite(Sprite newSpr, bool ifDirect, Action doInFlip = null)
     {
         if (flipCor != null)
             Debug.LogError("在翻面执行中时再次翻面");
 
         renderer.color = Color.white;
-        flipCor = StartCoroutine(FlipSpriteCor(newSpr, ifDirect));
+        flipCor = StartCoroutine(FlipSpriteCor(newSpr, ifDirect, doInFlip));
     }
 
-    private IEnumerator FlipSpriteCor(Sprite toSprite, bool ifDirect)
+    private IEnumerator FlipSpriteCor(Sprite toSprite, bool ifDirect, Action doInFlip)
     {
         float halfDuration = flipDuration/2; 
         
@@ -167,7 +185,7 @@ public class PerformAnimalControl : MonoBehaviour
 
         // 这里假设有 renderer 和 displaySprites 来支持翻转
         renderer.sprite = toSprite;
-
+        
         elapsedTime = 0f;
         while (elapsedTime < halfDuration)
         {
@@ -178,6 +196,7 @@ public class PerformAnimalControl : MonoBehaviour
         }
 
         baseRatio = originalScale;
+        doInFlip?.Invoke();
         flipCor = null;
     }
 }
@@ -221,6 +240,7 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     }
     public virtual void Recover()
     {
+        animalBody.ifInRest = false;
         animalBody.FlipSprite(0, false);
         animalBody.ChangeRestCount(-1);
         animalBody.ifReadyToInteract = true;
@@ -229,7 +249,8 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     //TODO：把ChangeRestCount变成纯粹的改变展示，把这个放到进入rest地方
     public virtual void EnterRest()
     {
-        animalBody.ChangeRestCount(restTurn);
+        animalBody.ifInRest = true;
+        animalBody.FlipSprite(2, false, ()=> { animalBody.ChangeRestCount(restTurn); });
     }
 
     public void ConsumeBanana(int n) { }//This is only for special effect

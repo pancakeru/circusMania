@@ -11,6 +11,9 @@ public class PerformUnit : MonoBehaviour
     public float endTurnWaitTime = 1f;
     public bool ifShowEnd = false;
 
+    [Header("For Banana")]
+    public BananaThrower thrower;
+
     private BallScript curBall;
     private bool ifBallMoveFinish = false;
     private bool ifendTurnAnimationFinish = false;
@@ -42,6 +45,7 @@ public class PerformUnit : MonoBehaviour
     void StartShow()
     {
         allAnimalsInShow = GetAllAnimalsInShow();
+        thrower.ShowStart(true);
 
         for (int i = 0; i < allAnimalsInShow.Length; i++)
         {
