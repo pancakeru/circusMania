@@ -35,7 +35,7 @@ public class ShowManager : MonoBehaviour
 
         for (int i = 0; i < 6; i++) {
             GameObject temp = Instantiate(animalIcon, canvasTransform);
-            temp.GetComponent<iconAnimal>().Initialize("elephant");
+            temp.GetComponent<iconAnimal>().Initialize("monkey");
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
         }
 
