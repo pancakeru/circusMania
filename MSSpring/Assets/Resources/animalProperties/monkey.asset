@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalName: 
   animalCoreImg: {fileID: 21300000, guid: 6ee532f4d23414fb4b28710770185ddb, type: 3}
-  animalPrice: 0
+  animalPrice: 100000
   baseYellowChange: 0
   baseRedChange: 0
   baseBlueChange: 0
