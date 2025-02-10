@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -16,21 +17,22 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     //idle state animation
     private Vector2 originalPosition;
     private Vector2 hoverPosition;
+    private Vector2 halfPosition;
     public bool isHovered = false;
-    private float hoverSpeed = 200f;
+    private float hoverSpeed = 15f;
 
     //动物图片
     public List<Sprite> spriteList;
     public List<string> typeList;
 
-    public enum iconState {
+    private enum iconState {
         appear,
         selected,
         idle,
         half,
         disappear
     }
-    public iconState currentState;
+    private iconState currentState;
 
     void Start()
     {
@@ -71,6 +73,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 } else {
                     originalPosition = myPosition.anchoredPosition;
                     hoverPosition = originalPosition + Vector2.up * 100;
+                    halfPosition = originalPosition + Vector2.down * 200;
                     this.currentState = iconState.idle;
                 }
 
@@ -91,12 +94,21 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
                 } else {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, originalPosition, hoverSpeed * Time.deltaTime);
+                    if (Input.GetKey(KeyCode.Mouse0)) {
+                        currentState = iconState.half;
+                    } 
                 }
 
             break;
 
             case iconState.half:
                 //往下藏一半
+                myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, halfPosition, hoverSpeed * Time.deltaTime);
+
+                if (Input.GetKeyUp(KeyCode.Mouse0)) {
+                        currentState = iconState.idle;
+                    } 
+
             break;
 
             case iconState.disappear:
@@ -108,13 +120,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
-        Debug.Log("hovered");
+        //Debug.Log("hovered");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
-        Debug.Log("no hover");
+       // Debug.Log("no hover");
     }
 
     void OnMouseDrag() {
