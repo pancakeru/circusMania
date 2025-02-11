@@ -23,6 +23,8 @@ public class ShowManager : MonoBehaviour
     private float x;
     private float offset;
 
+    public bool holding = false;
+
     private List<animalProperty> testList;
 
     void Start()
@@ -33,7 +35,7 @@ public class ShowManager : MonoBehaviour
         yStart = -600;
 
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             GameObject temp = Instantiate(animalIcon, canvasTransform);
             temp.GetComponent<iconAnimal>().Initialize("monkey");
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);

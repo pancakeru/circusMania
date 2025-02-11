@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 
 public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
@@ -19,10 +20,18 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Vector2 hoverPosition;
     private Vector2 halfPosition;
     private Vector2 dragOffset;
-    public bool isHovered = false;
+    private bool isHovered = false;
     private float hoverSpeed = 15f;
     private bool isDragging = false;
     private Canvas canvas;
+    public GameObject showManager;
+    private ShowManager showScript;
+
+    private Vector2 lastMousePosition;
+    private Vector2 velocity;
+    private float smoothingFactor = 10f;
+    private float friction = 0.3f;
+    private float minVelocityThreshold = 0.1f; // Threshold to stop sliding
 
     //动物图片
     public List<Sprite> spriteList;
@@ -33,6 +42,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         selected,
         idle,
         half,
+        sliding,
         disappear
     }
     private iconState currentState;
@@ -41,6 +51,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         myPosition = this.GetComponentInChildren<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        showScript = showManager.GetComponent<ShowManager>();
     }
 
     //新的constructor，直接写动物种类
@@ -73,9 +84,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (myPosition.anchoredPosition.y <= yGoal) {
                     myPosition.anchoredPosition += Vector2.up * 500 * Time.deltaTime;
                 } else {
-                    originalPosition = myPosition.anchoredPosition;
-                    hoverPosition = originalPosition + Vector2.up * 100;
-                    halfPosition = originalPosition + Vector2.down * 200;
+                    UpdateAnchors();
                     this.currentState = iconState.idle;
                 }
                 break;
@@ -102,7 +111,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 } else {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, originalPosition, hoverSpeed * Time.deltaTime);
                     if (Input.GetKey(KeyCode.Mouse0)) {
-                        currentState = iconState.half;
+                        if (showScript.holding) {
+                            currentState = iconState.half;
+                        } else {
+                            currentState = iconState.sliding;
+                        }
                     } 
                 }
                 break;
@@ -115,10 +128,27 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 } 
                 break;
 
-            case iconState.disappear:
-                //不见了
+            case iconState.sliding:
+                if (Input.GetKey(KeyCode.Mouse0)) {
+                    if (!showScript.holding) {
+                        // Dragging left right
+                        Vector2 mouseDelta = (Vector2)Input.mousePosition - lastMousePosition;
+                        velocity = Vector2.Lerp(velocity, mouseDelta, Time.deltaTime * smoothingFactor);
+                    }
+                } else {
+                    // friction to stop
+                    velocity *= friction;
+                    if (Mathf.Abs(velocity.x) < minVelocityThreshold) {
+                        UpdateAnchors();
+                        velocity = Vector2.zero;
+                        currentState = iconState.idle;
+                    }
+                }
+                myPosition.anchoredPosition += new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
                 break;
         }
+
+        lastMousePosition = Input.mousePosition;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -136,6 +166,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         isDragging = true;
+        showScript.holding = true;
         currentState = iconState.selected;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out dragOffset);
@@ -155,6 +186,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerUp(PointerEventData eventData)
     {
         isDragging = false;
+        showScript.holding = false;
         currentState = iconState.idle;
+    }
+
+    void UpdateAnchors() {
+        originalPosition = myPosition.anchoredPosition;
+        hoverPosition = originalPosition + Vector2.up * 100;
+        halfPosition = originalPosition + Vector2.down * 200;
     }
 }

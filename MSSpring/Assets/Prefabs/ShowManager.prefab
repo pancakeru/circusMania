@@ -148,3 +148,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalIcon: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
   canvasTransform: {fileID: 1725952095014604393}
+  holding: 1

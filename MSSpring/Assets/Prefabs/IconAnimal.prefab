@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081c8ca2e46d5a24ba9637e49b1ee046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showManager: {fileID: 6762093361612340398, guid: 1720febd179164b488a09579afca0477, type: 3}
   spriteList:
   - {fileID: 21300000, guid: d6b521976f95d4675ab6713d594b1d8d, type: 3}
   - {fileID: 21300000, guid: 54bbee01f353541779559a3adf6972a0, type: 3}
@@ -226,4 +227,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 60
+  m_Radius: 50
