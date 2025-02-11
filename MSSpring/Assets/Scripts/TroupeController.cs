@@ -7,6 +7,8 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class TroupeController : MonoBehaviour
 {
+    MenuController menuController;
+
     public GameObject troupeCard;
     List<animalProperty> tempTroupe = new List<animalProperty>();
     List<GameObject> troupeCards = new List<GameObject>();
@@ -21,7 +23,9 @@ public class TroupeController : MonoBehaviour
 
     void Start()
     {
-        DisableSelf();
+        GetComponent<Canvas>().enabled = false;
+
+        menuController = FindAnyObjectByType<MenuController>();
 
         cardsGroup = transform.GetChild(0).gameObject;
         slide = transform.GetChild(1).gameObject;
@@ -36,12 +40,6 @@ public class TroupeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            GetComponent<Canvas>().enabled = true;
-            DisplayCards();
-        }
-
         if (GetComponent<Canvas>().enabled)
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -82,9 +80,17 @@ public class TroupeController : MonoBehaviour
         slideEndPos = new Vector2(0, cardStartPos.y + height * troupeCards.Count / cardsPerRow);
     }
 
-    public void DisableSelf()
+    public void Enable()
+    {
+        GetComponent<Canvas>().enabled = true;
+        DisplayCards();
+    }
+
+    public void Disable()
     {
         GetComponent<Canvas>().enabled = false;
+        menuController.Enable();
+
     }
 
     public void SlideCards(float value)
@@ -103,11 +109,11 @@ public class TroupeController : MonoBehaviour
         newAnimal.baseRedChange = 0f;
         newAnimal.baseBlueChange = 0f;
         newAnimal.restTurn = 0;
-        newAnimal.scoreActionTemplate = "none";
+        newAnimal.scoreActionTemplate = "Gain 10 Score";
         newAnimal.amount1 = 0;
         newAnimal.amount2 = 0;
         newAnimal.amount3 = 0;
-        newAnimal.ballActionTemplate = "none";
+        newAnimal.ballActionTemplate = "Throw R1, rest 3T";
         newAnimal.amount4 = 0;
         newAnimal.amount5 = 0;
         newAnimal.amount6 = 0;

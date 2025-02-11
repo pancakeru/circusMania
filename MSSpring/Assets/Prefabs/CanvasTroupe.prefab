@@ -159,7 +159,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7109893685192633506}
         m_TargetAssemblyTypeName: TroupeController, Assembly-CSharp
-        m_MethodName: DisableSelf
+        m_MethodName: Disable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
