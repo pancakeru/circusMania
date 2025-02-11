@@ -23,8 +23,6 @@ public class TroupeController : MonoBehaviour
 
     void Start()
     {
-        GetComponent<Canvas>().enabled = false;
-
         menuController = FindAnyObjectByType<MenuController>();
 
         cardsGroup = transform.GetChild(0).gameObject;

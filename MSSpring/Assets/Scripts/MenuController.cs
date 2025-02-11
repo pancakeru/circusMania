@@ -11,6 +11,9 @@ public class MenuController : MonoBehaviour
     {
         troupeController = FindFirstObjectByType<TroupeController>();
         shopManager = FindFirstObjectByType<ShopManager>();
+
+        troupeController.GetComponent<Canvas>().enabled = false;
+        shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
     }
 
     // Update is called once per frame
@@ -27,7 +30,8 @@ public class MenuController : MonoBehaviour
 
     public void ButtonShop()
     {
-
+        shopManager.transform.parent.GetComponent<Canvas>().enabled = true;
+        Disable();
     }
 
     public void Enable()
