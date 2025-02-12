@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animalIcon: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
+  areaPrefab: {fileID: 8673306862137156812, guid: 421f6495fd1a04941bb6580cd8540860, type: 3}
   canvasTransform: {fileID: 1725952095014604393}
   holding: 1
   animalPerformancePrefabs:

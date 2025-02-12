@@ -36,6 +36,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     //动物图片
     public List<Sprite> spriteList;
     public List<string> typeList;
+    private Vector3 worldPosition;
 
     //查位置
     private GameObject[] areaDetectors;
@@ -148,7 +149,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 break;
 
             case iconState.callFactory:
-                showScript.AnimalFactory(animalType);
+                showScript.AnimalFactory(animalType, worldPosition);
                 Destroy(gameObject);
             break;
         }
@@ -190,16 +191,24 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
    public void OnPointerUp(PointerEventData eventData)
 {
+    bool detected = false;
+
     foreach (GameObject area in areaDetectors)
     {
         RectTransform r = area.GetComponentInChildren<RectTransform>();
         
         if (r != null && RectTransformUtility.RectangleContainsScreenPoint(r, Input.mousePosition, canvas.worldCamera))
         {
+            worldPosition = area.GetComponent<areaReport>().myPosition;
             currentState = iconState.callFactory;
-        } else {
+            detected = true;
+            break;
+        } 
+
+        if (!detected) {
             currentState = iconState.idle;
         }
+
     }
     
     isDragging = false;

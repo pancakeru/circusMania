@@ -16,12 +16,14 @@ public class ShowManager : MonoBehaviour
     private ShowStates currentState;
 
     public GameObject animalIcon;
+    public GameObject areaPrefab;
     public Transform canvasTransform;
 
     private float y;
     private float yStart;
     private float x;
     private float offset;
+    private float areaOffset;
 
     public bool holding = false;
 
@@ -34,6 +36,13 @@ public class ShowManager : MonoBehaviour
         x = -750;
         offset = 300;
         yStart = -600;
+        areaOffset = 2;
+
+        for (int i = 0; i < 6; i++) {
+            GameObject temp = Instantiate(areaPrefab, canvasTransform);
+            temp.GetComponent<areaReport>().spotNum = i;
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset*i, 0);
+        }
 
 
         for (int i = 0; i < 12; i++) {
@@ -111,10 +120,10 @@ public class ShowManager : MonoBehaviour
     }
 
     //创动物prefab
-    public void AnimalFactory(string name) {
+    public void AnimalFactory(string name, Vector3 position) {
         switch (name) {
             case "monkey":
-                Instantiate(animalPerformancePrefabs[0], new Vector3(0, 0, 0), Quaternion.identity);
+                Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity);
             break;
         }
     }
