@@ -308,11 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45a47ef2a89fd417b8b65182f906d728, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballPassChangeIndex: 1
-  restTurn: 3
-  baseRedScore: 5
-  baseBlueScore: 10
-  baseYellowScore: 30
+  testProperty: {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
 --- !u!50 &4833664479332635922
 Rigidbody2D:
   serializedVersion: 4

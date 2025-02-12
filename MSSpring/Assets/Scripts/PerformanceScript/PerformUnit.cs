@@ -20,6 +20,14 @@ public class PerformUnit : MonoBehaviour
     private bool gameFail = false;
     private PerformAnimalControl[] allAnimalsInShow;
 
+    [Header("For Score")]
+    [SerializeField]
+    private ScoreUIDisplay scoreUI;
+    private float curYellowScore;
+    private float curLastScore;
+    private float curRedScore;
+    private float curBlueScore;
+
     [Header("For Test")]
     public PerformAnimalControl[] testAnimals;
     public bool ifTest;
@@ -27,7 +35,10 @@ public class PerformUnit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (scoreUI == null)
+            scoreUI = FindObjectOfType<ScoreUIDisplay>();
         curState = showState.empty;
+        InitShow();
     }
 
     // Update is called once per frame
@@ -40,6 +51,15 @@ public class PerformUnit : MonoBehaviour
             ifTest = false;
             StartState(showState.showStart);
         }
+    }
+
+    public void InitShow()
+    {
+        SetLastScore(1);
+        ChangeYellowScore(0);
+        ChangeBlueScore(1);
+        ChangeRedScore(0);
+        
     }
 
     void StartShow()
@@ -121,7 +141,7 @@ public class PerformUnit : MonoBehaviour
                     StartState(gameFail ? showState.gameEnd : showState.turnEnd);
 
                 }
-                
+
                 break;
 
             case showState.turnEnd:
@@ -130,7 +150,7 @@ public class PerformUnit : MonoBehaviour
                     StartState(showState.turnStart);
 
                 }
-                
+
                 break;
 
             default:
@@ -190,7 +210,7 @@ public class PerformUnit : MonoBehaviour
 
     public bool CheckAndGetAnimalBasedOnIndex(int n, out PerformAnimalControl animal)
     {
-        
+
         if (allAnimalsInShow[n] == null)
         {
             animal = null;
@@ -236,6 +256,82 @@ public class PerformUnit : MonoBehaviour
         //TODO:接入ShowManager获取到正确的表演
         return testAnimals;
     }
+
+    public void ChangeYellowScore(float changeNum,ChangeScoreType type = ChangeScoreType.Add)
+    {
+        switch (type)
+        {
+            case ChangeScoreType.Add:
+                curYellowScore += changeNum;
+                break;
+
+            case ChangeScoreType.Time:
+                curYellowScore *= changeNum;
+                break;
+
+            case ChangeScoreType.Set:
+                curYellowScore = changeNum;
+                break;
+        }
+        scoreUI.UpdateYellowScore((int)curYellowScore);
+        UpdateTotalScore();
+    }
+
+    public void ChangeRedScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
+    {
+        switch (type)
+        {
+            case ChangeScoreType.Add:
+                curRedScore += changeNum;
+                break;
+            case ChangeScoreType.Time:
+                curRedScore *= changeNum;
+                break;
+
+            case ChangeScoreType.Set:
+                curRedScore = changeNum;
+                break;
+        }
+        scoreUI.UpdateRedScore((int)curRedScore);
+        UpdateTotalScore(); // 更新总分
+    }
+
+    public void ChangeBlueScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
+    {
+        switch (type)
+        {
+            case ChangeScoreType.Add:
+                curBlueScore += changeNum;
+                break;
+            case ChangeScoreType.Time:
+                curBlueScore *= changeNum;
+                break;
+
+            case ChangeScoreType.Set:
+                curBlueScore = changeNum;
+                break;
+        }
+        scoreUI.UpdateBlueScore((int)curBlueScore);
+        UpdateTotalScore(); // 更新总分
+    }
+
+    void SetLastScore(float toNum)
+    {
+        curLastScore = toNum;
+        scoreUI.UpdateLastScore((int)toNum);
+    }
+
+    float CalculateTotalScore()
+    {
+        return ((curYellowScore * curLastScore) + curRedScore) * curBlueScore;
+    }
+
+    public void UpdateTotalScore()
+    {
+        scoreUI.UpdateTotalScore((int)CalculateTotalScore());
+    }
+
+    public enum ChangeScoreType { Add,Time, Set}
 }
 
 

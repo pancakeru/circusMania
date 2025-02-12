@@ -61,14 +61,16 @@ public class PerformAnimalControl : MonoBehaviour
 
     public void ShowStart(PerformUnit controlUnit, int index)
     {
-        if (!ifEnSouled)
-            Debug.LogError("Remember to do EnSoul to each animal in show");
+        
 
         //这里的逻辑是，这个control是通用的，并不需要performunit去进行思考行动
         //只有animalBrain需要，因为有可能要获取上一个传球的人什么的
         //所以controlUnit并没有在PerformAnimalControl里进行储存，直接传给了Brain
         animalBrain.InitBrain(controlUnit, this);
         selfIndexInShow = index;
+
+        if (!ifEnSouled)
+            Debug.LogError("Remember to do EnSoul to each animal in show");
     }
 
     public void DoTurnStart()
@@ -227,10 +229,16 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     //记录动物的执行代码
     internal PerformAnimalControl animalBody;
 
+    [Header("For Test")]
+    public animalProperty testProperty;
+
     public void InitBrain(PerformUnit _unit, PerformAnimalControl _body)
     {
         controlUnit = _unit;
         animalBody = _body;
+
+        if (soul == null)
+            _body.EnSoul(testProperty);
     }
 
     public void EnSoul(animalProperty newSoul)
@@ -249,14 +257,17 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         //TODO:分数展示和改变逻辑
         if (soul.baseRedChange != 0)
         {
+            controlUnit.ChangeRedScore(soul.baseRedChange);
             animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
         }
         if (soul.baseYellowChange != 0)
         {
+            controlUnit.ChangeYellowScore(soul.baseYellowChange);
             animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
         }
         if (soul.baseBlueChange != 0)
         {
+            controlUnit.ChangeBlueScore(soul.baseBlueChange);
             animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
         }
         animalBody.ifReadyToInteract = false;

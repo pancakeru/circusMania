@@ -55,6 +55,7 @@ MonoBehaviour:
   endTurnWaitTime: 1
   ifShowEnd: 0
   thrower: {fileID: 7113601805386631844}
+  scoreUI: {fileID: 0}
   testAnimals:
   - {fileID: 8338166164395938078}
   - {fileID: 7959346588552778817}
@@ -303,6 +304,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5848687284972221874, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: testProperty
+      value: 
+      objectReference: {fileID: 11400000, guid: cf324ce1a3f5c4498a0064f28e1d3ff8, type: 2}
     - target: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Name
       value: basePerformAnimal (4)
@@ -522,6 +527,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5848687284972221874, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: testProperty
+      value: 
+      objectReference: {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
     - target: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Name
       value: basePerformAnimal (1)
