@@ -19,6 +19,7 @@ public class PerformAnimalControl : MonoBehaviour
     private Coroutine flipCor;
 
     [Header("Performance Related")]
+    private bool ifEnSouled = false;
     public Transform ThrowPos;
     public Transform AcceptPos;
     public TextMeshPro restText;
@@ -52,8 +53,17 @@ public class PerformAnimalControl : MonoBehaviour
         renderer.transform.localScale = baseRatio * ratioTimer;
     }
 
+    public void EnSoul(animalProperty soulProperty)
+    {
+        ifEnSouled = true;
+        animalBrain.EnSoul(soulProperty);
+    }
+
     public void ShowStart(PerformUnit controlUnit, int index)
     {
+        if (!ifEnSouled)
+            Debug.LogError("Remember to do EnSoul to each animal in show");
+
         //这里的逻辑是，这个control是通用的，并不需要performunit去进行思考行动
         //只有animalBrain需要，因为有可能要获取上一个传球的人什么的
         //所以controlUnit并没有在PerformAnimalControl里进行储存，直接传给了Brain
@@ -210,22 +220,25 @@ public class PerformAnimalControl : MonoBehaviour
 
 public abstract class AbstractSpecialAnimal: MonoBehaviour
 {
+    internal animalProperty soul;
+
     internal PerformUnit controlUnit;
     internal PerformAnimalControl animalBody;
 
     public int ballPassChangeIndex;
     public int restTurn;
 
-    [Header("Score Related")]
-    public float baseRedScore;
-    public float baseBlueScore;
-    public float baseYellowScore;
-
     public void InitBrain(PerformUnit _unit, PerformAnimalControl _body)
     {
         controlUnit = _unit;
         animalBody = _body;
     }
+
+    public void EnSoul(animalProperty newSoul)
+    {
+        soul = newSoul;
+    }
+
     public virtual void InteractWithBall()
     {
         animalBody.ball.gameObject.SetActive(true);
@@ -235,17 +248,17 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifHaveBall = false;
         //animalManager.Instance.changeScore(interactionYellowScore, interactionRedScore, interactionBlueScore, selfIndex);
         //TODO:分数展示和改变逻辑
-        if (baseRedScore != 0)
+        if (soul.baseRedChange != 0)
         {
-            animalBody.generator.RequestTextEffect(baseRedScore, ScoreTextEffectGenerator.ScoreType.Red);
+            animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
         }
-        if (baseYellowScore != 0)
+        if (soul.baseYellowChange != 0)
         {
-            animalBody.generator.RequestTextEffect(baseYellowScore, ScoreTextEffectGenerator.ScoreType.Yellow);
+            animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
         }
-        if (baseBlueScore != 0)
+        if (soul.baseBlueChange != 0)
         {
-            animalBody.generator.RequestTextEffect(baseBlueScore, ScoreTextEffectGenerator.ScoreType.Blue);
+            animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
         }
 
         
