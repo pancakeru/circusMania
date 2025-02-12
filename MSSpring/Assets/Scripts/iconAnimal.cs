@@ -37,6 +37,9 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public List<Sprite> spriteList;
     public List<string> typeList;
 
+    //查位置
+    private GameObject[] areaDetectors;
+
     private enum iconState {
         appear,
         selected,
@@ -52,25 +55,21 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         myPosition = this.GetComponentInChildren<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         showScript = showManager.GetComponent<ShowManager>();
+
+        areaDetectors = GameObject.FindGameObjectsWithTag("areaTag");
     }
 
     //新的constructor，直接写动物种类
     public void Initialize(string type)
     {
         animalType = type; //动物种类
-
-      //  mySprite = this.GetComponent<SpriteRenderer>();
         uiImage = GetComponentInChildren<Image>();
 
         for (int i = 0; i < typeList.Count; i++) {
             if (animalType != null && typeList[i] == animalType) {
-               // mySprite.sprite = spriteList[i];
                 uiImage.sprite = spriteList[i];
                 break;
-                //Debug.Log(spriteList[i]);
-            } else {
-                Debug.Log("animal type is: " + animalType);
-            }
+            } 
         }
 
         currentState = iconState.appear;
@@ -183,12 +182,23 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+   public void OnPointerUp(PointerEventData eventData)
+{
+    foreach (GameObject area in areaDetectors)
     {
-        isDragging = false;
-        showScript.holding = false;
-        currentState = iconState.idle;
+        RectTransform r = area.GetComponentInChildren<RectTransform>();
+        
+        if (r != null && RectTransformUtility.RectangleContainsScreenPoint(r, Input.mousePosition, canvas.worldCamera))
+        {
+            Debug.Log("Dropped inside: " + area.name);
+        } else {
+            currentState = iconState.idle;
+        }
     }
+    
+    isDragging = false;
+    showScript.holding = false;
+}
 
     void UpdateAnchors() {
         originalPosition = myPosition.anchoredPosition;

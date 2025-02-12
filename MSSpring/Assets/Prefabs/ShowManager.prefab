@@ -149,3 +149,5 @@ MonoBehaviour:
   animalIcon: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
   canvasTransform: {fileID: 1725952095014604393}
   holding: 1
+  animalPerformancePrefabs:
+  - {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}

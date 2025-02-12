@@ -26,6 +26,7 @@ public class ShowManager : MonoBehaviour
     public bool holding = false;
 
     private List<animalProperty> testList;
+    public List<GameObject> animalPerformancePrefabs;
 
     void Start()
     {
@@ -110,8 +111,15 @@ public class ShowManager : MonoBehaviour
     }
 
     //创动物prefab
-    public void AnimalFactory() {
+    public GameObject AnimalFactory(string name) {
+        switch (name) {
+            case "monkey":
+                return animalPerformancePrefabs[0];
 
+            default:
+                Debug.Log("No prefab found");
+                return null;
+        }
     }
 
 }

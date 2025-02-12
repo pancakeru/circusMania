@@ -6,6 +6,7 @@ TagManager:
   tags:
   - animalTag
   - ballTag
+  - areaTag
   layers:
   - Default
   - TransparentFX
