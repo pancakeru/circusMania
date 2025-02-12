@@ -22,7 +22,9 @@ public class ShopManager : MonoBehaviour
 	[SerializeField] GameObject shopDisplayUnitPrefab;
 	[SerializeField] TextMeshProUGUI coinText;
 
-	private void Awake()
+    MenuController menuController;
+
+    private void Awake()
 	{
 		if (Instance != null) {
 			Debug.LogError("There is more than one ShopManager!" + transform + "-" + Instance);
@@ -46,7 +48,12 @@ public class ShopManager : MonoBehaviour
 		coinText.text = coin.ToString();
 	}
 
-	private void Display()
+    void Start()
+    {
+        menuController = FindAnyObjectByType<MenuController>();
+    }
+
+    private void Display()
 	{
 		displayingList.Clear();
 		if (animalInventory.Count >= displayColumnNumber) {
@@ -114,4 +121,15 @@ public class ShopManager : MonoBehaviour
 		}
 		return new List<int>(numbers);
 	}
+
+    public void Enable()
+    {
+        transform.parent.GetComponent<Canvas>().enabled = true;
+    }
+
+    public void Disable()
+    {
+        transform.parent.GetComponent<Canvas>().enabled = false;
+        menuController.Enable();
+    }
 }

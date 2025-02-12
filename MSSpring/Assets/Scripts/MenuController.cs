@@ -30,7 +30,7 @@ public class MenuController : MonoBehaviour
 
     public void ButtonShop()
     {
-        shopManager.transform.parent.GetComponent<Canvas>().enabled = true;
+        shopManager.Enable();
         Disable();
     }
 
