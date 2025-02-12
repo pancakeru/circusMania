@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0929fad0056e4eb3a9c79ea7e6d9679, type: 3}
   m_Name: giraffe
   m_EditorClassIdentifier: 
-  animalName: 
+  animalName: Giraffe
   animalCoreImg: {fileID: 0}
   animalPrice: 0
   baseYellowChange: 0

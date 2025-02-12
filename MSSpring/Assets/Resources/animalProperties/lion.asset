@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0929fad0056e4eb3a9c79ea7e6d9679, type: 3}
   m_Name: lion
   m_EditorClassIdentifier: 
-  animalName: 
+  animalName: Lion
   animalCoreImg: {fileID: 21300000, guid: cd80a4a64f92b4648a09a00bf366351e, type: 3}
   animalPrice: 0
   baseYellowChange: 0
