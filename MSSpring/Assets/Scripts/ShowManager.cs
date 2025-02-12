@@ -38,47 +38,44 @@ public class ShowManager : MonoBehaviour
         yStart = -600;
         areaOffset = 2;
 
+        //位置 GameObject
         for (int i = 0; i < 6; i++) {
             GameObject temp = Instantiate(areaPrefab, canvasTransform);
             temp.GetComponent<areaReport>().spotNum = i;
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset*i, 0);
         }
 
-
+        //GlobalManager做完后把这个搬到 SelectAnimal
+        //取animalProperty list 的 animalName
         for (int i = 0; i < 12; i++) {
             GameObject temp = Instantiate(animalIcon, canvasTransform);
             temp.GetComponent<iconAnimal>().Initialize("monkey");
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
         }
 
-        //待会换成for loop
-        //取animal property list之后用 for loop 去做图片
+        //FOR ADDING TO PERFORMANCE
+        //Make a list for iconAnimals
+        //Upon instantiation, assign list pos to iconAnimal
+        //Assign neighbor objects to each iconAnimal
+        //if pos is 0 or lenght-1, check for neighbor on one side only
+        //track distance between self and neighbors, and lerp to adjust position if increment is bigger than a certain amount
+        //When iconAnimal is destroyed, update position num of all iconAnimals in list
+        //check distance between neighbors, and lerp to reposition
 
-        /*
-        GameObject temp = Instantiate(animalIcon, canvasTransform);
-        temp.GetComponent<iconAnimal>().Initialize("monkey");
-        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x, y);
+        //FOR ADDING BACK TO DECK
+        //List.Insert(index, obj)
+        //when adding back to deck, check the two neighboring iconAnimal objs via collision detection
+        //when detected, get larger index position for insert
+        //for each iconAnimal on the smaller index and less, move distance left
+        //for each iconAnimal on the larger index and more, move distance right
+        //when pointer is let go in a valid spot, Insert the obj into the list and update all obj positions and Indexes
+        //if not in valid spot, go back to previous pos in performance
 
-        GameObject temp2 = Instantiate(animalIcon, canvasTransform);
-        temp2.GetComponent<iconAnimal>().Initialize("giraffe");
-        temp2.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*1, y);
-
-        GameObject temp3 = Instantiate(animalIcon, canvasTransform);
-        temp3.GetComponent<iconAnimal>().Initialize("bear");
-        temp3.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*2, y);
-
-        GameObject temp4 = Instantiate(animalIcon, canvasTransform);
-        temp4.GetComponent<iconAnimal>().Initialize("snake");
-        temp4.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*3, y);
-
-        GameObject temp5 = Instantiate(animalIcon, canvasTransform);
-        temp5.GetComponent<iconAnimal>().Initialize("lion");
-        temp5.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*4, y);
-
-        GameObject temp6 = Instantiate(animalIcon, canvasTransform);
-        temp6.GetComponent<iconAnimal>().Initialize("elephant");
-        temp6.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*5, y);
-        */
+        //SCROLLING CLAMP
+        //create a var to store which direction the mouse is currently swiping in
+        //create a bool for clamping
+        //depending on direction, check iconAnimal at pos 0 or pos length-1
+        //if either reaches the clamp threshold, activate clamping bool and stop all swiping
 
     }
 

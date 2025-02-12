@@ -160,13 +160,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
-        //Debug.Log("hovered");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
-       // Debug.Log("no hover");
     }
 
     public void OnPointerDown(PointerEventData eventData)
