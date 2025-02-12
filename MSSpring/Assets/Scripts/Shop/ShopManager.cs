@@ -129,6 +129,13 @@ public class ShopManager : MonoBehaviour
 
     public void Disable()
     {
+		//结算购买动物
+		foreach (ShopAnimal an in boughtList)
+		{
+			GlobalManager.instance.addAnAnimal(an.GetAnimalProperty());
+		}
+		boughtList.Clear();
+
         transform.parent.GetComponent<Canvas>().enabled = false;
         menuController.Enable();
     }
