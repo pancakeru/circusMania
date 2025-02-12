@@ -19,4 +19,6 @@ public interface IGeneralManager
     /// </summary>
     /// <returns>是否改变成功</returns>
     bool changeCoinAmount(int n);
+
+    void setCoinAmount(int n);
 }

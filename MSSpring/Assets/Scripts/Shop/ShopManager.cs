@@ -45,7 +45,7 @@ public class ShopManager : MonoBehaviour
 		boughtList = new List<ShopAnimal>();
 		Display();
 
-		coinText.text = coin.ToString();
+		//coinText.text = coin.ToString();
 	}
 
     void Start()
@@ -125,6 +125,8 @@ public class ShopManager : MonoBehaviour
     public void Enable()
     {
         transform.parent.GetComponent<Canvas>().enabled = true;
+		coin = GlobalManager.instance.getCurCoinAmount();
+        coinText.text = coin.ToString();
     }
 
     public void Disable()
@@ -135,6 +137,8 @@ public class ShopManager : MonoBehaviour
 			GlobalManager.instance.addAnAnimal(an.GetAnimalProperty());
 		}
 		boughtList.Clear();
+
+		GlobalManager.instance.setCoinAmount(coin);
 
         transform.parent.GetComponent<Canvas>().enabled = false;
         menuController.Enable();

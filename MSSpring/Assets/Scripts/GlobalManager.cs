@@ -7,11 +7,18 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public static GlobalManager instance;
 
     [Header("For test")]
-    public List<animalProperty> testProperties;
-    public bool ifDoTest;
-    public TestAction testAction;
-    public bool ifTestAction = false;
-    public animalProperty toTestAdd;
+    [SerializeField]
+    private List<animalProperty> testProperties;
+    [SerializeField]
+    private int testCoinNum;
+    [SerializeField]
+    private bool ifDoTestInitialize;
+    [SerializeField]
+    private TestAction testAction;
+    [SerializeField]
+    private bool ifTestAction = false;
+    [SerializeField]
+    private animalProperty toTestAdd;
 
 
     private void Awake()
@@ -29,10 +36,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     private void Start()
     {
-        if (ifDoTest)
+        if (ifDoTestInitialize)
         {
             foreach (animalProperty apt in testProperties)
                 addAnAnimal(apt);
+            curCoinAmount = testCoinNum;
         }
     }
 
@@ -56,6 +64,10 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     }
 
                     Debug.Log("现在仓库有"+ infoMessage);
+                    break;
+
+                case TestAction.LogCoin:
+                    Debug.Log("现在金币是"+curCoinAmount);
                     break;
             }
             
@@ -99,11 +111,17 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
         return false;
     }
+
+    public void setCoinAmount(int n)
+    {
+        curCoinAmount = n;
+    }
     #endregion
 
     public enum TestAction
     {
         Add,
-        LogInfo
+        LogInfo,
+        LogCoin
     }
 }
