@@ -111,14 +111,11 @@ public class ShowManager : MonoBehaviour
     }
 
     //创动物prefab
-    public GameObject AnimalFactory(string name) {
+    public void AnimalFactory(string name) {
         switch (name) {
             case "monkey":
-                return animalPerformancePrefabs[0];
-
-            default:
-                Debug.Log("No prefab found");
-                return null;
+                Instantiate(animalPerformancePrefabs[0], new Vector3(0, 0, 0), Quaternion.identity);
+            break;
         }
     }
 

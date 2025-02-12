@@ -46,7 +46,8 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         idle,
         half,
         sliding,
-        disappear
+        disappear,
+        callFactory
     }
     private iconState currentState;
 
@@ -145,6 +146,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 }
                 myPosition.anchoredPosition += new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
                 break;
+
+            case iconState.callFactory:
+                showScript.AnimalFactory(animalType);
+                Destroy(gameObject);
+            break;
         }
 
         lastMousePosition = Input.mousePosition;
@@ -190,7 +196,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         
         if (r != null && RectTransformUtility.RectangleContainsScreenPoint(r, Input.mousePosition, canvas.worldCamera))
         {
-            Debug.Log("Dropped inside: " + area.name);
+            currentState = iconState.callFactory;
         } else {
             currentState = iconState.idle;
         }
