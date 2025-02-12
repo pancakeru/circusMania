@@ -220,13 +220,12 @@ public class PerformAnimalControl : MonoBehaviour
 
 public abstract class AbstractSpecialAnimal: MonoBehaviour
 {
+    //记录一些动物的具体数据
     internal animalProperty soul;
-
+    //记录演出的全局管理
     internal PerformUnit controlUnit;
+    //记录动物的执行代码
     internal PerformAnimalControl animalBody;
-
-    public int ballPassChangeIndex;
-    public int restTurn;
 
     public void InitBrain(PerformUnit _unit, PerformAnimalControl _body)
     {
@@ -242,7 +241,7 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     public virtual void InteractWithBall()
     {
         animalBody.ball.gameObject.SetActive(true);
-        animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow+ballPassChangeIndex);
+        animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow+soul.baseBallChange);
         animalBody.FlipSprite(1, false);
         animalBody.ifJustInteract = true;
         animalBody.ifHaveBall = false;
@@ -260,9 +259,6 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         {
             animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
         }
-
-        
-
         animalBody.ifReadyToInteract = false;
     }
 
@@ -286,11 +282,10 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifReadyToInteract = true;
     }
 
-    //TODO：把ChangeRestCount变成纯粹的改变展示，把这个放到进入rest地方
     public virtual void EnterRest()
     {
         animalBody.ifInRest = true;
-        animalBody.FlipSprite(2, false, ()=> { animalBody.ChangeRestCount(restTurn); });
+        animalBody.FlipSprite(2, false, ()=> { animalBody.ChangeRestCount(soul.restTurn); });
     }
 
     public void ConsumeBanana(int n) { }//This is only for special effect

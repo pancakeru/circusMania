@@ -29,10 +29,11 @@ public class TroupeController : MonoBehaviour
         slide = transform.GetChild(1).gameObject;
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
 
+        /*
         for (int i = 0; i < 9; i++)
         {
             tempTroupe.Add(CreateTempAnimalInstance());
-        }
+        }*/
     }
 
     // Update is called once per frame
@@ -50,6 +51,7 @@ public class TroupeController : MonoBehaviour
 
     void DisplayCards()
     {
+        tempTroupe = GlobalManager.instance.getAllAnimals();
         for (int i = 0; i < troupeCards.Count; i++)
         {
             Destroy(troupeCards[i]);
@@ -66,8 +68,11 @@ public class TroupeController : MonoBehaviour
             troupeCards.Add(newCard);
         }
 
-        float width = troupeCards[0].GetComponent<RectTransform>().rect.width * 4.5f;
-        float height = troupeCards[0].GetComponent<RectTransform>().rect.height * 5.5f;
+        /*
+         * 这里Neil修改了，因为在列表为空时会报错
+         */
+        float width = troupeCard.GetComponent<RectTransform>().rect.width * 4.5f;
+        float height = troupeCard.GetComponent<RectTransform>().rect.height * 5.5f;
 
         for (int i = 0; i < troupeCards.Count; i++)
         {
@@ -108,13 +113,8 @@ public class TroupeController : MonoBehaviour
         newAnimal.baseBlueChange = 0f;
         newAnimal.restTurn = 0;
         newAnimal.scoreActionTemplate = "Gain 10 Score";
-        newAnimal.amount1 = 0;
-        newAnimal.amount2 = 0;
-        newAnimal.amount3 = 0;
+        
         newAnimal.ballActionTemplate = "Throw R1, rest 3T";
-        newAnimal.amount4 = 0;
-        newAnimal.amount5 = 0;
-        newAnimal.amount6 = 0;
 
         return newAnimal;
     }

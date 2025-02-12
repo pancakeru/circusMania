@@ -171,7 +171,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
   - {fileID: 11400000, guid: b7add3aeb87204cc495ed4132a49221e, type: 2}
   - {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
-  ifDoTest: 1
+  ifDoTest: 0
   testAction: 1
   ifTestAction: 0
   toTestAdd: {fileID: 0}

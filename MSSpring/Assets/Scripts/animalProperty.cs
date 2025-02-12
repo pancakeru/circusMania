@@ -14,6 +14,7 @@ public class animalProperty : ScriptableObject
     public float baseYellowChange;
     public float baseRedChange;
     public float baseBlueChange;
+    public int baseBallChange;
     public int restTurn;
 
     [Header("For explain")]
@@ -21,17 +22,23 @@ public class animalProperty : ScriptableObject
     /// 得分动作的文本模板，例如 "得分 {0} 分，并额外获得 {1} 点奖励"
     /// </summary>
     public string scoreActionTemplate;
-    public int amount1;
-    public int amount2;
-    public int amount3;
+    [SerializeField]
+    private int amount1;
+    [SerializeField]
+    private int amount2;
+    [SerializeField]
+    private int amount3;
     
     public string ballActionTemplate;
     /// <summary>
     /// 传球动作的文本模板，例如 "向{0}传球，进入{1}回合冷却"
     /// </summary>
-    public int amount4;
-    public int amount5;
-    public int amount6;
+    [SerializeField]
+    private int amount4;
+    [SerializeField]
+    private int amount5;
+    [SerializeField]
+    private int amount6;
 
     /// <summary>
     /// 生成得分动作的最终文本
