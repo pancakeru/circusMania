@@ -172,7 +172,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b7add3aeb87204cc495ed4132a49221e, type: 2}
   - {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
   testCoinNum: 10000
-  ifDoTestInitialize: 0
+  ifDoTestInitialize: 1
   testAction: 2
   ifTestAction: 0
   toTestAdd: {fileID: 0}
