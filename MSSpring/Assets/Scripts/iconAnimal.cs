@@ -186,11 +186,10 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
             myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, targetPosition, hoverSpeed * Time.deltaTime);
 
-        if (Vector2.Distance(myPosition.anchoredPosition, targetPosition) < 0.01f) {
+        if (Vector2.Distance(myPosition.anchoredPosition, targetPosition) < 1f) {
             myPosition.anchoredPosition = targetPosition; // Snap to final position
             UpdateAnchors();
             currentState = iconState.idle;
-            Debug.Log("Movement complete.");
         }
 
             break;
@@ -270,20 +269,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
 public void UpdateDistance() {
-
-    RectTransform neighborPos = myNeighbor.GetComponent<RectTransform>();
-    float distance = Mathf.Abs(neighborPos.anchoredPosition.x - myPosition.anchoredPosition.x);
-        
-    if (distance > showScript.offset) {
-        targetPosition = new Vector2(myNeighbor.GetComponent<RectTransform>().anchoredPosition.x + showScript.offset, yGoal);
-        currentState = iconState.moving;
-    } 
-
+    targetPosition = new Vector2(myPosition.anchoredPosition.x - showScript.offset, yGoal);
+    currentState = iconState.moving;
 }
 
     void OnDestroy()
     {
-        showScript.UpdateHand();
+        showScript.UpdateHand(myIndex);
     }
 
 }
