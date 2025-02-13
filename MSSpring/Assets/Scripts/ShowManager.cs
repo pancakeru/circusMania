@@ -130,4 +130,17 @@ public class ShowManager : MonoBehaviour
         }
     }
 
+
+    public void UpdateHand() {
+        for (int i = 0; i < myHand.Count; i++) {
+            GameObject icon = myHand[i];
+            iconAnimal script = icon.GetComponent<iconAnimal>();
+            script.myIndex = i;
+
+            if (script.myIndex > 0) {
+                script.myNeighbor = myHand[script.myIndex - 1];
+                script.UpdateDistance();
+            }
+        }
+    }
 }

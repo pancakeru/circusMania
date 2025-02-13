@@ -45,6 +45,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private float leftThreshold = -750;
     private float rightThreshold = 800;
+    private Vector2 targetPosition;
 
     private enum iconState {
         appear,
@@ -53,7 +54,8 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         half,
         sliding,
         disappear,
-        callFactory
+        callFactory,
+        moving
     }
     private iconState currentState;
 
@@ -176,12 +178,34 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
             case iconState.callFactory:
                 showScript.AnimalFactory(animalType, worldPosition);
+                showScript.myHand.Remove(showScript.myHand[myIndex]);
                 Destroy(gameObject);
+            break;
+
+            case iconState.moving:
+
+            myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, targetPosition, hoverSpeed * Time.deltaTime);
+
+        if (Vector2.Distance(myPosition.anchoredPosition, targetPosition) < 0.01f) {
+            myPosition.anchoredPosition = targetPosition; // Snap to final position
+            UpdateAnchors();
+            currentState = iconState.idle;
+            Debug.Log("Movement complete.");
+        }
+
             break;
         }
 
         lastMousePosition = Input.mousePosition;
     }
+
+    public void StartMove(RectTransform target) {
+        float targetX = target.anchoredPosition.x + showScript.offset;
+        float targetY = yGoal;
+         targetPosition = new Vector2(targetX, targetY);
+    }
+
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -247,13 +271,19 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
 public void UpdateDistance() {
 
-        RectTransform neighborPos = myNeighbor.GetComponentInChildren<RectTransform>();
-        float distance = Mathf.Abs(neighborPos.anchoredPosition.x - myPosition.anchoredPosition.x);
+    RectTransform neighborPos = myNeighbor.GetComponent<RectTransform>();
+    float distance = Mathf.Abs(neighborPos.anchoredPosition.x - myPosition.anchoredPosition.x);
         
-        if (distance > showScript.offset) {
-            myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, neighborPos.anchoredPosition + new Vector2(showScript.offset, 0), hoverSpeed * Time.deltaTime);
-        }
+    if (distance > showScript.offset) {
+        targetPosition = new Vector2(myNeighbor.GetComponent<RectTransform>().anchoredPosition.x + showScript.offset, yGoal);
+        currentState = iconState.moving;
+    } 
 
 }
+
+    void OnDestroy()
+    {
+        showScript.UpdateHand();
+    }
 
 }
