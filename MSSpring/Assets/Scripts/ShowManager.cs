@@ -22,13 +22,15 @@ public class ShowManager : MonoBehaviour
     private float y;
     private float yStart;
     private float x;
-    private float offset;
+    public float offset;
     private float areaOffset;
 
     public bool holding = false;
 
     private List<animalProperty> testList;
     public List<GameObject> animalPerformancePrefabs;
+
+    public List<GameObject> myHand;
 
     void Start()
     {
@@ -49,8 +51,11 @@ public class ShowManager : MonoBehaviour
         //取animalProperty list 的 animalName
         for (int i = 0; i < 12; i++) {
             GameObject temp = Instantiate(animalIcon, canvasTransform);
+            myHand.Add(temp);
+           // Debug.Log($"Added object to myHand. Current count: {myHand.Count}");
             temp.GetComponent<iconAnimal>().Initialize("monkey");
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
+            temp.GetComponent<iconAnimal>().myIndex = i;
         }
 
         //FOR ADDING TO PERFORMANCE

@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 116246184334567822}
   m_Layer: 0
   m_Name: ShowManager
-  m_TagString: Untagged
+  m_TagString: showManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,6 +149,8 @@ MonoBehaviour:
   animalIcon: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
   areaPrefab: {fileID: 8673306862137156812, guid: 421f6495fd1a04941bb6580cd8540860, type: 3}
   canvasTransform: {fileID: 1725952095014604393}
+  offset: 0
   holding: 1
   animalPerformancePrefabs:
   - {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+  myHand: []

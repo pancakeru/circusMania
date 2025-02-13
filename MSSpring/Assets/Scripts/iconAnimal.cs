@@ -24,7 +24,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private float hoverSpeed = 15f;
     private bool isDragging = false;
     private Canvas canvas;
-    public GameObject showManager;
+    private GameObject showManager;
     private ShowManager showScript;
 
     private Vector2 lastMousePosition;
@@ -40,6 +40,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     //查位置
     private GameObject[] areaDetectors;
+    public int myIndex;
+    public GameObject myNeighbor;
+
+    private float leftThreshold = -750;
+    private float rightThreshold = 800;
 
     private enum iconState {
         appear,
@@ -56,9 +61,15 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         myPosition = this.GetComponentInChildren<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        showManager = GameObject.FindWithTag("showManager");
         showScript = showManager.GetComponent<ShowManager>();
-
         areaDetectors = GameObject.FindGameObjectsWithTag("areaTag");
+
+        if (myIndex > 0 && myIndex < showScript.myHand.Count) {
+            myNeighbor = showScript.myHand[myIndex - 1];
+         } else {
+            myNeighbor = null;
+         }
     }
 
     //新的constructor，直接写动物种类
@@ -132,20 +143,35 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             case iconState.sliding:
                 if (Input.GetKey(KeyCode.Mouse0)) {
                     if (!showScript.holding) {
-                        // Dragging left right
-                        Vector2 mouseDelta = (Vector2)Input.mousePosition - lastMousePosition;
-                        velocity = Vector2.Lerp(velocity, mouseDelta, Time.deltaTime * smoothingFactor);
+            // Dragging left/right
+                    Vector2 mouseDelta = (Vector2)Input.mousePosition - lastMousePosition;
+                    velocity = Vector2.Lerp(velocity, mouseDelta, Time.deltaTime * smoothingFactor);
+                     }
+                      } else {
+        // Apply friction to stop movement
+                     velocity *= friction;
+                            if (Mathf.Abs(velocity.x) < minVelocityThreshold) {
+                         UpdateAnchors();
+                         velocity = Vector2.zero;
+                         currentState = iconState.idle;
+                          }
                     }
-                } else {
-                    // friction to stop
-                    velocity *= friction;
-                    if (Mathf.Abs(velocity.x) < minVelocityThreshold) {
-                        UpdateAnchors();
-                        velocity = Vector2.zero;
-                        currentState = iconState.idle;
-                    }
-                }
-                myPosition.anchoredPosition += new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
+    
+        // Calculate new position before applying it
+            Vector2 newPosition = myPosition.anchoredPosition + new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
+    
+            // Check if movement should be restricted
+                 if (myIndex == 0 && velocity.x > 0 && newPosition.x > leftThreshold) {
+                  newPosition.x = leftThreshold;
+                velocity.x = 0;
+              }
+                if (myIndex == showScript.myHand.Count - 1 && velocity.x < 0 && newPosition.x < rightThreshold) {
+                  newPosition.x = rightThreshold;
+                 velocity.x = 0;
+                 }
+
+    // Apply the restricted position
+                myPosition.anchoredPosition = newPosition;
                 break;
 
             case iconState.callFactory:
@@ -218,4 +244,16 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         hoverPosition = originalPosition + Vector2.up * 100;
         halfPosition = originalPosition + Vector2.down * 200;
     }
+
+public void UpdateDistance() {
+
+        RectTransform neighborPos = myNeighbor.GetComponentInChildren<RectTransform>();
+        float distance = Mathf.Abs(neighborPos.anchoredPosition.x - myPosition.anchoredPosition.x);
+        
+        if (distance > showScript.offset) {
+            myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, neighborPos.anchoredPosition + new Vector2(showScript.offset, 0), hoverSpeed * Time.deltaTime);
+        }
+
+}
+
 }
