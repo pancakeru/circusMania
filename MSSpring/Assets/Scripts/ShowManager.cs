@@ -26,6 +26,7 @@ public class ShowManager : MonoBehaviour
     private float areaOffset;
 
     public bool holding = false;
+    public bool stopMoving = false;
 
     private List<animalProperty> testList;
     public List<GameObject> animalPerformancePrefabs;
@@ -57,15 +58,6 @@ public class ShowManager : MonoBehaviour
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
             temp.GetComponent<iconAnimal>().myIndex = i;
         }
-
-        //FOR ADDING TO PERFORMANCE
-        //Make a list for iconAnimals
-        //Upon instantiation, assign list pos to iconAnimal
-        //Assign neighbor objects to each iconAnimal
-        //if pos is 0 or lenght-1, check for neighbor on one side only
-        //track distance between self and neighbors, and lerp to adjust position if increment is bigger than a certain amount
-        //When iconAnimal is destroyed, update position num of all iconAnimals in list
-        //check distance between neighbors, and lerp to reposition
 
         //FOR ADDING BACK TO DECK
         //List.Insert(index, obj)
@@ -137,9 +129,9 @@ public class ShowManager : MonoBehaviour
             iconAnimal script = icon.GetComponent<iconAnimal>();
             script.myIndex = i;
 
-            if (script.myIndex > 0 && i >= index) {
-                script.myNeighbor = myHand[script.myIndex - 1];
-                script.UpdateDistance();
+            if (icon.GetComponent<RectTransform>().anchoredPosition.x > x + i*offset) {
+               // script.myNeighbor = myHand[script.myIndex - 1];
+                script.UpdateDistance(x, i);
             }
         }
     }

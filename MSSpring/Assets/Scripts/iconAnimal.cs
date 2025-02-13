@@ -67,11 +67,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         showScript = showManager.GetComponent<ShowManager>();
         areaDetectors = GameObject.FindGameObjectsWithTag("areaTag");
 
+/*
         if (myIndex > 0 && myIndex < showScript.myHand.Count) {
             myNeighbor = showScript.myHand[myIndex - 1];
          } else {
             myNeighbor = null;
          }
+         */
     }
 
     //新的constructor，直接写动物种类
@@ -117,6 +119,8 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             case iconState.idle:
                 //animation
                 //玩着还没选
+                showScript.stopMoving = false;
+
                 if (isHovered) {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
                     if (Input.GetKey(KeyCode.Mouse0)) {
@@ -147,10 +151,15 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     if (!showScript.holding) {
             // Dragging left/right
                     Vector2 mouseDelta = (Vector2)Input.mousePosition - lastMousePosition;
-                    velocity = Vector2.Lerp(velocity, mouseDelta, Time.deltaTime * smoothingFactor);
+
+                    if(!showScript.stopMoving) {
+                        velocity = Vector2.Lerp(velocity, mouseDelta, Time.deltaTime * smoothingFactor);
+                    } else {
+                        velocity = Vector2.zero;
+                    }
+    
                      }
                       } else {
-        // Apply friction to stop movement
                      velocity *= friction;
                             if (Mathf.Abs(velocity.x) < minVelocityThreshold) {
                          UpdateAnchors();
@@ -165,11 +174,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             // Check if movement should be restricted
                  if (myIndex == 0 && velocity.x > 0 && newPosition.x > leftThreshold) {
                   newPosition.x = leftThreshold;
-                velocity.x = 0;
-              }
+                    velocity.x = 0;
+                    showScript.stopMoving = true;
+                    }
                 if (myIndex == showScript.myHand.Count - 1 && velocity.x < 0 && newPosition.x < rightThreshold) {
                   newPosition.x = rightThreshold;
                  velocity.x = 0;
+                 showScript.stopMoving = true;
                  }
 
     // Apply the restricted position
@@ -187,7 +198,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, targetPosition, hoverSpeed * Time.deltaTime);
 
         if (Vector2.Distance(myPosition.anchoredPosition, targetPosition) < 1f) {
-            myPosition.anchoredPosition = targetPosition; // Snap to final position
+            myPosition.anchoredPosition = targetPosition; 
             UpdateAnchors();
             currentState = iconState.idle;
         }
@@ -268,8 +279,8 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         halfPosition = originalPosition + Vector2.down * 200;
     }
 
-public void UpdateDistance() {
-    targetPosition = new Vector2(myPosition.anchoredPosition.x - showScript.offset, yGoal);
+public void UpdateDistance(float x, int i) {
+    targetPosition = new Vector2(x + i *showScript.offset, yGoal);
     currentState = iconState.moving;
 }
 
