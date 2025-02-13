@@ -49,14 +49,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081c8ca2e46d5a24ba9637e49b1ee046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showManager: {fileID: 6762093361612340398, guid: 1720febd179164b488a09579afca0477, type: 3}
   spriteList:
   - {fileID: 21300000, guid: d6b521976f95d4675ab6713d594b1d8d, type: 3}
   - {fileID: 21300000, guid: 54bbee01f353541779559a3adf6972a0, type: 3}
   - {fileID: 21300000, guid: 0e4601f4357f3409483e5d1d356591be, type: 3}
   - {fileID: 21300000, guid: 59f0c4dbf238141cb8ae7b78b9b2689d, type: 3}
   - {fileID: 21300000, guid: cd80a4a64f92b4648a09a00bf366351e, type: 3}
-  - {fileID: 21300000, guid: 55b693eeb18bd414dad4462faaa6c80a, type: 3}
+  - {fileID: 21300000, guid: f438cff9e9ee24eb19935f2d13e0af19, type: 3}
   typeList:
   - elephant
   - monkey
@@ -64,6 +63,8 @@ MonoBehaviour:
   - snake
   - lion
   - bear
+  myIndex: 0
+  myNeighbor: {fileID: 0}
 --- !u!1 &5439578587774284234
 GameObject:
   m_ObjectHideFlags: 0

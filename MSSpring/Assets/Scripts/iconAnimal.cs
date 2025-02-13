@@ -55,7 +55,8 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         sliding,
         disappear,
         callFactory,
-        moving
+        moving,
+        newInsert
     }
     private iconState currentState;
 
@@ -77,7 +78,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     //新的constructor，直接写动物种类
-    public void Initialize(string type)
+    public void Initialize(string type, bool insert)
     {
         animalType = type; //动物种类
         uiImage = GetComponentInChildren<Image>();
@@ -89,7 +90,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             } 
         }
 
-        currentState = iconState.appear;
+        if (!insert) {
+            currentState = iconState.appear;
+        } else {
+            currentState = iconState.newInsert;
+        }
     }
 
     void Update()
@@ -171,7 +176,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         // Calculate new position before applying it
             Vector2 newPosition = myPosition.anchoredPosition + new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
     
-            // Check if movement should be restricted
+            // check if movement should be restricted
                  if (myIndex == 0 && velocity.x > 0 && newPosition.x > leftThreshold) {
                   newPosition.x = leftThreshold;
                     velocity.x = 0;
@@ -183,7 +188,6 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                  showScript.stopMoving = true;
                  }
 
-    // Apply the restricted position
                 myPosition.anchoredPosition = newPosition;
                 break;
 
@@ -204,6 +208,17 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
 
             break;
+
+            case iconState.disappear:
+
+
+            break;
+
+
+            case iconState.newInsert:
+
+
+            break;
         }
 
         lastMousePosition = Input.mousePosition;
@@ -214,8 +229,6 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         float targetY = yGoal;
          targetPosition = new Vector2(targetX, targetY);
     }
-
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {

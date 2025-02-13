@@ -54,12 +54,14 @@ public class ShowManager : MonoBehaviour
             GameObject temp = Instantiate(animalIcon, canvasTransform);
             myHand.Add(temp);
            // Debug.Log($"Added object to myHand. Current count: {myHand.Count}");
-            temp.GetComponent<iconAnimal>().Initialize("monkey");
+            temp.GetComponent<iconAnimal>().Initialize("monkey", false);
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
             temp.GetComponent<iconAnimal>().myIndex = i;
         }
 
         //FOR ADDING BACK TO DECK
+        //instantiate a new iconAnimal prefab on the performance animal
+        //hide the sprite of the perfomance animal and only destroy obj if add condition is valid
         //List.Insert(index, obj)
         //when adding back to deck, check the two neighboring iconAnimal objs via collision detection
         //when detected, get larger index position for insert
@@ -67,12 +69,6 @@ public class ShowManager : MonoBehaviour
         //for each iconAnimal on the larger index and more, move distance right
         //when pointer is let go in a valid spot, Insert the obj into the list and update all obj positions and Indexes
         //if not in valid spot, go back to previous pos in performance
-
-        //SCROLLING CLAMP
-        //create a var to store which direction the mouse is currently swiping in
-        //create a bool for clamping
-        //depending on direction, check iconAnimal at pos 0 or pos length-1
-        //if either reaches the clamp threshold, activate clamping bool and stop all swiping
 
     }
 
