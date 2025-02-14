@@ -7,11 +7,13 @@ public class areaReport : MonoBehaviour
     public int spotNum;
     public Vector3 myPosition;
     private Canvas canvas;
+    private ShowManager showManager;
 
     void Start()
 {
     canvas = this.GetComponentInParent<Canvas>();
     RectTransform rectTransform = this.GetComponentInChildren<RectTransform>();
+    showManager = GameObject.FindWithTag("showManager").GetComponent<ShowManager>();
 
     if (canvas != null && rectTransform != null)
     {
@@ -29,8 +31,8 @@ public class areaReport : MonoBehaviour
         
     }
 
-    public void Report() {
-
+    public void Report(string animal) {
+        showManager.onStage[spotNum] = animal;
     }
 
 }

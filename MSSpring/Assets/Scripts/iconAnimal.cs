@@ -285,9 +285,10 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         RectTransform r = area.GetComponentInChildren<RectTransform>();
         
-        if (r != null && RectTransformUtility.RectangleContainsScreenPoint(r, Input.mousePosition, canvas.worldCamera))
+        if (r != null && RectTransformUtility.RectangleContainsScreenPoint(r, Input.mousePosition, canvas.worldCamera) && showScript.onStage[area.GetComponent<areaReport>().spotNum] == null)
         {
             worldPosition = area.GetComponent<areaReport>().myPosition;
+            area.GetComponent<areaReport>().Report(animalType);
             currentState = iconState.callFactory;
             detected = true;
             break;

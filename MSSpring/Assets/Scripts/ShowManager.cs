@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -32,6 +33,7 @@ public class ShowManager : MonoBehaviour
     public List<GameObject> animalPerformancePrefabs;
 
     public List<GameObject> myHand;
+    public String[] onStage;
 
     void Start()
     {
@@ -40,6 +42,8 @@ public class ShowManager : MonoBehaviour
         offset = 300;
         yStart = -600;
         areaOffset = 2;
+
+        onStage = new String[6];
 
         //位置 GameObject
         for (int i = 0; i < 6; i++) {
