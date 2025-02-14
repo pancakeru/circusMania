@@ -13,7 +13,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image uiImage;
     private string animalType;
     private RectTransform myPosition;
-    private int yGoal = -350;
+    public int yGoal = -350;
 
     //idle state animation
     private Vector2 originalPosition;
@@ -46,6 +46,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private float leftThreshold = -750;
     private float rightThreshold = 800;
     private Vector2 targetPosition;
+    public float destinationX;
 
     private enum iconState {
         appear,
@@ -68,13 +69,11 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         showScript = showManager.GetComponent<ShowManager>();
         areaDetectors = GameObject.FindGameObjectsWithTag("areaTag");
 
-/*
         if (myIndex > 0 && myIndex < showScript.myHand.Count) {
             myNeighbor = showScript.myHand[myIndex - 1];
          } else {
             myNeighbor = null;
          }
-         */
     }
 
     //新的constructor，直接写动物种类
@@ -290,15 +289,26 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         originalPosition = myPosition.anchoredPosition;
         hoverPosition = originalPosition + Vector2.up * 100;
         halfPosition = originalPosition + Vector2.down * 200;
+        if (myNeighbor != null) {
+            destinationX = myNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+        } else if (myIndex == 0 && myPosition.anchoredPosition.x > -750) {
+            destinationX = -750;
+        } else {
+            destinationX = myPosition.anchoredPosition.x;
+        }
     }
 
 public void UpdateDistance(float x, int i) {
-    targetPosition = new Vector2(x + i *showScript.offset, yGoal);
+    //targetPosition = new Vector2(x + i*showScript.offset, yGoal);
+    targetPosition = new Vector2(destinationX, yGoal);
+  //  Debug.Log($"Setting targetPosition for {myIndex}: {targetPosition}: {destinationX}");
+
     currentState = iconState.moving;
 }
 
     void OnDestroy()
     {
+        Debug.Log("Removed: " + myIndex);
         showScript.UpdateHand(myIndex);
     }
 

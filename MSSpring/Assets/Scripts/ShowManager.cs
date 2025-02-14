@@ -125,9 +125,22 @@ public class ShowManager : MonoBehaviour
             iconAnimal script = icon.GetComponent<iconAnimal>();
             script.myIndex = i;
 
-            if (icon.GetComponent<RectTransform>().anchoredPosition.x > x + i*offset) {
-               // script.myNeighbor = myHand[script.myIndex - 1];
-                script.UpdateDistance(x, i);
+            if (script.myIndex > 0 && script.myIndex >= index) {
+                script.myNeighbor = myHand[script.myIndex - 1];
+
+                float neighborX = script.myNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+
+                if (Mathf.Abs(icon.GetComponent<RectTransform>().anchoredPosition.x - neighborX) > offset) {
+                    script.UpdateDistance(neighborX, 1);
+                  // Debug.Log(script.myIndex + "'s NeighborX: " + (neighborX + offset));
+                } else {
+                   // script.destinationX = neighborX - offset;
+                    script.UpdateDistance(neighborX - offset, 1);
+                   // Debug.Log(script.myIndex + "'s !! NeighborX: " + (neighborX + offset));
+                }
+
+            } else if (script.myIndex == 0 && script.GetComponent<RectTransform>().anchoredPosition.x > -750) {
+                script.UpdateDistance(x, 0);
             }
         }
     }
