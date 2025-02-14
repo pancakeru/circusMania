@@ -42,11 +42,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private GameObject[] areaDetectors;
     public int myIndex;
     public GameObject myNeighbor;
+    public GameObject myOtherNeighbor;
 
     private float leftThreshold = -750;
     private float rightThreshold = 800;
     private Vector2 targetPosition;
     public float destinationX;
+    public float otherDestinationX;
 
     private enum iconState {
         appear,
@@ -71,8 +73,15 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
         if (myIndex > 0 && myIndex < showScript.myHand.Count) {
             myNeighbor = showScript.myHand[myIndex - 1];
+
+            if (myIndex == showScript.myHand.Count - 1) {
+                myOtherNeighbor = null;
+            } else {
+                myOtherNeighbor = showScript.myHand[myIndex + 1];
+            }
          } else {
             myNeighbor = null;
+            myOtherNeighbor = showScript.myHand[myIndex + 1];
          }
     }
 
@@ -124,6 +133,15 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 //animation
                 //玩着还没选
                 showScript.stopMoving = false;
+
+                if (myIndex == 0 && myOtherNeighbor == null) {
+                    myOtherNeighbor = showScript.myHand[1];
+                }
+
+                if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750 && showScript.myHand.Count >= 6) {
+                    otherDestinationX = 750;
+                    showScript.FixRightSpacing(myIndex);
+                 }
 
                 if (isHovered) {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
@@ -289,12 +307,21 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         originalPosition = myPosition.anchoredPosition;
         hoverPosition = originalPosition + Vector2.up * 100;
         halfPosition = originalPosition + Vector2.down * 200;
+
         if (myNeighbor != null) {
             destinationX = myNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
         } else if (myIndex == 0 && myPosition.anchoredPosition.x > -750) {
             destinationX = -750;
         } else {
             destinationX = myPosition.anchoredPosition.x;
+        }
+
+        if (myOtherNeighbor != null) {
+            otherDestinationX = myOtherNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+        } else if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750) {
+            otherDestinationX = 750;
+        } else {
+            otherDestinationX = myPosition.anchoredPosition.x;
         }
     }
 
@@ -303,6 +330,20 @@ public void UpdateDistance(float x, int i) {
     targetPosition = new Vector2(destinationX, yGoal);
   //  Debug.Log($"Setting targetPosition for {myIndex}: {targetPosition}: {destinationX}");
 
+    currentState = iconState.moving;
+}
+
+public void UpdateRight() {
+
+    if (myOtherNeighbor != null) {
+            otherDestinationX = myOtherNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+        } else if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750) {
+            otherDestinationX = 750;
+        } else {
+            otherDestinationX = myPosition.anchoredPosition.x;
+        }
+
+    targetPosition = new Vector2(otherDestinationX, yGoal);
     currentState = iconState.moving;
 }
 

@@ -125,7 +125,7 @@ public class ShowManager : MonoBehaviour
             iconAnimal script = icon.GetComponent<iconAnimal>();
             script.myIndex = i;
 
-            if (script.myIndex > 0 && script.myIndex >= index) {
+            if (script.myIndex > 0 && script.myIndex >= index && index != myHand.Count) {
                 script.myNeighbor = myHand[script.myIndex - 1];
 
                 float neighborX = script.myNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
@@ -141,7 +141,38 @@ public class ShowManager : MonoBehaviour
 
             } else if (script.myIndex == 0 && script.GetComponent<RectTransform>().anchoredPosition.x > -750) {
                 script.UpdateDistance(x, 0);
+            } else if (index == myHand.Count){
+                if (script.myIndex == index - 1) {
+                    script.myOtherNeighbor = null;
+                } else {
+                    script.myOtherNeighbor = myHand[script.myIndex + 1];
+                }
+
+                script.UpdateRight();
             }
         }
     }
+
+    public void FixRightSpacing(int index) {
+
+        for (int i = 0; i < myHand.Count; i++) {
+            GameObject icon = myHand[i];
+            iconAnimal script = icon.GetComponent<iconAnimal>();
+            script.myIndex = i;
+
+     
+            if (script.myIndex == myHand.Count - 1) {
+                script.myOtherNeighbor = null;
+                script.otherDestinationX = 750;
+            } else {
+                 script.myOtherNeighbor = myHand[script.myIndex + 1];
+             }
+
+            script.UpdateRight();
+
+
+        }
+    }
+
+
 }
