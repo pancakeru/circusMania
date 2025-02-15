@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: 5848687284972221874}
   - component: {fileID: 4833664479332635922}
   - component: {fileID: 7752926768041526802}
+  - component: {fileID: 7019089809994841143}
   m_Layer: 0
   m_Name: basePerformAnimal
   m_TagString: animalTag
@@ -381,6 +382,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.337129, y: 2.3204224}
   m_EdgeRadius: 0
+--- !u!114 &7019089809994841143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7156068456684575720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd689d1cb65ba74792a0f7e6f57dfd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconPrefab: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
 --- !u!1 &7181231759288142029
 GameObject:
   m_ObjectHideFlags: 0
