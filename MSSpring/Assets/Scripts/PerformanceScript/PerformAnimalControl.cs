@@ -236,6 +236,7 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     {
         controlUnit = _unit;
         animalBody = _body;
+        DoWhenShowStart();
 
         if (soul == null)
             _body.EnSoul(testProperty);
@@ -244,6 +245,11 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
     public void EnSoul(animalProperty newSoul)
     {
         soul = newSoul;
+    }
+
+    public virtual void DoWhenShowStart()
+    {
+
     }
 
     public virtual void InteractWithBall()
