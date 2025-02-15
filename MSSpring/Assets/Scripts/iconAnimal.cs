@@ -11,7 +11,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Image uiImage;
     private string animalType;
     private RectTransform myPosition;
-    private int yGoal = -350;
+    public int yGoal = -350;
 
     //idle state animation
     private Vector2 originalPosition;
@@ -22,7 +22,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private float hoverSpeed = 15f;
     private bool isDragging = false;
     private Canvas canvas;
-    public GameObject showManager;
+    private GameObject showManager;
     private ShowManager showScript;
 
     private Vector2 lastMousePosition;
@@ -34,6 +34,19 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     //动物图片
     public List<Sprite> spriteList;
     public List<string> typeList;
+    private Vector3 worldPosition;
+
+    //查位置
+    private GameObject[] areaDetectors;
+    public int myIndex;
+    public GameObject myNeighbor;
+    public GameObject myOtherNeighbor;
+
+    private float leftThreshold = -750;
+    private float rightThreshold = 800;
+    private Vector2 targetPosition;
+    public float destinationX;
+    public float otherDestinationX;
 
     private enum iconState {
         appear,
@@ -41,7 +54,10 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         idle,
         half,
         sliding,
-        disappear
+        disappear,
+        callFactory,
+        moving,
+        newInsert
     }
     private iconState currentState;
 
@@ -49,29 +65,42 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         myPosition = this.GetComponentInChildren<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        showManager = GameObject.FindWithTag("showManager");
         showScript = showManager.GetComponent<ShowManager>();
+        areaDetectors = GameObject.FindGameObjectsWithTag("areaTag");
+
+        if (myIndex > 0 && myIndex < showScript.myHand.Count) {
+            myNeighbor = showScript.myHand[myIndex - 1];
+
+            if (myIndex == showScript.myHand.Count - 1) {
+                myOtherNeighbor = null;
+            } else {
+                myOtherNeighbor = showScript.myHand[myIndex + 1];
+            }
+         } else {
+            myNeighbor = null;
+            myOtherNeighbor = showScript.myHand[myIndex + 1];
+         }
     }
 
     //新的constructor，直接写动物种类
-    public void Initialize(string type)
+    public void Initialize(string type, bool insert)
     {
         animalType = type; //动物种类
-
-      //  mySprite = this.GetComponent<SpriteRenderer>();
         uiImage = GetComponentInChildren<Image>();
 
         for (int i = 0; i < typeList.Count; i++) {
             if (animalType != null && typeList[i] == animalType) {
-               // mySprite.sprite = spriteList[i];
                 uiImage.sprite = spriteList[i];
                 break;
-                //Debug.Log(spriteList[i]);
-            } else {
-                Debug.Log("animal type is: " + animalType);
-            }
+            } 
         }
 
-        currentState = iconState.appear;
+        if (!insert) {
+            currentState = iconState.appear;
+        } else {
+            currentState = iconState.newInsert;
+        }
     }
 
     void Update()
@@ -101,6 +130,17 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             case iconState.idle:
                 //animation
                 //玩着还没选
+                showScript.stopMoving = false;
+
+                if (myIndex == 0 && myOtherNeighbor == null) {
+                    myOtherNeighbor = showScript.myHand[1];
+                }
+
+                if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750 && showScript.myHand.Count >= 6) {
+                    otherDestinationX = 750;
+                    showScript.FixRightSpacing(myIndex);
+                 }
+
                 if (isHovered) {
                     myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
                     if (Input.GetKey(KeyCode.Mouse0)) {
@@ -129,36 +169,90 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             case iconState.sliding:
                 if (Input.GetKey(KeyCode.Mouse0)) {
                     if (!showScript.holding) {
-                        // Dragging left right
-                        Vector2 mouseDelta = (Vector2)Input.mousePosition - lastMousePosition;
+            // Dragging left/right
+                    Vector2 mouseDelta = (Vector2)Input.mousePosition - lastMousePosition;
+
+                    if(!showScript.stopMoving) {
                         velocity = Vector2.Lerp(velocity, mouseDelta, Time.deltaTime * smoothingFactor);
-                    }
-                } else {
-                    // friction to stop
-                    velocity *= friction;
-                    if (Mathf.Abs(velocity.x) < minVelocityThreshold) {
-                        UpdateAnchors();
+                    } else {
                         velocity = Vector2.zero;
-                        currentState = iconState.idle;
                     }
-                }
-                myPosition.anchoredPosition += new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
+    
+                     }
+                      } else {
+                     velocity *= friction;
+                            if (Mathf.Abs(velocity.x) < minVelocityThreshold) {
+                         UpdateAnchors();
+                         velocity = Vector2.zero;
+                         currentState = iconState.idle;
+                          }
+                    }
+    
+        // Calculate new position before applying it
+            Vector2 newPosition = myPosition.anchoredPosition + new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
+    
+            // check if movement should be restricted
+                 if (myIndex == 0 && velocity.x > 0 && newPosition.x > leftThreshold) {
+                  newPosition.x = leftThreshold;
+                    velocity.x = 0;
+                    showScript.stopMoving = true;
+                    }
+                if (myIndex == showScript.myHand.Count - 1 && velocity.x < 0 && newPosition.x < rightThreshold) {
+                  newPosition.x = rightThreshold;
+                 velocity.x = 0;
+                 showScript.stopMoving = true;
+                 }
+
+                myPosition.anchoredPosition = newPosition;
                 break;
+
+            case iconState.callFactory:
+                showScript.AnimalFactory(animalType, worldPosition);
+                showScript.myHand.Remove(showScript.myHand[myIndex]);
+                Destroy(gameObject);
+            break;
+
+            case iconState.moving:
+
+            myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, targetPosition, hoverSpeed * Time.deltaTime);
+
+        if (Vector2.Distance(myPosition.anchoredPosition, targetPosition) < 1f) {
+            myPosition.anchoredPosition = targetPosition; 
+            UpdateAnchors();
+            currentState = iconState.idle;
+        }
+
+            break;
+
+            case iconState.disappear:
+
+
+            break;
+
+
+            case iconState.newInsert:
+
+
+            break;
         }
 
         lastMousePosition = Input.mousePosition;
     }
 
+    public void StartMove(RectTransform target) {
+        float targetX = target.anchoredPosition.x + showScript.offset;
+        float targetY = yGoal;
+         targetPosition = new Vector2(targetX, targetY);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
-        //Debug.Log("hovered");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
-       // Debug.Log("no hover");
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -181,16 +275,81 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+   public void OnPointerUp(PointerEventData eventData)
+{
+    bool detected = false;
+
+    foreach (GameObject area in areaDetectors)
     {
-        isDragging = false;
-        showScript.holding = false;
-        currentState = iconState.idle;
+        RectTransform r = area.GetComponentInChildren<RectTransform>();
+        
+        if (r != null && RectTransformUtility.RectangleContainsScreenPoint(r, Input.mousePosition, canvas.worldCamera) && showScript.onStage[area.GetComponent<areaReport>().spotNum] == null)
+        {
+            worldPosition = area.GetComponent<areaReport>().myPosition;
+            area.GetComponent<areaReport>().Report(animalType);
+            currentState = iconState.callFactory;
+            detected = true;
+            break;
+        } 
+
+        if (!detected) {
+            currentState = iconState.idle;
+        }
+
     }
+    
+    isDragging = false;
+    showScript.holding = false;
+}
 
     void UpdateAnchors() {
         originalPosition = myPosition.anchoredPosition;
         hoverPosition = originalPosition + Vector2.up * 100;
         halfPosition = originalPosition + Vector2.down * 200;
+
+        if (myNeighbor != null) {
+            destinationX = myNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+        } else if (myIndex == 0 && myPosition.anchoredPosition.x > -750) {
+            destinationX = -750;
+        } else {
+            destinationX = myPosition.anchoredPosition.x;
+        }
+
+        if (myOtherNeighbor != null) {
+            otherDestinationX = myOtherNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+        } else if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750) {
+            otherDestinationX = 750;
+        } else {
+            otherDestinationX = myPosition.anchoredPosition.x;
+        }
     }
+
+public void UpdateDistance(float x, int i) {
+    //targetPosition = new Vector2(x + i*showScript.offset, yGoal);
+    targetPosition = new Vector2(destinationX, yGoal);
+  //  Debug.Log($"Setting targetPosition for {myIndex}: {targetPosition}: {destinationX}");
+
+    currentState = iconState.moving;
+}
+
+public void UpdateRight() {
+
+    if (myOtherNeighbor != null) {
+            otherDestinationX = myOtherNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
+        } else if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750) {
+            otherDestinationX = 750;
+        } else {
+            otherDestinationX = myPosition.anchoredPosition.x;
+        }
+
+    targetPosition = new Vector2(otherDestinationX, yGoal);
+    currentState = iconState.moving;
+}
+
+    void OnDestroy()
+    {
+        Debug.Log("Removed: " + myIndex);
+        showScript.UpdateHand(myIndex);
+    }
+
 }
