@@ -44,6 +44,13 @@ public class animalProperty : ScriptableObject
     /// 生成得分动作的最终文本
     /// </summary>
     /// <returns>格式化后的得分描述字符串</returns>
+
+    [Header("For Buff")]
+    public int power;
+    public int excited;
+    public int warmup;
+
+
     public string returnScoreAction()
     {
         return string.Format(scoreActionTemplate, amount1,amount2,amount3);

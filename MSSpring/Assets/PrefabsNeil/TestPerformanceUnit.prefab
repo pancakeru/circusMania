@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6018669582459501976}
   - component: {fileID: 4025938754096636498}
+  - component: {fileID: 1470925664831769105}
   m_Layer: 0
   m_Name: TestPerformanceUnit
   m_TagString: Untagged
@@ -54,6 +55,7 @@ MonoBehaviour:
   ballPrefab: {fileID: 3471065405427100605, guid: 5747d5d7f65194425a521b8d01ea017b, type: 3}
   endTurnWaitTime: 1
   ifShowEnd: 0
+  buffManager: {fileID: 1470925664831769105}
   thrower: {fileID: 7113601805386631844}
   scoreUI: {fileID: 0}
   testAnimals:
@@ -64,6 +66,20 @@ MonoBehaviour:
   - {fileID: 6225268087046621004}
   - {fileID: 3187967523417540737}
   ifTest: 0
+--- !u!114 &1470925664831769105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592057016686602374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ffd19d36de71f4fb781e91d05c82ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  performUnit: {fileID: 4025938754096636498}
+  holdCounter: 0
 --- !u!1 &7106370803114038908
 GameObject:
   m_ObjectHideFlags: 0
