@@ -15,11 +15,11 @@ MonoBehaviour:
   animalName: Elephant
   animalCoreImg: {fileID: 21300000, guid: dc8ddb1f92b7e4f5fa7e70b423bc171a, type: 3}
   animalPrice: 0
-  baseYellowChange: 5
+  baseYellowChange: 1
   baseRedChange: 0
   baseBlueChange: 0
-  baseBallChange: 1
-  restTurn: 2
+  baseBallChange: -2
+  restTurn: 3
   scoreActionTemplate: 
   amount1: 0
   amount2: 0
