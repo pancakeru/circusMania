@@ -2,7 +2,6 @@
 public class AnimalControlLion : AbstractSpecialAnimal
 {
 	private int warmupPoints = 0;
-	private bool hasWarmuped = false;
 
 	public override void InteractWithBall()
 	{
@@ -19,10 +18,8 @@ public class AnimalControlLion : AbstractSpecialAnimal
 			warmupPoints += 1;
 		}
 		animalBody.ifReadyToInteract = false;
-		if (warmupPoints >= 3) {
-			if (!hasWarmuped) {
-				WarmUp();
-			}
+		if (warmupPoints == 3) {
+			WarmUp();
 		}
 	}
 
