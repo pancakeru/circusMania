@@ -1,7 +1,7 @@
 
 public class AnimalControlSnake : AbstractSpecialAnimal
 {
-	private int[] ballToArray = { 1, 3, 5 };
+	private int[] ballToArray = { 0, 2, 4 };
 	private int ballToArrayIndex = 0;
 
 	public override void InteractWithBall()

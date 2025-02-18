@@ -18,13 +18,13 @@ public class AnimalControlLion : AbstractSpecialAnimal
 			warmupPoints += 1;
 		}
 		animalBody.ifReadyToInteract = false;
-		if (warmupPoints == 3) {
+		if (warmupPoints == (soul as WarmUpAnimalProperty).warmUpRequireTime) {
 			WarmUp();
 		}
 	}
 
 	private void WarmUp()
 	{
-		controlUnit.ChangeYellowScore(5);
+		controlUnit.ChangeYellowScore((soul as WarmUpAnimalProperty).warmUpScore);
 	}
 }
