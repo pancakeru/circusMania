@@ -260,11 +260,33 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifJustInteract = true;
         animalBody.ifHaveBall = false;
 
+        float[] scoreAfterBuff = BuffManager.instance.BuffInteractionWhenScore(new float[] { soul.baseRedChange, 
+                                                                                             soul.baseYellowChange,
+                                                                                             soul.baseBlueChange }, animalBody);
+
+        //TODO:分数展示和改变逻辑
+        if (scoreAfterBuff[0] != 0)
+        {
+            controlUnit.ChangeRedScore(scoreAfterBuff[0]);
+            animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
+        }
+        if (scoreAfterBuff[1] != 0)
+        {
+            controlUnit.ChangeYellowScore(scoreAfterBuff[1]);
+            animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
+        }
+        if (scoreAfterBuff[2] != 0)
+        {
+            controlUnit.ChangeBlueScore(scoreAfterBuff[2]);
+            animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
+        }
+        animalBody.ifReadyToInteract = false;
+
+        /*
         //animalManager.Instance.changeScore(interactionYellowScore, interactionRedScore, interactionBlueScore, selfIndex);
         //TODO:分数展示和改变逻辑
         if (soul.baseRedChange != 0)
         {
-            float buffScore = BuffManager.instance.BuffInteractionWhenScore(animalBody, new List<ActionTag> { ActionTag.Red }, out List<Buff> toApply)[0];
             controlUnit.ChangeRedScore(soul.baseRedChange);
             animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
         }
@@ -279,6 +301,7 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
             animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
         }
         animalBody.ifReadyToInteract = false;
+        */
     }
 
     public virtual void DoRest()

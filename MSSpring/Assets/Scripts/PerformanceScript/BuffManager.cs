@@ -1,28 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Collections;
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
-
-public enum ActionTag
-{
-    Red, 
-    Yellow, 
-    Blue, 
-    ExtraRed, 
-    ExtraYellow, 
-    ExtraBlue,
-}
 
 public class BuffManager : MonoBehaviour
 {
     public static BuffManager instance;
 
     public PerformUnit performUnit;
-    List<Buff> buffsWhenScore = new List<Buff>();
-    List<Buff> buffsWhenDoSth = new List<Buff>();
+    List<BuffChangeBase> buffsChangeBaseWhenScore = new List<BuffChangeBase>();
+    List<BuffGiveExtra> buffsGiveExtraWhenScore = new List<BuffGiveExtra>();
 
     public int holdCounter; //some buff happens later (Lizard)
 
@@ -31,9 +18,9 @@ public class BuffManager : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        buffsWhenScore.Add(new BuffFox());
-        buffsWhenScore.Add(new BuffKangaroo());
-        buffsWhenScore.Add(new BuffPorcupine());
+        buffsGiveExtraWhenScore.Add(new BuffFox());
+        buffsChangeBaseWhenScore.Add(new BuffKangaroo());
+        buffsGiveExtraWhenScore.Add(new BuffPorcupine());
 
         holdCounter = 0;
     }
@@ -44,89 +31,114 @@ public class BuffManager : MonoBehaviour
         
     }
 
-    public float[] BuffInteractionWhenScore(PerformAnimalControl performAnimalControl, List<ActionTag> tags, out List<Buff> toApply)
+    public float[] BuffInteractionWhenScore(float[] baseScore, PerformAnimalControl performAnimalControl)
     {
-        float[] returnScore = new float[] { 0, 0, 0 };
-        toApply = new List<Buff>();
+        //                                  {Red, Yellow, Blue}
+        float[] buffScorePlus = new float[] { 0, 0, 0 };
+        float[] buffScoreMult = new float[] { 1, 1, 1 };
+        float[] buffScoreTotal = new float[] { 0, 0, 0 };
 
-        foreach (Buff buff in buffsWhenScore)
+        foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore)
         {
-            if (buff.Check(performAnimalControl, tags)) toApply.Add(buff);
+            if (buff.Check(performAnimalControl))
+            {
+                float[] buffResult = BuffInteractionWhenScore(buff.Apply(), performAnimalControl);
+                for (int i = 0; i < buffScoreTotal.Length; i++)
+                {
+                    buffScoreTotal[i] += buffResult[i];
+                }
+            }
+                
         }
 
-        return returnScore;
-    }
+        foreach (BuffChangeBase buff in buffsChangeBaseWhenScore)
+        {
+            var checkResult = buff.Check(performAnimalControl);
+            if (checkResult.isValid)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (checkResult.isMult) buffScoreMult[i] *= buff.Apply()[i];
+                    else buffScorePlus[i] += buff.Apply()[i];
+                }
+            }
+        }
 
-    /*
-    public float[] BuffInteractionWhenDoSth(PerformAnimalControl performAnimalControl, List<ActionTag> tags, out List<Buff> toApply)
-    {
+        for (int i = 0; i < 3; i++)
+        {
+            buffScoreTotal[i] = (baseScore[i] + buffScorePlus[i]) * buffScoreMult[i];
+        }
 
+        return buffScoreTotal;
     }
-    */
 }
 
-public abstract class Buff
+public abstract class BuffChangeBase
 {
-    public abstract bool Check(PerformAnimalControl performAnimalControl, List<ActionTag> tags);
-    public abstract float[] Apply(PerformAnimalControl performAnimalControl); 
+    public abstract (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl);
+    public abstract float[] Apply(); //if isMult, the base return value is (1, 1, 1) since 0 erases all mult values.
 }
 
-public class BuffFox : Buff //when neighbours pass a ball and generate Red, +4 Red 
+public abstract class BuffGiveExtra
 {
-    public override bool Check(PerformAnimalControl performAnimalControl, List<ActionTag> tags)
+    public abstract bool Check(PerformAnimalControl performAnimalControl);
+    public abstract float[] Apply(); //the return value becomes a new baseScore and runs BuffInteractionWhenScore().
+}
+
+public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate Red, +4 Red 
+{
+    public override bool Check(PerformAnimalControl performAnimalControl)
     {
         PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.testAnimals;
         int myIndex = Array.IndexOf(animalsOnStage, performAnimalControl);
 
         if ((myIndex > 0 && animalsOnStage[myIndex - 1].animalBrain.soul.animalName == "Fox"
             || myIndex < animalsOnStage.Length - 1 && animalsOnStage[myIndex + 1].animalBrain.soul.animalName == "Fox")
-            && tags.Contains(ActionTag.Red)
-            && !tags.Contains(ActionTag.ExtraRed)) return true;
+            && performAnimalControl.animalBrain.soul.baseRedChange != 0)
+            return true;
         return false;
     }
 
-    public override void Apply(PerformAnimalControl performAnimalControl)
+    public override float[] Apply()
     {
-        List<ActionTag> tags = new List<ActionTag> { ActionTag.ExtraRed };
-        List<Buff> toApply = new List<Buff>();
-        float totalScore = BuffManager.instance.BuffInteractionWhenScore(performAnimalControl, tags, out toApply);
-
-        foreach(Buff buff in toApply)
-        {
-            buff.Apply(performAnimalControl);
-        }
+        return new float[] { 4, 0, 0 };
     }
 }
 
-public class BuffKangaroo : Buff //when any animal generate Red, +0.2 blue
+public class BuffKangaroo : BuffChangeBase //when any animal generate Red, +0.2 blue
 {
-    public override bool Check(PerformAnimalControl performAnimalControl, List<ActionTag> tags)
+    public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
     {
         foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.testAnimals)
         {
-            if (animalOnStage.animalBrain.soul.animalName == "Kangaroo" && tags.Contains(ActionTag.Red)) return true;
+            if (animalOnStage.animalBrain.soul.animalName == "Kangaroo" 
+                && performAnimalControl.animalBrain.soul.baseRedChange != 0) 
+                return (true, false);
+        }
+        return (false, false);
+    }
+
+    public override float[] Apply()
+    {
+        return new float[] { 0, 0, 0.2f };
+    }
+}
+
+public class BuffPorcupine : BuffGiveExtra //When generate blue, generate 0.3 extra
+{
+    public override bool Check(PerformAnimalControl performAnimalControl)
+    {
+        foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.testAnimals)
+        {
+            if (animalOnStage.animalBrain.soul.animalName == "Porcupine" 
+                && animalOnStage.animalBrain.soul.baseBlueChange != 0) 
+                return true;
         }
         return false;
     }
 
-    public override float[] Apply(PerformAnimalControl performAnimalControl)
+    public override float[] Apply()
     {
-        float[] returnScore = BuffManager.instance.BuffInteractionWhenScore(performAnimalControl, tags, out toApply);
-
-        return returnScore;
-    }
-}
-
-public class BuffPorcupine : Buff //When generate blue, generate 0.3 extra
-{
-    public override bool Check(PerformAnimalControl performAnimalControl)
-    {
-        if (animalProp.animalName == "Porcupine") return true;
-        return false;
-    }
-
-    public override float[] Apply(PerformAnimalControl performAnimalControl)
-    {
-        return new float[] { 0, 0, 0 };
+        return new float[] { 0, 0, 0.3f };
     }
 }
