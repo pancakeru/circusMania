@@ -102,6 +102,7 @@ public class PerformAnimalControl : MonoBehaviour
         {
             animalBrain.Recover();
         }
+        animalBrain.TurnEndAction();
     }
 
     public void TakeBall(BallScript b)
@@ -306,6 +307,11 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.FlipSprite(0, false);
         animalBody.ChangeRestCount(-1);
         animalBody.ifReadyToInteract = true;
+    }
+
+    public virtual void TurnEndAction()
+    {
+
     }
 
     public virtual void EnterRest()
