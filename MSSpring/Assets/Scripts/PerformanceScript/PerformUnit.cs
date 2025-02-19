@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PerformUnit : MonoBehaviour
@@ -50,6 +49,11 @@ public class PerformUnit : MonoBehaviour
         {
             ifTest = false;
             StartState(showState.showStart);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
