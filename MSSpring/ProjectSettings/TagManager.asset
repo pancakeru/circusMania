@@ -8,6 +8,7 @@ TagManager:
   - ballTag
   - areaTag
   - showManager
+  - showAnimalInHand
   layers:
   - Default
   - TransparentFX
