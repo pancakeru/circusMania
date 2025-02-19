@@ -260,48 +260,32 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifJustInteract = true;
         animalBody.ifHaveBall = false;
 
-        float[] scoreAfterBuff = BuffManager.instance.BuffInteractionWhenScore(new float[] { soul.baseRedChange, 
-                                                                                             soul.baseYellowChange,
-                                                                                             soul.baseBlueChange }, animalBody);
-
-        //TODO:分数展示和改变逻辑
-        if (scoreAfterBuff[0] != 0)
+        List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalBody);
+        foreach (float[] inputScore in scoresAfterBuff)
         {
-            controlUnit.ChangeRedScore(scoreAfterBuff[0]);
+            Scoring(inputScore);
+        }
+        
+        animalBody.ifReadyToInteract = false;
+    }
+
+    void Scoring(float[] inputScore)
+    {
+        if (inputScore[0] != 0)
+        {
+            controlUnit.ChangeRedScore(inputScore[0]);
             animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
         }
-        if (scoreAfterBuff[1] != 0)
+        if (inputScore[1] != 0)
         {
-            controlUnit.ChangeYellowScore(scoreAfterBuff[1]);
+            controlUnit.ChangeYellowScore(inputScore[1]);
             animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
         }
-        if (scoreAfterBuff[2] != 0)
+        if (inputScore[2] != 0)
         {
-            controlUnit.ChangeBlueScore(scoreAfterBuff[2]);
+            controlUnit.ChangeBlueScore(inputScore[2]);
             animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
         }
-        animalBody.ifReadyToInteract = false;
-
-        /*
-        //animalManager.Instance.changeScore(interactionYellowScore, interactionRedScore, interactionBlueScore, selfIndex);
-        //TODO:分数展示和改变逻辑
-        if (soul.baseRedChange != 0)
-        {
-            controlUnit.ChangeRedScore(soul.baseRedChange);
-            animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
-        }
-        if (soul.baseYellowChange != 0)
-        {
-            controlUnit.ChangeYellowScore(soul.baseYellowChange);
-            animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
-        }
-        if (soul.baseBlueChange != 0)
-        {
-            controlUnit.ChangeBlueScore(soul.baseBlueChange);
-            animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
-        }
-        animalBody.ifReadyToInteract = false;
-        */
     }
 
     public virtual void DoRest()

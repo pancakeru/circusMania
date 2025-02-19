@@ -19,8 +19,7 @@ public class BuffManager : MonoBehaviour
         else Destroy(gameObject);
 
         buffsGiveExtraWhenScore.Add(new BuffFox());
-        buffsChangeBaseWhenScore.Add(new BuffKangaroo());
-        buffsGiveExtraWhenScore.Add(new BuffPorcupine());
+        buffsChangeBaseWhenScore.Add(new BuffPorcupine());
 
         holdCounter = 0;
     }
@@ -31,25 +30,34 @@ public class BuffManager : MonoBehaviour
         
     }
 
-    public float[] BuffInteractionWhenScore(float[] baseScore, PerformAnimalControl performAnimalControl)
+    public List<float[]> BuffInteractionWhenScore(PerformAnimalControl performAnimalControl)
     {
-        //                                  {Red, Yellow, Blue}
-        float[] buffScorePlus = new float[] { 0, 0, 0 };
-        float[] buffScoreMult = new float[] { 1, 1, 1 };
-        float[] buffScoreTotal = new float[] { 0, 0, 0 };
+        List<float[]> returnScoreList = new List<float[]>();
+
+        float[] myBaseScore = new float[] { performAnimalControl.animalBrain.soul.baseRedChange,
+                                            performAnimalControl.animalBrain.soul.baseYellowChange,
+                                            performAnimalControl.animalBrain.soul.baseBlueChange };
+
+        returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, performAnimalControl));
 
         foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore)
         {
             if (buff.Check(performAnimalControl))
             {
-                float[] buffResult = BuffInteractionWhenScore(buff.Apply(), performAnimalControl);
-                for (int i = 0; i < buffScoreTotal.Length; i++)
-                {
-                    buffScoreTotal[i] += buffResult[i];
-                }
+                returnScoreList.Add(BuffInteractionWhenScoreChangeBase(buff.Apply(), performAnimalControl));
             }
                 
         }
+
+        return returnScoreList;
+    }
+
+    float[] BuffInteractionWhenScoreChangeBase(float[] baseScore, PerformAnimalControl performAnimalControl)
+    {
+        //                                  {Red, Yellow, Blue}
+        float[] buffScorePlus = new float[] { 0, 0, 0 };
+        float[] buffScoreMult = new float[] { 1, 1, 1 };
+        float[] buffScoreTotal = new float[] { 0, 0, 0 };
 
         foreach (BuffChangeBase buff in buffsChangeBaseWhenScore)
         {
@@ -105,6 +113,7 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
     }
 }
 
+/*
 public class BuffKangaroo : BuffChangeBase //when any animal generate Red, +0.2 blue
 {
     public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
@@ -123,18 +132,19 @@ public class BuffKangaroo : BuffChangeBase //when any animal generate Red, +0.2 
         return new float[] { 0, 0, 0.2f };
     }
 }
+*/
 
-public class BuffPorcupine : BuffGiveExtra //When generate blue, generate 0.3 extra
+public class BuffPorcupine : BuffChangeBase //When generate blue, blue +0.3
 {
-    public override bool Check(PerformAnimalControl performAnimalControl)
+    public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
     {
         foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.testAnimals)
         {
             if (animalOnStage.animalBrain.soul.animalName == "Porcupine" 
                 && animalOnStage.animalBrain.soul.baseBlueChange != 0) 
-                return true;
+                return (true, false);
         }
-        return false;
+        return (false, false);
     }
 
     public override float[] Apply()
