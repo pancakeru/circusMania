@@ -269,22 +269,22 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifReadyToInteract = false;
     }
 
-    void Scoring(float[] inputScore)
+    internal void Scoring(float[] inputScore)
     {
         if (inputScore[0] != 0)
         {
             controlUnit.ChangeRedScore(inputScore[0]);
-            animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
+            animalBody.generator.RequestTextEffect(inputScore[0], ScoreTextEffectGenerator.ScoreType.Red);
         }
         if (inputScore[1] != 0)
         {
             controlUnit.ChangeYellowScore(inputScore[1]);
-            animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
+            animalBody.generator.RequestTextEffect(inputScore[1], ScoreTextEffectGenerator.ScoreType.Yellow);
         }
         if (inputScore[2] != 0)
         {
             controlUnit.ChangeBlueScore(inputScore[2]);
-            animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
+            animalBody.generator.RequestTextEffect(inputScore[2], ScoreTextEffectGenerator.ScoreType.Blue);
         }
     }
 

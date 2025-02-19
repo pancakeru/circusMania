@@ -113,27 +113,6 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
     }
 }
 
-/*
-public class BuffKangaroo : BuffChangeBase //when any animal generate Red, +0.2 blue
-{
-    public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
-    {
-        foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.testAnimals)
-        {
-            if (animalOnStage.animalBrain.soul.animalName == "Kangaroo" 
-                && performAnimalControl.animalBrain.soul.baseRedChange != 0) 
-                return (true, false);
-        }
-        return (false, false);
-    }
-
-    public override float[] Apply()
-    {
-        return new float[] { 0, 0, 0.2f };
-    }
-}
-*/
-
 public class BuffPorcupine : BuffChangeBase //When generate blue, blue +0.3
 {
     public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
