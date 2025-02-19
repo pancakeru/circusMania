@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class ShowManager : MonoBehaviour
@@ -13,6 +14,13 @@ public class ShowManager : MonoBehaviour
         Performance
     }
 
+
+    public enum DecideScreenState
+    {
+        empty,
+        slide,
+        choose
+    }
     //State变量
     private ShowStates currentState;
 
@@ -35,6 +43,20 @@ public class ShowManager : MonoBehaviour
     public List<GameObject> myHand;
     public String[] onStage;
 
+    private float leftAnchorX;
+    private List<Vector2> initialPos = new List<Vector2>();
+
+    public GraphicRaycaster uiRaycaster;
+    private EventSystem eventSystem;
+    private bool sliding = false;
+    private Vector2 lastMousePosition;
+    private List<iconAnimal> myHandControls = new List<iconAnimal>();
+    private GameObject firstDetect;
+    private bool canBeMovedOrSelected = true;
+    private bool enterInteraction = false;
+    private GameObject holdingAnimalObj;
+
+    public animalProperty testProperty;
     void Start()
     {
         testList = new List<animalProperty>();
@@ -58,9 +80,12 @@ public class ShowManager : MonoBehaviour
             GameObject temp = Instantiate(animalIcon, canvasTransform);
             myHand.Add(temp);
            // Debug.Log($"Added object to myHand. Current count: {myHand.Count}");
-            temp.GetComponent<iconAnimal>().Initialize("monkey", false);
+            temp.GetComponent<iconAnimal>().Initialize(testProperty, false);
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
             temp.GetComponent<iconAnimal>().myIndex = i;
+            //TODO:把这个目标位置整合
+            initialPos.Add(new Vector2(x + offset * i, -350));
+            myHandControls.Add(temp.GetComponent<iconAnimal>());
         }
 
         //FOR ADDING BACK TO DECK
@@ -94,6 +119,65 @@ public class ShowManager : MonoBehaviour
             //表演
             break;
         }
+
+        //TODO:把这部分结合进statemachine
+        /*
+        if (Input.GetMouseButtonDown(0)&& canBeMovedOrSelected)
+        {
+            //Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
+            
+            if (!CheckIfRayCastElementWithTag("showAnimalInHand",out firstDetect))
+            {
+                sliding = true;
+                lastMousePosition = Input.mousePosition;
+                //进入滑动
+            }
+            else
+            {
+                //进入上下
+                Debug.Log(firstDetect.transform.parent.name);
+                foreach (iconAnimal animal in myHandControls)
+                {
+                    if (animal.gameObject != firstDetect.transform.parent.gameObject)
+                    {
+                        animal.EnterState(iconAnimal.iconState.half);
+                    }
+                    else
+                    {
+                        //生成一个小动物
+                        holdingAnimalObj = AnimalFactory(animal.selfProperty.name,GetMouseWorldPositionAtZeroZ());
+                    }
+                }
+            }
+            enterInteraction = true;
+        }
+
+        
+
+        if (Input.GetMouseButtonUp(0)&& enterInteraction)
+        {
+            Debug.Log("触发了");
+            if (!sliding)
+            {
+                foreach (iconAnimal animal in myHandControls)
+                {
+                    if (animal.gameObject != firstDetect.transform.parent.gameObject)
+                    {
+                        animal.EnterState(iconAnimal.iconState.movingUp);
+                    }
+                    //canBeMovedOrSelected = false;
+                    //Invoke("ResetCanBeMoveOrSelect", 0.3f);
+                }
+            }
+            sliding = false;
+            enterInteraction = false;
+        }*/
+        UpdateDecideState();
+    }
+
+    void ResetCanBeMoveOrSelect()
+    {
+        canBeMovedOrSelected = true;
     }
 
     //Functions
@@ -114,15 +198,15 @@ public class ShowManager : MonoBehaviour
     }
 
     //创动物prefab
-    public void AnimalFactory(string name, Vector3 position) {
+    public GameObject AnimalFactory(string name, Vector3 position) {
         switch (name) {
             case "monkey":
-                Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity);
-            break;
+                return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity);
         }
+        return null;
     }
 
-
+    /*
     public void UpdateHand(int index) {
         for (int i = 0; i < myHand.Count; i++) {
             GameObject icon = myHand[i];
@@ -176,7 +260,167 @@ public class ShowManager : MonoBehaviour
 
 
         }
+    }*/
+
+    void SlideAnimalsInHand(float changeX)
+    {
+        //TODO:限制左右
+        leftAnchorX += changeX;
+        for (int i = 0; i < myHand.Count; i++)
+        {
+            GameObject gmo = myHand[i];
+            gmo.GetComponentInChildren<RectTransform>().anchoredPosition = initialPos[i] + new Vector2(leftAnchorX, 0);
+        }
+        
+    }
+
+    bool CheckIfRayCastElementWithTag(string targetTag, out GameObject first)
+    {
+        if (eventSystem == null)
+        {
+            eventSystem = FindObjectOfType<EventSystem>();
+        }
+
+        // 创建一个 PointerEventData 来存储射线检测信息
+        PointerEventData eventData = new PointerEventData(eventSystem);
+        eventData.position = Input.mousePosition; // 设置射线的起点（鼠标位置）
+
+        // 存储射线检测到的 UI 组件
+        List<RaycastResult> results = new List<RaycastResult>();
+
+        // 进行 UI 射线检测
+        uiRaycaster.Raycast(eventData, results);
+
+        // 遍历检测到的 UI 组件
+        foreach (RaycastResult result in results)
+        {
+            // 检查 GameObject 是否有目标 Tag
+            if (result.gameObject.CompareTag(targetTag))
+            {
+                first = result.gameObject;
+                return true; // 找到匹配的对象，返回 true
+            }
+        }
+        first = null;
+        return false; // 没有找到匹配的对象
+    }
+
+    Vector3 GetMouseWorldPositionAtZeroZ()
+    {
+        // 获取鼠标在屏幕中的位置
+        Vector3 mouseScreenPosition = Input.mousePosition;
+
+        // 设定鼠标的世界 Z 位置为 0
+        mouseScreenPosition.z = Mathf.Abs(Camera.main.transform.position.z);
+
+        // 转换为世界坐标
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+
+        // 确保 Z 轴为 0
+        worldPosition.z = 0;
+
+        return worldPosition;
     }
 
 
+    DecideScreenState curDecideState = DecideScreenState.empty;
+    public void StartDecideState(DecideScreenState newState)
+    {
+        EndDecideState(curDecideState);
+        switch (newState)
+        {
+            case DecideScreenState.slide:
+                break;
+        }
+        curDecideState = newState;
+    }
+
+    void EndDecideState(DecideScreenState lastState)
+    {
+        switch (lastState)
+        {
+            case DecideScreenState.slide:
+                break;
+        }
+    }
+
+    void UpdateDecideState()
+    {
+        switch (curDecideState)
+        {
+            case DecideScreenState.empty:
+                if (Input.GetMouseButtonDown(0) && canBeMovedOrSelected)
+                {
+                    enterInteraction = true;
+                    //Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
+
+                    if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+                    {
+                        StartDecideState(DecideScreenState.slide);
+                        lastMousePosition = Input.mousePosition;
+                        //进入滑动
+                    }
+                    else
+                    {
+                        //进入上下
+                        Debug.Log(firstDetect.transform.parent.name);
+                        foreach (iconAnimal animal in myHandControls)
+                        {
+                            if (animal.gameObject != firstDetect.transform.parent.gameObject)
+                            {
+                                animal.EnterState(iconAnimal.iconState.half);
+                            }
+                            else
+                            {
+                                //生成一个小动物
+                                holdingAnimalObj = AnimalFactory(animal.selfProperty.name, GetMouseWorldPositionAtZeroZ());
+                            }
+                        }
+                        StartDecideState(DecideScreenState.choose);
+                    }
+                    
+                }
+                break;
+
+            case DecideScreenState.slide:
+                if (Input.GetMouseButton(0))
+                {
+                    Vector2 currentMousePosition = Input.mousePosition;
+                    float changeX = currentMousePosition.x - lastMousePosition.x; // 计算滑动距离
+                    SlideAnimalsInHand(changeX);
+                    lastMousePosition = currentMousePosition; // 更新鼠标位置
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    
+                    sliding = false;
+                    enterInteraction = false;
+                    StartDecideState(DecideScreenState.empty);
+                }
+                break;
+
+            case DecideScreenState.choose:
+                if (Input.GetMouseButton(0))
+                {
+                    holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                {
+                        foreach (iconAnimal animal in myHandControls)
+                        {
+                            if (animal.gameObject != firstDetect.transform.parent.gameObject)
+                            {
+                                animal.EnterState(iconAnimal.iconState.movingUp);
+                            }
+                            //canBeMovedOrSelected = false;
+                            //Invoke("ResetCanBeMoveOrSelect", 0.3f);
+                        }
+                    enterInteraction = false;
+                    StartDecideState(DecideScreenState.empty);
+
+                }
+                break;
+        }
+    }
 }

@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081c8ca2e46d5a24ba9637e49b1ee046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  yGoal: -350
   spriteList:
   - {fileID: 21300000, guid: d6b521976f95d4675ab6713d594b1d8d, type: 3}
   - {fileID: 21300000, guid: 54bbee01f353541779559a3adf6972a0, type: 3}
@@ -65,6 +66,9 @@ MonoBehaviour:
   - bear
   myIndex: 0
   myNeighbor: {fileID: 0}
+  myOtherNeighbor: {fileID: 0}
+  destinationX: 0
+  otherDestinationX: 0
 --- !u!1 &5439578587774284234
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,7 +83,7 @@ GameObject:
   - component: {fileID: 1000755685889077930}
   m_Layer: 5
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: showAnimalInHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

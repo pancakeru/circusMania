@@ -12,7 +12,7 @@ public class dragBack : MonoBehaviour
     void Start()
     {
         showManager = GameObject.FindWithTag("showManager");
-        showScript = showManager.GetComponent<ShowManager>();
+        //showScript = showManager.GetComponent<ShowManager>();
         mySprite = this.GetComponent<SpriteRenderer>();
     }
 

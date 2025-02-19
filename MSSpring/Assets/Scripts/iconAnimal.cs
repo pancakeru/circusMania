@@ -12,6 +12,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private string animalType;
     private RectTransform myPosition;
     public int yGoal = -350;
+    public animalProperty selfProperty;
 
     //idle state animation
     private Vector2 originalPosition;
@@ -47,8 +48,15 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private Vector2 targetPosition;
     public float destinationX;
     public float otherDestinationX;
+    public float lerpUpTime = 0.2f;
+    private Vector2 UpPos;
+    private float tempE = 0;
+    private Vector2 startPos;
+    private float downY;
+    private float upY;
+    private bool firstTime = true;
 
-    private enum iconState {
+    public enum iconState {
         appear,
         selected,
         idle,
@@ -57,8 +65,16 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         disappear,
         callFactory,
         moving,
-        newInsert
+        newInsert,
+        movingUp
     }
+
+    private enum macroState
+    {
+        down,
+        drag
+    }
+
     private iconState currentState;
 
     void Start()
@@ -84,9 +100,10 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     //新的constructor，直接写动物种类
-    public void Initialize(string type, bool insert)
+    public void Initialize(animalProperty property, bool insert)
     {
-        animalType = type; //动物种类
+        selfProperty = property;
+        animalType = property.name; //动物种类
         uiImage = GetComponentInChildren<Image>();
 
         for (int i = 0; i < typeList.Count; i++) {
@@ -111,8 +128,9 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 if (myPosition.anchoredPosition.y <= yGoal) {
                     myPosition.anchoredPosition += Vector2.up * 500 * Time.deltaTime;
                 } else {
+                    myPosition.anchoredPosition = new Vector2(myPosition.anchoredPosition.x,yGoal);
                     UpdateAnchors();
-                    this.currentState = iconState.idle;
+                    EnterState(iconState.idle);
                 }
                 break;
 
@@ -132,6 +150,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 //玩着还没选
                 showScript.stopMoving = false;
 
+                /*
                 if (myIndex == 0 && myOtherNeighbor == null) {
                     myOtherNeighbor = showScript.myHand[1];
                 }
@@ -140,19 +159,20 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                     otherDestinationX = 750;
                     showScript.FixRightSpacing(myIndex);
                  }
-
+                */
+                
                 if (isHovered) {
-                    myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
+                    //myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
                     if (Input.GetKey(KeyCode.Mouse0)) {
-                        currentState = iconState.selected;
+                        //currentState = iconState.selected;
                     } 
                 } else {
-                    myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, originalPosition, hoverSpeed * Time.deltaTime);
+                    //myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, originalPosition, hoverSpeed * Time.deltaTime);
                     if (Input.GetKey(KeyCode.Mouse0)) {
                         if (showScript.holding) {
-                            currentState = iconState.half;
+                            //currentState = iconState.half;
                         } else {
-                            currentState = iconState.sliding;
+                            //currentState = iconState.sliding;
                         }
                     } 
                 }
@@ -160,6 +180,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
             case iconState.half:
                 //往下藏一半
+                //TODO:把halfPos开放，之后可以调
                 myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, halfPosition, hoverSpeed * Time.deltaTime);
                 if (Input.GetKeyUp(KeyCode.Mouse0)) {
                     currentState = iconState.idle;
@@ -234,6 +255,17 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
 
             break;
+
+            case iconState.movingUp:
+                tempE += Time.deltaTime;
+                float t = tempE / lerpUpTime;
+                myPosition.anchoredPosition = Vector2.Lerp(startPos, UpPos, t);
+                if (t >= 1)
+                {
+                    myPosition.anchoredPosition = UpPos;
+                    EnterState(iconState.idle);
+                }
+                break;
         }
 
         lastMousePosition = Input.mousePosition;
@@ -257,11 +289,13 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        /*
         isDragging = true;
         showScript.holding = true;
         currentState = iconState.selected;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out dragOffset);
+        */
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -277,6 +311,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
    public void OnPointerUp(PointerEventData eventData)
 {
+        /*
     bool detected = false;
 
     foreach (GameObject area in areaDetectors)
@@ -300,6 +335,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     
     isDragging = false;
     showScript.holding = false;
+        */
 }
 
     void UpdateAnchors() {
@@ -349,7 +385,44 @@ public void UpdateRight() {
     void OnDestroy()
     {
         Debug.Log("Removed: " + myIndex);
-        showScript.UpdateHand(myIndex);
+        //showScript.UpdateHand(myIndex);
+    }
+
+    public void EnterState(iconState newState)
+    {
+        switch (currentState)
+        {
+            case iconState.half:
+                UpPos = new Vector2(myPosition.anchoredPosition.x, upY);
+                break;
+        }
+        switch (newState)
+        {
+            case iconState.idle:
+                if (firstTime)
+                {
+                    downY = myPosition.anchoredPosition.y - 200;
+                    upY = myPosition.anchoredPosition.y;
+                    firstTime = false;
+                }
+                break;
+
+            case iconState.half:
+                if (firstTime)
+                {
+                    downY = myPosition.anchoredPosition.y - 200;
+                    upY = myPosition.anchoredPosition.y;
+                    firstTime = false;
+                }
+                halfPosition = new Vector2(myPosition.anchoredPosition.x, downY);
+                break;
+
+            case iconState.movingUp:
+                tempE = 0;
+                startPos = myPosition.anchoredPosition;
+                break;
+        }
+        currentState = newState;
     }
 
 }
