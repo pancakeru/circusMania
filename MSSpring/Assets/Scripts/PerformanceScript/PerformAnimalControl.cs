@@ -260,33 +260,22 @@ public abstract class AbstractSpecialAnimal: MonoBehaviour
         animalBody.ifJustInteract = true;
         animalBody.ifHaveBall = false;
 
-        List<Buff> validBuffs = new List<Buff>();
-        validBuffs.AddRange(BuffManager.instance.BuffOnInteractWithBall(soul, animalBody));
-        float[] buffBonus = new float[] { 0, 0, 0 };
-        foreach (Buff buff in validBuffs)
-        {
-            for (int i = 0; i < buffBonus.Length; i++)
-            {
-                buffBonus[i] += buff.Apply(soul, animalBody)[i];
-            }
-            
-        }
-
         //animalManager.Instance.changeScore(interactionYellowScore, interactionRedScore, interactionBlueScore, selfIndex);
         //TODO:分数展示和改变逻辑
         if (soul.baseRedChange != 0)
         {
-            controlUnit.ChangeRedScore(soul.baseRedChange + buffBonus[0]);
+            float buffScore = BuffManager.instance.BuffInteractionWhenScore(animalBody, new List<ActionTag> { ActionTag.Red }, out List<Buff> toApply)[0];
+            controlUnit.ChangeRedScore(soul.baseRedChange);
             animalBody.generator.RequestTextEffect(soul.baseRedChange, ScoreTextEffectGenerator.ScoreType.Red);
         }
         if (soul.baseYellowChange != 0)
         {
-            controlUnit.ChangeYellowScore(soul.baseYellowChange + buffBonus[1]);
+            controlUnit.ChangeYellowScore(soul.baseYellowChange);
             animalBody.generator.RequestTextEffect(soul.baseYellowChange, ScoreTextEffectGenerator.ScoreType.Yellow);
         }
         if (soul.baseBlueChange != 0)
         {
-            controlUnit.ChangeBlueScore(soul.baseBlueChange + buffBonus[2]);
+            controlUnit.ChangeBlueScore(soul.baseBlueChange);
             animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
         }
         animalBody.ifReadyToInteract = false;
