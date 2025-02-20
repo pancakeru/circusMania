@@ -153,7 +153,7 @@ MonoBehaviour:
   holding: 1
   stopMoving: 0
   animalPerformancePrefabs:
-  - {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+  - {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
   myHand: []
   onStage: []
   uiRaycaster: {fileID: 7575455781150157547}

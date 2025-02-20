@@ -41,7 +41,7 @@ public class ShowManager : MonoBehaviour
     public List<GameObject> animalPerformancePrefabs;
 
     public List<GameObject> myHand;
-    public String[] onStage;
+    public GameObject[] onStage;
 
     private float leftAnchorX;
     private List<Vector2> initialPos = new List<Vector2>();
@@ -55,6 +55,7 @@ public class ShowManager : MonoBehaviour
     private bool canBeMovedOrSelected = true;
     private bool enterInteraction = false;
     private GameObject holdingAnimalObj;
+    
 
     public animalProperty testProperty;
     void Start()
@@ -65,7 +66,7 @@ public class ShowManager : MonoBehaviour
         yStart = -600;
         areaOffset = 2;
 
-        onStage = new String[6];
+        onStage = new GameObject[6];
 
         //位置 GameObject
         for (int i = 0; i < 6; i++) {
@@ -417,6 +418,17 @@ public class ShowManager : MonoBehaviour
                             //Invoke("ResetCanBeMoveOrSelect", 0.3f);
                         }
                     enterInteraction = false;
+                    GameObject Rect;
+                    if (CheckIfRayCastElementWithTag("areaTag", out Rect))
+                    {
+                        holdingAnimalObj.transform.position =  Rect.GetComponentInParent<areaReport>().myPosition;
+                        onStage[Rect.GetComponentInParent<areaReport>().spotNum] = holdingAnimalObj;
+                        holdingAnimalObj = null;
+                    }
+                    else
+                    {
+                        Destroy(holdingAnimalObj);
+                    }
                     StartDecideState(DecideScreenState.empty);
 
                 }

@@ -32,7 +32,7 @@ public class areaReport : MonoBehaviour
     }
 
     public void Report(string animal) {
-        showManager.onStage[spotNum] = animal;
+        //showManager.onStage[spotNum] = animal;
     }
 
 }

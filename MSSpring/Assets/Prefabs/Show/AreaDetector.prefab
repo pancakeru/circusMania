@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1422601474122807931}
   m_Layer: 5
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: areaTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8611253740367107093}
   m_Layer: 0
   m_Name: AreaDetector
-  m_TagString: areaTag
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
