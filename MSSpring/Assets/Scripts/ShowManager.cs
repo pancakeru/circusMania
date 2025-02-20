@@ -493,9 +493,9 @@ public class ShowManager : MonoBehaviour
                         {
                             SetUnSelectIconInHand(atTar);
                         }
-                        
-                        holdingAnimalObj.transform.position = Rect.GetComponentInParent<areaReport>().myPosition;
-                        onStage[Rect.GetComponentInParent<areaReport>().spotNum] = holdingAnimalObj;
+
+                        MoveObjToIndexOnStage(-1,Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
+
                         SetSelectIconInHand(holdingAnimalObj);
                         holdingAnimalObj = null;
                     }
@@ -556,9 +556,7 @@ public class ShowManager : MonoBehaviour
                         {
                             MoveObjToIndexOnStage(Array.IndexOf(posRecord, rectReport), moveFromStageIndex, atTar);
                         }
-
-                        holdingAnimalObj.transform.position = Rect.GetComponentInParent<areaReport>().myPosition;
-                        onStage[Rect.GetComponentInParent<areaReport>().spotNum] = holdingAnimalObj;
+                        MoveObjToIndexOnStage(-1, Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
                         holdingAnimalObj = null;
                     } else if (DetectMouseInDownArea())
                     {
@@ -585,11 +583,28 @@ public class ShowManager : MonoBehaviour
         return Input.mousePosition.y <= thresholdY; // 如果鼠标 Y 轴位置在这个范围内，则返回 true
     }
 
+
+
+    /// <summary>
+    /// 将对象移动到 `onStage` 位置索引 `to`，并设置其位置。
+    /// </summary>
+    /// <param name="from">对象当前所在的索引，`-1` 表示不关心原位置（例如鼠标悬停的情况）。</param>
+    /// <param name="to">对象要移动到的目标索引。</param>
+    /// <param name="toMove">要移动的 `GameObject`。</param>
     private void MoveObjToIndexOnStage(int from, int to, GameObject toMove)
     {
-        onStage[from] = null;
+        // 如果 `from` 不是 -1，则清空原位置
+        if (from != -1)
+            onStage[from] = null;
+
+        // 在目标索引 `to` 处放置 `toMove`
         onStage[to] = toMove;
-        toMove.transform.position = posRecord[to].myPosition;
+
+        // 让 `toMove` 平滑移动到 `posRecord[to]` 记录的位置
+        toMove.GetComponent<dragBack>().SetToStagePos(posRecord[to].myPosition);
+
+        // 直接瞬移到目标位置的备用代码（已注释）
+        // toMove.transform.position = posRecord[to].myPosition;
     }
 
     private void SetUnSelectIconInHand(GameObject obj)
