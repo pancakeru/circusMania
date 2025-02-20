@@ -562,7 +562,7 @@ public class ShowManager : MonoBehaviour
                         holdingAnimalObj = null;
                     } else if (DetectMouseInDownArea())
                     {
-                        SetSelectIconInHand(holdingAnimalObj);
+                        SetUnSelectIconInHand(holdingAnimalObj);
                         holdingAnimalObj = null;
                     }
                     else
