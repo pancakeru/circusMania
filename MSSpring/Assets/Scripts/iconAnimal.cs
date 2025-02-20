@@ -125,11 +125,20 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         switch (currentState) {
             case iconState.appear:
                 //出现行为，从下面上来
+                //Debug.Log("I am here");
                 if (myPosition.anchoredPosition.y <= yGoal) {
                     myPosition.anchoredPosition += Vector2.up * 500 * Time.deltaTime;
                 } else {
                     myPosition.anchoredPosition = new Vector2(myPosition.anchoredPosition.x,yGoal);
                     UpdateAnchors();
+                    if (firstTime)
+                    {
+                        downY = myPosition.anchoredPosition.y - 200;
+                        upY = myPosition.anchoredPosition.y;
+                        firstTime = false;
+                        
+                    }
+                    canBeSelect = true;
                     EnterState(iconState.idle);
                 }
                 break;
@@ -418,11 +427,31 @@ public void UpdateRight() {
                 break;
 
             case iconState.movingUp:
+                UpPos = new Vector2(myPosition.anchoredPosition.x, upY);
                 tempE = 0;
+                
                 startPos = myPosition.anchoredPosition;
                 break;
         }
         currentState = newState;
+    }
+
+    public void SetSelectState(bool ifSelect)
+    {
+        uiImage.color = ifSelect ? Color.gray : Color.white;
+        canGen = !ifSelect;
+    }
+
+    bool canBeSelect = false;
+    public bool CanBeSelect()
+    {
+        return canBeSelect;
+    }
+
+    private bool canGen = true;
+    public bool ifCanGenerate()
+    {
+        return canGen;
     }
 
 }

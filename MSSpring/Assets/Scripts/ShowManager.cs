@@ -19,7 +19,8 @@ public class ShowManager : MonoBehaviour
     {
         empty,
         slide,
-        choose
+        choose,
+        moveAnimal
     }
     //State变量
     private ShowStates currentState;
@@ -55,6 +56,10 @@ public class ShowManager : MonoBehaviour
     private bool canBeMovedOrSelected = true;
     private bool enterInteraction = false;
     private GameObject holdingAnimalObj;
+    private areaReport[] posRecord;
+    private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+    private int moveFromStageIndex;
+    private bool inDown = false;
     
 
     public animalProperty testProperty;
@@ -67,12 +72,13 @@ public class ShowManager : MonoBehaviour
         areaOffset = 2;
 
         onStage = new GameObject[6];
-
+        posRecord = new areaReport[6];
         //位置 GameObject
         for (int i = 0; i < 6; i++) {
             GameObject temp = Instantiate(areaPrefab, canvasTransform);
             temp.GetComponent<areaReport>().spotNum = i;
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset*i, 0);
+            posRecord[i] = temp.GetComponent<areaReport>();
         }
 
         //GlobalManager做完后把这个搬到 SelectAnimal
@@ -306,6 +312,26 @@ public class ShowManager : MonoBehaviour
         return false; // 没有找到匹配的对象
     }
 
+    bool CheckIfRayCastWorldObject2DWithTag(string targetTag, out GameObject first)
+    {
+        first = null;
+
+        // 获取鼠标在世界空间的 2D 位置
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // 进行 2D 射线检测
+        RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
+
+        // 检测 Tag 是否匹配
+        if (hit.collider != null && hit.collider.CompareTag(targetTag))
+        {
+            first = hit.collider.gameObject;
+            return true; // 找到匹配的物体
+        }
+
+        return false; // 没找到
+    }
+
     Vector3 GetMouseWorldPositionAtZeroZ()
     {
         // 获取鼠标在屏幕中的位置
@@ -332,6 +358,10 @@ public class ShowManager : MonoBehaviour
         {
             case DecideScreenState.slide:
                 break;
+
+            case DecideScreenState.moveAnimal:
+                inDown = true;
+                break;
         }
         curDecideState = newState;
     }
@@ -342,8 +372,20 @@ public class ShowManager : MonoBehaviour
         {
             case DecideScreenState.slide:
                 break;
+
+            case DecideScreenState.moveAnimal:
+                if (inDown)
+                {
+                    foreach(iconAnimal animal in myHandControls)
+                    {
+                        animal.EnterState(iconAnimal.iconState.movingUp);
+                    }
+                }
+                break;
         }
     }
+
+
 
     void UpdateDecideState()
     {
@@ -354,17 +396,26 @@ public class ShowManager : MonoBehaviour
                 {
                     enterInteraction = true;
                     //Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
+                    if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+                    {
+                        //选择到了表演小动物
+                        Debug.Log(firstDetect.name);
+                        holdingAnimalObj = firstDetect;
+                        moveFromStageIndex = Array.IndexOf(onStage, firstDetect);
+                        FreePosOnStage(firstDetect);
+                        StartDecideState(DecideScreenState.moveAnimal);
 
-                    if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+                    }
+                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
                     {
                         StartDecideState(DecideScreenState.slide);
                         lastMousePosition = Input.mousePosition;
                         //进入滑动
                     }
-                    else
+                    else if(firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect())
                     {
                         //进入上下
-                        Debug.Log(firstDetect.transform.parent.name);
+                        //Debug.Log(firstDetect.transform.parent.name);
                         foreach (iconAnimal animal in myHandControls)
                         {
                             if (animal.gameObject != firstDetect.transform.parent.gameObject)
@@ -373,8 +424,20 @@ public class ShowManager : MonoBehaviour
                             }
                             else
                             {
-                                //生成一个小动物
-                                holdingAnimalObj = AnimalFactory(animal.selfProperty.name, GetMouseWorldPositionAtZeroZ());
+                                GameObject tryGet;
+                                //区分是否已经生成
+                                if (iconToOnStage.TryGetByKey(animal, out tryGet))
+                                {
+                                    //如果已经创建
+                                    holdingAnimalObj = tryGet;
+                                    //释放onstage里
+                                    FreePosOnStage(tryGet);
+                                }
+                                else
+                                {
+                                    //生成一个小动物
+                                    holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
+                                }
                             }
                         }
                         StartDecideState(DecideScreenState.choose);
@@ -403,6 +466,7 @@ public class ShowManager : MonoBehaviour
             case DecideScreenState.choose:
                 if (Input.GetMouseButton(0))
                 {
+                    
                     holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
                 }
 
@@ -421,13 +485,90 @@ public class ShowManager : MonoBehaviour
                     GameObject Rect;
                     if (CheckIfRayCastElementWithTag("areaTag", out Rect))
                     {
-                        holdingAnimalObj.transform.position =  Rect.GetComponentInParent<areaReport>().myPosition;
+                        //区分目标位置是否有动物
+                        areaReport rectReport = Rect.GetComponentInParent<areaReport>();
+                       
+                        GameObject atTar = onStage[Array.IndexOf(posRecord, rectReport)];
+                        if (atTar != null)
+                        {
+                            SetUnSelectIconInHand(atTar);
+                        }
+                        
+                        holdingAnimalObj.transform.position = Rect.GetComponentInParent<areaReport>().myPosition;
                         onStage[Rect.GetComponentInParent<areaReport>().spotNum] = holdingAnimalObj;
+                        SetSelectIconInHand(holdingAnimalObj);
                         holdingAnimalObj = null;
                     }
                     else
                     {
+                        UnRegisterPerformAnimal(holdingAnimalObj);
                         Destroy(holdingAnimalObj);
+                    }
+                    StartDecideState(DecideScreenState.empty);
+
+                }
+                break;
+
+            case DecideScreenState.moveAnimal:
+                if (Input.GetMouseButton(0))
+                {
+                    holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
+                    if (DetectMouseInDownArea())
+                    {
+                        if (!inDown)
+                        {
+                            inDown = true;
+                            foreach (iconAnimal animal in myHandControls)
+                            {
+                                if (animal != iconToOnStage.GetByValue(holdingAnimalObj))
+                                {
+                                    animal.EnterState(iconAnimal.iconState.half);
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (inDown)
+                        {
+                            inDown = false;
+                            foreach (iconAnimal animal in myHandControls)
+                            {
+                                if (animal != iconToOnStage.GetByValue(holdingAnimalObj))
+                                {
+                                    animal.EnterState(iconAnimal.iconState.movingUp);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (Input.GetMouseButtonUp(0))
+                {
+                    
+                    enterInteraction = false;
+                    GameObject Rect;
+                    if (CheckIfRayCastElementWithTag("areaTag", out Rect))
+                    {
+                        areaReport rectReport = Rect.GetComponentInParent<areaReport>();
+
+                        GameObject atTar = onStage[Array.IndexOf(posRecord, rectReport)];
+                        if (atTar != null)
+                        {
+                            MoveObjToIndexOnStage(Array.IndexOf(posRecord, rectReport), moveFromStageIndex, atTar);
+                        }
+
+                        holdingAnimalObj.transform.position = Rect.GetComponentInParent<areaReport>().myPosition;
+                        onStage[Rect.GetComponentInParent<areaReport>().spotNum] = holdingAnimalObj;
+                        holdingAnimalObj = null;
+                    } else if (DetectMouseInDownArea())
+                    {
+                        SetSelectIconInHand(holdingAnimalObj);
+                        holdingAnimalObj = null;
+                    }
+                    else
+                    {
+                        MoveObjToIndexOnStage(moveFromStageIndex, moveFromStageIndex, holdingAnimalObj);
+                        
                     }
                     StartDecideState(DecideScreenState.empty);
 
@@ -435,4 +576,109 @@ public class ShowManager : MonoBehaviour
                 break;
         }
     }
+
+    private bool DetectMouseInDownArea(float percentage = 0.3f) // 默认是屏幕下方 30%
+    {
+        float screenHeight = Screen.height; // 获取屏幕高度
+        float thresholdY = screenHeight * percentage; // 计算下方区域的 Y 轴临界值
+
+        return Input.mousePosition.y <= thresholdY; // 如果鼠标 Y 轴位置在这个范围内，则返回 true
+    }
+
+    private void MoveObjToIndexOnStage(int from, int to, GameObject toMove)
+    {
+        onStage[from] = null;
+        onStage[to] = toMove;
+        toMove.transform.position = posRecord[to].myPosition;
+    }
+
+    private void SetUnSelectIconInHand(GameObject obj)
+    {
+        FreePosOnStage(obj);
+        UnRegisterPerformAnimal(obj);
+        Destroy(obj);
+    }
+
+    private void SetSelectIconInHand(GameObject obj)
+    {
+        iconToOnStage.GetByValue(obj).SetSelectState(true);
+    }
+
+    private GameObject RegisterAndCreateNewAnimal(iconAnimal chooseAnimal)
+    {
+        GameObject create = AnimalFactory(chooseAnimal.selfProperty.name, GetMouseWorldPositionAtZeroZ());
+        iconToOnStage.Add(chooseAnimal, create);
+        return create;
+    }
+
+    private void UnRegisterPerformAnimal(GameObject choosePerformAnimal)
+    {
+        iconToOnStage.GetByValue(choosePerformAnimal).SetSelectState(false);
+        iconToOnStage.RemoveByValue(choosePerformAnimal);
+
+    }
+
+    private void FreePosOnStage(GameObject obj)
+    {
+        int index = Array.IndexOf(onStage, obj);
+        if (index != -1)
+        {
+            onStage[index] = null;
+        }
+    }
+}
+
+public class BiDictionary<TKey, TValue>
+{
+    private Dictionary<TKey, TValue> forward = new Dictionary<TKey, TValue>();
+    private Dictionary<TValue, TKey> reverse = new Dictionary<TValue, TKey>();
+
+    public void Add(TKey key, TValue value)
+    {
+        if (forward.ContainsKey(key) || reverse.ContainsKey(value))
+        {
+            throw new ArgumentException("Key or Value already exists in BiDictionary");
+        }
+
+        forward[key] = value;
+        reverse[value] = key;
+    }
+
+    public bool TryGetByKey(TKey key, out TValue value) => forward.TryGetValue(key, out value);
+
+    public bool TryGetByValue(TValue value, out TKey key) => reverse.TryGetValue(value, out key);
+
+    public TValue GetByKey(TKey key) => forward[key];
+
+    public TKey GetByValue(TValue value) => reverse[value];
+
+    public bool RemoveByKey(TKey key)
+    {
+        if (forward.TryGetValue(key, out TValue value))
+        {
+            forward.Remove(key);
+            reverse.Remove(value);
+            return true;
+        }
+        return false;
+    }
+
+    public bool RemoveByValue(TValue value)
+    {
+        if (reverse.TryGetValue(value, out TKey key))
+        {
+            reverse.Remove(value);
+            forward.Remove(key);
+            return true;
+        }
+        return false;
+    }
+
+    public void Clear()
+    {
+        forward.Clear();
+        reverse.Clear();
+    }
+
+    public int Count => forward.Count;
 }
