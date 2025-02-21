@@ -57,6 +57,11 @@ public class PerformUnit : MonoBehaviour
         }
     }
 
+    public void GetInfoFromShowManager(PerformAnimalControl[] animals)
+    {
+        allAnimalsInShow = animals;
+    }
+
     public void InitShow()
     {
         SetLastScore(1);
@@ -68,7 +73,7 @@ public class PerformUnit : MonoBehaviour
 
     void StartShow()
     {
-        allAnimalsInShow = GetAllAnimalsInShow();
+        allAnimalsInShow = GetAllAnimalsInShow(false);
         thrower.ShowStart(true);
 
         for (int i = 0; i < allAnimalsInShow.Length; i++)
@@ -255,10 +260,13 @@ public class PerformUnit : MonoBehaviour
         }
     }
 
-    public PerformAnimalControl[] GetAllAnimalsInShow()
+    public PerformAnimalControl[] GetAllAnimalsInShow(bool ifTest = true)
     {
         //TODO:接入ShowManager获取到正确的表演
-        return testAnimals;
+        if(ifTest)
+            return testAnimals;
+
+        return allAnimalsInShow;
     }
 
     public void ChangeYellowScore(float changeNum,ChangeScoreType type = ChangeScoreType.Add)

@@ -105,13 +105,14 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         selfProperty = property;
         animalType = property.name; //动物种类
         uiImage = GetComponentInChildren<Image>();
-
+        uiImage.sprite = selfProperty.animalCoreImg;
+        /*
         for (int i = 0; i < typeList.Count; i++) {
             if (animalType != null && typeList[i] == animalType) {
                 uiImage.sprite = spriteList[i];
                 break;
             } 
-        }
+        }*/
 
         if (!insert) {
             currentState = iconState.appear;
