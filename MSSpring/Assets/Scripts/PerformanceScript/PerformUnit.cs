@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PerformUnit : MonoBehaviour
 {
-
+    public ShowManager totalManager;
     private showState curState;
 
     public GameObject ballPrefab;
@@ -57,9 +57,10 @@ public class PerformUnit : MonoBehaviour
         }
     }
 
-    public void GetInfoFromShowManager(PerformAnimalControl[] animals)
+    public void GetInfoFromShowManager(PerformAnimalControl[] animals, ShowManager _manager)
     {
         allAnimalsInShow = animals;
+        totalManager = _manager;
     }
 
     public void InitShow()
@@ -186,7 +187,22 @@ public class PerformUnit : MonoBehaviour
 
     void DoShowEnd()
     {
+        if (totalManager!= null)
+        {
+            foreach (PerformAnimalControl control in allAnimalsInShow)
+            {
+                if (control != null)
+                    control.BackToInitial();
+            }
 
+            thrower.ShowStart(false);
+            Invoke("BackToDecide", 1f);
+        }
+    }
+
+    void BackToDecide()
+    {
+        totalManager.EndMoveToDecide();
     }
 
     public void BallToIndex(BallScript ball, int index)

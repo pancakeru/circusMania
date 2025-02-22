@@ -98,6 +98,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private RectTransform tarTrans;
     [SerializeField]
     private UiMover mover;
+
+    private bool ifToShow = false;
     void Start()
     {
         handPanelMover = handPanelTransform.GetComponent<UiMover>();
@@ -181,7 +183,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 //换State
                 if (moveCounter.TakeResult())
                 {
-                    StartShow();
+                    if (ifToShow)
+                        StartShow();
+                    else
+                        StartDecide();
                 }
             break;
 
@@ -272,6 +277,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     }
 
     void StartMoveToShow() {
+        ifToShow = true;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelDownPos.anchoredPosition);
         stagePanelMover.MoveTo(stagePanelDownPos.anchoredPosition);
@@ -279,8 +285,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         camMover.MoveTo(CamInShow.position);
         moveCounter.SetUpCount(4);
         var toGive = from x in onStage
-                     select x.GetComponent<PerformAnimalControl>();
-        totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray());
+                     let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
+                     select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
+
+        totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
+
 
     }
 
@@ -290,8 +299,20 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         currentState = ShowStates.Performance;
     }
 
-    void EndShow() {
+    public void EndMoveToDecide() {
+        ifToShow = false;
+        currentState = ShowStates.Animation;
+        handPanelMover.MoveTo(handPanelUpPos.anchoredPosition);
+        stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
+        scorePanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
+        camMover.MoveTo(CamInDecition.position);
+        moveCounter.SetUpCount(4);
+    }
 
+    void StartDecide()
+    {
+        Debug.Log("开始decide");
+        currentState = ShowStates.SelectAnimal;
     }
 
     void LeaveShow() {

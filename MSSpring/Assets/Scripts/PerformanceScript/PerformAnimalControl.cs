@@ -219,6 +219,14 @@ public class PerformAnimalControl : MonoBehaviour
         doInFlip?.Invoke();
         flipCor = null;
     }
+
+    public void BackToInitial()
+    {
+        ifInRest = false;
+        FlipSprite(0, false);
+        ChangeRestCount(-1);
+        ifReadyToInteract = true;
+    }
 }
 
 public abstract class AbstractSpecialAnimal: MonoBehaviour
