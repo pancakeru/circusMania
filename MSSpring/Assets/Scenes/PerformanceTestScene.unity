@@ -1098,9 +1098,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 72411267033144942, guid: 2adaa47af52914b939966c52309706b3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2592057016686602374, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: m_Name
       value: TestPerformanceUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2690753120578213555, guid: 2adaa47af52914b939966c52309706b3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6018669582459501976, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1142,12 +1150,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8976928779648403265, guid: 2adaa47af52914b939966c52309706b3, type: 3}
-      propertyPath: testProperty
-      value: 
-      objectReference: {fileID: 11400000, guid: 8005f9a816bf6ef44bc5714629ac085b, type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 72411267033144942, guid: 2adaa47af52914b939966c52309706b3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2adaa47af52914b939966c52309706b3, type: 3}

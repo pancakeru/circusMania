@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 
 public class AnimalControlSnake : AbstractSpecialAnimal
 {
@@ -11,13 +12,14 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
-		//animalManager.Instance.changeScore(interactionYellowScore, interactionRedScore, interactionBlueScore, selfIndex);
-		//TODO:分数展示和改变逻辑
-		if (soul.baseBlueChange != 0) {
-			controlUnit.ChangeBlueScore(soul.baseBlueChange);
-			animalBody.generator.RequestTextEffect(soul.baseBlueChange, ScoreTextEffectGenerator.ScoreType.Blue);
-			ballToArrayIndex += 1;
+
+		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(new AnimalInfoPack(animalBody));
+		foreach (float[] inputScore in scoresAfterBuff) {
+			Scoring(inputScore);
 		}
+
+		ballToArrayIndex += 1;
+
 		animalBody.ifReadyToInteract = false;
 	}
 }
