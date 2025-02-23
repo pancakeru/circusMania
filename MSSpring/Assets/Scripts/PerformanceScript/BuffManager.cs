@@ -18,7 +18,7 @@ public class BuffManager : MonoBehaviour
 		else Destroy(gameObject);
 
 		buffsGiveExtraWhenScore.Add(new BuffFox());
-		buffsChangeBaseWhenScore.Add(new BuffPorcupine());
+		buffsChangeBaseWhenScore.Add(new BuffBuffalo());
 
 		holdCounter = 0;
 	}
@@ -101,12 +101,12 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 	}
 }
 
-public class BuffPorcupine : BuffChangeBase //When generate blue, blue +0.3
+public class BuffBuffalo : BuffChangeBase //When generate blue, blue +0.3
 {
 	public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
 	{
 		foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.testAnimals) {
-			if (animalOnStage.animalBrain.soul.animalName == "Porcupine"
+			if (animalOnStage.animalBrain.soul.animalName == "Buffalo"
 				&& animalOnStage.animalBrain.soul.baseBlueChange != 0)
 				return (true, false);
 		}

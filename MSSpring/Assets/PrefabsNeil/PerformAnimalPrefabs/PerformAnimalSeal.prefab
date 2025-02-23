@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6924643168023332124
+--- !u!1001 &671519780389988533
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,13 +9,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
-      propertyPath: displaySprites.Array.data[0]
+      propertyPath: animalBrain
       value: 
-      objectReference: {fileID: 21300000, guid: 59f0c4dbf238141cb8ae7b78b9b2689d, type: 3}
-    - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
-      propertyPath: displaySprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: 41d05da38ac0a46fe93b9a89dd42c531, type: 3}
+      objectReference: {fileID: 8515499277290039240}
     - target: {fileID: 1823180584734265639, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -58,35 +54,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Name
-      value: PerformAnimalSnake
+      value: PerformAnimalSeal
       objectReference: {fileID: 0}
-    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 59f0c4dbf238141cb8ae7b78b9b2689d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -7058984384956514876}
+      addedObject: {fileID: 8515499277290039240}
   m_SourcePrefab: {fileID: 100100000, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
---- !u!1 &240432532016996084 stripped
+--- !u!1 &7646762481721078621 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
-  m_PrefabInstance: {fileID: 6924643168023332124}
+  m_PrefabInstance: {fileID: 671519780389988533}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-7058984384956514876
+--- !u!114 &8515499277290039240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240432532016996084}
+  m_GameObject: {fileID: 7646762481721078621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a714c48741314108b0699f9db568857, type: 3}
+  m_Script: {fileID: 11500000, guid: e4faa79e55c0346eaa9138366b385374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testProperty: {fileID: 11400000, guid: cb5dd09991197466cb39a175e5b9d3f9, type: 2}
+  testProperty: {fileID: 11400000, guid: c9b7b8ccf034349d5b05aee0ba556030, type: 2}

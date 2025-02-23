@@ -17,7 +17,7 @@ public class AnimalControlBear : AbstractSpecialAnimal
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
-		animalInfo.redScore *= animalInfo.power;
+		animalInfo.redScore = soul.baseRedChange * animalInfo.power;
 
 		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
 		foreach (float[] inputScore in scoresAfterBuff) {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class AnimalControlSnake : AbstractSpecialAnimal
+public class AnimalControlLizard : AbstractSpecialAnimal
 {
 	private AnimalInfoPack animalInfo;
 
@@ -17,29 +17,21 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
+		animalInfo.yellowScore = soul.baseYellowChange * animalInfo.power;
+
 		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
 		foreach (float[] inputScore in scoresAfterBuff) {
 			Scoring(inputScore);
 		}
 
-		animalInfo.warmUp += 1;
+		animalInfo.power += 1;
 
 		animalBody.ifReadyToInteract = false;
-
-		if (animalInfo.warmUp == (soul as WarmUpAnimalProperty).warmUpRequireTime) {
-			WarmUp();
-		}
 	}
 
-	private void WarmUp()
+	public override void EnterRest()
 	{
-		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(animalBody);
-		warmUpAnimalInfo.redScore = 0;
-		warmUpAnimalInfo.yellowScore = (soul as WarmUpAnimalProperty).warmUpScore;
-
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(warmUpAnimalInfo);
-		foreach (float[] inputScore in scoresAfterBuff) {
-			Scoring(inputScore);
-		}
+		animalBody.ifInRest = true;
+		animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalInfo.power - 1); });
 	}
 }
