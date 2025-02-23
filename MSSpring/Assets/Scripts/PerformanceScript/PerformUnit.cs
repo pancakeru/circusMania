@@ -30,6 +30,7 @@ public class PerformUnit : MonoBehaviour
     [Header("For Test")]
     public PerformAnimalControl[] testAnimals;
     public bool ifTest;
+    private bool ifInitWithTest = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,7 @@ public class PerformUnit : MonoBehaviour
         if (ifTest)
         {
             ifTest = false;
+            ifInitWithTest = true;
             StartState(showState.showStart);
         }
 
@@ -74,7 +76,7 @@ public class PerformUnit : MonoBehaviour
 
     void StartShow()
     {
-        allAnimalsInShow = GetAllAnimalsInShow(false);
+        allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
         thrower.ShowStart(true);
 
         for (int i = 0; i < allAnimalsInShow.Length; i++)
