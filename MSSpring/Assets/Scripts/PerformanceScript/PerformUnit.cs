@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PerformUnit : MonoBehaviour
 {
-
+    public ShowManager totalManager;
     private showState curState;
 
     public GameObject ballPrefab;
@@ -30,6 +30,7 @@ public class PerformUnit : MonoBehaviour
     [Header("For Test")]
     public PerformAnimalControl[] testAnimals;
     public bool ifTest;
+    private bool ifInitWithTest = false;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,7 @@ public class PerformUnit : MonoBehaviour
         if (ifTest)
         {
             ifTest = false;
+            ifInitWithTest = true;
             StartState(showState.showStart);
         }
 
@@ -55,6 +57,12 @@ public class PerformUnit : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
+    }
+
+    public void GetInfoFromShowManager(PerformAnimalControl[] animals, ShowManager _manager)
+    {
+        allAnimalsInShow = animals;
+        totalManager = _manager;
     }
 
     public void InitShow()
@@ -68,7 +76,7 @@ public class PerformUnit : MonoBehaviour
 
     void StartShow()
     {
-        allAnimalsInShow = GetAllAnimalsInShow();
+        allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
         thrower.ShowStart(true);
 
         for (int i = 0; i < allAnimalsInShow.Length; i++)
@@ -181,7 +189,22 @@ public class PerformUnit : MonoBehaviour
 
     void DoShowEnd()
     {
+        if (totalManager!= null)
+        {
+            foreach (PerformAnimalControl control in allAnimalsInShow)
+            {
+                if (control != null)
+                    control.BackToInitial();
+            }
 
+            thrower.ShowStart(false);
+            Invoke("BackToDecide", 1f);
+        }
+    }
+
+    void BackToDecide()
+    {
+        totalManager.EndMoveToDecide();
     }
 
     public void BallToIndex(BallScript ball, int index)
@@ -255,10 +278,13 @@ public class PerformUnit : MonoBehaviour
         }
     }
 
-    public PerformAnimalControl[] GetAllAnimalsInShow()
+    public PerformAnimalControl[] GetAllAnimalsInShow(bool ifTest = true)
     {
         //TODO:接入ShowManager获取到正确的表演
-        return testAnimals;
+        if(ifTest)
+            return testAnimals;
+
+        return allAnimalsInShow;
     }
 
     public void ChangeYellowScore(float changeNum,ChangeScoreType type = ChangeScoreType.Add)

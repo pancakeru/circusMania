@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1422601474122807931}
   m_Layer: 5
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: areaTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.65882355}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.02745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 8611253740367107093}
   m_Layer: 0
   m_Name: AreaDetector
-  m_TagString: areaTag
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
