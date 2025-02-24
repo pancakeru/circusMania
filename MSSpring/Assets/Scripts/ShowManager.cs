@@ -33,12 +33,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public UiMover scorePanelMover;
     public CameraMover camMover;
     public PerformUnit totalPerformanceControl;
+    public UiMover startButtonMover;
+    public UiMover bananaUiMover;
+    public BananaThrower thrower;
+    public UiMover targetPanelMover;
+    [SerializeField] private targetPanelManager targetDisplayManager;
 
     private float y;
     private float yStart;
     private float x;
     public float offset;
-    private float areaOffset;
+    public float areaOffset = 1.5f;
+    public float centerOffset = 4;
 
     public bool holding = false;
     public bool stopMoving = false;
@@ -65,6 +71,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
     private int moveFromStageIndex;
     private bool inDown = false;
+    private LevelProperty curLevel;
+    private float curScore;
+    private int curTurn;
+    private float curRepu;
 
     //for general uiControl
     private UiMover handPanelMover;
@@ -86,6 +96,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private Transform CamInDecition;
     [SerializeField]
     private Transform CamInShow;
+    [SerializeField] private RectTransform StartButtonDown;
+    [SerializeField] private RectTransform StartButtonUp;
+    [SerializeField] private float DecideCamScale;
+    [SerializeField] private float ShowCamScale;
+    [SerializeField] private RectTransform BanannaInDecision;
+    [SerializeField] private RectTransform BanannaInShow;
+
 
 
 
@@ -98,6 +115,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private RectTransform tarTrans;
     [SerializeField]
     private UiMover mover;
+    [SerializeField] private LevelProperty testLevel; 
 
     private bool ifToShow = false;
     void Start()
@@ -105,7 +123,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         handPanelMover = handPanelTransform.GetComponent<UiMover>();
         stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
         camMover = Camera.main.GetComponent<CameraMover>();
-
+        SetUpAnLevel(testLevel);
         //testList = new List<animalProperty>();
         
 
@@ -137,7 +155,19 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
     }
 
-    
+    private void SetUpAnLevel(LevelProperty level)
+    {
+        curLevel = level;
+        curScore = 0;
+        curTurn = 0;
+        curRepu = 1;
+        targetDisplayManager.ChangeLevelState(curScore,curTurn,curRepu,level.targetScore,level.allowedTurn);
+    }
+
+    private void ChangeLevelStatus(int curTurn, float curScore, float curReputation)
+    {
+
+    }
 
     private void InitializeHand(List<animalProperty> properties)
     {
@@ -163,14 +193,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             ifTest = false;
             mover.MoveTo(tarTrans.anchoredPosition);
         }
+        /*
         if (Input.GetKeyDown(KeyCode.U))
         {
             EnterOneShow();
         }
         if (Input.GetKeyDown(KeyCode.N))
         {
-            StartMoveToShow();
-        }
+            
+        }*/
         //查现在是哪个State
         switch (currentState) {
 
@@ -256,11 +287,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     }
 
     //Functions
-    void EnterOneShow() {
+    public void EnterOneShow() {
         x = -750;
         offset = 300;
         yStart = -600;
-        areaOffset = 2;
+        //areaOffset = 2;
 
         onStage = new GameObject[6];
         posRecord = new areaReport[6];
@@ -269,21 +300,26 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         {
             GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
             temp.GetComponent<areaReport>().spotNum = i;
-            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i, 0);
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i+centerOffset, 0);
             posRecord[i] = temp.GetComponent<areaReport>();
         }
         InitializeHand(GlobalManager.instance.getAllAnimals());
         currentState = ShowStates.SelectAnimal;
     }
 
-    void StartMoveToShow() {
+    public void StartMoveToShow() {
         ifToShow = true;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelDownPos.anchoredPosition);
-        stagePanelMover.MoveTo(stagePanelDownPos.anchoredPosition);
+        //stagePanelMover.MoveTo(stagePanelDownPos.anchoredPosition);
+        stagePanelMover.gameObject.SetActive(false);
         scorePanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
-        camMover.MoveTo(CamInShow.position);
-        moveCounter.SetUpCount(4);
+        camMover.MoveTo(CamInShow.position,ShowCamScale);
+        startButtonMover.MoveTo(StartButtonUp.anchoredPosition);
+        startButtonMover.GetComponent<Button>().interactable = false;
+        bananaUiMover.MoveTo(BanannaInShow.anchoredPosition);
+        targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
+        moveCounter.SetUpCount(6);
         var toGive = from x in onStage
                      let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
                      select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
@@ -303,16 +339,22 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         ifToShow = false;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelUpPos.anchoredPosition);
-        stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
+        //stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
         scorePanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
-        camMover.MoveTo(CamInDecition.position);
-        moveCounter.SetUpCount(4);
+        camMover.MoveTo(CamInDecition.position, DecideCamScale);
+        startButtonMover.MoveTo(StartButtonDown.anchoredPosition);
+        bananaUiMover.MoveTo(BanannaInDecision.anchoredPosition);
+        targetPanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
+        moveCounter.SetUpCount(6);
     }
 
     void StartDecide()
     {
         Debug.Log("开始decide");
         currentState = ShowStates.SelectAnimal;
+        stagePanelMover.gameObject.SetActive(true);
+        startButtonMover.GetComponent<Button>().interactable = true;
+        thrower.addBanana(10);
     }
 
     void LeaveShow() {
@@ -329,22 +371,22 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public GameObject AnimalFactory(string name, Vector3 position) {
         switch (name) {
             case "Monkey":
-                return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity, transform);
 
             case "Elephant":
-                return Instantiate(animalPerformancePrefabs[1], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[1], position, Quaternion.identity, transform);
 
             case "Bear":
-                return Instantiate(animalPerformancePrefabs[2], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[2], position, Quaternion.identity, transform);
 
             case "Lion":
-                return Instantiate(animalPerformancePrefabs[3], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[3], position, Quaternion.identity, transform);
                 
             case "Giraffe":
-                return Instantiate(animalPerformancePrefabs[4], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[4], position, Quaternion.identity, transform);
 
             case "Snake":
-                return Instantiate(animalPerformancePrefabs[5], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[5], position, Quaternion.identity,transform);
         }
         return null;
     }

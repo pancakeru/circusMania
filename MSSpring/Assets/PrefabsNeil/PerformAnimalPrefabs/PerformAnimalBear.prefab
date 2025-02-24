@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4179757623471548670, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.85
+      objectReference: {fileID: 0}
     - target: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Name
       value: PerformAnimalBear
