@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class BananaThrower : MonoBehaviour
 {
@@ -10,10 +9,13 @@ public class BananaThrower : MonoBehaviour
 
     private bool showStart;
 
+    public TextMeshProUGUI text;
+
     // Start is called before the first frame update
     void Start()
     {
         curBanana = maxBanana;
+        if(text!= null)text.text = curBanana.ToString();
     }
 
     public void ShowStart(bool ifStart)
@@ -26,7 +28,6 @@ public class BananaThrower : MonoBehaviour
     {
         if (!showStart)
         {
-            Debug.Log("没开始呢");
             return;
         }
             
@@ -54,6 +55,7 @@ public class BananaThrower : MonoBehaviour
         curBanana -= 1;
 
         //TODO:改变ui显示的数量
+        if (text != null) text.text = curBanana.ToString();
         //animalManager.Instance.curLeft.changeLeft(curBanana);
     }
 
@@ -66,21 +68,21 @@ public class BananaThrower : MonoBehaviour
     public void changeCount(int n)
     {
         curBanana = n;
-        //TODO:改变ui显示的数量
-        //animalManager.Instance.curLeft.changeLeft(curBanana);
+        if (text != null) text.text = curBanana.ToString();
+        
     }
 
     public void changeCount()
     {
         curBanana = maxBanana;
-        //这个目前好像不需要，因为有继承
-        //animalManager.Instance.curLeft.changeLeft(curBanana);
+        if (text != null) text.text = curBanana.ToString();
+       
     }
 
     public void addBanana(int n)
     {
         curBanana += n;
-        //TODO:改变ui显示的数量
-        //animalManager.Instance.curLeft.changeLeft(curBanana);
+        if (text != null) text.text = curBanana.ToString();
+        
     }
 }

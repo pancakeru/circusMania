@@ -201,6 +201,7 @@ public class PerformAnimalControl : MonoBehaviour
 
     public void BackToInitial()
     {
+		Debug.Log("恢复初始了");
         ifInRest = false;
         FlipSprite(0, false);
         ChangeRestCount(-1);

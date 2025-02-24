@@ -34,12 +34,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public CameraMover camMover;
     public PerformUnit totalPerformanceControl;
     public UiMover startButtonMover;
+    public UiMover bananaUiMover;
+    public BananaThrower thrower;
 
     private float y;
     private float yStart;
     private float x;
     public float offset;
-    private float areaOffset;
+    public float areaOffset = 1.5f;
+    public float centerOffset = 4;
 
     public bool holding = false;
     public bool stopMoving = false;
@@ -89,6 +92,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private Transform CamInShow;
     [SerializeField] private RectTransform StartButtonDown;
     [SerializeField] private RectTransform StartButtonUp;
+    [SerializeField] private float DecideCamScale;
+    [SerializeField] private float ShowCamScale;
+    [SerializeField] private RectTransform BanannaInDecision;
+    [SerializeField] private RectTransform BanannaInShow;
 
 
 
@@ -265,7 +272,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         x = -750;
         offset = 300;
         yStart = -600;
-        areaOffset = 2;
+        //areaOffset = 2;
 
         onStage = new GameObject[6];
         posRecord = new areaReport[6];
@@ -274,7 +281,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         {
             GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
             temp.GetComponent<areaReport>().spotNum = i;
-            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i, 0);
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i+centerOffset, 0);
             posRecord[i] = temp.GetComponent<areaReport>();
         }
         InitializeHand(GlobalManager.instance.getAllAnimals());
@@ -285,11 +292,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         ifToShow = true;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelDownPos.anchoredPosition);
-        stagePanelMover.MoveTo(stagePanelDownPos.anchoredPosition);
+        //stagePanelMover.MoveTo(stagePanelDownPos.anchoredPosition);
+        stagePanelMover.gameObject.SetActive(false);
         scorePanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
-        camMover.MoveTo(CamInShow.position);
+        camMover.MoveTo(CamInShow.position,ShowCamScale);
         startButtonMover.MoveTo(StartButtonUp.anchoredPosition);
         startButtonMover.GetComponent<Button>().interactable = false;
+        bananaUiMover.MoveTo(BanannaInShow.anchoredPosition);
         moveCounter.SetUpCount(5);
         var toGive = from x in onStage
                      let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
@@ -310,10 +319,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         ifToShow = false;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelUpPos.anchoredPosition);
-        stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
+        //stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
         scorePanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
-        camMover.MoveTo(CamInDecition.position);
+        camMover.MoveTo(CamInDecition.position, DecideCamScale);
         startButtonMover.MoveTo(StartButtonDown.anchoredPosition);
+        bananaUiMover.MoveTo(BanannaInDecision.anchoredPosition);
         moveCounter.SetUpCount(5);
     }
 
@@ -321,7 +331,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     {
         Debug.Log("开始decide");
         currentState = ShowStates.SelectAnimal;
+        stagePanelMover.gameObject.SetActive(true);
         startButtonMover.GetComponent<Button>().interactable = true;
+        thrower.addBanana(10);
     }
 
     void LeaveShow() {
