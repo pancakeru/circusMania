@@ -37,6 +37,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public UiMover bananaUiMover;
     public BananaThrower thrower;
     public UiMover targetPanelMover;
+    [SerializeField] private targetPanelManager targetDisplayManager;
 
     private float y;
     private float yStart;
@@ -70,6 +71,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
     private int moveFromStageIndex;
     private bool inDown = false;
+    private LevelProperty curLevel;
+    private float curScore;
+    private int curTurn;
+    private float curRepu;
 
     //for general uiControl
     private UiMover handPanelMover;
@@ -110,6 +115,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private RectTransform tarTrans;
     [SerializeField]
     private UiMover mover;
+    [SerializeField] private LevelProperty testLevel; 
 
     private bool ifToShow = false;
     void Start()
@@ -117,7 +123,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         handPanelMover = handPanelTransform.GetComponent<UiMover>();
         stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
         camMover = Camera.main.GetComponent<CameraMover>();
-
+        SetUpAnLevel(testLevel);
         //testList = new List<animalProperty>();
         
 
@@ -149,7 +155,19 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
     }
 
-    
+    private void SetUpAnLevel(LevelProperty level)
+    {
+        curLevel = level;
+        curScore = 0;
+        curTurn = 0;
+        curRepu = 1;
+        targetDisplayManager.ChangeLevelState(curScore,curTurn,curRepu,level.targetScore,level.allowedTurn);
+    }
+
+    private void ChangeLevelStatus(int curTurn, float curScore, float curReputation)
+    {
+
+    }
 
     private void InitializeHand(List<animalProperty> properties)
     {
