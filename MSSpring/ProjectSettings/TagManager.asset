@@ -49,6 +49,12 @@ TagManager:
   - name: animal
     uniqueID: 191747665
     locked: 0
+  - name: ball
+    uniqueID: 234931545
+    locked: 0
+  - name: banana
+    uniqueID: 4085496855
+    locked: 0
   - name: text
     uniqueID: 3047569481
     locked: 0

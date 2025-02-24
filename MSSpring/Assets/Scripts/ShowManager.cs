@@ -33,6 +33,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public UiMover scorePanelMover;
     public CameraMover camMover;
     public PerformUnit totalPerformanceControl;
+    public UiMover startButtonMover;
 
     private float y;
     private float yStart;
@@ -86,6 +87,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private Transform CamInDecition;
     [SerializeField]
     private Transform CamInShow;
+    [SerializeField] private RectTransform StartButtonDown;
+    [SerializeField] private RectTransform StartButtonUp;
+
 
 
 
@@ -163,14 +167,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             ifTest = false;
             mover.MoveTo(tarTrans.anchoredPosition);
         }
+        /*
         if (Input.GetKeyDown(KeyCode.U))
         {
             EnterOneShow();
         }
         if (Input.GetKeyDown(KeyCode.N))
         {
-            StartMoveToShow();
-        }
+            
+        }*/
         //查现在是哪个State
         switch (currentState) {
 
@@ -276,14 +281,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         currentState = ShowStates.SelectAnimal;
     }
 
-    void StartMoveToShow() {
+    public void StartMoveToShow() {
         ifToShow = true;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelDownPos.anchoredPosition);
         stagePanelMover.MoveTo(stagePanelDownPos.anchoredPosition);
         scorePanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
         camMover.MoveTo(CamInShow.position);
-        moveCounter.SetUpCount(4);
+        startButtonMover.MoveTo(StartButtonUp.anchoredPosition);
+        startButtonMover.GetComponent<Button>().interactable = false;
+        moveCounter.SetUpCount(5);
         var toGive = from x in onStage
                      let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
                      select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
@@ -306,13 +313,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
         scorePanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
         camMover.MoveTo(CamInDecition.position);
-        moveCounter.SetUpCount(4);
+        startButtonMover.MoveTo(StartButtonDown.anchoredPosition);
+        moveCounter.SetUpCount(5);
     }
 
     void StartDecide()
     {
         Debug.Log("开始decide");
         currentState = ShowStates.SelectAnimal;
+        startButtonMover.GetComponent<Button>().interactable = true;
     }
 
     void LeaveShow() {

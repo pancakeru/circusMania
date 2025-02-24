@@ -25,7 +25,11 @@ public class BananaThrower : MonoBehaviour
     void Update()
     {
         if (!showStart)
+        {
+            Debug.Log("没开始呢");
             return;
+        }
+            
         if (Input.GetMouseButtonDown(0))
         {
             if (curBanana <= 0)
