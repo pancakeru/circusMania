@@ -1,375 +1,370 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System;
 
 public class PerformUnit : MonoBehaviour
 {
-    public ShowManager totalManager;
-    private showState curState;
+	public ShowManager totalManager;
+	private showState curState;
 
-    public GameObject ballPrefab;
-    public float endTurnWaitTime = 1f;
-    public bool ifShowEnd = false;
+	public GameObject ballPrefab;
+	public float endTurnWaitTime = 1f;
+	public bool ifShowEnd = false;
 
-    [Header("For Banana")]
-    public BananaThrower thrower;
+	[Header("For Banana")]
+	public BananaThrower thrower;
 
-    private BallScript curBall;
-    private bool ifBallMoveFinish = false;
-    private bool ifendTurnAnimationFinish = false;
-    private bool gameFail = false;
-    private PerformAnimalControl[] allAnimalsInShow;
+	private BallScript curBall;
+	private bool ifBallMoveFinish = false;
+	private bool ifendTurnAnimationFinish = false;
+	private bool gameFail = false;
+	private PerformAnimalControl[] allAnimalsInShow;
 
-    [Header("For Score")]
-    [SerializeField]
-    private ScoreUIDisplay scoreUI;
-    private float curYellowScore;
-    private float curLastScore;
-    private float curRedScore;
-    private float curBlueScore;
+	[Header("For Score")]
+	[SerializeField]
+	private ScoreUIDisplay scoreUI;
+	private float curYellowScore;
+	private float curLastScore;
+	private float curRedScore;
+	private float curBlueScore;
 
-    [Header("For Test")]
-    public PerformAnimalControl[] testAnimals;
-    public bool ifTest;
-    private bool ifInitWithTest = false;
+	[Header("For Test")]
+	public PerformAnimalControl[] testAnimals;
+	public bool ifTest;
+	private bool ifInitWithTest = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (scoreUI == null)
-            scoreUI = FindObjectOfType<ScoreUIDisplay>();
-        curState = showState.empty;
-        InitShow();
-    }
+	public event EventHandler<OnExcitementEventArgs> OnExcitement;
+	public class OnExcitementEventArgs : EventArgs
+	{
+		public AnimalInfoPack animalInfo;
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        UpdateState();
+	// Start is called before the first frame update
+	void Start()
+	{
+		if (scoreUI == null)
+			scoreUI = FindObjectOfType<ScoreUIDisplay>();
+		curState = showState.empty;
+		InitShow();
+	}
 
-        if (ifTest)
-        {
-            ifTest = false;
-            ifInitWithTest = true;
-            StartState(showState.showStart);
-        }
+	// Update is called once per frame
+	void Update()
+	{
+		UpdateState();
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
+		if (ifTest) {
+			ifTest = false;
+			ifInitWithTest = true;
+			StartState(showState.showStart);
+		}
 
-    public void GetInfoFromShowManager(PerformAnimalControl[] animals, ShowManager _manager)
-    {
-        allAnimalsInShow = animals;
-        totalManager = _manager;
-    }
+		if (Input.GetKeyDown(KeyCode.R)) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		}
+	}
 
-    public void InitShow()
-    {
-        SetLastScore(1);
-        ChangeYellowScore(0);
-        ChangeBlueScore(1);
-        ChangeRedScore(0);
-        
-    }
+	public void GetInfoFromShowManager(PerformAnimalControl[] animals, ShowManager _manager)
+	{
+		allAnimalsInShow = animals;
+		totalManager = _manager;
+	}
 
-    void StartShow()
-    {
-        allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
-        thrower.ShowStart(true);
+	public void InitShow()
+	{
+		SetLastScore(1);
+		ChangeYellowScore(0);
+		ChangeBlueScore(1);
+		ChangeRedScore(0);
 
-        for (int i = 0; i < allAnimalsInShow.Length; i++)
-        {
-            if (allAnimalsInShow[i] != null)
-            {
-                allAnimalsInShow[i].ShowStart(this, i);
-            }
-        }
+	}
 
-        PerformAnimalControl startAnimal = ReturnFirstAnimal();
-        if (startAnimal == null)
-            Debug.LogError("没有起始动物");
-        curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
-        curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
-    }
+	void StartShow()
+	{
+		allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
+		thrower.ShowStart(true);
 
-    public void StartState(showState newState)
-    {
-        EndState(curState);
-        switch (newState)
-        {
-            case showState.showStart:
-                StartShow();
-                ifBallMoveFinish = false;
-                ifShowEnd = false;
-                gameFail = false;
-                break;
+		for (int i = 0; i < allAnimalsInShow.Length; i++) {
+			if (allAnimalsInShow[i] != null) {
+				allAnimalsInShow[i].ShowStart(this, i);
+			}
+		}
 
-            case showState.turnStart:
-                TurnStart();
-                ifBallMoveFinish = false;
-                break;
+		PerformAnimalControl startAnimal = ReturnFirstAnimal();
+		if (startAnimal == null)
+			Debug.LogError("没有起始动物");
+		curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+		curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
+	}
+
+	public void StartState(showState newState)
+	{
+		EndState(curState);
+		switch (newState) {
+			case showState.showStart:
+				StartShow();
+				ifBallMoveFinish = false;
+				ifShowEnd = false;
+				gameFail = false;
+				break;
+
+			case showState.turnStart:
+				TurnStart();
+				ifBallMoveFinish = false;
+				break;
 
 
-            case showState.turnEnd:
-                TurnEnd();
-                ifendTurnAnimationFinish = false;
+			case showState.turnEnd:
+				TurnEnd();
+				ifendTurnAnimationFinish = false;
 
-                Invoke("changeAnimationFinishState", endTurnWaitTime);
-                break;
+				Invoke("changeAnimationFinishState", endTurnWaitTime);
+				break;
 
-            default:
-                break;
-        }
-        curState = newState;
-    }
+			default:
+				break;
+		}
+		curState = newState;
+	}
 
-    private void EndState(showState lastState)
-    {
-        switch (lastState)
-        {
-            default:
-                break;
-        }
-    }
+	private void EndState(showState lastState)
+	{
+		switch (lastState) {
+			default:
+				break;
+		}
+	}
 
-    private void UpdateState()
-    {
-        switch (curState)
-        {
-            case showState.showStart:
-                if (ifBallMoveFinish)
-                {
-                    StartState(showState.turnStart);
+	private void UpdateState()
+	{
+		switch (curState) {
+			case showState.showStart:
+				if (ifBallMoveFinish) {
+					StartState(showState.turnStart);
 
-                }
-                break;
+				}
+				break;
 
-            case showState.turnStart:
-                if (ifBallMoveFinish)
-                {
+			case showState.turnStart:
+				if (ifBallMoveFinish) {
 
-                    StartState(gameFail ? showState.gameEnd : showState.turnEnd);
+					StartState(gameFail ? showState.gameEnd : showState.turnEnd);
 
-                }
+				}
 
-                break;
+				break;
 
-            case showState.turnEnd:
-                if (ifendTurnAnimationFinish)
-                {
-                    StartState(showState.turnStart);
+			case showState.turnEnd:
+				if (ifendTurnAnimationFinish) {
+					StartState(showState.turnStart);
 
-                }
+				}
 
-                break;
+				break;
 
-            default:
-                break;
-        }
-    }
+			default:
+				break;
+		}
+	}
 
-    PerformAnimalControl ReturnFirstAnimal()
-    {
-        return allAnimalsInShow[0];
-    }
+	PerformAnimalControl ReturnFirstAnimal()
+	{
+		return allAnimalsInShow[0];
+	}
 
-    void changeAnimationFinishState()
-    {
-        ifendTurnAnimationFinish = true;
-    }
+	void changeAnimationFinishState()
+	{
+		ifendTurnAnimationFinish = true;
+	}
 
-    public void ReportDrop(BallScript ball)
-    {
-        gameFail = true;
+	public void ReportDrop(BallScript ball)
+	{
+		gameFail = true;
 
-        DoShowEnd();
-    }
+		DoShowEnd();
+	}
 
-    void DoShowEnd()
-    {
-        if (totalManager!= null)
-        {
-            foreach (PerformAnimalControl control in allAnimalsInShow)
-            {
-                if (control != null)
-                    control.BackToInitial();
-            }
+	void DoShowEnd()
+	{
+		if (totalManager != null) {
+			foreach (PerformAnimalControl control in allAnimalsInShow) {
+				if (control != null)
+					control.BackToInitial();
+			}
 
-            thrower.ShowStart(false);
-            Invoke("BackToDecide", 1f);
-        }
-    }
+			thrower.ShowStart(false);
+			Invoke("BackToDecide", 1f);
+		}
+	}
 
-    void BackToDecide()
-    {
-        totalManager.EndMoveToDecide();
-    }
+	void BackToDecide()
+	{
+		totalManager.EndMoveToDecide();
+	}
 
-    public void BallToIndex(BallScript ball, int index)
-    {
+	public void BallToIndex(BallScript ball, int index)
+	{
 
-    }
+	}
 
-    public Vector3 ReturnDropOutPos(bool ifRight)
-    {
-        return Vector3.zero;
-    }
+	public Vector3 ReturnDropOutPos(bool ifRight)
+	{
+		return Vector3.zero;
+	}
 
-    public void ReportMoveFinish(BallScript ball)
-    {
-        Debug.Log("我来拉");
-        if (ball == curBall)
-            ifBallMoveFinish = true;
-    }
+	public void ReportMoveFinish(BallScript ball)
+	{
+		Debug.Log("我来拉");
+		if (ball == curBall)
+			ifBallMoveFinish = true;
+	}
 
-    public bool CheckAndGetAnimalThrowAcceptPos(int i, bool ifThrowPos, out Vector3 pos)
-    {
-        if (allAnimalsInShow[i] == null)
-        {
-            pos = Vector3.zero;
-            return false;
-        }
-        pos = ifThrowPos ? allAnimalsInShow[i].ThrowPos.position : allAnimalsInShow[i].AcceptPos.position;
-        return true;
-    }
+	public bool CheckAndGetAnimalThrowAcceptPos(int i, bool ifThrowPos, out Vector3 pos)
+	{
+		if (allAnimalsInShow[i] == null) {
+			pos = Vector3.zero;
+			return false;
+		}
+		pos = ifThrowPos ? allAnimalsInShow[i].ThrowPos.position : allAnimalsInShow[i].AcceptPos.position;
+		return true;
+	}
 
-    public bool CheckAndGetAnimalBasedOnIndex(int n, out PerformAnimalControl animal)
-    {
+	public bool CheckAndGetAnimalBasedOnIndex(int n, out PerformAnimalControl animal)
+	{
 
-        if (allAnimalsInShow[n] == null)
-        {
-            animal = null;
-            return false;
-        }
-        animal = allAnimalsInShow[n];
-        return true;
-    }
+		if (allAnimalsInShow[n] == null) {
+			animal = null;
+			return false;
+		}
+		animal = allAnimalsInShow[n];
+		return true;
+	}
 
-    public Vector3 GetAnimalBasicPos(int n)
-    {
-        int k = Mathf.Clamp(n, 0, 5);
-        return Vector3.zero;
-    }
+	public Vector3 GetAnimalBasicPos(int n)
+	{
+		int k = Mathf.Clamp(n, 0, 5);
+		return Vector3.zero;
+	}
 
-    public void ReportMoveFinsih(BallScript ball)
-    {
+	public void ReportMoveFinsih(BallScript ball)
+	{
 
-    }
+	}
 
-    public void TurnStart()
-    {
-        Debug.Log("回合开始了");
-        foreach (PerformAnimalControl an in allAnimalsInShow)
-        {
-            if (an != null)
-                an.DoTurnStart();
-        }
-    }
+	public void TurnStart()
+	{
+		Debug.Log("回合开始了");
+		foreach (PerformAnimalControl an in allAnimalsInShow) {
+			if (an != null)
+				an.DoTurnStart();
+		}
+	}
 
-    public void TurnEnd()
-    {
-        Debug.Log("回合结束了");
-        foreach (PerformAnimalControl an in allAnimalsInShow)
-        {
-            if (an != null)
-                an.DoTurnEnd();
-        }
-    }
+	public void TurnEnd()
+	{
+		Debug.Log("回合结束了");
+		foreach (PerformAnimalControl an in allAnimalsInShow) {
+			if (an != null)
+				an.DoTurnEnd();
+		}
+	}
 
-    public PerformAnimalControl[] GetAllAnimalsInShow(bool ifTest = true)
-    {
-        //TODO:接入ShowManager获取到正确的表演
-        if(ifTest)
-            return testAnimals;
+	public PerformAnimalControl[] GetAllAnimalsInShow(bool ifTest = true)
+	{
+		//TODO:接入ShowManager获取到正确的表演
+		if (ifTest)
+			return testAnimals;
 
-        return allAnimalsInShow;
-    }
+		return allAnimalsInShow;
+	}
 
-    public void ChangeYellowScore(float changeNum,ChangeScoreType type = ChangeScoreType.Add)
-    {
-        switch (type)
-        {
-            case ChangeScoreType.Add:
-                curYellowScore += changeNum;
-                break;
+	public void ChangeYellowScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
+	{
+		switch (type) {
+			case ChangeScoreType.Add:
+				curYellowScore += changeNum;
+				break;
 
-            case ChangeScoreType.Time:
-                curYellowScore *= changeNum;
-                break;
+			case ChangeScoreType.Time:
+				curYellowScore *= changeNum;
+				break;
 
-            case ChangeScoreType.Set:
-                curYellowScore = changeNum;
-                break;
-        }
-        scoreUI.UpdateYellowScore((int)curYellowScore);
-        UpdateTotalScore();
-    }
+			case ChangeScoreType.Set:
+				curYellowScore = changeNum;
+				break;
+		}
+		scoreUI.UpdateYellowScore((int)curYellowScore);
+		UpdateTotalScore();
+	}
 
-    public void ChangeRedScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
-    {
-        switch (type)
-        {
-            case ChangeScoreType.Add:
-                curRedScore += changeNum;
-                break;
-            case ChangeScoreType.Time:
-                curRedScore *= changeNum;
-                break;
+	public void ChangeRedScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
+	{
+		switch (type) {
+			case ChangeScoreType.Add:
+				curRedScore += changeNum;
+				break;
+			case ChangeScoreType.Time:
+				curRedScore *= changeNum;
+				break;
 
-            case ChangeScoreType.Set:
-                curRedScore = changeNum;
-                break;
-        }
-        scoreUI.UpdateRedScore((int)curRedScore);
-        UpdateTotalScore(); // 更新总分
-    }
+			case ChangeScoreType.Set:
+				curRedScore = changeNum;
+				break;
+		}
+		scoreUI.UpdateRedScore((int)curRedScore);
+		UpdateTotalScore(); // 更新总分
+	}
 
-    public void ChangeBlueScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
-    {
-        switch (type)
-        {
-            case ChangeScoreType.Add:
-                curBlueScore += changeNum;
-                break;
-            case ChangeScoreType.Time:
-                curBlueScore *= changeNum;
-                break;
+	public void ChangeBlueScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
+	{
+		switch (type) {
+			case ChangeScoreType.Add:
+				curBlueScore += changeNum;
+				break;
+			case ChangeScoreType.Time:
+				curBlueScore *= changeNum;
+				break;
 
-            case ChangeScoreType.Set:
-                curBlueScore = changeNum;
-                break;
-        }
-        scoreUI.UpdateBlueScore((int)curBlueScore);
-        UpdateTotalScore(); // 更新总分
-    }
+			case ChangeScoreType.Set:
+				curBlueScore = changeNum;
+				break;
+		}
+		scoreUI.UpdateBlueScore((int)curBlueScore);
+		UpdateTotalScore(); // 更新总分
+	}
 
-    void SetLastScore(float toNum)
-    {
-        curLastScore = toNum;
-        scoreUI.UpdateLastScore((int)toNum);
-    }
+	void SetLastScore(float toNum)
+	{
+		curLastScore = toNum;
+		scoreUI.UpdateLastScore((int)toNum);
+	}
 
-    float CalculateTotalScore()
-    {
-        return ((curYellowScore * curLastScore) + curRedScore) * curBlueScore;
-    }
+	float CalculateTotalScore()
+	{
+		return ((curYellowScore * curLastScore) + curRedScore) * curBlueScore;
+	}
 
-    public void UpdateTotalScore()
-    {
-        scoreUI.UpdateTotalScore((int)CalculateTotalScore());
-    }
+	public void UpdateTotalScore()
+	{
+		scoreUI.UpdateTotalScore((int)CalculateTotalScore());
+	}
 
-    public enum ChangeScoreType { Add,Time, Set}
+	public enum ChangeScoreType { Add, Time, Set }
+
+	public void InvokeOnExcitementEvent(AnimalInfoPack animalInfo)
+	{
+		OnExcitement?.Invoke(this, new OnExcitementEventArgs {
+			animalInfo = animalInfo
+		});
+	}
 }
 
 
 public enum showState
 {
-    empty,
-    showStart,
-    turnStart,
-    turnEnd,
-    gameEnd
+	empty,
+	showStart,
+	turnStart,
+	turnEnd,
+	gameEnd
 }

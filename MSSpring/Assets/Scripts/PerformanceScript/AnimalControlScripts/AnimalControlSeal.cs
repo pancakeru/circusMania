@@ -1,16 +1,13 @@
-using System.Collections.Generic;
 
 public class AnimalControlSeal : AbstractSpecialAnimal
 {
-	private AnimalInfoPack animalInfo;
-
 	private int excitedTurnAmount = 7;
 	private int ballChangeWhenExcited = -1;
-	private int scoringTimesWhenExcited = 3;
+	private int scoringTimesWhenExcited = 2;
 
-	public override void InitAnimalInfo()
+	public override void InitOnExcitementEventListener()
 	{
-		animalInfo = new AnimalInfoPack(animalBody);
+		controlUnit.OnExcitement += PerformUnit_OnExcitement;
 	}
 
 	public override void InteractWithBall()
@@ -22,10 +19,9 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 			animalBody.ifJustInteract = true;
 			animalBody.ifHaveBall = false;
 
-			List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
-			foreach (float[] inputScore in scoresAfterBuff) {
-				Scoring(inputScore);
-			}
+			GenerateScore(animalInfo);
+
+			controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 			animalInfo.excited = excitedTurnAmount;
 
@@ -37,16 +33,21 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 			animalBody.ifJustInteract = true;
 			animalBody.ifHaveBall = false;
 
-			for (int i = 0; i < scoringTimesWhenExcited; i++) {
-				List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
-				foreach (float[] inputScore in scoresAfterBuff) {
-					Scoring(inputScore);
-				}
-			}
+			GenerateScore(animalInfo);
 
-			animalInfo.excited -= 1;
+			controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 			animalBody.ifReadyToInteract = false;
+		}
+	}
+
+	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
+	{
+		if (animalInfo.excited > 0) {
+			for (int i = 0; i < scoringTimesWhenExcited; i++) {
+				e.animalInfo.performAnimalControl.animalBrain.GenerateScore(e.animalInfo);
+			}
+			animalInfo.excited -= 1;
 		}
 	}
 }

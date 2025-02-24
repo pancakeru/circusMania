@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 
 public class AnimalControlLion : AbstractSpecialAnimal
 {
@@ -13,10 +12,9 @@ public class AnimalControlLion : AbstractSpecialAnimal
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(new AnimalInfoPack(animalBody));
-		foreach (float[] inputScore in scoresAfterBuff) {
-			Scoring(inputScore);
-		}
+		GenerateScore(animalInfo);
+
+		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		ballToArrayIndex += 1;
 

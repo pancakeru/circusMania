@@ -1,14 +1,6 @@
-using System.Collections.Generic;
 
 public class AnimalControlSnake : AbstractSpecialAnimal
 {
-	private AnimalInfoPack animalInfo;
-
-	public override void InitAnimalInfo()
-	{
-		animalInfo = new AnimalInfoPack(animalBody);
-	}
-
 	public override void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
@@ -17,10 +9,9 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
-		foreach (float[] inputScore in scoresAfterBuff) {
-			Scoring(inputScore);
-		}
+		GenerateScore(animalInfo);
+
+		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalInfo.warmUp += 1;
 
@@ -37,9 +28,6 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 		warmUpAnimalInfo.redScore = 0;
 		warmUpAnimalInfo.yellowScore = (soul as WarmUpAnimalProperty).warmUpScore;
 
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(warmUpAnimalInfo);
-		foreach (float[] inputScore in scoresAfterBuff) {
-			Scoring(inputScore);
-		}
+		GenerateScore(warmUpAnimalInfo);
 	}
 }

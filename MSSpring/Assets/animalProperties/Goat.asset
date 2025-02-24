@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0929fad0056e4eb3a9c79ea7e6d9679, type: 3}
-  m_Name: Buffalo
+  m_Name: Goat
   m_EditorClassIdentifier: 
-  animalName: Buffalo
+  animalName: 
   animalCoreImg: {fileID: 0}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 0
-  baseBlueChange: 0.5
-  baseBallChange: 1
-  restTurn: 4
+  baseBlueChange: 0
+  baseBallChange: 0
+  restTurn: 0
   scoreActionTemplate: 
   amount1: 0
   amount2: 0

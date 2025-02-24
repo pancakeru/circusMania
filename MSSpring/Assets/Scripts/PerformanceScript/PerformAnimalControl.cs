@@ -58,6 +58,7 @@ public class PerformAnimalControl : MonoBehaviour
 		ifEnSouled = true;
 		animalBrain.EnSoul(soulProperty);
 		animalBrain.InitAnimalInfo();
+		animalBrain.InitOnExcitementEventListener();
 	}
 
 	public void ShowStart(PerformUnit controlUnit, int index)
@@ -107,6 +108,19 @@ public class PerformAnimalControl : MonoBehaviour
 		} else {
 			ball = b;
 			b.gameObject.SetActive(false);
+
+			if (ball.GetPasser() != null) {
+				if (ball.GetPasser().animalBrain.soul.name == "Goat") {
+					if (animalBrain.animalInfo.power > 1) {
+						int powerDifference = animalBrain.animalInfo.power - 1;
+						animalBrain.animalInfo.power = 1;
+						for (int i = 0; i < powerDifference; i++) {
+							animalBrain.Scoring(new float[] { 0, 0, 0.5f });
+						}
+					}
+				}
+			}
+
 			ifHaveBall = true;
 		}
 	}
@@ -199,13 +213,13 @@ public class PerformAnimalControl : MonoBehaviour
 		flipCor = null;
 	}
 
-    public void BackToInitial()
-    {
-        ifInRest = false;
-        FlipSprite(0, false);
-        ChangeRestCount(-1);
-        ifReadyToInteract = true;
-    }
+	public void BackToInitial()
+	{
+		ifInRest = false;
+		FlipSprite(0, false);
+		ChangeRestCount(-1);
+		ifReadyToInteract = true;
+	}
 }
 
 public abstract class AbstractSpecialAnimal : MonoBehaviour
@@ -219,6 +233,8 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 
 	[Header("For Test")]
 	public animalProperty testProperty;
+
+	[HideInInspector] public AnimalInfoPack animalInfo;
 
 	public void InitBrain(PerformUnit _unit, PerformAnimalControl _body)
 	{
@@ -248,10 +264,9 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(new AnimalInfoPack(animalBody));
-		foreach (float[] inputScore in scoresAfterBuff) {
-			Scoring(inputScore);
-		}
+		GenerateScore(animalInfo);
+
+		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalBody.ifReadyToInteract = false;
 	}
@@ -302,5 +317,18 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 
 	public void ConsumeBanana(int n) { }//This is only for special effect
 
-	public virtual void InitAnimalInfo() { }
+	public void InitAnimalInfo()
+	{
+		animalInfo = new AnimalInfoPack(animalBody);
+	}
+
+	public virtual void InitOnExcitementEventListener() { }
+
+	public void GenerateScore(AnimalInfoPack animalInfo)
+	{
+		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
+		foreach (float[] inputScore in scoresAfterBuff) {
+			Scoring(inputScore);
+		}
+	}
 }

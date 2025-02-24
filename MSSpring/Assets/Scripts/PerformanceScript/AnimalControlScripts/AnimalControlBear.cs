@@ -1,14 +1,6 @@
-using System.Collections.Generic;
 
 public class AnimalControlBear : AbstractSpecialAnimal
 {
-	private AnimalInfoPack animalInfo;
-
-	public override void InitAnimalInfo()
-	{
-		animalInfo = new AnimalInfoPack(animalBody);
-	}
-
 	public override void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
@@ -19,10 +11,9 @@ public class AnimalControlBear : AbstractSpecialAnimal
 
 		animalInfo.redScore = soul.baseRedChange * animalInfo.power;
 
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
-		foreach (float[] inputScore in scoresAfterBuff) {
-			Scoring(inputScore);
-		}
+		GenerateScore(animalInfo);
+
+		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalInfo.power += 1;
 
