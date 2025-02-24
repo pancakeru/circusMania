@@ -30,7 +30,6 @@ public class BuffManager : MonoBehaviour
 		float[] myBaseScore = new float[] { animalInfo.redScore,
 											animalInfo.yellowScore,
 											animalInfo.blueScore };
-		Debug.Log(myBaseScore[0]+myBaseScore[1]+myBaseScore[2]);
 
 		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl));
 

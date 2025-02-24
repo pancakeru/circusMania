@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0929fad0056e4eb3a9c79ea7e6d9679, type: 3}
   m_Name: Goat
   m_EditorClassIdentifier: 
-  animalName: 
+  animalName: Goat
   animalCoreImg: {fileID: 0}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 0
-  baseBlueChange: 0
-  baseBallChange: 0
-  restTurn: 0
+  baseBlueChange: 0.2
+  baseBallChange: 2
+  restTurn: 5
   scoreActionTemplate: 
   amount1: 0
   amount2: 0
