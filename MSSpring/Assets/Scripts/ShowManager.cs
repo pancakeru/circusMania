@@ -256,7 +256,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     }
 
     //Functions
-    void EnterOneShow() {
+    public void EnterOneShow() {
         x = -750;
         offset = 300;
         yStart = -600;
@@ -329,22 +329,22 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public GameObject AnimalFactory(string name, Vector3 position) {
         switch (name) {
             case "Monkey":
-                return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity, transform);
 
             case "Elephant":
-                return Instantiate(animalPerformancePrefabs[1], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[1], position, Quaternion.identity, transform);
 
             case "Bear":
-                return Instantiate(animalPerformancePrefabs[2], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[2], position, Quaternion.identity, transform);
 
             case "Lion":
-                return Instantiate(animalPerformancePrefabs[3], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[3], position, Quaternion.identity, transform);
                 
             case "Giraffe":
-                return Instantiate(animalPerformancePrefabs[4], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[4], position, Quaternion.identity, transform);
 
             case "Snake":
-                return Instantiate(animalPerformancePrefabs[5], position, Quaternion.identity);
+                return Instantiate(animalPerformancePrefabs[5], position, Quaternion.identity,transform);
         }
         return null;
     }
