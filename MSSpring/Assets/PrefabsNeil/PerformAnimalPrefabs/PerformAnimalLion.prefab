@@ -101,4 +101,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 732e17cf9cfc84a7da93569424646828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testProperty: {fileID: 11400000, guid: eef10b080b3794cae9b72086cbdc1b39, type: 2}
+  testProperty: {fileID: 11400000, guid: cf324ce1a3f5c4498a0064f28e1d3ff8, type: 2}

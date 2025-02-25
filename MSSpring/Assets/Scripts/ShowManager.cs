@@ -76,6 +76,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private int curTurn;
     private float curRepu;
 
+    private float recordScoreFromLastTime;
+
     //for general uiControl
     private UiMover handPanelMover;
     private UiMover stagePanelMover;
@@ -164,9 +166,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         targetDisplayManager.ChangeLevelState(curScore,curTurn,curRepu,level.targetScore,level.allowedTurn);
     }
 
-    private void ChangeLevelStatus(int curTurn, float curScore, float curReputation)
+    private void ChangeLevelStatus(int curTurn, float curScore, float reputationRatio)
     {
-
+        targetDisplayManager.ChangeLevelState(curScore,curTurn, curScore*reputationRatio,curLevel.targetScore,curLevel.allowedTurn);
     }
 
     private void InitializeHand(List<animalProperty> properties)
@@ -335,8 +337,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         currentState = ShowStates.Performance;
     }
 
-    public void EndMoveToDecide() {
+    public void EndMoveToDecide(float score) {
         ifToShow = false;
+        recordScoreFromLastTime = score;
         currentState = ShowStates.Animation;
         handPanelMover.MoveTo(handPanelUpPos.anchoredPosition);
         //stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
@@ -355,6 +358,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         stagePanelMover.gameObject.SetActive(true);
         startButtonMover.GetComponent<Button>().interactable = true;
         thrower.addBanana(10);
+        curTurn += 1;
+        ChangeLevelStatus(curTurn,recordScoreFromLastTime, 0.1f);
     }
 
     void LeaveShow() {

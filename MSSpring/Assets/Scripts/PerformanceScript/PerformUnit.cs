@@ -199,7 +199,7 @@ public class PerformUnit : MonoBehaviour
 
 	void BackToDecide()
 	{
-		totalManager.EndMoveToDecide();
+		totalManager.EndMoveToDecide(CalculateTotalScore());
 	}
 
 	public void BallToIndex(BallScript ball, int index)

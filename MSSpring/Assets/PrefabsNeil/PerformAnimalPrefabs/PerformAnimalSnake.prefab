@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: animalBrain
+      value: 
+      objectReference: {fileID: -7058984384956514876}
+    - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[0]
       value: 
       objectReference: {fileID: 21300000, guid: 59f0c4dbf238141cb8ae7b78b9b2689d, type: 3}
@@ -97,4 +101,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a714c48741314108b0699f9db568857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testProperty: {fileID: 11400000, guid: cb5dd09991197466cb39a175e5b9d3f9, type: 2}
+  testProperty: {fileID: 11400000, guid: 6c0e14ed1c90f48de99e01ac00132a1a, type: 2}

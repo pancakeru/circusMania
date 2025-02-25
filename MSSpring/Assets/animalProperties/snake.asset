@@ -18,7 +18,7 @@ MonoBehaviour:
   baseYellowChange: 0
   baseRedChange: 0
   baseBlueChange: 0.3
-  baseBallChange: 0
+  baseBallChange: -2
   restTurn: 4
   scoreActionTemplate: 
   amount1: 0
