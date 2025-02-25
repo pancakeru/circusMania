@@ -103,26 +103,36 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void TakeBall(BallScript b)
 	{
-		if (ifHaveBall || (!ifReadyToInteract)) {
+		if (ifHaveBall) {
 			b.DoDrop();
-		} else {
-			ball = b;
-			b.gameObject.SetActive(false);
+		} else
+		{
+			if (!ifReadyToInteract)
+			{
+                int realTake = animalBrain.controlUnit.thrower.takeBanana(curRestTurn);
+                TakeBanana(realTake);
+            }
+            ball = b;
+            b.gameObject.SetActive(false);
 
-			if (ball.GetPasser() != null) {
-				if (ball.GetPasser().animalBrain.soul.name == "Goat") {
-					if (animalBrain.animalInfo.power > 1) {
-						int powerDifference = animalBrain.animalInfo.power - 1;
-						animalBrain.animalInfo.power = 1;
-						for (int i = 0; i < powerDifference; i++) {
-							animalBrain.Scoring(new float[] { 0, 0, 0.5f });
-						}
-					}
-				}
-			}
+            if (ball.GetPasser() != null)
+            {
+                if (ball.GetPasser().animalBrain.soul.name == "Goat")
+                {
+                    if (animalBrain.animalInfo.power > 1)
+                    {
+                        int powerDifference = animalBrain.animalInfo.power - 1;
+                        animalBrain.animalInfo.power = 1;
+                        for (int i = 0; i < powerDifference; i++)
+                        {
+                            animalBrain.Scoring(new float[] { 0, 0, 0.5f });
+                        }
+                    }
+                }
+            }
 
-			ifHaveBall = true;
-		}
+            ifHaveBall = true;
+        }
 	}
 
 	public void TakeBanana(int n)
