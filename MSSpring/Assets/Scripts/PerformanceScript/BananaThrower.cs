@@ -9,13 +9,15 @@ public class BananaThrower : MonoBehaviour
 
     private bool showStart;
 
-    public TextMeshProUGUI text;
+    [SerializeField] private TextMeshProUGUI InDecisionText;
+    [SerializeField] private TextMeshProUGUI InShowText;
 
     // Start is called before the first frame update
     void Start()
     {
         curBanana = maxBanana;
-        if(text!= null)text.text = curBanana.ToString();
+        if(InDecisionText!= null)InDecisionText.text = curBanana.ToString();
+        if (InShowText != null) InShowText.text = curBanana.ToString();
     }
 
     public void ShowStart(bool ifStart)
@@ -55,7 +57,8 @@ public class BananaThrower : MonoBehaviour
         curBanana -= 1;
 
         //TODO:改变ui显示的数量
-        if (text != null) text.text = curBanana.ToString();
+        if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
+        if (InShowText != null) InShowText.text = curBanana.ToString();
         //animalManager.Instance.curLeft.changeLeft(curBanana);
     }
 
@@ -68,21 +71,24 @@ public class BananaThrower : MonoBehaviour
     public void changeCount(int n)
     {
         curBanana = n;
-        if (text != null) text.text = curBanana.ToString();
-        
+        if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
+        if (InShowText != null) InShowText.text = curBanana.ToString();
+
     }
 
     public void changeCount()
     {
         curBanana = maxBanana;
-        if (text != null) text.text = curBanana.ToString();
-       
+        if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
+        if (InShowText != null) InShowText.text = curBanana.ToString();
+
     }
 
     public void addBanana(int n)
     {
         curBanana += n;
-        if (text != null) text.text = curBanana.ToString();
-        
+        if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
+        if (InShowText != null) InShowText.text = curBanana.ToString();
+
     }
 }

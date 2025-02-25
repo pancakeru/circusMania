@@ -38,6 +38,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public BananaThrower thrower;
     public UiMover targetPanelMover;
     [SerializeField] private targetPanelManager targetDisplayManager;
+    [SerializeField] private UiMover showBanana;
 
     private float y;
     private float yStart;
@@ -104,6 +105,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     [SerializeField] private float ShowCamScale;
     [SerializeField] private RectTransform BanannaInDecision;
     [SerializeField] private RectTransform BanannaInShow;
+    [SerializeField] private RectTransform ShowBanannaInDecision;
+    [SerializeField] private RectTransform ShowBanannaInShow;
 
 
 
@@ -324,7 +327,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         startButtonMover.GetComponent<Button>().interactable = false;
         bananaUiMover.MoveTo(BanannaInShow.anchoredPosition);
         targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
-        moveCounter.SetUpCount(6);
+        showBanana.MoveTo(ShowBanannaInShow.anchoredPosition);
+        moveCounter.SetUpCount(7);
         var toGive = from x in onStage
                      let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
                      select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
@@ -351,7 +355,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         startButtonMover.MoveTo(StartButtonDown.anchoredPosition);
         bananaUiMover.MoveTo(BanannaInDecision.anchoredPosition);
         targetPanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
-        moveCounter.SetUpCount(6);
+        showBanana.MoveTo(ShowBanannaInDecision.anchoredPosition);
+        moveCounter.SetUpCount(7);
     }
 
     void StartDecide()
