@@ -157,7 +157,8 @@ public class PerformAnimalControl : MonoBehaviour
 	{
 		if (flipCor != null) {
 			Debug.Log("在翻面执行中时再次翻面");
-			return;
+			StopCoroutine(flipCor);
+			//return;
 		}
 
 		Debug.Log("触发翻面");
@@ -215,10 +216,13 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void BackToInitial()
 	{
+		Debug.Log(name+"正在back to initial");
 		ifInRest = false;
+		ifJustInteract = false;
 		FlipSprite(0, false);
 		ChangeRestCount(-1);
 		ifReadyToInteract = true;
+		animalBrain.ResetWhenBackToInitial();
 	}
 }
 
@@ -330,5 +334,10 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		foreach (float[] inputScore in scoresAfterBuff) {
 			Scoring(inputScore);
 		}
+	}
+
+	public virtual void ResetWhenBackToInitial()
+	{
+
 	}
 }

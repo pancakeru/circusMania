@@ -19,4 +19,10 @@ public class AnimalControlBear : AbstractSpecialAnimal
 
 		animalBody.ifReadyToInteract = false;
 	}
+
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
+		animalInfo.power = 1;
+    }
 }

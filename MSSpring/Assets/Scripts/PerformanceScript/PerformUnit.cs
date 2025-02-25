@@ -40,12 +40,12 @@ public class PerformUnit : MonoBehaviour
 	}
 
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		if (scoreUI == null)
 			scoreUI = FindObjectOfType<ScoreUIDisplay>();
 		curState = showState.empty;
-		InitShow();
+		
 	}
 
 	// Update is called once per frame
@@ -69,6 +69,8 @@ public class PerformUnit : MonoBehaviour
 		allAnimalsInShow = animals;
 		totalManager = _manager;
 	}
+
+	
 
 	public void InitShow()
 	{
@@ -293,7 +295,7 @@ public class PerformUnit : MonoBehaviour
 				curYellowScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateYellowScore((int)curYellowScore);
+		scoreUI.UpdateYellowScore((int)curYellowScore, "PerformUnit");
 		UpdateTotalScore();
 	}
 
@@ -311,7 +313,7 @@ public class PerformUnit : MonoBehaviour
 				curRedScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateRedScore((int)curRedScore);
+		scoreUI.UpdateRedScore((int)curRedScore, "PerformUnit");
 		UpdateTotalScore(); // 更新总分
 	}
 
@@ -329,14 +331,14 @@ public class PerformUnit : MonoBehaviour
 				curBlueScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateBlueScore((int)curBlueScore);
+		scoreUI.UpdateBlueScore((int)curBlueScore, "PerformUnit");
 		UpdateTotalScore(); // 更新总分
 	}
 
 	void SetLastScore(float toNum)
 	{
 		curLastScore = toNum;
-		scoreUI.UpdateLastScore((int)toNum);
+		scoreUI.UpdateLastScore((int)toNum, "PerformUnit");
 	}
 
 	float CalculateTotalScore()
@@ -346,7 +348,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void UpdateTotalScore()
 	{
-		scoreUI.UpdateTotalScore((int)CalculateTotalScore());
+		scoreUI.UpdateTotalScore((int)CalculateTotalScore(), "PerformUnit");
 	}
 
 	public enum ChangeScoreType { Add, Time, Set }

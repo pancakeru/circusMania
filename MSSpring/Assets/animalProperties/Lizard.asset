@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lizard
   m_EditorClassIdentifier: 
   animalName: Lizard
-  animalCoreImg: {fileID: 0}
+  animalCoreImg: {fileID: 21300000, guid: 54bbee01f353541779559a3adf6972a0, type: 3}
   animalPrice: 0
   baseYellowChange: 5
   baseRedChange: 0

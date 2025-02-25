@@ -84,12 +84,12 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 {
 	public override bool Check(PerformAnimalControl performAnimalControl)
 	{
-		PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.testAnimals;
+		PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 		int myIndex = Array.IndexOf(animalsOnStage, performAnimalControl);
-
-		if ((myIndex > 0 && animalsOnStage[myIndex - 1].animalBrain.soul.animalName == "Fox"
-			|| myIndex < animalsOnStage.Length - 1 && animalsOnStage[myIndex + 1].animalBrain.soul.animalName == "Fox")
-			&& performAnimalControl.animalBrain.soul.baseRedChange != 0)
+		if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
+			(animalsOnStage[myIndex - 1<0?0:myIndex-1].animalBrain.soul.animalName == "Fox"
+			||  animalsOnStage[myIndex + 1>= animalsOnStage.Length? animalsOnStage.Length-1:myIndex+1].animalBrain.soul.animalName == "Fox")
+			&& performAnimalControl.animalBrain.animalInfo.redScore != 0)
 			return true;
 		return false;
 	}

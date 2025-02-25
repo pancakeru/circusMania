@@ -175,6 +175,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     {
         for (int i = 0; i < properties.Count; i++)
         {
+            Debug.Log(properties[i].animalName);
             GameObject temp = Instantiate(animalIcon, handPanelTransform);
             myHand.Add(temp);
 
@@ -297,6 +298,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
         onStage = new GameObject[6];
         posRecord = new areaReport[6];
+
+        totalPerformanceControl.InitShow();
         //位置 GameObject
         for (int i = 0; i < 6; i++)
         {
@@ -392,6 +395,27 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
             case "Snake":
                 return Instantiate(animalPerformancePrefabs[5], position, Quaternion.identity,transform);
+
+            case "Fox":
+                return Instantiate(animalPerformancePrefabs[6], position, Quaternion.identity, transform);
+
+            case "Seal":
+                return Instantiate(animalPerformancePrefabs[7], position, Quaternion.identity, transform);
+
+            case "Ostrich":
+                return Instantiate(animalPerformancePrefabs[8], position, Quaternion.identity, transform);
+
+            case "Kangaroo":
+                return Instantiate(animalPerformancePrefabs[9], position, Quaternion.identity, transform);
+
+            case "Buffalo":
+                return Instantiate(animalPerformancePrefabs[10], position, Quaternion.identity, transform);
+
+            case "Goat":
+                return Instantiate(animalPerformancePrefabs[11], position, Quaternion.identity, transform);
+
+            case "Lizard":
+                return Instantiate(animalPerformancePrefabs[12], position, Quaternion.identity, transform);
         }
         return null;
     }
@@ -594,7 +618,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         StartDecideState(DecideScreenState.moveAnimal);
 
                     }
-                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea())
                     {
                         StartDecideState(DecideScreenState.slide);
                         lastMousePosition = Input.mousePosition;

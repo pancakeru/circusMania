@@ -36,4 +36,10 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 			animalInfo.excited -= 1;
 		}
 	}
+
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
+		animalInfo.excited = 0;
+    }
 }
