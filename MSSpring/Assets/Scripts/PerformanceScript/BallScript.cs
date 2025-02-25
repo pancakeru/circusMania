@@ -5,7 +5,7 @@ using UnityEngine;
 public class BallScript : MonoBehaviour
 {
 
-	// 存储路径上的变换点（Transform）
+	// 现在没有用
 	public List<Transform> points;
 	// y 轴方向的动画曲线（决定球的运动轨迹）
 	public AnimationCurve yCurve;
