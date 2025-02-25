@@ -12,8 +12,9 @@ public class targetPanelManager : MonoBehaviour
 
     public void ChangeLevelState(float curTotalScore, int curTurn, float curRepu, float totalTargetScore, int totalTurn)
     {
-        scoreText.text = ((int)(totalTargetScore - curTotalScore)).ToString();
-        processSlider.value = (curTotalScore / totalTargetScore);
+        int toReach = ((int)(totalTargetScore - curTotalScore));
+        scoreText.text = toReach<= 0? "Complete!":toReach.ToString();
+        processSlider.value = Mathf.Clamp((curTotalScore / totalTargetScore),0,1);
         turnText.text = curTurn.ToString() + "/" + totalTurn.ToString();
         reputationText.text = ((int)curRepu).ToString();
     }
