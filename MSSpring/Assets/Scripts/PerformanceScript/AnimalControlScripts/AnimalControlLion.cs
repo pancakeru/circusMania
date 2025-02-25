@@ -20,4 +20,10 @@ public class AnimalControlLion : AbstractSpecialAnimal
 
 		animalBody.ifReadyToInteract = false;
 	}
+
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
+		ballToArrayIndex = 0;
+    }
 }

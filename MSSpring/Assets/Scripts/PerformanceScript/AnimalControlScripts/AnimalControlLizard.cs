@@ -20,11 +20,15 @@ public class AnimalControlLizard : AbstractSpecialAnimal
 		animalBody.ifReadyToInteract = false;
 	}
 
-	public override void EnterRest()
+	public override void EnterRest(bool ifDirect)
 	{
 		animalBody.ifInRest = true;
-		animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalInfo.power - 1); });
-	}
+		if (!ifDirect)
+			animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalInfo.power - 1); });
+		else
+			animalBody.curRestTurn = soul.restTurn + animalInfo.power - 1;
+
+    }
 
     public override void ResetWhenBackToInitial()
     {

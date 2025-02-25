@@ -86,9 +86,12 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 	{
 		PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 		int myIndex = Array.IndexOf(animalsOnStage, performAnimalControl);
-		if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
-			(animalsOnStage[myIndex - 1<0?0:myIndex-1].animalBrain.soul.animalName == "Fox"
-			||  animalsOnStage[myIndex + 1>= animalsOnStage.Length? animalsOnStage.Length-1:myIndex+1].animalBrain.soul.animalName == "Fox")
+		PerformAnimalControl leftAnimal = animalsOnStage[myIndex - 1 < 0 ? 0 : myIndex - 1];
+		PerformAnimalControl rightAnimal = animalsOnStage[myIndex + 1 >= animalsOnStage.Length ? animalsOnStage.Length - 1 : myIndex + 1];
+
+        if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
+			((leftAnimal!=null && leftAnimal.animalBrain.soul.animalName == "Fox")
+			|| (rightAnimal!=null&&rightAnimal.animalBrain.soul.animalName == "Fox"))
 			&& performAnimalControl.animalBrain.animalInfo.redScore != 0)
 			return true;
 		return false;

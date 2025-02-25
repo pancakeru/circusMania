@@ -91,9 +91,10 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void DoTurnEnd()
 	{
+		Debug.Log("回合结束行动");
 		if (ifJustInteract) {
 
-			animalBrain.EnterRest();
+			animalBrain.EnterRest(false);
 			ifJustInteract = false;
 		} else if (curRestTurn <= 1 && !ifReadyToInteract) {
 			animalBrain.Recover();
@@ -107,8 +108,11 @@ public class PerformAnimalControl : MonoBehaviour
 			b.DoDrop();
 		} else
 		{
-			if (!ifReadyToInteract)
+            Debug.Log("拿到球");
+            if (!ifReadyToInteract)
 			{
+				if (ifJustInteract)
+					animalBrain.EnterRest(true);
                 int realTake = animalBrain.controlUnit.thrower.takeBanana(curRestTurn);
                 TakeBanana(realTake);
             }
@@ -130,7 +134,7 @@ public class PerformAnimalControl : MonoBehaviour
                     }
                 }
             }
-
+			ifJustInteract = false;
             ifHaveBall = true;
         }
 	}
@@ -323,10 +327,13 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 
 	}
 
-	public virtual void EnterRest()
+	public virtual void EnterRest(bool ifDirect)
 	{
 		animalBody.ifInRest = true;
-		animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn); });
+		if (!ifDirect)
+			animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn); });
+		else
+			animalBody.curRestTurn = soul.restTurn;
 	}
 
 	public void ConsumeBanana(int n) { }//This is only for special effect
