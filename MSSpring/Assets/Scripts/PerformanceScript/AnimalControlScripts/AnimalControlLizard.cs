@@ -25,4 +25,10 @@ public class AnimalControlLizard : AbstractSpecialAnimal
 		animalBody.ifInRest = true;
 		animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalInfo.power - 1); });
 	}
+
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
+		animalInfo.power = 1;
+    }
 }
