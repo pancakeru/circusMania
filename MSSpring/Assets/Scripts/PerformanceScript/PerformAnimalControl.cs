@@ -277,7 +277,7 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	public virtual void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
-		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange);
+		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange,animalBody);
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;

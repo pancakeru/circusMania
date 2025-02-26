@@ -14,7 +14,7 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 	{
 		if (animalInfo.excited == 0) {
 			animalBody.ball.gameObject.SetActive(true);
-			animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange);
+			animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange,animalBody);
 			animalBody.FlipSprite(1, false);
 			animalBody.ifJustInteract = true;
 			animalBody.ifHaveBall = false;
@@ -28,7 +28,7 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 			animalBody.ifReadyToInteract = false;
 		} else if (animalInfo.excited > 0) {
 			animalBody.ball.gameObject.SetActive(true);
-			animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + ballChangeWhenExcited);
+			animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + ballChangeWhenExcited,animalBody);
 			animalBody.FlipSprite(1, false);
 			animalBody.ifJustInteract = true;
 			animalBody.ifHaveBall = false;

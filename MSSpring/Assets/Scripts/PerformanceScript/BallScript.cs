@@ -45,7 +45,7 @@ public class BallScript : MonoBehaviour
 	private Coroutine curPara; // 当前抛物线运动协程
 	private bool ifDropped = false; // 标记球是否已经掉落
 
-	private PerformAnimalControl passer;//传球的动物
+	private PerformAnimalControl passer = null;//传球的动物
 	private PerformAnimalControl catcher;//接球的动物
 
 	void Update()
@@ -172,6 +172,7 @@ public class BallScript : MonoBehaviour
 
 	public void DoInitialDrop(Vector3 toPos, PerformAnimalControl toAnimal, PerformUnit curUnit)
 	{
+		passer = null;
 		// 计算初始位置：目标位置上方 height 的位置
 		Vector3 startPosition = new Vector3(toPos.x, toPos.y + height, toPos.z);
 
@@ -222,10 +223,11 @@ public class BallScript : MonoBehaviour
 			machine.ReportMoveFinish(this);
 	}
 
-	public void MoveBall(int from, int to)
+	public void MoveBall(int from, int to, PerformAnimalControl _passer)
 	{
 		Debug.Log("从" + from + "到" + to);
 		fromIndex = from;
+		passer = _passer;
 		// Validate indices
 		if (points == null || points.Count == 0) {
 			Debug.LogError("Points list is empty or null.");
@@ -255,7 +257,7 @@ public class BallScript : MonoBehaviour
 
 		isMoving = true; // Set the flag to indicate movement has started
 		toIndex = to;
-		if (to - from >= 0)
+		if (to - from > 0)
 			ifRight = true;
 		else
 			ifRight = false;

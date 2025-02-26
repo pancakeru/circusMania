@@ -165,8 +165,8 @@ MonoBehaviour:
   testBtn: 0
   spriteRenderer: {fileID: 1126769854696925628}
   fadeDuration: 1
-  initialYVperUnit: 3
-  baseYV: 2
+  initialYVperUnit: 2
+  baseYV: 5
 --- !u!50 &1791078257410695647
 Rigidbody2D:
   serializedVersion: 4
