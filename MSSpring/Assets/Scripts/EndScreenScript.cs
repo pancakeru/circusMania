@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using UnityEngine.UIElements;
 
 public class EndScreenScript : MonoBehaviour
 {
@@ -13,6 +15,9 @@ public class EndScreenScript : MonoBehaviour
 
     private float starting = 0;
     private float addSpeed = 1;
+    private float lineDelay = 0.3f;
+    private int currentIndex = 0;
+    public int[] test;
 
     private enum DisplaySequence {
         ShowScore,
@@ -40,6 +45,16 @@ public class EndScreenScript : MonoBehaviour
             break;
 
             case DisplaySequence.Breakdown:
+                lineDelay-= 1 * Time.deltaTime;
+
+                if (lineDelay <= 0) {
+                    if (currentIndex < test.Length) {
+                        DisplayList();
+                    } else {
+                        currentState = DisplaySequence.TotalCalc;
+                    }
+                } 
+
 
             break;
 
@@ -68,6 +83,12 @@ public class EndScreenScript : MonoBehaviour
             text.text = value.ToString();
             currentState = nextState;
         }
+    }
+
+    void DisplayList() {
+        scoreBreakdown.text += $"Act #{currentIndex + 1, -35} +{test[currentIndex]}\n";
+        currentIndex += 1;
+        lineDelay = 0.5f;
     }
 
 }
