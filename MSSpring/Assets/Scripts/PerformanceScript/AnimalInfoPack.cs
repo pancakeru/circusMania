@@ -23,4 +23,16 @@ public struct AnimalInfoPack
 		warmUp = 0;
 		excited = 0;
 	}
+
+	public AnimalInfoPack(PerformAnimalControl performAnimalControl, float[] baseScore)
+	{
+        this.performAnimalControl = performAnimalControl;
+
+        power = 1;
+        warmUp = 0;
+        excited = 0;
+        redScore = baseScore[0];
+		yellowScore = baseScore[1];
+		blueScore = baseScore[2];
+    }
 }

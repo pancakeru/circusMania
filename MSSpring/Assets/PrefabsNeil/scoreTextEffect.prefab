@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textPrefab: {fileID: 6984281670797366493, guid: f0989d9198bdd445c8e602e7a3c3d4de, type: 3}
   moveOffset: {x: 0, y: 1, z: 0}
-  spawnCooldown: 0.6
+  spawnCooldown: 0.4

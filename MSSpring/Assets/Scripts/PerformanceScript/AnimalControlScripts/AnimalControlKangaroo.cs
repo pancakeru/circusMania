@@ -2,7 +2,8 @@
 public class AnimalControlKangaroo : AbstractSpecialAnimal
 {
 	private int excitedTurnAmount = 7;
-
+	private BuffKangaroo selfBuff;
+	private bool ifNeedRemove = false;
 	public override void InitOnExcitementEventListener()
 	{
 		controlUnit.OnExcitement += PerformUnit_OnExcitement;
@@ -22,6 +23,9 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 
 		if (animalInfo.excited == 0) {
 			animalInfo.excited = excitedTurnAmount;
+			selfBuff = new BuffKangaroo(animalBody);
+			BuffManager.instance.AddGiveExtraBuff(selfBuff);
+			ifNeedRemove = true;
 		}
 
 		animalBody.ifReadyToInteract = false;
@@ -31,6 +35,11 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 	{
 		if (animalInfo.excited > 0) {
 			animalInfo.excited -= 1;
+			if (animalInfo.excited == 0)
+			{
+                BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
+				ifNeedRemove = false;
+            }	
 		}
 	}
 
@@ -38,5 +47,7 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 	{
 		base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
+		if (ifNeedRemove)
+			BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
 	}
 }

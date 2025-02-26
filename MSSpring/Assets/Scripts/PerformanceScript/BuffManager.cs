@@ -17,14 +17,42 @@ public class BuffManager : MonoBehaviour
 		if (instance == null) instance = this;
 		else Destroy(gameObject);
 
-		buffsGiveExtraWhenScore.Add(new BuffFox());
-		buffsGiveExtraWhenScore.Add(new BuffKangaroo());
-		buffsChangeBaseWhenScore.Add(new BuffBuffalo());
+		//buffsGiveExtraWhenScore.Add(new BuffFox());
+		//buffsGiveExtraWhenScore.Add(new BuffKangaroo());
+		//buffsChangeBaseWhenScore.Add(new BuffBuffalo());
 
 		holdCounter = 0;
 	}
 
-	public List<float[]> BuffInteractionWhenScore(AnimalInfoPack animalInfo)
+	public void AddGiveExtraBuff(BuffGiveExtra giveExtra)
+	{
+		//未来可能要有buff顺序问题，需要添加时排序，现在没有。
+		buffsGiveExtraWhenScore.Add(giveExtra);
+	}
+
+	public void AddChangeBaseBuff(BuffChangeBase changeBase)
+	{
+		buffsChangeBaseWhenScore.Add(changeBase);
+
+    }
+
+	public void RemoveGiveExtraBuff(BuffGiveExtra toRemove)
+	{
+		if (buffsGiveExtraWhenScore.Contains(toRemove))
+			buffsGiveExtraWhenScore.Remove(toRemove);
+		else
+			Debug.LogWarning("Remove a GiveExtra Buff while it doesn't exist");
+	}
+
+	public void RemoveChangeBaseBuff(BuffChangeBase toRemove)
+	{
+		if (buffsChangeBaseWhenScore.Contains(toRemove))
+			buffsChangeBaseWhenScore.Remove(toRemove);
+		else
+			Debug.LogError("Remove a ChangeBase Buff while it doesn't exist");
+	}
+
+	public List<float[]> BuffInteractionWhenScore(AnimalInfoPack animalInfo, List<BuffExtraMessage> messages)
 	{
 		List<float[]> returnScoreList = new List<float[]>();
 
@@ -32,11 +60,13 @@ public class BuffManager : MonoBehaviour
 											animalInfo.yellowScore,
 											animalInfo.blueScore };
 
-		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl));
+		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl,messages));
 
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore) {
-			if (buff.Check(animalInfo.performAnimalControl)) {
-				returnScoreList.Add(BuffInteractionWhenScoreChangeBase(buff.Apply(), animalInfo.performAnimalControl));
+			if (buff.Check(myBaseScore, animalInfo.performAnimalControl,messages)) {
+				List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl, buff.Apply()), buff.GetMessages());
+				foreach (float[] toA in toAdd)
+					returnScoreList.Add(toA);
 			}
 
 		}
@@ -44,7 +74,7 @@ public class BuffManager : MonoBehaviour
 		return returnScoreList;
 	}
 
-	float[] BuffInteractionWhenScoreChangeBase(float[] baseScore, PerformAnimalControl performAnimalControl)
+	float[] BuffInteractionWhenScoreChangeBase(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
 	{
 		//                                  {Red, Yellow, Blue}
 		float[] buffScorePlus = new float[] { 0, 0, 0 };
@@ -52,7 +82,7 @@ public class BuffManager : MonoBehaviour
 		float[] buffScoreTotal = new float[] { 0, 0, 0 };
 
 		foreach (BuffChangeBase buff in buffsChangeBaseWhenScore) {
-			var checkResult = buff.Check(performAnimalControl);
+			var checkResult = buff.Check(baseScore, performAnimalControl,messages);
 			if (checkResult.isValid) {
 				for (int i = 0; i < 3; i++) {
 					if (checkResult.isMult) buffScoreMult[i] *= buff.Apply()[i];
@@ -71,19 +101,35 @@ public class BuffManager : MonoBehaviour
 
 public abstract class BuffChangeBase
 {
-	public abstract (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl);
+	protected PerformAnimalControl fromAnimal;//提交buff的animal
+	public BuffChangeBase(PerformAnimalControl _from)
+	{
+		fromAnimal = _from;
+	}
+	public abstract (bool isValid, bool isMult) Check(float[] baseScore, PerformAnimalControl performAnimalControl,List<BuffExtraMessage> messages);
 	public abstract float[] Apply(); //if isMult, the base return value is (1, 1, 1) since 0 erases all mult values.
 }
 
 public abstract class BuffGiveExtra
 {
-	public abstract bool Check(PerformAnimalControl performAnimalControl);
+
+    protected PerformAnimalControl fromAnimal;//提交buff的animal
+    public BuffGiveExtra(PerformAnimalControl _from)
+    {
+        fromAnimal = _from;
+    }
+    public abstract bool Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages);
 	public abstract float[] Apply(); //the return value becomes a new baseScore and runs BuffInteractionWhenScore().
+	public abstract List<BuffExtraMessage> GetMessages();
 }
 
 public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate Red, +4 Red 
 {
-	public override bool Check(PerformAnimalControl performAnimalControl)
+	public BuffFox(PerformAnimalControl _from) : base(_from)
+	{
+	}
+
+	public override bool Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
 	{
 		PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 		int myIndex = Array.IndexOf(animalsOnStage, performAnimalControl);
@@ -91,9 +137,9 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 		PerformAnimalControl rightAnimal = animalsOnStage[myIndex + 1 >= animalsOnStage.Length ? animalsOnStage.Length - 1 : myIndex + 1];
 
 		if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
-			((leftAnimal != null && leftAnimal.animalBrain.soul.animalName == "Fox")
-			|| (rightAnimal != null && rightAnimal.animalBrain.soul.animalName == "Fox"))
-			&& performAnimalControl.animalBrain.animalInfo.redScore != 0)
+			((leftAnimal != null && leftAnimal == fromAnimal)
+			|| (rightAnimal != null && rightAnimal == fromAnimal))
+			&& baseScore[0] != 0&& !messages.Contains(BuffExtraMessage.extraRed))
 			return true;
 		return false;
 	}
@@ -102,15 +148,25 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 	{
 		return new float[] { 4, 0, 0 };
 	}
+
+	public override List<BuffExtraMessage> GetMessages()
+	{
+		return new List<BuffExtraMessage>{BuffExtraMessage.extraRed};
+    }
 }
 
 public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate Red, +0.2 blue
 {
-	public override bool Check(PerformAnimalControl performAnimalControl)
+    public BuffKangaroo(PerformAnimalControl _from) : base(_from)
+    {
+    }
+    public override bool Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
 	{
-		if (performAnimalControl.animalBrain.animalInfo.redScore > 0) {
+		if (baseScore[0] > 0) {
 			PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 			foreach (PerformAnimalControl performAnimal in animalsOnStage) {
+				if (performAnimal == null)
+					continue;
 				AbstractSpecialAnimal performAnimalBrain = performAnimal.animalBrain;
 				if (performAnimalBrain.soul.animalName == "Kangaroo") {
 					if (performAnimalBrain.animalInfo.excited > 0) {
@@ -126,15 +182,23 @@ public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate
 	{
 		return new float[] { 0, 0, 0.2f };
 	}
+
+    public override List<BuffExtraMessage> GetMessages()
+    {
+		return new List<BuffExtraMessage>();
+    }
 }
 
 public class BuffBuffalo : BuffChangeBase //When generate blue, blue +0.3
 {
-	public override (bool isValid, bool isMult) Check(PerformAnimalControl performAnimalControl)
+    public BuffBuffalo(PerformAnimalControl _from) : base(_from)
+    {
+    }
+    public override (bool isValid, bool isMult) Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
 	{
-		foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.testAnimals) {
-			if (animalOnStage.animalBrain.soul.animalName == "Buffalo"
-				&& animalOnStage.animalBrain.soul.baseBlueChange != 0)
+		foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.GetAllAnimalsInShow(false)) {
+			if (animalOnStage != null && animalOnStage.animalBrain.soul.animalName == "Buffalo"
+				&& baseScore[2] != 0)
 				return (true, false);
 		}
 		return (false, false);
@@ -144,4 +208,11 @@ public class BuffBuffalo : BuffChangeBase //When generate blue, blue +0.3
 	{
 		return new float[] { 0, 0, 0.3f };
 	}
+}
+
+public enum BuffExtraMessage
+{
+	extraRed,
+	extraYellow,
+	extraBlue
 }

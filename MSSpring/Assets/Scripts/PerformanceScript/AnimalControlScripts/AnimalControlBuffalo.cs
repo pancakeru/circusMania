@@ -1,6 +1,7 @@
 
 public class AnimalControlBuffalo : AbstractSpecialAnimal
 {
+	private BuffBuffalo selfBuff;
 	public override void InteractWithBall()
 	{
 		PerformAnimalControl passer = animalBody.ball.GetPasser();
@@ -21,4 +22,17 @@ public class AnimalControlBuffalo : AbstractSpecialAnimal
 
 		animalBody.ifReadyToInteract = false;
 	}
+
+    public override void DoWhenShowStart()
+    {
+        base.DoWhenShowStart();
+		selfBuff = new BuffBuffalo(animalBody);
+		BuffManager.instance.AddChangeBaseBuff(selfBuff);
+    }
+
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
+		BuffManager.instance.RemoveChangeBaseBuff(selfBuff);
+    }
 }

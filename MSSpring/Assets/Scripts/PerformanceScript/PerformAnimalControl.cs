@@ -347,7 +347,8 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 
 	public void GenerateScore(AnimalInfoPack animalInfo)
 	{
-		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo);
+		//TODO:目前没有带特殊Message的动物，先空着list
+		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo, new List<BuffExtraMessage>());
 		foreach (float[] inputScore in scoresAfterBuff) {
 			Scoring(inputScore);
 		}
