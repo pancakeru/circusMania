@@ -28,6 +28,11 @@ public class PerformUnit : MonoBehaviour
 	private float curRedScore;
 	private float curBlueScore;
 
+	[Header("For Empty Throw")]
+	[SerializeField] private Transform leftOut;
+	[SerializeField] private Transform rightOut;
+	[SerializeField] private Transform[] inSequenceEmpty;
+
 	[Header("For Test")]
 	public PerformAnimalControl[] testAnimals;
 	public bool ifTest;
@@ -75,10 +80,17 @@ public class PerformUnit : MonoBehaviour
 	public void InitShow()
 	{
 		SetLastScore(1);
-		ChangeYellowScore(0);
-		ChangeBlueScore(1);
-		ChangeRedScore(0);
+		ChangeYellowScore(0,ChangeScoreType.Set);
+		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeRedScore(0,ChangeScoreType.Set);
+	}
 
+	public void InitShow(float last)
+	{
+		SetLastScore(last);
+		ChangeYellowScore(0,ChangeScoreType.Set);
+		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeRedScore(0,ChangeScoreType.Set);
 	}
 
 	void StartShow()
@@ -93,10 +105,18 @@ public class PerformUnit : MonoBehaviour
 		}
 
 		PerformAnimalControl startAnimal = ReturnFirstAnimal();
-		if (startAnimal == null)
-			Debug.LogError("没有起始动物");
-		curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
-		curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
+		if (startAnimal != null)
+		{
+			curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+			curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
+		}
+		else
+		{
+            curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+			curBall.DoInitialDrop(GetPositionWhenThrowToEmpty(0), null, this);
+        }
+		//Debug.LogError("没有起始动物");
+		
 	}
 
 	public void StartState(showState newState)
@@ -171,7 +191,13 @@ public class PerformUnit : MonoBehaviour
 
 	PerformAnimalControl ReturnFirstAnimal()
 	{
-		return allAnimalsInShow[0];
+		
+		foreach (PerformAnimalControl an in allAnimalsInShow)
+		{
+			if (an != null)
+				return an;
+		}
+		return null;
 	}
 
 	void changeAnimationFinishState()
@@ -280,6 +306,16 @@ public class PerformUnit : MonoBehaviour
 		return allAnimalsInShow;
 	}
 
+	public Vector3 GetPositionWhenThrowToEmpty(int index)
+	{
+		if (index < 0)
+			return leftOut.position;
+		else if (index >= 6)
+			return rightOut.position;
+		else
+			return inSequenceEmpty[index].position;
+	}
+
 	public void ChangeYellowScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
 	{
 		switch (type) {
@@ -295,7 +331,7 @@ public class PerformUnit : MonoBehaviour
 				curYellowScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateYellowScore((int)curYellowScore, "PerformUnit");
+		scoreUI.UpdateYellowScore(curYellowScore, "PerformUnit");
 		UpdateTotalScore();
 	}
 
@@ -313,7 +349,7 @@ public class PerformUnit : MonoBehaviour
 				curRedScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateRedScore((int)curRedScore, "PerformUnit");
+		scoreUI.UpdateRedScore(curRedScore, "PerformUnit");
 		UpdateTotalScore(); // 更新总分
 	}
 
@@ -331,14 +367,14 @@ public class PerformUnit : MonoBehaviour
 				curBlueScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateBlueScore((int)curBlueScore, "PerformUnit");
+		scoreUI.UpdateBlueScore(curBlueScore, "PerformUnit");
 		UpdateTotalScore(); // 更新总分
 	}
 
 	void SetLastScore(float toNum)
 	{
 		curLastScore = toNum;
-		scoreUI.UpdateLastScore((int)toNum, "PerformUnit");
+		scoreUI.UpdateLastScore(toNum, "PerformUnit");
 	}
 
 	float CalculateTotalScore()
@@ -348,7 +384,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void UpdateTotalScore()
 	{
-		scoreUI.UpdateTotalScore((int)CalculateTotalScore(), "PerformUnit");
+		scoreUI.UpdateTotalScore(CalculateTotalScore(), "PerformUnit");
 	}
 
 	public enum ChangeScoreType { Add, Time, Set }

@@ -131,6 +131,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   baseY: 0
+  maxAllowHeight: 9
   dropCurve:
     serializedVersion: 2
     m_Curve:

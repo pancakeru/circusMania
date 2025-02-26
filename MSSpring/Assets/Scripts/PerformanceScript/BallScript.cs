@@ -15,8 +15,11 @@ public class BallScript : MonoBehaviour
 	private bool isMoving = false;
 	// 目标索引
 	private int toIndex;
+	private int fromIndex;
 	// 判断球是否向右移动
 	private bool ifRight = true;
+
+	public float maxAllowHeight = 10;
 
 	[Header("开头掉落")]
 	public AnimationCurve dropCurve; // 下降动画曲线
@@ -63,9 +66,12 @@ public class BallScript : MonoBehaviour
 		toIndex += (ifRight ? 1 : -1);
 
 		if (toIndex < 0 || toIndex >= points.Count) {
+			//这里是投出场外
 			isMoving = true;
 			if (curPara != null) StopCoroutine(curPara);
-			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.ReturnDropOutPos(!(toIndex < 0)), baseYV, gravity, null, showUnit));
+			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.GetPositionWhenThrowToEmpty(toIndex), baseYV, gravity, null, showUnit));
+
+            //curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.ReturnDropOutPos(!(toIndex < 0)), baseYV, gravity, null, showUnit));
 			return;
 		}
 
@@ -74,10 +80,10 @@ public class BallScript : MonoBehaviour
 		PerformAnimalControl an;
 		if (showUnit.CheckAndGetAnimalThrowAcceptPos(toIndex, false, out pos2) && showUnit.CheckAndGetAnimalBasedOnIndex(toIndex, out an)) {
 			if (curPara != null) StopCoroutine(curPara);
-			curPara = StartCoroutine(MoveInParabola(transform.position, pos2, baseYV + initialYVperUnit * (Mathf.Abs(pos2.x - transform.position.x)) * 0.6f, gravity, an, showUnit));
+			curPara = StartCoroutine(MoveInParabola(transform.position, pos2,Mathf.Min(maxAllowHeight, baseYV + initialYVperUnit * Mathf.Abs(pos2.x - transform.position.x) * 0.6f), gravity, an, showUnit));
 		} else {
 			if (curPara != null) StopCoroutine(curPara);
-			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.GetAnimalBasicPos(toIndex), baseYV, gravity, null, showUnit));
+			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.GetPositionWhenThrowToEmpty(toIndex), baseYV, gravity, null, showUnit));
 		}
 	}
 
@@ -203,9 +209,14 @@ public class BallScript : MonoBehaviour
 
 		// 确保最后的位置完全对齐
 		transform.position = toPos;
-		if (toCatch != null) {
+		if (toCatch != null)
+		{
 			toCatch.TakeBall(this);
 			catcher = toCatch;
+		}
+		else
+		{
+			DoDrop();
 		}
 		if (machine != null)
 			machine.ReportMoveFinish(this);
@@ -214,6 +225,7 @@ public class BallScript : MonoBehaviour
 	public void MoveBall(int from, int to)
 	{
 		Debug.Log("从" + from + "到" + to);
+		fromIndex = from;
 		// Validate indices
 		if (points == null || points.Count == 0) {
 			Debug.LogError("Points list is empty or null.");
@@ -231,8 +243,8 @@ public class BallScript : MonoBehaviour
 			isMoving = true; // Set the flag to indicate movement has started
 			if (curPara != null)
 				StopCoroutine(curPara);
-			curPara = StartCoroutine(MoveInParabola(transform.position, transform.position + new Vector3(1, 0, 0), baseYV, gravity, null, showUnit));
-			ifRight = true;
+			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.GetPositionWhenThrowToEmpty(to), Mathf.Min(baseYV+ initialYVperUnit * (Mathf.Abs((to<0?-1:6) - from)),maxAllowHeight), gravity, null, showUnit));
+			ifRight = !(to<0);
 			return;
 		}
 
@@ -261,12 +273,12 @@ public class BallScript : MonoBehaviour
 			Debug.Log("这里是有人接");
 			if (curPara != null)
 				StopCoroutine(curPara);
-			curPara = StartCoroutine(MoveInParabola(pos1, pos2, baseYV + initialYVperUnit * (Mathf.Abs(to - from)), gravity, an, showUnit));
+			curPara = StartCoroutine(MoveInParabola(pos1, pos2, Mathf.Min(baseYV + initialYVperUnit * (Mathf.Abs(to - from)),maxAllowHeight), gravity, an, showUnit));
 		} else {
-			Debug.Log("这里是没有人接");
+			Debug.Log("这里是没有人接,目前有问题");
 			if (curPara != null)
 				StopCoroutine(curPara);
-			curPara = StartCoroutine(MoveInParabola(transform.position, transform.position + new Vector3(1, 0, 0), baseYV, gravity, null, showUnit));
+			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.GetPositionWhenThrowToEmpty(to), Mathf.Min(baseYV + initialYVperUnit * (Mathf.Abs(to - from)), maxAllowHeight), gravity, null, showUnit));
 		}
 	}
 
