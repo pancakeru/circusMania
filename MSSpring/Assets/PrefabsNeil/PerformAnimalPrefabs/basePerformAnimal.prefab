@@ -76,7 +76,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1247397815
-  m_SortingLayer: 2
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4076757852691191043
@@ -296,6 +296,7 @@ MonoBehaviour:
   AcceptPos: {fileID: 4486114369944327467}
   restText: {fileID: 4076757852691191043}
   generator: {fileID: 6426029797133994698}
+  mechanicNumberUI: {fileID: 5420625542985829822, guid: 4b2654dec48143a43ab60ae3a516c46f, type: 3}
 --- !u!50 &4833664479332635922
 Rigidbody2D:
   serializedVersion: 4

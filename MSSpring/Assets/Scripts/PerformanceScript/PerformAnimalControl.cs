@@ -38,7 +38,10 @@ public class PerformAnimalControl : MonoBehaviour
 	private Vector3 originalScale;
 	private Vector3 baseRatio;
 
-	void Start()
+	[Header("MechanicNumber")]
+	public GameObject mechanicNumberUI;
+
+    void Start()
 	{
 
 
