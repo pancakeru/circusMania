@@ -2577,7 +2577,7 @@ MonoBehaviour:
   - {fileID: 8739138568653257116, guid: 9c662ab07c59a4e6b9986f0fe6d40b76, type: 3}
   - {fileID: 8760488782174555410, guid: 5caf1a23cb480468c92d1d77a107052a, type: 3}
   - {fileID: 1488530676920521618, guid: 1884a544aa1cb4d78a7c5164d104cb32, type: 3}
-  - {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+  - {fileID: 9015511645867454181, guid: d4195b367517a42099412dce10ece09c, type: 3}
   - {fileID: 240432532016996084, guid: b59e06df20b1148048ede34de9c9b470, type: 3}
   - {fileID: 7547591893447736504, guid: a49d01ab9eddf48cb88fe24542ed296f, type: 3}
   - {fileID: 7646762481721078621, guid: 7efe12255f75a487a906ee3d843339a4, type: 3}
@@ -2589,6 +2589,7 @@ MonoBehaviour:
   myHand: []
   onStage: []
   uiRaycaster: {fileID: 7575455781150157547}
+  repuRatio: 0.1
   handPanelUpPos: {fileID: 4742952251531995159}
   handPanelDownPos: {fileID: 2295095856043891573}
   stagePanelDownPos: {fileID: 7750289934296395055}
