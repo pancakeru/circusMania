@@ -30,16 +30,13 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
 	{
 		if (animalInfo.excited > 0) {
-			if (e.animalInfo.redScore > 0) {
-				GenerateScore(animalInfo);
-			}
 			animalInfo.excited -= 1;
 		}
 	}
 
-    public override void ResetWhenBackToInitial()
-    {
-        base.ResetWhenBackToInitial();
+	public override void ResetWhenBackToInitial()
+	{
+		base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
-    }
+	}
 }

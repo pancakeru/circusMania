@@ -18,6 +18,7 @@ public class BuffManager : MonoBehaviour
 		else Destroy(gameObject);
 
 		buffsGiveExtraWhenScore.Add(new BuffFox());
+		buffsGiveExtraWhenScore.Add(new BuffKangaroo());
 		buffsChangeBaseWhenScore.Add(new BuffBuffalo());
 
 		holdCounter = 0;
@@ -89,9 +90,9 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 		PerformAnimalControl leftAnimal = animalsOnStage[myIndex - 1 < 0 ? 0 : myIndex - 1];
 		PerformAnimalControl rightAnimal = animalsOnStage[myIndex + 1 >= animalsOnStage.Length ? animalsOnStage.Length - 1 : myIndex + 1];
 
-        if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
-			((leftAnimal!=null && leftAnimal.animalBrain.soul.animalName == "Fox")
-			|| (rightAnimal!=null&&rightAnimal.animalBrain.soul.animalName == "Fox"))
+		if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
+			((leftAnimal != null && leftAnimal.animalBrain.soul.animalName == "Fox")
+			|| (rightAnimal != null && rightAnimal.animalBrain.soul.animalName == "Fox"))
 			&& performAnimalControl.animalBrain.animalInfo.redScore != 0)
 			return true;
 		return false;
@@ -100,6 +101,30 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 	public override float[] Apply()
 	{
 		return new float[] { 4, 0, 0 };
+	}
+}
+
+public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate Red, +0.2 blue
+{
+	public override bool Check(PerformAnimalControl performAnimalControl)
+	{
+		if (performAnimalControl.animalBrain.animalInfo.redScore > 0) {
+			PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
+			foreach (PerformAnimalControl performAnimal in animalsOnStage) {
+				AbstractSpecialAnimal performAnimalBrain = performAnimal.animalBrain;
+				if (performAnimalBrain.soul.animalName == "Kangaroo") {
+					if (performAnimalBrain.animalInfo.excited > 0) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	public override float[] Apply()
+	{
+		return new float[] { 0, 0, 0.2f };
 	}
 }
 
