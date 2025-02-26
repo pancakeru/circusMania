@@ -78,6 +78,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private float curRepu;
 
     private float recordScoreFromLastTime;
+    [Header("For Show Setting")]
+    [SerializeField] private float repuRatio = 0.1f;
 
     //for general uiControl
     private UiMover handPanelMover;
@@ -120,7 +122,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private RectTransform tarTrans;
     [SerializeField]
     private UiMover mover;
-    [SerializeField] private LevelProperty testLevel; 
+    [SerializeField] private LevelProperty testLevel;
 
     private bool ifToShow = false;
     void Start()
@@ -169,9 +171,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         targetDisplayManager.ChangeLevelState(curScore,curTurn,curRepu,level.targetScore,level.allowedTurn);
     }
 
-    private void ChangeLevelStatus(int curTurn, float curScore, float reputationRatio)
+    private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio)
     {
-        targetDisplayManager.ChangeLevelState(curScore,curTurn, curScore*reputationRatio,curLevel.targetScore,curLevel.allowedTurn);
+        curRepu = _curScore * reputationRatio;
+        curScore += _curScore;
+        targetDisplayManager.ChangeLevelState(curScore,_curTurn, curRepu,curLevel.targetScore,curLevel.allowedTurn);
     }
 
     private void InitializeHand(List<animalProperty> properties)
@@ -197,7 +201,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         if (ifTest)
         {
             ifTest = false;
-            mover.MoveTo(tarTrans.anchoredPosition);
+            //mover.MoveTo(tarTrans.anchoredPosition);
+            if (Time.timeScale != 1)
+                Time.timeScale = 1;
+            else
+                Time.timeScale *= 3;
         }
         /*
         if (Input.GetKeyDown(KeyCode.U))
@@ -328,6 +336,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         bananaUiMover.MoveTo(BanannaInShow.anchoredPosition);
         targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
         showBanana.MoveTo(ShowBanannaInShow.anchoredPosition);
+        totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
         moveCounter.SetUpCount(7);
         var toGive = from x in onStage
                      let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
@@ -367,7 +376,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         startButtonMover.GetComponent<Button>().interactable = true;
         thrower.addBanana(10);
         curTurn += 1;
-        ChangeLevelStatus(curTurn,recordScoreFromLastTime, 0.1f);
+        ChangeLevelStatus(curTurn,recordScoreFromLastTime, repuRatio);
     }
 
     void LeaveShow() {

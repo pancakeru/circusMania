@@ -80,10 +80,17 @@ public class PerformUnit : MonoBehaviour
 	public void InitShow()
 	{
 		SetLastScore(1);
-		ChangeYellowScore(0);
-		ChangeBlueScore(1);
-		ChangeRedScore(0);
+		ChangeYellowScore(0,ChangeScoreType.Set);
+		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeRedScore(0,ChangeScoreType.Set);
+	}
 
+	public void InitShow(float last)
+	{
+		SetLastScore(last);
+		ChangeYellowScore(0,ChangeScoreType.Set);
+		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeRedScore(0,ChangeScoreType.Set);
 	}
 
 	void StartShow()
