@@ -80,6 +80,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public List<animalProperty> getAllAnimals()
     {
+        Debug.Log("动物list有这些: "+animals.Count);
         return animals;
     }
 

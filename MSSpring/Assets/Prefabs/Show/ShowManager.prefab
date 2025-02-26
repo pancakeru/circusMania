@@ -4071,7 +4071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2592057016686602374, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: m_Name
-      value: TestPerformanceUnit
+      value: PerformanceUnit
       objectReference: {fileID: 0}
     - target: {fileID: 4025938754096636498, guid: 2adaa47af52914b939966c52309706b3, type: 3}
       propertyPath: scoreUI

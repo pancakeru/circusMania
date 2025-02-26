@@ -28,6 +28,11 @@ public class PerformUnit : MonoBehaviour
 	private float curRedScore;
 	private float curBlueScore;
 
+	[Header("For Empty Throw")]
+	[SerializeField] private Transform leftOut;
+	[SerializeField] private Transform rightOut;
+	[SerializeField] private Transform[] inSequenceEmpty;
+
 	[Header("For Test")]
 	public PerformAnimalControl[] testAnimals;
 	public bool ifTest;
@@ -278,6 +283,16 @@ public class PerformUnit : MonoBehaviour
 			return testAnimals;
 
 		return allAnimalsInShow;
+	}
+
+	public Vector3 GetPositionWhenThrowToEmpty(int index)
+	{
+		if (index < 0)
+			return leftOut.position;
+		else if (index >= 6)
+			return rightOut.position;
+		else
+			return inSequenceEmpty[index].position;
 	}
 
 	public void ChangeYellowScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
