@@ -18,7 +18,7 @@ public class ShopDisplayUnit : MonoBehaviour
 	{
 		this.shopAnimal = shopAnimal;
 		image.sprite = shopAnimal.GetAnimalProperty().animalCoreImg;
-		priceText.text = shopAnimal.GetAnimalProperty().animalPrice.ToString();
+		priceText.text = "$ " + shopAnimal.GetAnimalProperty().animalPrice.ToString();
 		outOfStock.SetActive(false);
 
 		hoverExplainSystem.OnHover += HoverExplainSystem_OnHover;
@@ -40,7 +40,7 @@ public class ShopDisplayUnit : MonoBehaviour
 		if (displayIndex <= displayingListCount / 2 - 1) {
 			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(-400, 0);
 		} else {
-			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(100, 0);
+			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(300, 0);
 		}
 	}
 
