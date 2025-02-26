@@ -61,55 +61,59 @@ public class ScoreUIDisplay : MonoBehaviour
         }
     }
 
-    public void UpdateYellowScore(int newValue, string changeName)
+    public void UpdateYellowScore(float newValue, string changeName)
     {
-        Debug.Log("改动黄"+newValue.ToString());
+        //Debug.Log("改动黄"+newValue.ToString());
         if (yellowCoroutine != null) StopCoroutine(yellowCoroutine);
-        yellowCoroutine = StartCoroutine(AnimateText(yellowText, newValue));
+        yellowCoroutine = StartCoroutine(AnimateText(yellowText, newValue,0));
     }
 
-    public void UpdateLastScore(int newValue, string changeName)
+    public void UpdateLastScore(float newValue, string changeName)
     {
-        Debug.Log("改动上一次" + newValue.ToString());
+        //Debug.Log("改动上一次" + newValue.ToString());
         if (lastCoroutine != null) StopCoroutine(lastCoroutine);
-        lastCoroutine = StartCoroutine(AnimateText(lastText, newValue));
+        lastCoroutine = StartCoroutine(AnimateText(lastText, newValue,0));
     }
 
-    public void UpdateRedScore(int newValue, string changeName)
+    public void UpdateRedScore(float newValue, string changeName)
     {
-        Debug.Log("改动红" + newValue.ToString());
+        //Debug.Log("改动红" + newValue.ToString());
         if (redCoroutine != null) StopCoroutine(redCoroutine);
-        redCoroutine = StartCoroutine(AnimateText(redText, newValue));
+        redCoroutine = StartCoroutine(AnimateText(redText, newValue,0));
     }
 
-    public void UpdateBlueScore(int newValue, string changeName)
+    public void UpdateBlueScore(float newValue, string changeName)
     {
-        Debug.Log("改动蓝" + newValue.ToString());
+        //Debug.Log("改动蓝" + newValue.ToString());
         if (blueCoroutine != null) StopCoroutine(blueCoroutine);
-        blueCoroutine = StartCoroutine(AnimateText(blueText, newValue));
+        blueCoroutine = StartCoroutine(AnimateText(blueText, newValue,2));
     }
 
-    private IEnumerator AnimateText(TextMeshProUGUI text, int targetValue)
+    private IEnumerator AnimateText(TextMeshProUGUI text, float targetValue, int decimalPlaces)
     {
-        int startValue = int.Parse(text.text);
+        float startValue = float.Parse(text.text);
         float elapsedTime = 0f;
 
         while (elapsedTime < changeDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = elapsedTime / changeDuration;
-            int newValue = Mathf.RoundToInt(Mathf.Lerp(startValue, targetValue, t));
-            text.text = newValue.ToString();
+            float newValue = Mathf.Lerp(startValue, targetValue, t);
+
+            // **格式化数值，保留指定的小数位**
+            text.text = newValue.ToString("F" + decimalPlaces);
             yield return null;
         }
-        text.text = targetValue.ToString(); // 确保最终值正确
+
+        // **确保最终值正确**
+        text.text = targetValue.ToString("F" + decimalPlaces);
     }
 
-    public void UpdateTotalScore(int newValue, string changeName) // 新增总分更新
+    public void UpdateTotalScore(float newValue, string changeName) // 新增总分更新
     {
-        Debug.Log("改动总" + newValue.ToString());
+        //Debug.Log("改动总" + newValue.ToString());
         if (totalScoreCoroutine != null) StopCoroutine(totalScoreCoroutine);
-        totalScoreCoroutine = StartCoroutine(AnimateText(totalScoreText, newValue));
+        totalScoreCoroutine = StartCoroutine(AnimateText(totalScoreText, newValue,0));
     }
 
     public enum TestAction

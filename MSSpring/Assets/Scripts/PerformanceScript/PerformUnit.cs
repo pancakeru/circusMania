@@ -331,7 +331,7 @@ public class PerformUnit : MonoBehaviour
 				curYellowScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateYellowScore((int)curYellowScore, "PerformUnit");
+		scoreUI.UpdateYellowScore(curYellowScore, "PerformUnit");
 		UpdateTotalScore();
 	}
 
@@ -349,7 +349,7 @@ public class PerformUnit : MonoBehaviour
 				curRedScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateRedScore((int)curRedScore, "PerformUnit");
+		scoreUI.UpdateRedScore(curRedScore, "PerformUnit");
 		UpdateTotalScore(); // 更新总分
 	}
 
@@ -367,14 +367,14 @@ public class PerformUnit : MonoBehaviour
 				curBlueScore = changeNum;
 				break;
 		}
-		scoreUI.UpdateBlueScore((int)curBlueScore, "PerformUnit");
+		scoreUI.UpdateBlueScore(curBlueScore, "PerformUnit");
 		UpdateTotalScore(); // 更新总分
 	}
 
 	void SetLastScore(float toNum)
 	{
 		curLastScore = toNum;
-		scoreUI.UpdateLastScore((int)toNum, "PerformUnit");
+		scoreUI.UpdateLastScore(toNum, "PerformUnit");
 	}
 
 	float CalculateTotalScore()
@@ -384,7 +384,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void UpdateTotalScore()
 	{
-		scoreUI.UpdateTotalScore((int)CalculateTotalScore(), "PerformUnit");
+		scoreUI.UpdateTotalScore(CalculateTotalScore(), "PerformUnit");
 	}
 
 	public enum ChangeScoreType { Add, Time, Set }
