@@ -98,10 +98,18 @@ public class PerformUnit : MonoBehaviour
 		}
 
 		PerformAnimalControl startAnimal = ReturnFirstAnimal();
-		if (startAnimal == null)
-			Debug.LogError("没有起始动物");
-		curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
-		curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
+		if (startAnimal != null)
+		{
+			curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+			curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
+		}
+		else
+		{
+            curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+			curBall.DoInitialDrop(GetPositionWhenThrowToEmpty(0), null, this);
+        }
+		//Debug.LogError("没有起始动物");
+		
 	}
 
 	public void StartState(showState newState)
@@ -176,7 +184,13 @@ public class PerformUnit : MonoBehaviour
 
 	PerformAnimalControl ReturnFirstAnimal()
 	{
-		return allAnimalsInShow[0];
+		
+		foreach (PerformAnimalControl an in allAnimalsInShow)
+		{
+			if (an != null)
+				return an;
+		}
+		return null;
 	}
 
 	void changeAnimationFinishState()

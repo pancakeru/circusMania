@@ -209,9 +209,14 @@ public class BallScript : MonoBehaviour
 
 		// 确保最后的位置完全对齐
 		transform.position = toPos;
-		if (toCatch != null) {
+		if (toCatch != null)
+		{
 			toCatch.TakeBall(this);
 			catcher = toCatch;
+		}
+		else
+		{
+			DoDrop();
 		}
 		if (machine != null)
 			machine.ReportMoveFinish(this);
