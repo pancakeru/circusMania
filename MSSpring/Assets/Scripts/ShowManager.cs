@@ -120,6 +120,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private GameObject curEndScreen;
     private int[] recordScore;
 
+    [Header("Explain")]
+    public tempShowExplain explainer;
+
 
     private MenuController menu;
 
@@ -331,7 +334,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         yStart = -600;
         //areaOffset = 2;
         curTurn = 1;
-
+        blacker.Initial();
         onStage = new GameObject[6];
         posRecord = new areaReport[6];
         iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
@@ -681,6 +684,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                     }
                 }
                 break;
+
+            case DecideScreenState.empty:
+                explainer.DownExplain();
+                break;
         }
     }
 
@@ -691,6 +698,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         switch (curDecideState)
         {
             case DecideScreenState.empty:
+
+
                 if (Input.GetMouseButtonDown(0) && canBeMovedOrSelected)
                 {
                     enterInteraction = true;
@@ -711,7 +720,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         lastMousePosition = Input.mousePosition;
                         //进入滑动
                     }
-                    else if(firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect())
+                    else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect())
                     {
                         //进入上下
                         //Debug.Log(firstDetect.transform.parent.name);
@@ -741,7 +750,25 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         }
                         StartDecideState(DecideScreenState.choose);
                     }
-                    
+
+                }
+                else
+                {
+                    if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+                    {
+                        if (firstDetect != null)
+                            explainer.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
+                    }
+                    else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+                    {
+                        if (firstDetect != null)
+                            explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetByValue( firstDetect).selfProperty);
+                        Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
+                    }
+                    else
+                    {
+                        explainer.DownExplain();
+                    }
                 }
                 break;
 

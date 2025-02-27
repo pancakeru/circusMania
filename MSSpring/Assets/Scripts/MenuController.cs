@@ -10,6 +10,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
+        Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
         troupeController = FindFirstObjectByType<TroupeController>();
         shopManager = FindFirstObjectByType<ShopManager>();
         showManager = FindFirstObjectByType<ShowManager>();

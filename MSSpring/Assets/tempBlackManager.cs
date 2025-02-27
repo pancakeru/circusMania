@@ -19,7 +19,7 @@ public class tempBlackManager : MonoBehaviour
         //Debug.Log(targetImage.color.a);
         
     }
-    public void Inital()
+    public void Initial()
     {
         targetImage.color = new Color(targetImage.color.r, targetImage.color.g, targetImage.color.b, 0);
     }
