@@ -54,7 +54,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public List<GameObject> animalPerformancePrefabs;
 
     public List<GameObject> myHand;//需要重置
-    public GameObject[] onStage;//需要重置
+    private GameObject[] onStage;//需要重置
 
     private float leftAnchorX;
     private List<Vector2> initialPos = new List<Vector2>();//需要重置
