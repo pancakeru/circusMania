@@ -45,12 +45,13 @@ public class ShopManager : MonoBehaviour
 		boughtList = new List<ShopAnimal>();
 		Display();
 
-		//coinText.text = coin.ToString();
-	}
+        //coinText.text = coin.ToString();
+        menuController = FindAnyObjectByType<MenuController>();
+    }
 
     void Start()
     {
-        menuController = FindAnyObjectByType<MenuController>();
+        
     }
 
     private void Display()

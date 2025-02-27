@@ -53,23 +53,23 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private List<animalProperty> testList;
     public List<GameObject> animalPerformancePrefabs;
 
-    public List<GameObject> myHand;
-    public GameObject[] onStage;
+    public List<GameObject> myHand;//需要重置
+    public GameObject[] onStage;//需要重置
 
     private float leftAnchorX;
-    private List<Vector2> initialPos = new List<Vector2>();
+    private List<Vector2> initialPos = new List<Vector2>();//需要重置
 
     public GraphicRaycaster uiRaycaster;
     private EventSystem eventSystem;
     private bool sliding = false;
     private Vector2 lastMousePosition;
-    private List<iconAnimal> myHandControls = new List<iconAnimal>();
+    private List<iconAnimal> myHandControls = new List<iconAnimal>();//需要重置
     private GameObject firstDetect;
     private bool canBeMovedOrSelected = true;
     private bool enterInteraction = false;
     private GameObject holdingAnimalObj;
-    private areaReport[] posRecord;
-    private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+    private areaReport[] posRecord;//需要重置
+    private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();//需要重置
     private int moveFromStageIndex;
     private bool inDown = false;
     private LevelProperty curLevel;
@@ -111,7 +111,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     [SerializeField] private RectTransform ShowBanannaInShow;
 
 
-
+    private MenuController menu;
 
     public animalProperty testProperty;
 
@@ -125,12 +125,17 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     [SerializeField] private LevelProperty testLevel;
 
     private bool ifToShow = false;
+    private void Awake()
+    {
+        menu = FindAnyObjectByType<MenuController>();
+    }
+
     void Start()
     {
         handPanelMover = handPanelTransform.GetComponent<UiMover>();
         stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
         camMover = Camera.main.GetComponent<CameraMover>();
-        SetUpAnLevel(testLevel);
+        //SetUpAnLevel(testLevel);
         //testList = new List<animalProperty>();
         
 
@@ -205,7 +210,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             if (Time.timeScale != 1)
                 Time.timeScale = 1;
             else
-                Time.timeScale *= 3;
+                Time.timeScale *= 2;
         }
         /*
         if (Input.GetKeyDown(KeyCode.U))
@@ -306,10 +311,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         offset = 300;
         yStart = -600;
         //areaOffset = 2;
+        curTurn = 0;
 
         onStage = new GameObject[6];
         posRecord = new areaReport[6];
-
+        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+        myHandControls = new List<iconAnimal>();
+        myHand = new List<GameObject>();
+        initialPos = new List<Vector2>();
+        SetUpAnLevel(testLevel);
         totalPerformanceControl.InitShow();
         //位置 GameObject
         for (int i = 0; i < 6; i++)
@@ -321,6 +331,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         }
         InitializeHand(GlobalManager.instance.getAllAnimals());
         currentState = ShowStates.SelectAnimal;
+        stagePanelMover.gameObject.SetActive(true);
+        startButtonMover.GetComponent<Button>().interactable = true;
     }
 
     public void StartMoveToShow() {
@@ -338,11 +350,25 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         showBanana.MoveTo(ShowBanannaInShow.anchoredPosition);
         totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
         moveCounter.SetUpCount(7);
-        var toGive = from x in onStage
-                     let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
-                     select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
+        Debug.Log(onStage == null);
+        try
+        {
+            var toGive = from x in onStage
+                         let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
+                         select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
+            totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
+        }
+        catch
+        {
+            Debug.Log(onStage == null);
+            var toGive = from x in onStage
+                         let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
+                         select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
+            totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
+        }
+        
 
-        totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
+        
 
 
     }
@@ -370,17 +396,35 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
     void StartDecide()
     {
-        Debug.Log("开始decide");
-        currentState = ShowStates.SelectAnimal;
-        stagePanelMover.gameObject.SetActive(true);
-        startButtonMover.GetComponent<Button>().interactable = true;
-        thrower.addBanana(10);
         curTurn += 1;
-        ChangeLevelStatus(curTurn,recordScoreFromLastTime, repuRatio);
+        if (curTurn <= curLevel.allowedTurn)
+        {
+            Debug.Log("开始decide");
+            currentState = ShowStates.SelectAnimal;
+            stagePanelMover.gameObject.SetActive(true);
+            startButtonMover.GetComponent<Button>().interactable = true;
+            thrower.addBanana(10);
+
+            ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio);
+        }
+        else
+        {
+            LeaveShow();
+        }
     }
 
     void LeaveShow() {
-
+        foreach (GameObject an in onStage)
+        {
+            if (an != null)
+                SetUnSelectIconInHand(an);
+        }
+        foreach (GameObject handIcon in myHand)
+        {
+            Destroy(handIcon);
+        }
+        gameObject.SetActive(false);
+        menu.Enable();
     }
 
     private Counter moveCounter = new Counter();
