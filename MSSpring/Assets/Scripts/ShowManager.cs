@@ -12,7 +12,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private enum ShowStates {
         SelectAnimal,
         Animation,
-        Performance
+        Performance,
+        EndCheck
     }
 
 
@@ -110,6 +111,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     [SerializeField] private RectTransform ShowBanannaInDecision;
     [SerializeField] private RectTransform ShowBanannaInShow;
 
+    [Header("End Screen")]
+    [SerializeField] private Transform canvasTrans;
+    [SerializeField] private GameObject EndScreenPrefab;
+    [SerializeField] private RectTransform endScreenUpPos;
+    [SerializeField] private RectTransform endScreenDownPos;
+    [SerializeField] private tempBlackManager blacker;
+    private GameObject curEndScreen;
+    private int[] recordScore;
+
 
     private MenuController menu;
 
@@ -128,13 +138,14 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private void Awake()
     {
         menu = FindAnyObjectByType<MenuController>();
+        handPanelMover = handPanelTransform.GetComponent<UiMover>();
+        stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
+        camMover = Camera.main.GetComponent<CameraMover>();
     }
 
     void Start()
     {
-        handPanelMover = handPanelTransform.GetComponent<UiMover>();
-        stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
-        camMover = Camera.main.GetComponent<CameraMover>();
+        
         //SetUpAnLevel(testLevel);
         //testList = new List<animalProperty>();
         
@@ -171,13 +182,14 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     {
         curLevel = level;
         curScore = 0;
-        curTurn = 0;
+        curTurn = 1;
         curRepu = 1;
         targetDisplayManager.ChangeLevelState(curScore,curTurn,curRepu,level.targetScore,level.allowedTurn);
     }
 
     private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio)
     {
+        recordScore[_curTurn - 2] = (int)_curScore;
         curRepu = _curScore * reputationRatio;
         curScore += _curScore;
         targetDisplayManager.ChangeLevelState(curScore,_curTurn, curRepu,curLevel.targetScore,curLevel.allowedTurn);
@@ -203,6 +215,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     void Update()
     {
 
+        
+
         if (ifTest)
         {
             ifTest = false;
@@ -215,8 +229,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         /*
         if (Input.GetKeyDown(KeyCode.U))
         {
-            EnterOneShow();
+            //EnterOneShow();
+            blacker.Fade();
+            curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
+            curEndScreen.GetComponent<RectTransform>().anchoredPosition = endScreenDownPos.anchoredPosition;
+            curEndScreen.GetComponent<UiMover>().MoveTo(endScreenUpPos.anchoredPosition);
         }
+        
         if (Input.GetKeyDown(KeyCode.N))
         {
             
@@ -311,7 +330,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         offset = 300;
         yStart = -600;
         //areaOffset = 2;
-        curTurn = 0;
+        curTurn = 1;
 
         onStage = new GameObject[6];
         posRecord = new areaReport[6];
@@ -321,6 +340,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         initialPos = new List<Vector2>();
         SetUpAnLevel(testLevel);
         totalPerformanceControl.InitShow();
+        recordScore = new int[5];
         //位置 GameObject
         for (int i = 0; i < 6; i++)
         {
@@ -332,6 +352,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         InitializeHand(GlobalManager.instance.getAllAnimals());
         currentState = ShowStates.SelectAnimal;
         stagePanelMover.gameObject.SetActive(true);
+        //TODO:改成到地方再可以交互
         startButtonMover.GetComponent<Button>().interactable = true;
     }
 
@@ -409,11 +430,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         }
         else
         {
-            LeaveShow();
+            ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio);
+            currentState = ShowStates.EndCheck;
+            blacker.Fade();
+            curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
+            curEndScreen.GetComponent<EndScreenScript>().InitialScore((int)curLevel.targetScore,recordScore,(int)curScore,30);
+            curEndScreen.GetComponent<RectTransform>().anchoredPosition = endScreenDownPos.anchoredPosition;
+            curEndScreen.GetComponent<UiMover>().MoveTo(endScreenUpPos.anchoredPosition);
+            //LeaveShow();
         }
     }
 
-    void LeaveShow() {
+    public void LeaveShow() {
         foreach (GameObject an in onStage)
         {
             if (an != null)
@@ -424,6 +452,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             Destroy(handIcon);
         }
         gameObject.SetActive(false);
+        Destroy(curEndScreen);
         menu.Enable();
     }
 

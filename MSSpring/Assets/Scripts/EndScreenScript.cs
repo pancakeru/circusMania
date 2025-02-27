@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
-using UnityEngine.UIElements;
 
 public class EndScreenScript : MonoBehaviour
 {
@@ -20,7 +19,10 @@ public class EndScreenScript : MonoBehaviour
     private int currentIndex = 0;
     public int[] test;
 
+    public GameObject endButton;
+
     private enum DisplaySequence {
+        Wait,
         ShowScore,
         Breakdown,
         TotalCalc,
@@ -29,10 +31,27 @@ public class EndScreenScript : MonoBehaviour
     }
     private DisplaySequence currentState;
 
+    private int curReql;
+    private int curTotal;
+    private int curMoneyEarned;
+
     void Start()
     {
-        currentState = DisplaySequence.ShowScore;
+        //currentState = DisplaySequence.ShowScore;
 
+    }
+
+    public void InitialScore(int required, int[] eachTurn, int total, int moneyEarned)
+    {
+        curReql = required;
+        test = eachTurn;
+        curTotal = total;
+        curMoneyEarned = moneyEarned;
+    }
+
+    public void StartDisplay()
+    {
+        currentState = DisplaySequence.ShowScore;
     }
 
     void Update()
@@ -42,7 +61,7 @@ public class EndScreenScript : MonoBehaviour
             //第一部分-宏观信息
             case DisplaySequence.ShowScore:
                 lvlName.text = "Level 1";
-                scoreText.text = "Required Score: 1000";
+                scoreText.text = "Required Score: "+curReql.ToString();
 
                 currentState = DisplaySequence.Breakdown;
 
@@ -64,24 +83,30 @@ public class EndScreenScript : MonoBehaviour
             //第三部分收获
             case DisplaySequence.TotalCalc:
                 //数量
-                DisplayText(totalScore, 10000, DisplaySequence.MoneyCalc);
+                DisplayText(totalScore, curTotal, DisplaySequence.MoneyCalc);
 
             break;
 
             case DisplaySequence.MoneyCalc:
                 //金币
-                DisplayText(moneyEarned, 20000, DisplaySequence.EndButton);
+                DisplayText(moneyEarned, curMoneyEarned, DisplaySequence.EndButton);
 
             break;
 
             case DisplaySequence.EndButton:
 
                 //Play Again 按钮
-
+                endButton.SetActive(true);
+                //endButton.GetComponent<Button>().onClick.AddListener(() => { });
             break;
         }
     }
 
+    public void Leave()
+    {
+
+        FindAnyObjectByType<ShowManager>().LeaveShow();
+    }
     
     void DisplayText(TMP_Text text, float value, DisplaySequence nextState) {
         if (starting < value) {
