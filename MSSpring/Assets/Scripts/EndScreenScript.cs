@@ -96,7 +96,7 @@ public class EndScreenScript : MonoBehaviour
     }
 
     void DisplayList() {
-        scoreBreakdown.text += $"Act #{currentIndex + 1, -35} +{test[currentIndex]}\n";
+        scoreBreakdown.text += $"Act #{currentIndex + 1, -25} {test[currentIndex]}\n";
         currentIndex += 1;
         lineDelay = 0.5f;
     }

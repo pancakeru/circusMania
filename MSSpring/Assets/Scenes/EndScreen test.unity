@@ -331,11 +331,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1887486303367952478, guid: b43d1d514788cde4e80363953b4b5ff8, type: 3}
       propertyPath: test.Array.data[0]
-      value: 10
+      value: 100000
       objectReference: {fileID: 0}
     - target: {fileID: 1887486303367952478, guid: b43d1d514788cde4e80363953b4b5ff8, type: 3}
       propertyPath: test.Array.data[1]
-      value: 20
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 1887486303367952478, guid: b43d1d514788cde4e80363953b4b5ff8, type: 3}
       propertyPath: test.Array.data[2]
