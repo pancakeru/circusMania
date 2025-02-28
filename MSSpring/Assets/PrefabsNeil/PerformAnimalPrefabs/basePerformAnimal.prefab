@@ -296,7 +296,7 @@ MonoBehaviour:
   AcceptPos: {fileID: 4486114369944327467}
   restText: {fileID: 4076757852691191043}
   generator: {fileID: 6426029797133994698}
-  mechanicNumberUI: {fileID: 5420625542985829822, guid: 4b2654dec48143a43ab60ae3a516c46f, type: 3}
+  mechanicNumberUIPrefab: {fileID: 7766343941940928243, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
 --- !u!50 &4833664479332635922
 Rigidbody2D:
   serializedVersion: 4

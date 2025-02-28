@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using static UnityEngine.GraphicsBuffer;
+using UnityEditor;
 
 public class PerformAnimalControl : MonoBehaviour
 {
@@ -39,7 +41,8 @@ public class PerformAnimalControl : MonoBehaviour
 	private Vector3 baseRatio;
 
 	[Header("MechanicNumber")]
-	public GameObject mechanicNumberUI;
+    public GameObject mechanicNumberUIPrefab;
+	MechanicNumberController mechanicNumberUI;
 
     void Start()
 	{
@@ -49,7 +52,8 @@ public class PerformAnimalControl : MonoBehaviour
 		baseRatio = renderer.transform.localScale;
 
 		//StartState(animalSceneState.inShop);
-	}
+
+    }
 
 	private void Update()
 	{
@@ -74,7 +78,11 @@ public class PerformAnimalControl : MonoBehaviour
 		animalBrain.InitBrain(controlUnit, this);
 		selfIndexInShow = index;
 
-		if (!ifEnSouled)
+        GameObject myMechanicNumberUI = Instantiate(mechanicNumberUIPrefab, transform.position + new Vector3(0, -2f, 0), Quaternion.identity);
+        mechanicNumberUI = myMechanicNumberUI.GetComponent<MechanicNumberController>();
+        mechanicNumberUI.mechanicNumberType = animalBrain.soul.mechanicNumberType;
+
+        if (!ifEnSouled)
 			Debug.LogError("Remember to do EnSoul to each animal in show");
 	}
 
@@ -83,12 +91,15 @@ public class PerformAnimalControl : MonoBehaviour
 		Debug.Log(name + "开始了");
 		//如果有球
 		if (ifHaveBall) {
-			animalBrain.InteractWithBall();
+            animalBrain.InteractWithBall();
+			if (animalBrain.soul.mechanicNumberType == MechanicNumberType.WarmUp) mechanicNumberUI.Change(-1);
+            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Excited) mechanicNumberUI.Active();
 
-		} else if (!ifReadyToInteract) {
+        } else if (!ifReadyToInteract) {
 			//如果无球并且在休息状态，就休息
 			animalBrain.DoRest();
-		}
+            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Excited) mechanicNumberUI.Change(-1);
+        }
 		//否则就什么都不做
 	}
 
@@ -261,7 +272,8 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	{
 		controlUnit = _unit;
 		animalBody = _body;
-		DoWhenShowStart();
+
+        DoWhenShowStart();
 
 		if (soul == null)
 			_body.EnSoul(testProperty);
@@ -287,7 +299,7 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 
 		GenerateScore(animalInfo);
 
-		controlUnit.InvokeOnExcitementEvent(animalInfo);
+        controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalBody.ifReadyToInteract = false;
 	}

@@ -10,8 +10,9 @@ public struct AnimalInfoPack
 	public int power;
 	public int warmUp;
 	public int excited;
+    public int mechanicActiveNum;
 
-	public AnimalInfoPack(PerformAnimalControl performAnimalControl)
+    public AnimalInfoPack(PerformAnimalControl performAnimalControl)
 	{
 		this.performAnimalControl = performAnimalControl;
 
@@ -22,5 +23,7 @@ public struct AnimalInfoPack
 		power = 1;
 		warmUp = 0;
 		excited = 0;
-	}
+		mechanicActiveNum = performAnimalControl.animalBrain.soul.mechanicActiveNum;
+
+    }
 }

@@ -939,6 +939,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2913064117335922970, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: mechanicNumberUI
+      value: 
+      objectReference: {fileID: 1485471269933785753, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
     - target: {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
       propertyPath: m_Name
       value: PerformAnimalMonkey (4)
@@ -1085,6 +1089,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2913064117335922970, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: mechanicNumberUI
+      value: 
+      objectReference: {fileID: 1485471269933785753, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
     - target: {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
       propertyPath: m_Name
       value: PerformAnimalMonkey (1)
@@ -1151,6 +1159,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2913064117335922970, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: mechanicNumberUI
+      value: 
+      objectReference: {fileID: 1485471269933785753, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
     - target: {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
       propertyPath: m_Name
       value: PerformAnimalMonkey (2)
@@ -1184,6 +1196,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6018669582459501976}
     m_Modifications:
+    - target: {fileID: 71469504222515638, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: testProperty
+      value: 
+      objectReference: {fileID: 11400000, guid: cf324ce1a3f5c4498a0064f28e1d3ff8, type: 2}
     - target: {fileID: 2539096645857479307, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.5
@@ -1224,9 +1240,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2913064117335922970, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: mechanicNumberUI
+      value: 
+      objectReference: {fileID: 1485471269933785753, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
     - target: {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
       propertyPath: m_Name
       value: PerformAnimalMonkey (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1293,6 +1317,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2913064117335922970, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
+      propertyPath: mechanicNumberUI
+      value: 
+      objectReference: {fileID: 1485471269933785753, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
     - target: {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
       propertyPath: m_Name
       value: PerformAnimalMonkey

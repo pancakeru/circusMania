@@ -17,6 +17,10 @@ public class animalProperty : ScriptableObject
     public int baseBallChange;
     public int restTurn;
 
+    [Header("For Mechanic")]
+    public MechanicNumberType mechanicNumberType;
+    public int mechanicActiveNum; 
+
     [Header("For explain")]
     /// <summary>
     /// 得分动作的文本模板，例如 "得分 {0} 分，并额外获得 {1} 点奖励"
