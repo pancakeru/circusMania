@@ -46,11 +46,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e558e126e3b39428ae6b533548369c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myMechanic: 0
+  mechanicNumberType: 0
   backSprites:
   - {fileID: 21300000, guid: c5d4d7d9395ae9747a9897fc3187c467, type: 3}
   - {fileID: 21300000, guid: 819d72319f98de843b99b4cd38190fe2, type: 3}
   - {fileID: 21300000, guid: 323eb7c830351e44d901925de15ecec4, type: 3}
+  - {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
 --- !u!212 &1471013592531036846
 SpriteRenderer:
   m_ObjectHideFlags: 0

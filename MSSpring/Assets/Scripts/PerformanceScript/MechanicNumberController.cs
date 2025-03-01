@@ -16,8 +16,8 @@ public enum MechanicNumberType
 public class MechanicNumberController : MonoBehaviour
 {
     [HideInInspector] public MechanicNumberType mechanicNumberType;
+    [HideInInspector] public AnimalInfoPack myAnimalInfo;
     public List<Sprite> backSprites = new List<Sprite>();
-    public AnimalInfoPack myAnimalInfo;
 
     TextMeshPro text;
     SpriteRenderer spriteRenderer;
@@ -25,30 +25,43 @@ public class MechanicNumberController : MonoBehaviour
     MechanicNumber mechanicNumber;
     MechanicNumberControllerPack myPack;
 
-    void Awake() //Reset
+    public void Begin() 
     {
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        myPack.animalInfo = myAnimalInfo;
-        myPack.text = text;
-        myPack.spriteRenderer = spriteRenderer;
+        myPack = new MechanicNumberControllerPack
+        {
+            animalInfo = myAnimalInfo,
+            text = text,
+            spriteRenderer = spriteRenderer
+        };
 
         switch (mechanicNumberType)
         {
             case MechanicNumberType.Power:
                 mechanicNumber = new MechanicPower();
                 spriteRenderer.sprite = backSprites[0];
+                text.text = myAnimalInfo.power.ToString();
                 break;
 
             case MechanicNumberType.WarmUp:
+                myAnimalInfo.warmUp = myAnimalInfo.mechanicActiveNum;
                 mechanicNumber = new MechanicWarmUp();
                 spriteRenderer.sprite = backSprites[1];
+                text.text = myAnimalInfo.warmUp.ToString();
                 break;
 
             case MechanicNumberType.Excited:
+                myAnimalInfo.excited = myAnimalInfo.mechanicActiveNum;
                 mechanicNumber = new MechanicExcited();
                 spriteRenderer.sprite = backSprites[2];
+                text.text = myAnimalInfo.excited.ToString();
+                break;
+
+            default:
+                spriteRenderer.sprite = backSprites[3];
+                text.text = "";
                 break;
         }
     }
@@ -97,7 +110,7 @@ public class MechanicNumberController : MonoBehaviour
     }
 }
 
-public struct MechanicNumberControllerPack
+public class MechanicNumberControllerPack
 {
     public AnimalInfoPack animalInfo;
     public TextMeshPro text;
@@ -137,6 +150,7 @@ public class MechanicWarmUp : MechanicNumber
     }
     public override void Change(MechanicNumberControllerPack myPack, int changeValue)
     {
+        Debug.Log($"{myPack.animalInfo.warmUp} + {changeValue}");
         myPack.animalInfo.warmUp += changeValue;
         myPack.text.text = myPack.animalInfo.power.ToString();
         if (myPack.animalInfo.excited == 0)

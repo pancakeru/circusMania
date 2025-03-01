@@ -81,6 +81,8 @@ public class PerformAnimalControl : MonoBehaviour
         GameObject myMechanicNumberUI = Instantiate(mechanicNumberUIPrefab, transform.position + new Vector3(0, -2f, 0), Quaternion.identity);
         mechanicNumberUI = myMechanicNumberUI.GetComponent<MechanicNumberController>();
         mechanicNumberUI.mechanicNumberType = animalBrain.soul.mechanicNumberType;
+        mechanicNumberUI.myAnimalInfo = animalBrain.animalInfo;
+        mechanicNumberUI.Begin();
 
         if (!ifEnSouled)
 			Debug.LogError("Remember to do EnSoul to each animal in show");
@@ -92,7 +94,7 @@ public class PerformAnimalControl : MonoBehaviour
 		//如果有球
 		if (ifHaveBall) {
             animalBrain.InteractWithBall();
-			if (animalBrain.soul.mechanicNumberType == MechanicNumberType.WarmUp) mechanicNumberUI.Change(-1);
+            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.WarmUp) mechanicNumberUI.Change(-1);
             if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Excited) mechanicNumberUI.Active();
 
         } else if (!ifReadyToInteract) {
