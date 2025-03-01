@@ -94,6 +94,7 @@ public class PerformAnimalControl : MonoBehaviour
 		//如果有球
 		if (ifHaveBall) {
             animalBrain.InteractWithBall();
+            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Power) mechanicNumberUI.Change(0);
             if (animalBrain.soul.mechanicNumberType == MechanicNumberType.WarmUp) mechanicNumberUI.Change(-1);
             if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Excited) mechanicNumberUI.Active();
 

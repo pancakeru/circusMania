@@ -20,7 +20,7 @@ MonoBehaviour:
   baseBlueChange: 0
   baseBallChange: 1
   restTurn: 2
-  mechanic: 1
+  mechanicNumberType: 1
   mechanicActiveNum: 0
   scoreActionTemplate: 1234
   amount1: 0

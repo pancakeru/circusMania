@@ -53,7 +53,7 @@ public class MechanicNumberController : MonoBehaviour
                 break;
 
             case MechanicNumberType.Excited:
-                myAnimalInfo.excited = myAnimalInfo.mechanicActiveNum;
+                myAnimalInfo.excited = 0;
                 mechanicNumber = new MechanicExcited();
                 spriteRenderer.sprite = backSprites[2];
                 text.text = myAnimalInfo.excited.ToString();
@@ -133,7 +133,6 @@ public class MechanicPower : MechanicNumber
     }
     public override void Change(MechanicNumberControllerPack myPack, int changeValue)
     {
-        myPack.animalInfo.power += changeValue;
         myPack.text.text = myPack.animalInfo.power.ToString();
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
@@ -152,11 +151,12 @@ public class MechanicWarmUp : MechanicNumber
     {
         Debug.Log($"{myPack.animalInfo.warmUp} + {changeValue}");
         myPack.animalInfo.warmUp += changeValue;
-        myPack.text.text = myPack.animalInfo.power.ToString();
-        if (myPack.animalInfo.excited == 0)
+        myPack.text.text = myPack.animalInfo.warmUp.ToString();
+        if (myPack.animalInfo.warmUp == 0)
         {
             Deactive(myPack);
         }
+        Debug.Log($"{myPack.animalInfo.warmUp}");
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
@@ -169,12 +169,12 @@ public class MechanicExcited : MechanicNumber
     public override void Active(MechanicNumberControllerPack myPack)
     {
         myPack.animalInfo.excited = myPack.animalInfo.mechanicActiveNum;
-        myPack.text.text = myPack.animalInfo.power.ToString();
+        myPack.text.text = myPack.animalInfo.excited.ToString();
     }
     public override void Change(MechanicNumberControllerPack myPack, int changeValue)
     {
         myPack.animalInfo.excited += changeValue;
-        myPack.text.text = myPack.animalInfo.power.ToString();
+        myPack.text.text = myPack.animalInfo.excited.ToString();
         if (myPack.animalInfo.excited == 0) Deactive(myPack);
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
