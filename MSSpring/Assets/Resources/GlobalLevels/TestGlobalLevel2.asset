@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TestGlobalLevel2
   m_EditorClassIdentifier: 
   levelIndex: 2
-  showVisual: {fileID: 0}
-  animalPool: {fileID: 0}
-  levelProperty: {fileID: 0}
+  showVisual: {fileID: 21300000, guid: 8b47756f64caf427fbbb8d74f371ab57, type: 3}
+  animalPool: {fileID: 11400000, guid: 7ebb2235372f846b883514d61ac30ad3, type: 2}
+  levelProperty: {fileID: 11400000, guid: 1a17f8f76d2cd4bb5ae7c7a9d8db9631, type: 2}
