@@ -61,6 +61,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private List<Vector2> initialPos = new List<Vector2>();//需要重置
 
     public GraphicRaycaster uiRaycaster;
+    [SerializeField] private float downRatio = 0.2f;
     private EventSystem eventSystem;
     private bool sliding = false;
     private Vector2 lastMousePosition;
@@ -181,6 +182,40 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
     }
 
+    //Functions
+    public void EnterOneShow()
+    {
+        x = -750;
+        //offset = 300;
+        yStart = -600;
+        //areaOffset = 2;
+        curTurn = 1;
+        blacker.Initial();
+        onStage = new GameObject[6];
+        posRecord = new areaReport[6];
+        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+        myHandControls = new List<iconAnimal>();
+        myHand = new List<GameObject>();
+        initialPos = new List<Vector2>();
+        SetUpAnLevel(testLevel);
+        totalPerformanceControl.InitShow();
+        recordScore = new int[5];
+        //位置 GameObject
+        for (int i = 0; i < 6; i++)
+        {
+            GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
+            temp.GetComponent<areaReport>().spotNum = i;
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i + centerOffset, 0);
+            posRecord[i] = temp.GetComponent<areaReport>();
+        }
+        InitializeHand(GlobalManager.instance.getAllAnimals());
+        currentState = ShowStates.SelectAnimal;
+        stagePanelMover.gameObject.SetActive(true);
+        //TODO:改成到地方再可以交互
+        startButtonMover.GetComponent<Button>().interactable = true;
+        camMover.SetTo(CamInDecition.position, DecideCamScale);
+    }
+
     private void SetUpAnLevel(LevelProperty level)
     {
         curLevel = level;
@@ -188,14 +223,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         curTurn = 1;
         curRepu = 1;
         targetDisplayManager.ChangeLevelState(curScore,curTurn,curRepu,level.targetScore,level.allowedTurn);
-    }
-
-    private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio)
-    {
-        recordScore[_curTurn - 2] = (int)_curScore;
-        curRepu = _curScore * reputationRatio;
-        curScore += _curScore;
-        targetDisplayManager.ChangeLevelState(curScore,_curTurn, curRepu,curLevel.targetScore,curLevel.allowedTurn);
     }
 
     private void InitializeHand(List<animalProperty> properties)
@@ -210,16 +237,23 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset * i, yStart);
             temp.GetComponent<iconAnimal>().myIndex = i;
             //TODO:把这个目标位置整合
-            initialPos.Add(new Vector2(x + offset * i, -350));
+            initialPos.Add(new Vector2(x + offset * i, temp.GetComponent<iconAnimal>().yGoal));
             myHandControls.Add(temp.GetComponent<iconAnimal>());
         }
     }
 
+    private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio)
+    {
+        recordScore[_curTurn - 2] = (int)_curScore;
+        curRepu = _curScore * reputationRatio;
+        curScore += _curScore;
+        targetDisplayManager.ChangeLevelState(curScore,_curTurn, curRepu,curLevel.targetScore,curLevel.allowedTurn);
+    }
+
+    
+
     void Update()
     {
-
-        
-
         if (ifTest)
         {
             ifTest = false;
@@ -327,37 +361,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         canBeMovedOrSelected = true;
     }
 
-    //Functions
-    public void EnterOneShow() {
-        x = -750;
-        offset = 300;
-        yStart = -600;
-        //areaOffset = 2;
-        curTurn = 1;
-        blacker.Initial();
-        onStage = new GameObject[6];
-        posRecord = new areaReport[6];
-        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
-        myHandControls = new List<iconAnimal>();
-        myHand = new List<GameObject>();
-        initialPos = new List<Vector2>();
-        SetUpAnLevel(testLevel);
-        totalPerformanceControl.InitShow();
-        recordScore = new int[5];
-        //位置 GameObject
-        for (int i = 0; i < 6; i++)
-        {
-            GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
-            temp.GetComponent<areaReport>().spotNum = i;
-            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i+centerOffset, 0);
-            posRecord[i] = temp.GetComponent<areaReport>();
-        }
-        InitializeHand(GlobalManager.instance.getAllAnimals());
-        currentState = ShowStates.SelectAnimal;
-        stagePanelMover.gameObject.SetActive(true);
-        //TODO:改成到地方再可以交互
-        startButtonMover.GetComponent<Button>().interactable = true;
-    }
+    
 
     public void StartMoveToShow() {
         ifToShow = true;
@@ -714,7 +718,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         StartDecideState(DecideScreenState.moveAnimal);
 
                     }
-                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea())
+                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio))
                     {
                         StartDecideState(DecideScreenState.slide);
                         lastMousePosition = Input.mousePosition;
@@ -754,6 +758,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 }
                 else
                 {
+                    //解释动物
                     if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
                     {
                         if (firstDetect != null)
@@ -795,7 +800,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                     
                     holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
                 }
-
                 if (Input.GetMouseButtonUp(0))
                 {
                         foreach (iconAnimal animal in myHandControls)
@@ -839,7 +843,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 if (Input.GetMouseButton(0))
                 {
                     holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
-                    if (DetectMouseInDownArea())
+                    if (DetectMouseInDownArea(downRatio))
                     {
                         if (!inDown)
                         {
@@ -884,7 +888,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         }
                         MoveObjToIndexOnStage(-1, Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
                         holdingAnimalObj = null;
-                    } else if (DetectMouseInDownArea())
+                    } else if (DetectMouseInDownArea(downRatio))
                     {
                         SetUnSelectIconInHand(holdingAnimalObj);
                         holdingAnimalObj = null;
@@ -901,7 +905,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         }
     }
 
-    private bool DetectMouseInDownArea(float percentage = 0.3f) // 默认是屏幕下方 30%
+    private bool DetectMouseInDownArea(float percentage) // 默认是屏幕下方 30%
     {
         float screenHeight = Screen.height; // 获取屏幕高度
         float thresholdY = screenHeight * percentage; // 计算下方区域的 Y 轴临界值

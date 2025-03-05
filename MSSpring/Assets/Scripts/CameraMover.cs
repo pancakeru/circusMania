@@ -141,4 +141,10 @@ public class CameraMover : MonoBehaviour
                 onMoveReachs[triggerIndex]?.Invoke();
         }
     }
+
+    public void SetTo(Vector3 destination, float newScale )
+    {
+        mainCamera.transform.position = destination;
+        mainCamera.orthographicSize = newScale;
+    }
 }
