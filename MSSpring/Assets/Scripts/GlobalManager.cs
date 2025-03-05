@@ -1,128 +1,134 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalManager : MonoBehaviour, IGeneralManager
 {
-    public static GlobalManager instance;
+	public static GlobalManager instance;
 
-    [Header("For test")]
-    [SerializeField]
-    private List<animalProperty> testProperties;
-    [SerializeField]
-    private int testCoinNum;
-    [SerializeField]
-    private bool ifDoTestInitialize;
-    [SerializeField]
-    private TestAction testAction;
-    [SerializeField]
-    private bool ifTestAction = false;
-    [SerializeField]
-    private animalProperty toTestAdd;
+	private string globalLevelFolderPath = "GlobalLevels";
+	private GlobalLevel[] globalLevelArray;
+	public int currentLevelIndex = 0;
 
+	[Header("For test")]
+	[SerializeField]
+	private List<animalProperty> testProperties;
+	[SerializeField]
+	private int testCoinNum;
+	[SerializeField]
+	private bool ifDoTestInitialize;
+	[SerializeField]
+	private TestAction testAction;
+	[SerializeField]
+	private bool ifTestAction = false;
+	[SerializeField]
+	private animalProperty toTestAdd;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+	private void Awake()
+	{
+		if (instance == null) {
+			instance = this;
+			DontDestroyOnLoad(gameObject);
+		} else {
+			Destroy(gameObject);
+		}
 
-    private void Start()
-    {
-        if (ifDoTestInitialize)
-        {
-            foreach (animalProperty apt in testProperties)
-                addAnAnimal(apt);
-            curCoinAmount = testCoinNum;
-        }
-    }
+		globalLevelArray = Resources.LoadAll<GlobalLevel>(globalLevelFolderPath);
+		if (globalLevelArray.Length > 1) {
+			Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
+		}
+	}
 
-    private void Update()
-    {
-        if (ifTestAction)
-        {
-            ifTestAction = false;
-            switch (testAction)
-            {
-                case TestAction.Add:
-                    addAnAnimal(toTestAdd);
-                    break;
+	private void Start()
+	{
+		if (ifDoTestInitialize) {
+			foreach (animalProperty apt in testProperties)
+				addAnAnimal(apt);
+			curCoinAmount = testCoinNum;
+		}
+	}
 
-                case TestAction.LogInfo:
-                    string infoMessage = "";
-                    foreach (animalProperty apt in animals)
-                    {
-                        infoMessage += apt.name;
-                        infoMessage += ", ";
-                    }
+	private void Update()
+	{
+		if (ifTestAction) {
+			ifTestAction = false;
+			switch (testAction) {
+				case TestAction.Add:
+					addAnAnimal(toTestAdd);
+					break;
 
-                    Debug.Log("现在仓库有"+ infoMessage);
-                    break;
+				case TestAction.LogInfo:
+					string infoMessage = "";
+					foreach (animalProperty apt in animals) {
+						infoMessage += apt.name;
+						infoMessage += ", ";
+					}
 
-                case TestAction.LogCoin:
-                    Debug.Log("现在金币是"+curCoinAmount);
-                    break;
-            }
-            
-        }
-    }
+					Debug.Log("现在仓库有" + infoMessage);
+					break;
 
-    // 动物管理
-    #region 动物管理
-    private List<animalProperty> animals = new List<animalProperty>();
+				case TestAction.LogCoin:
+					Debug.Log("现在金币是" + curCoinAmount);
+					break;
+			}
 
-    public List<animalProperty> getAllAnimals()
-    {
-        Debug.Log("动物list有这些: "+animals.Count);
-        return animals;
-    }
+		}
+	}
 
-    public void addAnAnimal(animalProperty newAnimal)
-    {
-        animals.Add(newAnimal);
-    }
-    #endregion
-    // 金币管理
-    #region 金币管理
-    private int curCoinAmount = 0;
+	public GlobalLevel GetCurrentGlobalLevel()
+	{
+		return globalLevelArray[currentLevelIndex];
+	}
 
-    public int getCurCoinAmount()
-    {
-        return curCoinAmount;
-    }
+	// 动物管理
+	#region 动物管理
+	private List<animalProperty> animals = new List<animalProperty>();
 
-    public bool checkIfCanChangeCoin(int n)
-    {
-        return curCoinAmount + n >= 0;
-    }
+	public List<animalProperty> getAllAnimals()
+	{
+		Debug.Log("动物list有这些: " + animals.Count);
+		return animals;
+	}
 
-    public bool changeCoinAmount(int n)
-    {
-        if (checkIfCanChangeCoin(n))
-        {
-            curCoinAmount += n;
-            return true;
-        }
-        return false;
-    }
+	public void addAnAnimal(animalProperty newAnimal)
+	{
+		animals.Add(newAnimal);
+	}
+	#endregion
+	// 金币管理
+	#region 金币管理
+	private int curCoinAmount = 0;
 
-    public void setCoinAmount(int n)
-    {
-        curCoinAmount = n;
-    }
-    #endregion
+	public int getCurCoinAmount()
+	{
+		return curCoinAmount;
+	}
 
-    public enum TestAction
-    {
-        Add,
-        LogInfo,
-        LogCoin
-    }
+	public bool checkIfCanChangeCoin(int n)
+	{
+		return curCoinAmount + n >= 0;
+	}
+
+	public bool changeCoinAmount(int n)
+	{
+		if (checkIfCanChangeCoin(n)) {
+			curCoinAmount += n;
+			return true;
+		}
+		return false;
+	}
+
+	public void setCoinAmount(int n)
+	{
+		curCoinAmount = n;
+	}
+	#endregion
+
+	public enum TestAction
+	{
+		Add,
+		LogInfo,
+		LogCoin
+	}
 }

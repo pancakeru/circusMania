@@ -6,9 +6,6 @@ public class ShopManager : MonoBehaviour
 {
 	public static ShopManager Instance { get; private set; }
 
-	[SerializeField] private List<AnimalPool> animalPoolList;
-	public int currentLevelAnimalPoolIndex;
-
 	private List<ShopAnimal> animalInventory;
 
 	private List<ShopAnimal> displayingList;
@@ -32,9 +29,12 @@ public class ShopManager : MonoBehaviour
 			return;
 		}
 		Instance = this;
+	}
 
+	private void Start()
+	{
 		animalInventory = new List<ShopAnimal>();
-		foreach (AnimalPool.AnimalEntry animalEntry in animalPoolList[currentLevelAnimalPoolIndex].animals) {
+		foreach (AnimalPool.AnimalEntry animalEntry in GlobalManager.instance.GetCurrentGlobalLevel().animalPool.animals) {
 			int count = animalEntry.count;
 			for (int i = 0; i < count; i++) {
 				animalInventory.Add(new ShopAnimal(animalEntry.animalProperty));
