@@ -61,6 +61,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private List<Vector2> initialPos = new List<Vector2>();//需要重置
 
     public GraphicRaycaster uiRaycaster;
+    [SerializeField] private float downRatio = 0.2f;
     private EventSystem eventSystem;
     private bool sliding = false;
     private Vector2 lastMousePosition;
@@ -210,7 +211,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset * i, yStart);
             temp.GetComponent<iconAnimal>().myIndex = i;
             //TODO:把这个目标位置整合
-            initialPos.Add(new Vector2(x + offset * i, -350));
+            initialPos.Add(new Vector2(x + offset * i, temp.GetComponent<iconAnimal>().yGoal));
             myHandControls.Add(temp.GetComponent<iconAnimal>());
         }
     }
@@ -330,7 +331,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     //Functions
     public void EnterOneShow() {
         x = -750;
-        offset = 300;
+        //offset = 300;
         yStart = -600;
         //areaOffset = 2;
         curTurn = 1;
@@ -357,6 +358,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         stagePanelMover.gameObject.SetActive(true);
         //TODO:改成到地方再可以交互
         startButtonMover.GetComponent<Button>().interactable = true;
+        camMover.SetTo(CamInDecition.position, DecideCamScale);
     }
 
     public void StartMoveToShow() {
@@ -714,7 +716,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         StartDecideState(DecideScreenState.moveAnimal);
 
                     }
-                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea())
+                    else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio))
                     {
                         StartDecideState(DecideScreenState.slide);
                         lastMousePosition = Input.mousePosition;
@@ -839,7 +841,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 if (Input.GetMouseButton(0))
                 {
                     holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
-                    if (DetectMouseInDownArea())
+                    if (DetectMouseInDownArea(downRatio))
                     {
                         if (!inDown)
                         {
@@ -884,7 +886,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                         }
                         MoveObjToIndexOnStage(-1, Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
                         holdingAnimalObj = null;
-                    } else if (DetectMouseInDownArea())
+                    } else if (DetectMouseInDownArea(downRatio))
                     {
                         SetUnSelectIconInHand(holdingAnimalObj);
                         holdingAnimalObj = null;
@@ -901,7 +903,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         }
     }
 
-    private bool DetectMouseInDownArea(float percentage = 0.3f) // 默认是屏幕下方 30%
+    private bool DetectMouseInDownArea(float percentage) // 默认是屏幕下方 30%
     {
         float screenHeight = Screen.height; // 获取屏幕高度
         float thresholdY = screenHeight * percentage; // 计算下方区域的 Y 轴临界值

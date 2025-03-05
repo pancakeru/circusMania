@@ -1093,8 +1093,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -375}
-  m_SizeDelta: {x: 0, y: -750}
+  m_AnchoredPosition: {x: 0, y: -425}
+  m_SizeDelta: {x: 0, y: -850}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4441974860626807271
 CanvasRenderer:
@@ -2275,7 +2275,7 @@ Transform:
   m_GameObject: {fileID: 5746383003951060475}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2733,7 +2733,7 @@ MonoBehaviour:
   targetPanelMover: {fileID: 344609590902085556}
   targetDisplayManager: {fileID: 6212122916851306683}
   showBanana: {fileID: 5536725032797241924}
-  offset: 0
+  offset: 230
   areaOffset: 1.3
   centerOffset: 1.8
   holding: 1
@@ -2754,6 +2754,7 @@ MonoBehaviour:
   - {fileID: 3849001227410943370, guid: d47ee8b15bb1c4fe9b6204b137dbc3c3, type: 3}
   myHand: []
   uiRaycaster: {fileID: 7575455781150157547}
+  downRatio: 0.2
   repuRatio: 0.1
   handPanelUpPos: {fileID: 4742952251531995159}
   handPanelDownPos: {fileID: 2295095856043891573}
@@ -2765,7 +2766,7 @@ MonoBehaviour:
   CamInShow: {fileID: 1314526876545821937}
   StartButtonDown: {fileID: 8558864954664476861}
   StartButtonUp: {fileID: 3054467239956618013}
-  DecideCamScale: 7
+  DecideCamScale: 6
   ShowCamScale: 5
   BanannaInDecision: {fileID: 433084816843761242}
   BanannaInShow: {fileID: 1545756284331083312}

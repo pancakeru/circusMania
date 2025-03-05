@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081c8ca2e46d5a24ba9637e49b1ee046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yGoal: -350
+  yGoal: -420
+  selfProperty: {fileID: 0}
   spriteList:
   - {fileID: 21300000, guid: d6b521976f95d4675ab6713d594b1d8d, type: 3}
   - {fileID: 21300000, guid: 54bbee01f353541779559a3adf6972a0, type: 3}
@@ -69,6 +70,7 @@ MonoBehaviour:
   myOtherNeighbor: {fileID: 0}
   destinationX: 0
   otherDestinationX: 0
+  lerpUpTime: 0.2
 --- !u!1 &5439578587774284234
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +107,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2528931181330313482
 CanvasRenderer:
@@ -179,4 +181,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 50
+  m_Radius: 30
