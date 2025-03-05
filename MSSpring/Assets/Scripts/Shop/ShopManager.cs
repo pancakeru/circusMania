@@ -6,7 +6,8 @@ public class ShopManager : MonoBehaviour
 {
 	public static ShopManager Instance { get; private set; }
 
-	[SerializeField] private AnimalPool animalPool;
+	[SerializeField] private List<AnimalPool> animalPoolList;
+	public int currentLevelAnimalPoolIndex;
 
 	private List<ShopAnimal> animalInventory;
 
@@ -14,17 +15,16 @@ public class ShopManager : MonoBehaviour
 	private List<ShopAnimal> boughtList;
 	private int displayColumnNumber = 4;
 
-	//TODO: coin 需要改成 从Global Manager获取
-	private int coin = 114514;
+	private int coin;
 	private int rollPrice = 3;
 
 	[SerializeField] GameObject shopDisplayUnitContainer;
 	[SerializeField] GameObject shopDisplayUnitPrefab;
 	[SerializeField] TextMeshProUGUI coinText;
 
-    MenuController menuController;
+	MenuController menuController;
 
-    private void Awake()
+	private void Awake()
 	{
 		if (Instance != null) {
 			Debug.LogError("There is more than one ShopManager!" + transform + "-" + Instance);
@@ -34,7 +34,7 @@ public class ShopManager : MonoBehaviour
 		Instance = this;
 
 		animalInventory = new List<ShopAnimal>();
-		foreach (AnimalPool.AnimalEntry animalEntry in animalPool.animals) {
+		foreach (AnimalPool.AnimalEntry animalEntry in animalPoolList[currentLevelAnimalPoolIndex].animals) {
 			int count = animalEntry.count;
 			for (int i = 0; i < count; i++) {
 				animalInventory.Add(new ShopAnimal(animalEntry.animalProperty));
@@ -45,16 +45,11 @@ public class ShopManager : MonoBehaviour
 		boughtList = new List<ShopAnimal>();
 		Display();
 
-        //coinText.text = coin.ToString();
-        menuController = FindAnyObjectByType<MenuController>();
-    }
+		//coinText.text = coin.ToString();
+		menuController = FindAnyObjectByType<MenuController>();
+	}
 
-    void Start()
-    {
-        
-    }
-
-    private void Display()
+	private void Display()
 	{
 		displayingList.Clear();
 		if (animalInventory.Count >= displayColumnNumber) {
@@ -123,25 +118,24 @@ public class ShopManager : MonoBehaviour
 		return new List<int>(numbers);
 	}
 
-    public void Enable()
-    {
-        transform.parent.GetComponent<Canvas>().enabled = true;
+	public void Enable()
+	{
+		transform.parent.GetComponent<Canvas>().enabled = true;
 		coin = GlobalManager.instance.getCurCoinAmount();
-        coinText.text = coin.ToString();
-    }
+		coinText.text = coin.ToString();
+	}
 
-    public void Disable()
-    {
+	public void Disable()
+	{
 		//结算购买动物
-		foreach (ShopAnimal an in boughtList)
-		{
+		foreach (ShopAnimal an in boughtList) {
 			GlobalManager.instance.addAnAnimal(an.GetAnimalProperty());
 		}
 		boughtList.Clear();
 
 		GlobalManager.instance.setCoinAmount(coin);
 
-        transform.parent.GetComponent<Canvas>().enabled = false;
-        menuController.Enable();
-    }
+		transform.parent.GetComponent<Canvas>().enabled = false;
+		menuController.Enable();
+	}
 }

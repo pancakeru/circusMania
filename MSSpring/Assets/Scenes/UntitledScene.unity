@@ -405,6 +405,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6717073131941951087, guid: f8650455bbdec475fb1d97a9a2f9a847, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 640974687}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -471,6 +475,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00628c45a775f4369be5bde3521d7a08, type: 3}
+--- !u!20 &640974687 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 1050575060474246103, guid: 00628c45a775f4369be5bde3521d7a08, type: 3}
+  m_PrefabInstance: {fileID: 323444725}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &827422535
 PrefabInstance:
   m_ObjectHideFlags: 0

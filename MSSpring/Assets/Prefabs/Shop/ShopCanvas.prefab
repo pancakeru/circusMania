@@ -834,7 +834,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be60ae8e36b2e4c9db07e5a58f95e2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalPool: {fileID: 11400000, guid: 7ebb2235372f846b883514d61ac30ad3, type: 2}
+  animalPoolList:
+  - {fileID: 11400000, guid: 7ebb2235372f846b883514d61ac30ad3, type: 2}
+  currentLevelAnimalPoolIndex: 0
   shopDisplayUnitContainer: {fileID: 1433457751329749011}
   shopDisplayUnitPrefab: {fileID: 3995584507874305429, guid: 4ff59c64e1f4841a8b22bf9fced02238, type: 3}
   coinText: {fileID: 4976570982047301082}
