@@ -150,7 +150,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void Start()
 	{
-		testLevel = GlobalManager.instance.GetCurrentGlobalLevel().levelProperty;
+		GlobalManager_OnNextGlobalLevel();
+		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
 		//SetUpAnLevel(testLevel);
 		//testList = new List<animalProperty>();
 
@@ -249,7 +250,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		targetDisplayManager.ChangeLevelState(curScore, _curTurn, curRepu, curLevel.targetScore, curLevel.allowedTurn);
 	}
 
-
+	private void GlobalManager_OnNextGlobalLevel()
+	{
+		testLevel = GlobalManager.instance.GetCurrentGlobalLevel().levelProperty;
+	}
 
 	void Update()
 	{

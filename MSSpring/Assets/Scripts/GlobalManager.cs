@@ -7,6 +7,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 {
 	public static GlobalManager instance;
 
+	public static event Action OnNextGlobalLevel;
+
 	private string globalLevelFolderPath = "GlobalLevels";
 	private GlobalLevel[] globalLevelArray;
 	public int currentLevelIndex = 0;
@@ -79,6 +81,14 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	public GlobalLevel GetCurrentGlobalLevel()
 	{
 		return globalLevelArray[currentLevelIndex];
+	}
+
+	public void ToNextGlobalLevel()
+	{
+		if (currentLevelIndex + 1 < globalLevelArray.Length) {
+			currentLevelIndex += 1;
+			OnNextGlobalLevel?.Invoke();
+		}
 	}
 
 	// 动物管理

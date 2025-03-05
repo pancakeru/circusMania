@@ -29,9 +29,17 @@ public class ShopManager : MonoBehaviour
 			return;
 		}
 		Instance = this;
+
+		menuController = FindAnyObjectByType<MenuController>();
 	}
 
 	private void Start()
+	{
+		GlobalManager_OnNextGlobalLevel();
+		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
+	}
+
+	private void GlobalManager_OnNextGlobalLevel()
 	{
 		animalInventory = new List<ShopAnimal>();
 		foreach (AnimalPool.AnimalEntry animalEntry in GlobalManager.instance.GetCurrentGlobalLevel().animalPool.animals) {
@@ -44,9 +52,6 @@ public class ShopManager : MonoBehaviour
 		displayingList = new List<ShopAnimal>();
 		boughtList = new List<ShopAnimal>();
 		Display();
-
-		//coinText.text = coin.ToString();
-		menuController = FindAnyObjectByType<MenuController>();
 	}
 
 	private void Display()

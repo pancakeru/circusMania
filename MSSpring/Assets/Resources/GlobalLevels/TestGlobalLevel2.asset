@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5378d917cc20940e1a2d5af6d1b34047, type: 3}
-  m_Name: TestGlobalLevel
+  m_Name: TestGlobalLevel2
   m_EditorClassIdentifier: 
-  levelIndex: 0
-  showVisual: {fileID: 21300000, guid: 1fee4ca6d1eaf4e52b4f41f2e5bf5971, type: 3}
-  animalPool: {fileID: 11400000, guid: 7ebb2235372f846b883514d61ac30ad3, type: 2}
-  levelProperty: {fileID: 11400000, guid: 1a17f8f76d2cd4bb5ae7c7a9d8db9631, type: 2}
+  levelIndex: 2
+  showVisual: {fileID: 0}
+  animalPool: {fileID: 0}
+  levelProperty: {fileID: 0}
