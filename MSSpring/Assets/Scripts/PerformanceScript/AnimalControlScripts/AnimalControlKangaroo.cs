@@ -1,8 +1,6 @@
-
+using UnityEngine;
 public class AnimalControlKangaroo : AbstractSpecialAnimal
 {
-	private int excitedTurnAmount = 7;
-
 	public override void InitOnExcitementEventListener()
 	{
 		controlUnit.OnExcitement += PerformUnit_OnExcitement;
@@ -21,16 +19,19 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		if (animalInfo.excited == 0) {
-			animalInfo.excited = excitedTurnAmount;
-		}
+			animalInfo.excited = animalInfo.mechanicActiveNum;
+            animalBody.mechanicNumberUI.Active();
+        }
 
 		animalBody.ifReadyToInteract = false;
 	}
 
 	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
 	{
-		if (animalInfo.excited > 0) {
-			if (e.animalInfo.redScore > 0) {
+		if (animalInfo.excited > 0)
+		{
+			if (e.animalInfo.redScore > 0)
+			{
 				GenerateScore(animalInfo);
 			}
 			animalInfo.excited -= 1;
@@ -41,5 +42,7 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
     {
         base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
+
+		animalBody.mechanicNumberUI.Deactive();
     }
 }

@@ -42,7 +42,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 	[Header("MechanicNumber")]
     public GameObject mechanicNumberUIPrefab;
-	MechanicNumberController mechanicNumberUI;
+    public MechanicNumberController mechanicNumberUI;
 
     void Start()
 	{
@@ -64,7 +64,6 @@ public class PerformAnimalControl : MonoBehaviour
 	{
 		ifEnSouled = true;
 		animalBrain.EnSoul(soulProperty);
-		animalBrain.InitAnimalInfo();
 		animalBrain.InitOnExcitementEventListener();
 	}
 
@@ -80,8 +79,7 @@ public class PerformAnimalControl : MonoBehaviour
 
         GameObject myMechanicNumberUI = Instantiate(mechanicNumberUIPrefab, transform.position + new Vector3(0, -2f, 0), Quaternion.identity);
         mechanicNumberUI = myMechanicNumberUI.GetComponent<MechanicNumberController>();
-        mechanicNumberUI.mechanicNumberType = animalBrain.soul.mechanicNumberType;
-        mechanicNumberUI.myAnimalInfo = animalBrain.animalInfo;
+        mechanicNumberUI.myAnimalBrain = animalBrain;
         mechanicNumberUI.Begin();
 
         if (!ifEnSouled)
@@ -94,17 +92,14 @@ public class PerformAnimalControl : MonoBehaviour
 		//如果有球
 		if (ifHaveBall) {
             animalBrain.InteractWithBall();
-            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Power) mechanicNumberUI.Change(0);
-            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.WarmUp) mechanicNumberUI.Change(-1);
-            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Excited) mechanicNumberUI.Active();
 
         } else if (!ifReadyToInteract) {
 			//如果无球并且在休息状态，就休息
 			animalBrain.DoRest();
-            if (animalBrain.soul.mechanicNumberType == MechanicNumberType.Excited) mechanicNumberUI.Change(-1);
         }
-		//否则就什么都不做
-	}
+        mechanicNumberUI.Change();
+        //否则就什么都不做
+    }
 
 	public void DoTurnEnd()
 	{
@@ -276,16 +271,17 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		controlUnit = _unit;
 		animalBody = _body;
 
-        DoWhenShowStart();
-
 		if (soul == null)
 			_body.EnSoul(testProperty);
-	}
+
+        DoWhenShowStart();
+    }
 
 	public void EnSoul(animalProperty newSoul)
 	{
 		soul = newSoul;
-	}
+        animalInfo = new AnimalInfoPack(soul);
+    }
 
 	public virtual void DoWhenShowStart()
 	{
@@ -355,11 +351,6 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	}
 
 	public void ConsumeBanana(int n) { }//This is only for special effect
-
-	public void InitAnimalInfo()
-	{
-		animalInfo = new AnimalInfoPack(animalBody);
-	}
 
 	public virtual void InitOnExcitementEventListener() { }
 

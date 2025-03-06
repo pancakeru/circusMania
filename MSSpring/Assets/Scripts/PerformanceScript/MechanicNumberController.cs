@@ -15,8 +15,7 @@ public enum MechanicNumberType
 
 public class MechanicNumberController : MonoBehaviour
 {
-    [HideInInspector] public MechanicNumberType mechanicNumberType;
-    [HideInInspector] public AnimalInfoPack myAnimalInfo;
+    [HideInInspector] public AbstractSpecialAnimal myAnimalBrain;
     public List<Sprite> backSprites = new List<Sprite>();
 
     TextMeshPro text;
@@ -30,33 +29,25 @@ public class MechanicNumberController : MonoBehaviour
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        myPack = new MechanicNumberControllerPack
-        {
-            animalInfo = myAnimalInfo,
-            text = text,
-            spriteRenderer = spriteRenderer
-        };
-
-        switch (mechanicNumberType)
+        //Initiate
+        switch (myAnimalBrain.animalInfo.mechanicNumberType)
         {
             case MechanicNumberType.Power:
                 mechanicNumber = new MechanicPower();
                 spriteRenderer.sprite = backSprites[0];
-                text.text = myAnimalInfo.power.ToString();
+                text.text = myAnimalBrain.animalInfo.power.ToString();
                 break;
 
             case MechanicNumberType.WarmUp:
-                myAnimalInfo.warmUp = myAnimalInfo.mechanicActiveNum;
                 mechanicNumber = new MechanicWarmUp();
                 spriteRenderer.sprite = backSprites[1];
-                text.text = myAnimalInfo.warmUp.ToString();
+                text.text = myAnimalBrain.animalInfo.warmUp.ToString();
                 break;
 
             case MechanicNumberType.Excited:
-                myAnimalInfo.excited = 0;
                 mechanicNumber = new MechanicExcited();
                 spriteRenderer.sprite = backSprites[2];
-                text.text = myAnimalInfo.excited.ToString();
+                text.text = myAnimalBrain.animalInfo.excited.ToString();
                 break;
 
             default:
@@ -64,11 +55,16 @@ public class MechanicNumberController : MonoBehaviour
                 text.text = "";
                 break;
         }
-    }
 
-    void Start() //Do sth at the beginning
-    {
-        switch (mechanicNumberType)
+        myPack = new MechanicNumberControllerPack
+        {
+            myAnimalBrain = myAnimalBrain,
+            spriteRenderer = spriteRenderer,
+            text = text,
+        };
+
+        //Do sth at the beginning
+        switch (myAnimalBrain.animalInfo.mechanicNumberType)
         {
             case MechanicNumberType.Power:
 
@@ -94,25 +90,30 @@ public class MechanicNumberController : MonoBehaviour
     {
         if (mechanicNumber != null) 
             mechanicNumber.Active(myPack);
-
+        //Debug.Log("ACTIVE");
     }
 
-    public void Change(int changeValue)
+    public void Change()
     {
         if (mechanicNumber != null)
-            mechanicNumber.Change(myPack, changeValue);
+        {
+            mechanicNumber.Change(myPack);
+            Debug.Log("CHANGE");
+        }
+            
     }
 
     public void Deactive()
     {
         if (mechanicNumber != null)
             mechanicNumber.Deactive(myPack);
+        //Debug.Log("DEACTIVE");
     }
 }
 
 public class MechanicNumberControllerPack
 {
-    public AnimalInfoPack animalInfo;
+    public AbstractSpecialAnimal myAnimalBrain;
     public TextMeshPro text;
     public SpriteRenderer spriteRenderer;
 }
@@ -120,7 +121,7 @@ public class MechanicNumberControllerPack
 public abstract class MechanicNumber
 {
     public abstract void Active(MechanicNumberControllerPack myPack);
-    public abstract void Change(MechanicNumberControllerPack myPack, int changeValue);
+    public abstract void Change(MechanicNumberControllerPack myPack);
     public abstract void Deactive(MechanicNumberControllerPack myPack);
 
 }
@@ -129,15 +130,16 @@ public class MechanicPower : MechanicNumber
 {
     public override void Active(MechanicNumberControllerPack myPack)
     {
-
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
     }
-    public override void Change(MechanicNumberControllerPack myPack, int changeValue)
+    public override void Change(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.animalInfo.power.ToString();
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
+        Debug.Log(myPack.myAnimalBrain.animalInfo.power.ToString());
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
-
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
     }
 }
 
@@ -145,22 +147,15 @@ public class MechanicWarmUp : MechanicNumber
 {
     public override void Active(MechanicNumberControllerPack myPack)
     {
-        myPack.animalInfo.warmUp = myPack.animalInfo.mechanicActiveNum;
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
     }
-    public override void Change(MechanicNumberControllerPack myPack, int changeValue)
+    public override void Change(MechanicNumberControllerPack myPack)
     {
-        Debug.Log($"{myPack.animalInfo.warmUp} + {changeValue}");
-        myPack.animalInfo.warmUp += changeValue;
-        myPack.text.text = myPack.animalInfo.warmUp.ToString();
-        if (myPack.animalInfo.warmUp == 0)
-        {
-            Deactive(myPack);
-        }
-        Debug.Log($"{myPack.animalInfo.warmUp}");
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
-
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
     }
 }
 
@@ -168,18 +163,15 @@ public class MechanicExcited : MechanicNumber
 {
     public override void Active(MechanicNumberControllerPack myPack)
     {
-        myPack.animalInfo.excited = myPack.animalInfo.mechanicActiveNum;
-        myPack.text.text = myPack.animalInfo.excited.ToString();
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
     }
-    public override void Change(MechanicNumberControllerPack myPack, int changeValue)
+    public override void Change(MechanicNumberControllerPack myPack)
     {
-        myPack.animalInfo.excited += changeValue;
-        myPack.text.text = myPack.animalInfo.excited.ToString();
-        if (myPack.animalInfo.excited == 0) Deactive(myPack);
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
-
+        myPack.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
     }
 }
 
