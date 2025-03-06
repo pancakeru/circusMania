@@ -28,7 +28,7 @@ public class AnimalControlSnake : AbstractSpecialAnimal
         {
             animalInfo.warmUp = 0;
             WarmUp();
-            animalBody.mechanicNumberUI.Deactive();
+            animalBody.mechanicNumberUI.Active();
         }
 
         animalBody.ifReadyToInteract = false;

@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-using static System.Net.Mime.MediaTypeNames;
+using System.Collections;
 
 public enum MechanicNumberType
 {
@@ -18,8 +18,9 @@ public class MechanicNumberController : MonoBehaviour
     [HideInInspector] public AbstractSpecialAnimal myAnimalBrain;
     public List<Sprite> backSprites = new List<Sprite>();
 
-    TextMeshPro text;
-    SpriteRenderer spriteRenderer;
+    public TextMeshPro text;
+    public SpriteRenderer spriteRenderer;
+    Vector3 initialLocalScl;
 
     MechanicNumber mechanicNumber;
     MechanicNumberControllerPack myPack;
@@ -28,6 +29,7 @@ public class MechanicNumberController : MonoBehaviour
     {
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        initialLocalScl = transform.localScale;
 
         //Initiate
         switch (myAnimalBrain.animalInfo.mechanicNumberType)
@@ -59,8 +61,7 @@ public class MechanicNumberController : MonoBehaviour
         myPack = new MechanicNumberControllerPack
         {
             myAnimalBrain = myAnimalBrain,
-            spriteRenderer = spriteRenderer,
-            text = text,
+            myUIController = this,
         };
 
         //Do sth at the beginning
@@ -85,6 +86,75 @@ public class MechanicNumberController : MonoBehaviour
                 break;
         }
     }
+
+    void EffectReset()
+    {
+        transform.localScale = initialLocalScl;
+        spriteRenderer.color = Color.white;
+        text.color = Color.black;
+    }
+    public void StartEffectImpact(bool isDead)
+    {
+        EffectReset();
+        StartCoroutine(EffectImpact(0.5f, isDead));
+    }
+    public void StartEffectDeath()
+    {
+        StartCoroutine(EffectDeath(0.5f));
+    }
+    IEnumerator EffectImpact(float duration, bool isDead)
+    {
+        Vector3 initialScale = transform.localScale;
+        Vector3 targetScale = initialScale * 2f;
+        float halfDuration = duration / 2f;  
+        float elapsed = 0f;
+
+        while (elapsed < halfDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / halfDuration;
+            transform.localScale = Vector3.Lerp(initialScale, targetScale, t);
+            yield return null;
+        }
+
+        transform.localScale = targetScale;
+
+        elapsed = 0f;
+        while (elapsed < halfDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / halfDuration;
+            transform.localScale = Vector3.Lerp(targetScale, initialScale, t);
+            yield return null;
+        }
+
+        transform.localScale = initialScale;
+
+        if (isDead) StartEffectDeath();
+    }
+    IEnumerator EffectDeath(float duration)
+    {
+        Color initialColorSprite = spriteRenderer.color;
+        Color initialColorText = text.color;
+        Color targetColor;  ColorUtility.TryParseHtmlString("#3D3D3D", out targetColor);
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+
+            spriteRenderer.color = Color.Lerp(initialColorSprite, targetColor, t);
+            text.color = Color.Lerp(initialColorText, targetColor, t);
+
+            yield return null;
+        }
+
+        spriteRenderer.color = targetColor;
+        text.color = targetColor;
+    }
+
 
     public void Active()
     {
@@ -114,8 +184,7 @@ public class MechanicNumberController : MonoBehaviour
 public class MechanicNumberControllerPack
 {
     public AbstractSpecialAnimal myAnimalBrain;
-    public TextMeshPro text;
-    public SpriteRenderer spriteRenderer;
+    public MechanicNumberController myUIController;
 }
 
 public abstract class MechanicNumber
@@ -130,16 +199,17 @@ public class MechanicPower : MechanicNumber
 {
     public override void Active(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
+        myPack.myUIController.StartEffectImpact(false);
     }
     public override void Change(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
-        Debug.Log(myPack.myAnimalBrain.animalInfo.power.ToString());
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.power.ToString();
+        myPack.myUIController.StartEffectDeath();
     }
 }
 
@@ -147,15 +217,17 @@ public class MechanicWarmUp : MechanicNumber
 {
     public override void Active(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
+        myPack.myUIController.StartEffectImpact(false);
     }
     public override void Change(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.warmUp.ToString();
+        myPack.myUIController.StartEffectImpact(true);
     }
 }
 
@@ -163,15 +235,17 @@ public class MechanicExcited : MechanicNumber
 {
     public override void Active(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
+        myPack.myUIController.StartEffectImpact(false);
     }
     public override void Change(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
     }
     public override void Deactive(MechanicNumberControllerPack myPack)
     {
-        myPack.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
+        myPack.myUIController.text.text = myPack.myAnimalBrain.animalInfo.excited.ToString();
+        myPack.myUIController.StartEffectDeath();
     }
 }
 
