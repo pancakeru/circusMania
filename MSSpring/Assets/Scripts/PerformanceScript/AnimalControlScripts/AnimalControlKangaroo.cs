@@ -20,7 +20,7 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 
 		if (animalInfo.excited == 0) {
 			animalInfo.excited = animalInfo.mechanicActiveNum;
-            animalBody.mechanicNumberUI.Active();
+            animalBody.mechanicNumberUI.StartEffectImpact(false);
         }
 
 		animalBody.ifReadyToInteract = false;
@@ -43,6 +43,6 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
         base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
 
-		animalBody.mechanicNumberUI.Deactive();
+		animalBody.mechanicNumberUI.StartEffectDeath();
     }
 }

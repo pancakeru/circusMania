@@ -97,7 +97,7 @@ public class PerformAnimalControl : MonoBehaviour
 			//如果无球并且在休息状态，就休息
 			animalBrain.DoRest();
         }
-        mechanicNumberUI.Change();
+        mechanicNumberUI.UpdateText();
         //否则就什么都不做
     }
 
