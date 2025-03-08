@@ -7,11 +7,15 @@ using UnityEngine.UI;
 public class TroupeCardController : MonoBehaviour
 {
     [HideInInspector] public animalProperty myAnimalProperty;
-    [HideInInspector] public Sprite animalCoreImg;
 
     public void Init(animalProperty givenAnimalProperty)
     {
         myAnimalProperty = givenAnimalProperty;
+        if (givenAnimalProperty == null)
+        {
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!");
+            return;
+        }
         transform.GetChild(1).GetComponent<Image>().sprite = myAnimalProperty.animalCoreImg;
         transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.animalName;
         transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnScoreAction();

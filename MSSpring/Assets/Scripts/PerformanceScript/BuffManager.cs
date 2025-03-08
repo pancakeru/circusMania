@@ -64,8 +64,14 @@ public class BuffManager : MonoBehaviour
 
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore) {
 			if (buff.Check(myBaseScore, animalInfo.performAnimalControl,messages)) {
-				List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl, buff.Apply()), buff.GetMessages());
-				foreach (float[] toA in toAdd)
+                List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul)
+																{
+																	redScore = buff.Apply()[0],
+																	yellowScore = buff.Apply()[1],
+																	blueScore = buff.Apply()[2]
+																}, buff.GetMessages());
+				//AnimalInfoPack's parameter has changed.
+                foreach (float[] toA in toAdd)
 					returnScoreList.Add(toA);
 			}
 

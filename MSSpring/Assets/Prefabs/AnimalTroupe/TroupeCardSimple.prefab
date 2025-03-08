@@ -341,7 +341,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myAnimalProperty: {fileID: 0}
-  animalCoreImg: {fileID: 0}
 --- !u!114 &6139021793788583130
 MonoBehaviour:
   m_ObjectHideFlags: 0
