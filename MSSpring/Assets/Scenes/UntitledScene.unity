@@ -207,6 +207,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlobalManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9045721959131190937, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -405,6 +409,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6646536338200159771, guid: f8650455bbdec475fb1d97a9a2f9a847, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6717073131941951087, guid: f8650455bbdec475fb1d97a9a2f9a847, type: 3}
       propertyPath: m_Camera
       value: 
@@ -540,9 +548,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShowManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6762093361612340398, guid: 1720febd179164b488a09579afca0477, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7244630773451926133, guid: 1720febd179164b488a09579afca0477, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 7244630773451926133, guid: 1720febd179164b488a09579afca0477, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7244630773451926133, guid: 1720febd179164b488a09579afca0477, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -631,6 +651,10 @@ PrefabInstance:
     - target: {fileID: 1840614826866373259, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: m_Name
       value: CanvasMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840614826866373259, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5386218127107522157, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: m_Pivot.x

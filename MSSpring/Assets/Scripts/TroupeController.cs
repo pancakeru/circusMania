@@ -16,7 +16,7 @@ public class TroupeController : MonoBehaviour
     GameObject cardsGroup;
     GameObject slide;
 
-    Vector2 cardStartPos = new Vector2 (-700f, 50f);
+    Vector2 cardStartPos = new Vector2 (75f, -375f);
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 4;
@@ -28,12 +28,6 @@ public class TroupeController : MonoBehaviour
         cardsGroup = transform.GetChild(0).gameObject;
         slide = transform.GetChild(1).gameObject;
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
-
-        /*
-        for (int i = 0; i < 9; i++)
-        {
-            tempTroupe.Add(CreateTempAnimalInstance());
-        }*/
     }
 
     // Update is called once per frame
@@ -71,8 +65,8 @@ public class TroupeController : MonoBehaviour
         /*
          * 这里Neil修改了，因为在列表为空时会报错
          */
-        float width = troupeCard.GetComponent<RectTransform>().rect.width * 4.5f;
-        float height = troupeCard.GetComponent<RectTransform>().rect.height * 5.5f;
+        float width = troupeCard.GetComponent<RectTransform>().localScale.x * 450f;
+        float height = troupeCard.GetComponent<RectTransform>().localScale.y * 550f;
 
         for (int i = 0; i < troupeCards.Count; i++)
         {
