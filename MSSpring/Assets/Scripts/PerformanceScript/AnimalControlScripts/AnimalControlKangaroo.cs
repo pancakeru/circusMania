@@ -18,10 +18,8 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
-		if (animalInfo.excited == 0) {
-			animalInfo.excited = animalInfo.mechanicActiveNum;
-            animalBody.mechanicNumberUI.StartEffectImpact(false);
-        }
+        animalInfo.excited = animalInfo.mechanicActiveNum;
+        animalBody.mechanicNumberUI.StartEffectImpact(false);
 
 		animalBody.ifReadyToInteract = false;
 	}
@@ -35,7 +33,11 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 				GenerateScore(animalInfo);
 			}
 			animalInfo.excited -= 1;
-		}
+
+			animalBody.mechanicNumberUI.UpdateText();
+			if (animalInfo.excited > 0) animalBody.mechanicNumberUI.StartEffectImpact(false);
+			else animalBody.mechanicNumberUI.StartEffectImpact(true);
+        }
 	}
 
     public override void ResetWhenBackToInitial()
