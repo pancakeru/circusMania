@@ -1,4 +1,3 @@
-using UnityEngine;
 public class AnimalControlKangaroo : AbstractSpecialAnimal
 {
 	public override void InitOnExcitementEventListener()
@@ -9,7 +8,7 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 	public override void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
-		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange);
+		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange, animalBody);
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
