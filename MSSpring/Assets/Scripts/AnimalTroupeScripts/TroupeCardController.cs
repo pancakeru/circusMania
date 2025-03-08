@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class TroupeCardController : MonoBehaviour
+{
+    [HideInInspector] public animalProperty myAnimalProperty;
+    [HideInInspector] public Sprite animalCoreImg;
+
+    public void Init(animalProperty givenAnimalProperty)
+    {
+        myAnimalProperty = givenAnimalProperty;
+        transform.GetChild(1).GetComponent<Image>().sprite = myAnimalProperty.animalCoreImg;
+        transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.animalName;
+        transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnScoreAction();
+        transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnBallAction();
+    }
+
+    public void OnClick()
+    {
+        TroupeController.instance.DisplayCardDetail(gameObject);
+    }
+}

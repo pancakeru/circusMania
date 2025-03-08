@@ -7,9 +7,13 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class TroupeController : MonoBehaviour
 {
+    public static TroupeController instance;
+
     MenuController menuController;
 
-    public GameObject troupeCard;
+    public GameObject troupeCardSimple;
+    public GameObject troupeCardDetailed;
+    GameObject troupeCardSelected;
     List<animalProperty> tempTroupe = new List<animalProperty>();
     List<GameObject> troupeCards = new List<GameObject>();
 
@@ -21,12 +25,18 @@ public class TroupeController : MonoBehaviour
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 4;
 
+    void Awake()
+    {
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+    }
+
     void Start()
     {
         menuController = FindAnyObjectByType<MenuController>();
 
-        cardsGroup = transform.GetChild(0).gameObject;
-        slide = transform.GetChild(1).gameObject;
+        cardsGroup = transform.GetChild(1).gameObject;
+        slide = transform.GetChild(2).gameObject;
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
     }
 
@@ -38,7 +48,7 @@ public class TroupeController : MonoBehaviour
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0)
             {
-                slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.2f);
+                slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.6f);
             }
         }
     }
@@ -54,27 +64,37 @@ public class TroupeController : MonoBehaviour
 
         for (int i = 0; i < tempTroupe.Count; i++)
         {
-            GameObject newCard = Instantiate(troupeCard, cardsGroup.transform);
-            if (tempTroupe[i].animalCoreImg != null) newCard.transform.GetChild(1).GetComponent<Image>().sprite = tempTroupe[i].animalCoreImg;
-            newCard.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = tempTroupe[i].animalName;
-            newCard.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = tempTroupe[i].returnScoreAction();
-            newCard.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = tempTroupe[i].returnBallAction();
+            GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);
+            newCard.GetComponent<TroupeCardController>().Init(tempTroupe[i]);
+            
             troupeCards.Add(newCard);
         }
 
         /*
          * 这里Neil修改了，因为在列表为空时会报错
          */
-        float width = troupeCard.GetComponent<RectTransform>().localScale.x * 450f;
-        float height = troupeCard.GetComponent<RectTransform>().localScale.y * 550f;
+        float width = troupeCardSimple.GetComponent<RectTransform>().localScale.x * 450f;
+        float height = troupeCardSimple.GetComponent<RectTransform>().localScale.y * 550f;
 
         for (int i = 0; i < troupeCards.Count; i++)
         {
             troupeCards[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(cardStartPos.x + (i % cardsPerRow) * width, cardStartPos.y - (i / cardsPerRow) * height);
         }
 
-        slideStartPos = new Vector2(0, cardStartPos.y);
-        slideEndPos = new Vector2(0, cardStartPos.y + height * troupeCards.Count / cardsPerRow);
+        slideStartPos = new Vector2(0, 0);
+        slideEndPos = new Vector2(0, -100 + height * (troupeCards.Count / cardsPerRow - 2));
+
+        DisplayCardDetail(troupeCards[0]);
+    }
+
+    public void DisplayCardDetail(GameObject selectedTroupeCard)
+    {
+        troupeCardSelected = selectedTroupeCard;
+        animalProperty theAnimalProperty = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
+        troupeCardDetailed.transform.GetChild(1).GetComponent<Image>().sprite = theAnimalProperty.animalCoreImg;
+        troupeCardDetailed.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.animalName;
+        troupeCardDetailed.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnScoreAction();
+        troupeCardDetailed.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnBallAction();
     }
 
     public void Enable()
