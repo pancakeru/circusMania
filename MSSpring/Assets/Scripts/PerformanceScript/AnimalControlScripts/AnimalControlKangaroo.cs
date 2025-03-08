@@ -1,9 +1,6 @@
-
+using UnityEngine;
 public class AnimalControlKangaroo : AbstractSpecialAnimal
 {
-	private int excitedTurnAmount = 7;
-	private BuffKangaroo selfBuff;
-	private bool ifNeedRemove = false;
 	public override void InitOnExcitementEventListener()
 	{
 		controlUnit.OnExcitement += PerformUnit_OnExcitement;
@@ -12,7 +9,7 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 	public override void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
-		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange,animalBody);
+		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange);
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
@@ -21,33 +18,33 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
-		if (animalInfo.excited == 0) {
-			animalInfo.excited = excitedTurnAmount;
-			selfBuff = new BuffKangaroo(animalBody);
-			BuffManager.instance.AddGiveExtraBuff(selfBuff);
-			ifNeedRemove = true;
-		}
+        animalInfo.excited = animalInfo.mechanicActiveNum;
+        animalBody.mechanicNumberUI.StartEffectImpact(false);
 
 		animalBody.ifReadyToInteract = false;
 	}
 
 	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
 	{
-		if (animalInfo.excited > 0) {
-			animalInfo.excited -= 1;
-			if (animalInfo.excited == 0)
+		if (animalInfo.excited > 0)
+		{
+			if (e.animalInfo.redScore > 0)
 			{
-                BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
-				ifNeedRemove = false;
-            }	
-		}
+				GenerateScore(animalInfo);
+			}
+			animalInfo.excited -= 1;
+
+			animalBody.mechanicNumberUI.UpdateText();
+			if (animalInfo.excited > 0) animalBody.mechanicNumberUI.StartEffectImpact(false);
+			else animalBody.mechanicNumberUI.StartEffectImpact(true);
+        }
 	}
 
-	public override void ResetWhenBackToInitial()
-	{
-		base.ResetWhenBackToInitial();
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
-		if (ifNeedRemove)
-			BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
-	}
+
+		animalBody.mechanicNumberUI.StartEffectDeath();
+    }
 }

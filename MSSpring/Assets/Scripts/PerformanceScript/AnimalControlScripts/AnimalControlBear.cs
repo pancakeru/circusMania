@@ -24,5 +24,7 @@ public class AnimalControlBear : AbstractSpecialAnimal
     {
         base.ResetWhenBackToInitial();
 		animalInfo.power = 1;
+
+        animalBody.mechanicNumberUI.StartEffectImpact(false);
     }
 }

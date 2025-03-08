@@ -1,7 +1,14 @@
 
 public class AnimalControlSnake : AbstractSpecialAnimal
 {
-	public override void InteractWithBall()
+	float warmUpScore = 5;
+
+    public override void DoWhenShowStart()
+    {
+		animalInfo.warmUp = animalInfo.mechanicActiveNum;
+    }
+
+    public override void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
 		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange,animalBody);
@@ -13,21 +20,25 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
-		animalInfo.warmUp += 1;
+        if (animalInfo.warmUp > 1)
+		{
+            animalInfo.warmUp -= 1;
+        }
+        else if (animalInfo.warmUp == 1)
+        {
+            animalInfo.warmUp = 0;
+            WarmUp();
+            animalBody.mechanicNumberUI.StartEffectImpact(true);
+        }
 
-		animalBody.ifReadyToInteract = false;
-
-		if (animalInfo.warmUp == (soul as WarmUpAnimalProperty).warmUpRequireTime) {
-			WarmUp();
-		}
-	}
+        animalBody.ifReadyToInteract = false;
+    }
 
 	private void WarmUp()
 	{
-		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(animalBody);
-		warmUpAnimalInfo.redScore = 0;
-		warmUpAnimalInfo.yellowScore = (soul as WarmUpAnimalProperty).warmUpScore;
+		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(new animalProperty());
+		warmUpAnimalInfo.yellowScore = warmUpScore;
 
 		GenerateScore(warmUpAnimalInfo);
-	}
+    }
 }

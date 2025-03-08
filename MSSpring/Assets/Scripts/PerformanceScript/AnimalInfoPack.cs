@@ -1,5 +1,5 @@
 
-public struct AnimalInfoPack
+public class AnimalInfoPack
 {
 	public PerformAnimalControl performAnimalControl;
 
@@ -10,29 +10,19 @@ public struct AnimalInfoPack
 	public int power;
 	public int warmUp;
 	public int excited;
+    public MechanicNumberType mechanicNumberType;
+    public int mechanicActiveNum;
 
-	public AnimalInfoPack(PerformAnimalControl performAnimalControl)
+    public AnimalInfoPack(animalProperty soul)
 	{
-		this.performAnimalControl = performAnimalControl;
-
-		redScore = performAnimalControl.animalBrain.soul.baseRedChange;
-		yellowScore = performAnimalControl.animalBrain.soul.baseYellowChange;
-		blueScore = performAnimalControl.animalBrain.soul.baseBlueChange;
+		redScore = soul.baseRedChange;
+		yellowScore = soul.baseYellowChange;
+		blueScore = soul.baseBlueChange;
 
 		power = 1;
 		warmUp = 0;
 		excited = 0;
-	}
-
-	public AnimalInfoPack(PerformAnimalControl performAnimalControl, float[] baseScore)
-	{
-        this.performAnimalControl = performAnimalControl;
-
-        power = 1;
-        warmUp = 0;
-        excited = 0;
-        redScore = baseScore[0];
-		yellowScore = baseScore[1];
-		blueScore = baseScore[2];
+		mechanicNumberType = soul.mechanicNumberType;
+        mechanicActiveNum = soul.mechanicActiveNum;
     }
 }
