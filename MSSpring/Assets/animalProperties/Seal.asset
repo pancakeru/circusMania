@@ -20,11 +20,11 @@ MonoBehaviour:
   baseBlueChange: 0
   baseBallChange: -2
   restTurn: 3
-  scoreActionTemplate: 
-  amount1: 0
-  amount2: 0
-  amount3: 0
+  mechanicNumberType: 0
+  mechanicActiveNum: 0
+  ballAction1: <b>Left(2)<\b>
+  scoreAction1: 
+  scoreAction2: 
+  scoreAction3: 
   ballActionTemplate: 
-  amount4: 0
-  amount5: 0
-  amount6: 0
+  scoreActionTemplate: 

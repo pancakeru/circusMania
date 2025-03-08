@@ -93,8 +93,8 @@ public class TroupeController : MonoBehaviour
         animalProperty theAnimalProperty = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
         troupeCardDetailed.transform.GetChild(1).GetComponent<Image>().sprite = theAnimalProperty.animalCoreImg;
         troupeCardDetailed.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.animalName;
-        troupeCardDetailed.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnScoreAction();
-        troupeCardDetailed.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnBallAction();
+        troupeCardDetailed.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnBallAction();
+        troupeCardDetailed.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnScoreAction();
     }
 
     public void Enable()
@@ -113,23 +113,5 @@ public class TroupeController : MonoBehaviour
     public void SlideCards(float value)
     {
         cardsGroup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Mathf.Lerp(slideStartPos.y, slideEndPos.y, value));
-    }
-
-    animalProperty CreateTempAnimalInstance()
-    {
-        animalProperty newAnimal = ScriptableObject.CreateInstance<animalProperty>();
-
-        newAnimal.animalName = "none";
-        newAnimal.animalCoreImg = null;
-        newAnimal.animalPrice = 0;
-        newAnimal.baseYellowChange = 0f;
-        newAnimal.baseRedChange = 0f;
-        newAnimal.baseBlueChange = 0f;
-        newAnimal.restTurn = 0;
-        newAnimal.scoreActionTemplate = "Gain 10 Score";
-        
-        newAnimal.ballActionTemplate = "Throw R1, rest 3T";
-
-        return newAnimal;
     }
 }

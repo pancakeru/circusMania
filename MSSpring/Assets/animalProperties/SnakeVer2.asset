@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b47058b30ede848c5ba14d6e502cd275, type: 3}
+  m_Script: {fileID: 11500000, guid: c0929fad0056e4eb3a9c79ea7e6d9679, type: 3}
   m_Name: SnakeVer2
   m_EditorClassIdentifier: 
   animalName: Snake
-  animalCoreImg: {fileID: 21300000, guid: 59f0c4dbf238141cb8ae7b78b9b2689d, type: 3}
+  animalCoreImg: {fileID: 21300000, guid: ddabaad623cfd4ffd9d9be8aff1ed332, type: 3}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 2
@@ -22,13 +22,9 @@ MonoBehaviour:
   restTurn: 3
   mechanicNumberType: 2
   mechanicActiveNum: 3
-  scoreActionTemplate: 
-  amount1: 0
-  amount2: 0
-  amount3: 0
-  ballActionTemplate: 
-  amount4: 0
-  amount5: 0
-  amount6: 0
-  warmUpScore: 5
-  warmUpRequireTime: 3
+  ballAction1: 
+  scoreAction1: 
+  scoreAction2: 
+  scoreAction3: 
+  ballActionTemplate: Throw ball to {0},
+  scoreActionTemplate: "Gain {1}, Rest {2}. \n{3}"

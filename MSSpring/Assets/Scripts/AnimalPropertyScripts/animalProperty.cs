@@ -25,24 +25,22 @@ public class animalProperty : ScriptableObject
     /// <summary>
     /// 得分动作的文本模板，例如 "得分 {0} 分，并额外获得 {1} 点奖励"
     /// </summary>
-    [HideInInspector] public string ballActionTemplate = "Throw ball to {0},";
-    [SerializeField]
-    private int amount1;
-    [SerializeField]
-    private int amount2;
-    [SerializeField]
-    private int amount3;
     
-    [HideInInspector] public string scoreActionTemplate = "Gain {1}, Rest {2}. \n{3}";
+    [SerializeField]
+    private string ballAction1;
+    
     /// <summary>
     /// 传球动作的文本模板，例如 "向{0}传球，进入{1}回合冷却"
     /// </summary>
     [SerializeField]
-    private int amount4;
+    private string scoreAction1;
     [SerializeField]
-    private int amount5;
+    private string scoreAction2;
     [SerializeField]
-    private int amount6;
+    private string scoreAction3;
+
+    [HideInInspector] public string ballActionTemplate = "Throw ball to {0},";
+    [HideInInspector] public string scoreActionTemplate = "Gain {1}, Rest {2}. \n{3}";
 
     /// <summary>
     /// 生成得分动作的最终文本
@@ -51,7 +49,7 @@ public class animalProperty : ScriptableObject
 
     public string returnBallAction()
     {
-        return string.Format(scoreActionTemplate, amount1,amount2,amount3);
+        return string.Format(ballActionTemplate, ballAction1);
     }
 
     /// <summary>
@@ -60,7 +58,7 @@ public class animalProperty : ScriptableObject
     /// <returns>格式化后的传球描述字符串</returns>
     public string returnScoreAction()
     {
-        return string.Format(ballActionTemplate, amount4, amount5, amount6);
+        return string.Format(scoreActionTemplate, scoreAction1, scoreAction2, scoreAction3);
     }
 
 }

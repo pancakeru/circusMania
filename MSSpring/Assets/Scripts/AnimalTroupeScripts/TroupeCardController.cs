@@ -18,8 +18,10 @@ public class TroupeCardController : MonoBehaviour
         }
         transform.GetChild(1).GetComponent<Image>().sprite = myAnimalProperty.animalCoreImg;
         transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.animalName;
-        transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnScoreAction();
-        transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnBallAction();
+        transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnBallAction();
+        transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnScoreAction();
+
+        Debug.Log(myAnimalProperty.returnBallAction());
     }
 
     public void OnClick()
