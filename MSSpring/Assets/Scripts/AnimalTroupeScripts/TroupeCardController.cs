@@ -21,7 +21,7 @@ public class TroupeCardController : MonoBehaviour
         transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnBallAction();
         transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = myAnimalProperty.returnScoreAction();
 
-        Debug.Log(myAnimalProperty.returnBallAction());
+        //Debug.Log(myAnimalProperty.returnBallAction());
     }
 
     public void OnClick()

@@ -84,6 +84,7 @@ public class TroupeController : MonoBehaviour
         slideStartPos = new Vector2(0, 0);
         slideEndPos = new Vector2(0, -100 + height * (troupeCards.Count / cardsPerRow - 2));
 
+        Debug.Log(tempTroupe[5].animalName + tempTroupe[5].returnBallAction());
         DisplayCardDetail(troupeCards[0]);
     }
 
