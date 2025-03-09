@@ -15,15 +15,15 @@ PrefabInstance:
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 432ba1e2ceae94deebbc998fa8800c54, type: 3}
+      objectReference: {fileID: 21300000, guid: e98d6f8852f93bc4793f456d29b66394, type: 3}
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: 0e4601f4357f3409483e5d1d356591be, type: 3}
+      objectReference: {fileID: 21300000, guid: bff6d3ce4d75f424b905c08df7f886e0, type: 3}
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: a4ea493c11b6247ec9e0df94965a1402, type: 3}
+      objectReference: {fileID: 21300000, guid: 77095e3bc0d7c3b4187284421a1747ac, type: 3}
     - target: {fileID: 1823180584734265639, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 432ba1e2ceae94deebbc998fa8800c54, type: 3}
+      objectReference: {fileID: 21300000, guid: e98d6f8852f93bc4793f456d29b66394, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

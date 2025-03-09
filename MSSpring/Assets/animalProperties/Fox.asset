@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fox
   m_EditorClassIdentifier: 
   animalName: Fox
-  animalCoreImg: {fileID: 21300000, guid: 7185d8d284ef344ea83964e509aef3da, type: 3}
+  animalCoreImg: {fileID: 21300000, guid: 2d554d214aaa9aa49b923ce524f5f0b0, type: 3}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 4

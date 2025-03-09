@@ -13,18 +13,16 @@ MonoBehaviour:
   m_Name: Goat
   m_EditorClassIdentifier: 
   animalName: Goat
-  animalCoreImg: {fileID: 0}
+  animalCoreImg: {fileID: 21300000, guid: eb47b3b6065c6b54ea7f60c5ae4081bc, type: 3}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 0
   baseBlueChange: 0.2
   baseBallChange: 2
   restTurn: 5
-  scoreActionTemplate: 
-  amount1: 0
-  amount2: 0
-  amount3: 0
-  ballActionTemplate: 
-  amount4: 0
-  amount5: 0
-  amount6: 0
+  mechanicNumberType: 0
+  mechanicActiveNum: 0
+  ballAction1: 
+  scoreAction1: 
+  scoreAction2: 
+  scoreAction3: 

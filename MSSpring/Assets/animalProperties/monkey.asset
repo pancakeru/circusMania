@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: monkey
   m_EditorClassIdentifier: 
   animalName: Monkey
-  animalCoreImg: {fileID: 21300000, guid: 6ee532f4d23414fb4b28710770185ddb, type: 3}
+  animalCoreImg: {fileID: 21300000, guid: 8d6ea11d1b47ad043a10a96621441c76, type: 3}
   animalPrice: 100000
   baseYellowChange: 0
   baseRedChange: 10

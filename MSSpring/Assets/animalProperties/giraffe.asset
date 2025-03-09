@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: giraffe
   m_EditorClassIdentifier: 
   animalName: Giraffe
-  animalCoreImg: {fileID: 21300000, guid: 432ba1e2ceae94deebbc998fa8800c54, type: 3}
+  animalCoreImg: {fileID: 21300000, guid: e98d6f8852f93bc4793f456d29b66394, type: 3}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 5

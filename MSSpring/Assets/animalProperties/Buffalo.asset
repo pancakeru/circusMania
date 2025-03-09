@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Buffalo
   m_EditorClassIdentifier: 
   animalName: Buffalo
-  animalCoreImg: {fileID: 21300000, guid: 3b555132c0a43409a828e1888c34ce8a, type: 3}
+  animalCoreImg: {fileID: 21300000, guid: 57e009e4c76d0f74fa23e1ee691d0020, type: 3}
   animalPrice: 0
   baseYellowChange: 0
   baseRedChange: 0
