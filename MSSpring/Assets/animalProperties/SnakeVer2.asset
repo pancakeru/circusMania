@@ -22,9 +22,7 @@ MonoBehaviour:
   restTurn: 3
   mechanicNumberType: 2
   mechanicActiveNum: 3
-  ballAction1: 
-  scoreAction1: 
-  scoreAction2: 
-  scoreAction3: 
-  ballActionTemplate: Throw ball to {0},
-  scoreActionTemplate: "Gain {1}, Rest {2}. \n{3}"
+  ballAction1: <b>Left(2)</b>
+  scoreAction1: <b><color=#DA6CA8>+2 Fun</color></b>
+  scoreAction2: <b>3</b>
+  scoreAction3: 'Warm Up(3): Gain +5 Skill. '

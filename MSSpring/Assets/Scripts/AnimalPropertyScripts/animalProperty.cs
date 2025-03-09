@@ -48,7 +48,7 @@ public class animalProperty : ScriptableObject
     {
         return string.Format(
         "Throw ball to {0},",
-        string.IsNullOrEmpty(ballAction1) ? "textneeded" : ballAction1
+        string.IsNullOrEmpty(ballAction1) ? "" : ballAction1
     );
     }
 
@@ -60,9 +60,9 @@ public class animalProperty : ScriptableObject
     {
         return string.Format(
         "Gain {0}, Rest {1}. \n{2}",
-        string.IsNullOrEmpty(scoreAction1) ? "textneeded" : scoreAction1,
-        string.IsNullOrEmpty(scoreAction2) ? "textneeded" : scoreAction2,
-        string.IsNullOrEmpty(scoreAction3) ? "textneeded" : scoreAction3
+        string.IsNullOrEmpty(scoreAction1) ? "" : scoreAction1,
+        string.IsNullOrEmpty(scoreAction2) ? "" : scoreAction2,
+        string.IsNullOrEmpty(scoreAction3) ? "" : scoreAction3
     );
     }
 

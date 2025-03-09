@@ -20,11 +20,9 @@ MonoBehaviour:
   baseBlueChange: 0
   baseBallChange: 1
   restTurn: 3
-  scoreActionTemplate: 
-  amount1: 0
-  amount2: 0
-  amount3: 0
-  ballActionTemplate: 
-  amount4: 0
-  amount5: 0
-  amount6: 0
+  mechanicNumberType: 0
+  mechanicActiveNum: 0
+  ballAction1: <b>Right(1)</b>
+  scoreAction1: <b><color=#DA6CA8>+4 Fun</color></b>
+  scoreAction2: <b>3</b>
+  scoreAction3: 'When nearby gains Fun, gain extra +4 Fun. '

@@ -22,9 +22,7 @@ MonoBehaviour:
   restTurn: 3
   mechanicNumberType: 0
   mechanicActiveNum: 0
-  ballAction1: <b>Left(2)<\b>
-  scoreAction1: 
-  scoreAction2: 
-  scoreAction3: 
-  ballActionTemplate: 
-  scoreActionTemplate: 
+  ballAction1: <b>Left(2)</b>
+  scoreAction1: <b><color=#DA6CA8>+20 Fun</color></b>
+  scoreAction2: <b>3</b>
+  scoreAction3: '<b>Excited(7)</b>: All animals gain 2 more times, throw to Left(1),'
