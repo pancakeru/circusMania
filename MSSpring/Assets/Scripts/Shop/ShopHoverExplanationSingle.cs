@@ -19,6 +19,6 @@ public class ShopHoverExplanationSingle : MonoBehaviour
 	{
 		this.shopDisplayUnit = shopDisplayUnit;
 		image.sprite = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().animalCoreImg;
-		text.text = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().scoreActionTemplate + "\n" + shopDisplayUnit.GetShopAnimal().GetAnimalProperty().ballActionTemplate;
+		text.text = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnScoreAction() + "\n" + shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnBallAction();
 	}
 }

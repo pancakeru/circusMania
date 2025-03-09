@@ -23,8 +23,6 @@ MonoBehaviour:
   mechanicNumberType: 1
   mechanicActiveNum: 0
   ballAction1: Hello
-  scoreAction1: 
-  scoreAction2: 
-  scoreAction3: 
-  ballActionTemplate: 5678
-  scoreActionTemplate: 1234
+  scoreAction1: World
+  scoreAction2: Nice to
+  scoreAction3: Meet you

@@ -39,9 +39,6 @@ public class animalProperty : ScriptableObject
     [SerializeField]
     private string scoreAction3;
 
-    [HideInInspector] public string ballActionTemplate = "Throw ball to {0},";
-    [HideInInspector] public string scoreActionTemplate = "Gain {1}, Rest {2}. \n{3}";
-
     /// <summary>
     /// 生成得分动作的最终文本
     /// </summary>
@@ -49,7 +46,10 @@ public class animalProperty : ScriptableObject
 
     public string returnBallAction()
     {
-        return string.Format(ballActionTemplate, ballAction1);
+        return string.Format(
+        "Throw ball to {0},",
+        string.IsNullOrEmpty(ballAction1) ? "textneeded" : ballAction1
+    );
     }
 
     /// <summary>
@@ -58,7 +58,12 @@ public class animalProperty : ScriptableObject
     /// <returns>格式化后的传球描述字符串</returns>
     public string returnScoreAction()
     {
-        return string.Format(scoreActionTemplate, scoreAction1, scoreAction2, scoreAction3);
+        return string.Format(
+        "Gain {0}, Rest {1}. \n{2}",
+        string.IsNullOrEmpty(scoreAction1) ? "textneeded" : scoreAction1,
+        string.IsNullOrEmpty(scoreAction2) ? "textneeded" : scoreAction2,
+        string.IsNullOrEmpty(scoreAction3) ? "textneeded" : scoreAction3
+    );
     }
 
 }
