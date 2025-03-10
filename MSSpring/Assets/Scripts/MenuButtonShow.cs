@@ -11,6 +11,6 @@ public class MenuButtonShow : MonoBehaviour
 
 	private void GlobalManager_OnNextGlobalLevel()
 	{
-		GetComponent<Image>().sprite = GlobalManager.instance.GetCurrentGlobalLevel().showVisual;
+		//GetComponent<Image>().sprite = GlobalManager.instance.GetCurrentGlobalLevel().showVisual;
 	}
 }
