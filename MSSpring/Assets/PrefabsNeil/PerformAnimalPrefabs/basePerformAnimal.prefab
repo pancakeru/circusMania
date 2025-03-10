@@ -297,6 +297,7 @@ MonoBehaviour:
   restText: {fileID: 4076757852691191043}
   generator: {fileID: 6426029797133994698}
   mechanicNumberUIPrefab: {fileID: 7766343941940928243, guid: 051de8327034f9a4eaaa4a88dbb396cd, type: 3}
+  mechanicNumberUI: {fileID: 0}
 --- !u!50 &4833664479332635922
 Rigidbody2D:
   serializedVersion: 4
@@ -529,7 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c8fb2c82c8734d31841fa91f5521a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixedWidth: 4
+  fixedWidth: 2.5
 --- !u!1001 &659111317004026211
 PrefabInstance:
   m_ObjectHideFlags: 0

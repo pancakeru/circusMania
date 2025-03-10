@@ -24,10 +24,6 @@ PrefabInstance:
       propertyPath: displaySprites.Array.data[2]
       value: 
       objectReference: {fileID: 21300000, guid: a7b128fe183ee5b4abbad6b123f66f8f, type: 3}
-    - target: {fileID: 1442251890889895041, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
-      propertyPath: fixedWidth
-      value: 2.8
-      objectReference: {fileID: 0}
     - target: {fileID: 1823180584734265639, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -67,6 +63,10 @@ PrefabInstance:
     - target: {fileID: 1823180584734265639, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6527025514987002019, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7156068456684575720, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Name
