@@ -7,6 +7,7 @@ public class MenuController : MonoBehaviour
     TroupeController troupeController;
     ShopManager shopManager;
     ShowManager showManager;
+    public GameObject lvlsDisplay;
 
     void Start()
     {
@@ -18,6 +19,7 @@ public class MenuController : MonoBehaviour
         troupeController.GetComponent<Canvas>().enabled = false;
         shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
         showManager.gameObject.SetActive(false);
+        lvlsDisplay.SetActive(false);
     }
 
     // Update is called once per frame
@@ -53,5 +55,14 @@ public class MenuController : MonoBehaviour
     public void Disable()
     {
         GetComponent<Canvas>().enabled = false;
+    }
+
+    public void ShowLevels() {
+       if (lvlsDisplay.activeSelf) {
+        lvlsDisplay.SetActive(false);
+       } else {
+        lvlsDisplay.SetActive(true);
+       }
+
     }
 }
