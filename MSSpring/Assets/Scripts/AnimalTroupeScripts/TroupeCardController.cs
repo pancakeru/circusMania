@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class TroupeCardController : MonoBehaviour
 {
-    [HideInInspector] public animalProperty myAnimalProperty;
+    public animalProperty myAnimalProperty;
 
     public void Init(animalProperty givenAnimalProperty)
     {
