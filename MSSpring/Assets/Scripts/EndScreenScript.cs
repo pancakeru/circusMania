@@ -21,6 +21,13 @@ public class EndScreenScript : MonoBehaviour
 
 	public GameObject endButton;
 
+	public Image progressSLider;
+
+	[SerializeField] private TextMeshProUGUI percentText;
+
+	[SerializeField] private Color startBarColor;
+	[SerializeField] private Color endBarColor;
+
 	private enum DisplaySequence
 	{
 		Wait,
@@ -83,7 +90,7 @@ public class EndScreenScript : MonoBehaviour
 			//第三部分收获
 			case DisplaySequence.TotalCalc:
 				//数量
-				DisplayText(totalScore, curTotal, DisplaySequence.MoneyCalc);
+				DisplayTextForTotalScore(totalScore, curTotal, DisplaySequence.MoneyCalc);
 
 				break;
 
@@ -122,7 +129,25 @@ public class EndScreenScript : MonoBehaviour
 		}
 	}
 
-	void DisplayList()
+    void DisplayTextForTotalScore(TMP_Text text, float value, DisplaySequence nextState)
+    {
+        if (starting < value)
+        {
+            starting += addSpeed;
+            addSpeed += 1;
+			progressSLider.fillAmount = (starting / curReql) - ((int)(starting / curReql));
+			percentText.text = (int)(starting / curReql * 100) + "/100%";
+            text.text = starting.ToString();
+        }
+        else
+        {
+            starting = 0;
+            text.text = value.ToString();
+            currentState = nextState;
+        }
+    }
+
+    void DisplayList()
 	{
 		scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {test[currentIndex]}\n";
 		currentIndex += 1;
