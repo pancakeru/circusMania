@@ -95,6 +95,10 @@ public class BananaThrower : MonoBehaviour
     public int takeBanana(int expectedNum)
     {
         int toTake = curBanana >= expectedNum ? expectedNum : curBanana;
+        if (curBanana - expectedNum < 0)
+        {
+            toTake = 0;
+        }
         curBanana -= toTake;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();

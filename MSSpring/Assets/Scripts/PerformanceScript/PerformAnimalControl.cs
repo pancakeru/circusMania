@@ -129,7 +129,15 @@ public class PerformAnimalControl : MonoBehaviour
 				if (ifJustInteract)
 					animalBrain.EnterRest(true);
                 int realTake = animalBrain.controlUnit.thrower.takeBanana(curRestTurn);
-                TakeBanana(realTake);
+				if (realTake < curRestTurn)
+				{
+					b.DoDrop();
+					return;
+				}
+				else
+				{
+                    TakeBanana(realTake);
+                }
             }
             ball = b;
             b.gameObject.SetActive(false);
@@ -253,6 +261,7 @@ public class PerformAnimalControl : MonoBehaviour
 		ChangeRestCount(-1);
 		ifReadyToInteract = true;
 		animalBrain.ResetWhenBackToInitial();
+		Destroy(mechanicNumberUI.gameObject);
 	}
 }
 

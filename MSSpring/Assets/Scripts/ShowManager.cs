@@ -80,6 +80,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private int curTurn;
 	private float curRepu;
 
+	//表演速率和状态
+	private int speedRatio = 1;
+
 	private float recordScoreFromLastTime;
 	[Header("For Show Setting")]
 	[SerializeField] private float repuRatio = 0.1f;
@@ -261,10 +264,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		if (ifTest) {
 			ifTest = false;
 			//mover.MoveTo(tarTrans.anchoredPosition);
+			/*
 			if (Time.timeScale != 1)
 				Time.timeScale = 1;
 			else
 				Time.timeScale *= 2;
+			*/
 		}
 		/*
         if (Input.GetKeyDown(KeyCode.U))
@@ -300,6 +305,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 			case ShowStates.Performance:
 				//表演
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+                    if (speedRatio != 1)
+                        speedRatio = 1;
+                    else
+                        speedRatio *= 2;
+
+					Time.timeScale = speedRatio;
+                    
+                }
 				break;
 		}
 
@@ -403,12 +418,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void StartShow()
 	{
-		totalPerformanceControl.StartState(showState.showStart);
+        Time.timeScale = speedRatio;
+        totalPerformanceControl.StartState(showState.showStart);
 		currentState = ShowStates.Performance;
 	}
 
 	public void EndMoveToDecide(float score)
 	{
+		//时间速率相关
+		Time.timeScale = 1;
+
 		ifToShow = false;
 		recordScoreFromLastTime = score;
 		currentState = ShowStates.Animation;
