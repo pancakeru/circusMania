@@ -27,6 +27,7 @@ public class BuffManager : MonoBehaviour
 	public void AddGiveExtraBuff(BuffGiveExtra giveExtra)
 	{
 		//未来可能要有buff顺序问题，需要添加时排序，现在没有。
+		if(giveExtra is BuffFox)Debug.Log("添加了狐狸buff");
 		buffsGiveExtraWhenScore.Add(giveExtra);
 	}
 
@@ -63,8 +64,11 @@ public class BuffManager : MonoBehaviour
 		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl,messages));
 
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore) {
+			Debug.Log("正在检查buff"+buff.GetType().ToString());
 			if (buff.Check(myBaseScore, animalInfo.performAnimalControl,messages)) {
-                List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul)
+				Debug.Log(buff.GetType().ToString()+"应用成功");
+				Debug.Log("是soul吗？"+ animalInfo.performAnimalControl == null);
+                List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul, animalInfo.performAnimalControl)
 																{
 																	redScore = buff.Apply()[0],
 																	yellowScore = buff.Apply()[1],
@@ -139,9 +143,21 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 	{
 		PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 		int myIndex = Array.IndexOf(animalsOnStage, performAnimalControl);
+		Debug.Log(performAnimalControl.gameObject.name+"的index是"+myIndex);
 		PerformAnimalControl leftAnimal = animalsOnStage[myIndex - 1 < 0 ? 0 : myIndex - 1];
 		PerformAnimalControl rightAnimal = animalsOnStage[myIndex + 1 >= animalsOnStage.Length ? animalsOnStage.Length - 1 : myIndex + 1];
 
+		//首先检测自身index是否在范围
+		//第二个检测左右是否为from animal
+		Debug.Log("左右是否为提交动物: "+(((leftAnimal != null) && (leftAnimal == fromAnimal))
+            || ((rightAnimal != null) && (rightAnimal == fromAnimal))));
+		if(leftAnimal != null )Debug.Log("左侧为"+leftAnimal.gameObject.name+", index为"+ (myIndex - 1 < 0 ? 0 : myIndex - 1));
+        if (rightAnimal != null) Debug.Log("右侧为" + rightAnimal.gameObject.name+", index为"+(myIndex + 1 >= animalsOnStage.Length ? animalsOnStage.Length - 1 : myIndex + 1));
+        Debug.Log("From为" + fromAnimal.gameObject.name);
+		
+		//第三个检测是否加红分
+		Debug.Log("是否为红分: " + (baseScore[0] != 0));
+		//第四个检测是否为额外加分
 		if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
 			((leftAnimal != null && leftAnimal == fromAnimal)
 			|| (rightAnimal != null && rightAnimal == fromAnimal))

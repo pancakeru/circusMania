@@ -293,7 +293,7 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	public void EnSoul(animalProperty newSoul)
 	{
 		soul = newSoul;
-        animalInfo = new AnimalInfoPack(soul);
+        animalInfo = new AnimalInfoPack(soul,animalBody);
     }
 
 	public virtual void DoWhenShowStart()

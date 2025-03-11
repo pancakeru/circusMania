@@ -396,22 +396,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		showBanana.MoveTo(ShowBanannaInShow.anchoredPosition);
 		totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
 		moveCounter.SetUpCount(7);
-		Debug.Log(onStage == null);
-		try {
-			var toGive = from x in onStage
-						 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
-						 select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
-			totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
-		} catch {
-			Debug.Log(onStage == null);
-			var toGive = from x in onStage
-						 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
-						 select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
-			totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
-		}
-
-
-
+        var toGive = from x in onStage
+                     let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
+                     select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
+        totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
 
 
 	}
@@ -757,7 +745,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					} else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
 						if (firstDetect != null)
 							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetByValue(firstDetect).selfProperty);
-						Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
+						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
 					} else {
 						explainer.DownExplain();
 					}

@@ -36,7 +36,7 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 
 	private void WarmUp()
 	{
-		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(new animalProperty());
+		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(new animalProperty(),animalBody);
 		warmUpAnimalInfo.yellowScore = warmUpScore;
 
 		GenerateScore(warmUpAnimalInfo);

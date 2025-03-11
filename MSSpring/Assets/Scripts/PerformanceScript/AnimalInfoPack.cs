@@ -13,8 +13,9 @@ public class AnimalInfoPack
     public MechanicNumberType mechanicNumberType;
     public int mechanicActiveNum;
 
-    public AnimalInfoPack(animalProperty soul)
+    public AnimalInfoPack(animalProperty soul, PerformAnimalControl control)
 	{
+		performAnimalControl = control;
 		redScore = soul.baseRedChange;
 		yellowScore = soul.baseYellowChange;
 		blueScore = soul.baseBlueChange;

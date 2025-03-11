@@ -95,7 +95,7 @@ public class PerformUnit : MonoBehaviour
 
 	void StartShow()
 	{
-		allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
+		//allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
 		thrower.ShowStart(true);
 
 		for (int i = 0; i < allAnimalsInShow.Length; i++) {
@@ -302,7 +302,10 @@ public class PerformUnit : MonoBehaviour
 		//TODO:接入ShowManager获取到正确的表演
 		if (ifTest)
 			return testAnimals;
-
+		foreach (PerformAnimalControl an in allAnimalsInShow)
+		{
+			if(an!= null)Debug.Log("现在返回所有动物：" + an.gameObject.name);
+		}
 		return allAnimalsInShow;
 	}
 
