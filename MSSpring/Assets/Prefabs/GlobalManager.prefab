@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cd3ec710482948b5941d671621f94c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevelIndex: 0
   testProperties:
   - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
   - {fileID: 11400000, guid: b7add3aeb87204cc495ed4132a49221e, type: 2}
@@ -51,8 +52,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eef10b080b3794cae9b72086cbdc1b39, type: 2}
   - {fileID: 11400000, guid: cb5dd09991197466cb39a175e5b9d3f9, type: 2}
   - {fileID: 11400000, guid: 40d20d25a8143472db960d38fbc6262d, type: 2}
-  testCoinNum: 10000
-  ifDoTestInitialize: 1
+  testCoinNum: 10
+  ifDoTestInitialize: 0
   testAction: 2
   ifTestAction: 0
   toTestAdd: {fileID: 0}

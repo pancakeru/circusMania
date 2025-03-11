@@ -9,6 +9,7 @@ TagManager:
   - areaTag
   - showManager
   - showAnimalInHand
+  - showLvls
   layers:
   - Default
   - TransparentFX
