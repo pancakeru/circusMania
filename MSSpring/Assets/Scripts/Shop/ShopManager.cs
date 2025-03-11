@@ -13,7 +13,7 @@ public class ShopManager : MonoBehaviour
 	private int displayColumnNumber = 4;
 
 	private int coin;
-	private int rollPrice = 3;
+	[SerializeField]private int rollPrice = 1;
 
 	[SerializeField] GameObject shopDisplayUnitContainer;
 	[SerializeField] GameObject shopDisplayUnitPrefab;
@@ -89,8 +89,8 @@ public class ShopManager : MonoBehaviour
 		int shopAnimalPrice = shopAnimal.GetAnimalProperty().animalPrice;
 		if (coin >= shopAnimalPrice) {
 			coin -= shopAnimalPrice;
-			coinText.text = coin.ToString();
-			animalInventory.Remove(shopAnimal);
+            DisplayCoin();
+            animalInventory.Remove(shopAnimal);
 			boughtList.Add(shopAnimal);
 			return true;
 		} else {
@@ -103,8 +103,8 @@ public class ShopManager : MonoBehaviour
 	{
 		if (coin >= rollPrice) {
 			coin -= rollPrice;
-			coinText.text = coin.ToString();
-			Display();
+            DisplayCoin();
+            Display();
 		} else {
 			Debug.Log("You do not have sufficient coins to roll!");
 		}
@@ -127,8 +127,13 @@ public class ShopManager : MonoBehaviour
 	{
 		transform.parent.GetComponent<Canvas>().enabled = true;
 		coin = GlobalManager.instance.getCurCoinAmount();
-		coinText.text = coin.ToString();
+		DisplayCoin();
 	}
+
+	private void DisplayCoin()
+	{
+        coinText.text = "Coin: " + coin.ToString();
+    }
 
 	public void Disable()
 	{

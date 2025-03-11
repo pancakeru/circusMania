@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MenuController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class MenuController : MonoBehaviour
     ShopManager shopManager;
     ShowManager showManager;
     public GameObject lvlsDisplay;
+    [SerializeField] private TextMeshProUGUI coinDisplay;
 
     void Start()
     {
@@ -19,6 +21,7 @@ public class MenuController : MonoBehaviour
         troupeController.GetComponent<Canvas>().enabled = false;
         shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
         showManager.gameObject.SetActive(false);
+        coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         lvlsDisplay.SetActive(false);
     }
 
@@ -49,6 +52,12 @@ public class MenuController : MonoBehaviour
 
     public void Enable()
     {
+        //设置开头的状态
+        if (lvlsDisplay.activeSelf)
+        {
+            ShowLevels();
+        }
+        coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         GetComponent<Canvas>().enabled = true;
     }
 

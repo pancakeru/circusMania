@@ -15,7 +15,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	[Header("For test")]
 	[SerializeField]
-	private List<animalProperty> testProperties;
+	private AnimalStart testProperties;
 	[SerializeField]
 	private int testCoinNum;
 	[SerializeField]
@@ -26,6 +26,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private bool ifTestAction = false;
 	[SerializeField]
 	private animalProperty toTestAdd;
+	
 
 	private void Awake()
 	{
@@ -40,15 +41,19 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 		if (globalLevelArray.Length > 1) {
 			Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
 		}
-	}
+
+        if (ifDoTestInitialize)
+        {
+
+            foreach (animalProperty apt in testProperties.properies)
+                addAnAnimal(apt);
+            curCoinAmount = testCoinNum;
+        }
+    }
 
 	private void Start()
 	{
-		if (ifDoTestInitialize) {
-			foreach (animalProperty apt in testProperties)
-				addAnAnimal(apt);
-			curCoinAmount = testCoinNum;
-		}
+		
 	}
 
 	private void Update()

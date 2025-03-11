@@ -20,8 +20,8 @@ MonoBehaviour:
   - count: 2
     animalProperty: {fileID: 11400000, guid: 40d20d25a8143472db960d38fbc6262d, type: 2}
   - count: 1
-    animalProperty: {fileID: 11400000, guid: eef10b080b3794cae9b72086cbdc1b39, type: 2}
+    animalProperty: {fileID: 11400000, guid: 6c0e14ed1c90f48de99e01ac00132a1a, type: 2}
   - count: 1
-    animalProperty: {fileID: 11400000, guid: cb5dd09991197466cb39a175e5b9d3f9, type: 2}
+    animalProperty: {fileID: 11400000, guid: cf324ce1a3f5c4498a0064f28e1d3ff8, type: 2}
   - count: 1
     animalProperty: {fileID: 11400000, guid: b7add3aeb87204cc495ed4132a49221e, type: 2}

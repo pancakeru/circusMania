@@ -45,13 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevelIndex: 0
-  testProperties:
-  - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
-  - {fileID: 11400000, guid: b7add3aeb87204cc495ed4132a49221e, type: 2}
-  - {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
-  - {fileID: 11400000, guid: eef10b080b3794cae9b72086cbdc1b39, type: 2}
-  - {fileID: 11400000, guid: cb5dd09991197466cb39a175e5b9d3f9, type: 2}
-  - {fileID: 11400000, guid: 40d20d25a8143472db960d38fbc6262d, type: 2}
+  testProperties: {fileID: 11400000, guid: ae1adc6ef1d2845c08c876ac4a993ce6, type: 2}
   testCoinNum: 10
   ifDoTestInitialize: 0
   testAction: 2
