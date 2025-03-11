@@ -1,6 +1,11 @@
 public class AnimalControlKangaroo : AbstractSpecialAnimal
 {
-	public override void InitOnExcitementEventListener()
+    private BuffKangaroo selfBuff;
+	private bool haveBuffAdded = false;
+    
+	
+
+    public override void InitOnExcitementEventListener()
 	{
 		controlUnit.OnExcitement += PerformUnit_OnExcitement;
 	}
@@ -18,6 +23,13 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
         animalInfo.excited = animalInfo.mechanicActiveNum;
+		if (haveBuffAdded)
+		{
+			BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
+		}
+        selfBuff = new BuffKangaroo(animalBody);
+        BuffManager.instance.AddGiveExtraBuff(selfBuff);
+		haveBuffAdded = true;
         animalBody.mechanicNumberUI.StartEffectImpact(false);
 
 		animalBody.ifReadyToInteract = false;
@@ -27,12 +39,17 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 	{
 		if (animalInfo.excited > 0)
 		{
+			/*
 			if (e.animalInfo.redScore > 0)
 			{
 				GenerateScore(animalInfo);
-			}
+			}*/
 			animalInfo.excited -= 1;
-
+			if (animalInfo.excited <= 0)
+			{
+                BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
+				haveBuffAdded = false;
+            }
 			animalBody.mechanicNumberUI.UpdateText();
 			if (animalInfo.excited > 0) animalBody.mechanicNumberUI.StartEffectImpact(false);
 			else animalBody.mechanicNumberUI.StartEffectImpact(true);
@@ -43,7 +60,11 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
     {
         base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
-
+		if (haveBuffAdded)
+		{
+            BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
+			haveBuffAdded = false;
+        }
 		animalBody.mechanicNumberUI.StartEffectDeath();
     }
 }
