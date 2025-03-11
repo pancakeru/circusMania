@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalName: Elephant
   animalCoreImg: {fileID: 21300000, guid: dc8ddb1f92b7e4f5fa7e70b423bc171a, type: 3}
-  animalPrice: 0
+  animalPrice: 3
   baseYellowChange: 1
   baseRedChange: 0
   baseBlueChange: 0
