@@ -105,6 +105,7 @@ public class EndScreenScript : MonoBehaviour
 	public void Leave()
 	{
 		GlobalManager.instance.ToNextGlobalLevel();
+		GlobalManager.instance.changeCoinAmount(15);
 		FindAnyObjectByType<ShowManager>().LeaveShow();
 	}
 
