@@ -16,10 +16,7 @@ public class ScoreTextEffectGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            RequestTextEffect(20, ScoreType.Red);
-        }
+
 
         ProcessQueue(); // 逐步处理队列
     }
@@ -60,13 +57,13 @@ public class ScoreTextEffectGenerator : MonoBehaviour
         switch (type)
         {
             case ScoreType.Yellow:
-                textMesh.color = Color.yellow;
+                textMesh.color = GlobalManager.instance.yellowEffect;
                 break;
             case ScoreType.Red:
-                textMesh.color = Color.red;
+                textMesh.color = GlobalManager.instance.redEffect;
                 break;
             case ScoreType.Blue:
-                textMesh.color = Color.blue;
+                textMesh.color = GlobalManager.instance.blueEffect;
                 break;
             default:
                 textMesh.color = Color.white;

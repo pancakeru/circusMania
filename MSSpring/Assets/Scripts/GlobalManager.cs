@@ -13,6 +13,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private GlobalLevel[] globalLevelArray;
 	public int currentLevelIndex = 0;
 
+	[Header("Show Score Effect Color")]
+	public Color redEffect;
+	public Color blueEffect;
+	public Color yellowEffect;
+
 	[Header("For test")]
 	[SerializeField]
 	private AnimalStart testProperties;
