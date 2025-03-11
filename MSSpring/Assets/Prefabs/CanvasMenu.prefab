@@ -693,6 +693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lvlsDisplay: {fileID: 505059485597920310}
+  coinDisplay: {fileID: 7352737327927155064}
 --- !u!223 &3941225737649711936
 Canvas:
   m_ObjectHideFlags: 0
