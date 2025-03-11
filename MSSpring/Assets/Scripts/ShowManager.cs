@@ -202,6 +202,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		SetUpAnLevel(testLevel);
 		totalPerformanceControl.InitShow();
 		recordScore = new int[5];
+		thrower.changeCount(10);
 		//位置 GameObject
 		for (int i = 0; i < 6; i++) {
 			GameObject temp = Instantiate(areaPrefab, stagePanelTransform);

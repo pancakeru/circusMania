@@ -36,6 +36,9 @@ public class PerformAnimalControl : MonoBehaviour
 	[Header("For Score Effect")]
 	public ScoreTextEffectGenerator generator;
 
+	[Header("Special Effect")]
+	public ParticleSystem bananaEffect;
+
 	private float ratioTimer = 1;
 	private Vector3 originalScale;
 	private Vector3 baseRatio;
@@ -163,6 +166,7 @@ public class PerformAnimalControl : MonoBehaviour
 				ChangeRestCount(curRestTurn);
 			}
 		}
+		bananaEffect.Play();
 	}
 
 	public void ChangeRestCount(int num)

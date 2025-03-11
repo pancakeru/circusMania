@@ -19,7 +19,7 @@ MonoBehaviour:
   baseRedChange: 0
   baseBlueChange: 0
   baseBallChange: -2
-  restTurn: 3
+  restTurn: 4
   mechanicNumberType: 0
   mechanicActiveNum: 0
   ballAction1: <b>Left(2)</b>
