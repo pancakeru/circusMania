@@ -8,7 +8,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     //换动物图片
     private SpriteRenderer mySprite;
-    private Image uiImage;
+    [SerializeField] private Image uiImage;
     private string animalType;
     private RectTransform myPosition;
     public int yGoal = -350;
@@ -104,7 +104,6 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         selfProperty = property;
         animalType = property.name; //动物种类
-        uiImage = GetComponentInChildren<Image>();
         uiImage.sprite = selfProperty.animalCoreImg;
         /*
         for (int i = 0; i < typeList.Count; i++) {

@@ -31,6 +31,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public GameObject animalIcon;
 	public GameObject areaPrefab;
 	public Transform handPanelTransform;
+	[SerializeField] private Transform handPanelBackground;
 	public Transform stagePanelTransform;
 	public UiMover scorePanelMover;
 	public CameraMover camMover;
@@ -230,7 +231,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		for (int i = 0; i < properties.Count; i++) {
 			Debug.Log(properties[i].animalName);
-			GameObject temp = Instantiate(animalIcon, handPanelTransform);
+			GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
 			myHand.Add(temp);
 
 			temp.GetComponent<iconAnimal>().Initialize(properties[i], false);
