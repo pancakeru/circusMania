@@ -206,7 +206,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		initialPos = new List<Vector2>();
 		SetUpAnLevel(testLevel);
 		totalPerformanceControl.InitShow();
-		recordScore = new int[5];
+		recordScore = new int[curLevel.allowedTurn];
 		thrower.changeCount(10);
 		//位置 GameObject
 		for (int i = 0; i < 6; i++) {
@@ -445,7 +445,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio);
 		} else {
-			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio);
+			ChangeLevelStatus(curTurn-1, recordScoreFromLastTime, repuRatio);
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
 			curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);

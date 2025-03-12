@@ -39,7 +39,8 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 
 			animalBody.ifReadyToInteract = false;
 		}
-	}
+        animalBody.mechanicNumberUI.StartEffectImpact(false);
+    }
 
 	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
 	{
@@ -48,12 +49,15 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 				e.animalInfo.performAnimalControl.animalBrain.GenerateScore(e.animalInfo);
 			}
 			animalInfo.excited -= 1;
-		}
+            if (animalInfo.excited > 0) animalBody.mechanicNumberUI.StartEffectImpact(false);
+            else animalBody.mechanicNumberUI.StartEffectImpact(true);
+        }
 	}
 
     public override void ResetWhenBackToInitial()
     {
         base.ResetWhenBackToInitial();
 		animalInfo.excited = 0;
+        animalBody.mechanicNumberUI.StartEffectDeath();
     }
 }

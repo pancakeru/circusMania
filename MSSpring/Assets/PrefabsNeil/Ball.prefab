@@ -164,7 +164,7 @@ MonoBehaviour:
   testT: 0
   testh: 0
   testBtn: 0
-  spriteRenderer: {fileID: 1126769854696925628}
+  spriteRenderer: {fileID: 9167140594761205734}
   fadeDuration: 1
   initialYVperUnit: 2
   baseYV: 5

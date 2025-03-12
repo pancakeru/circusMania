@@ -50,7 +50,7 @@ public class tempShowExplain : MonoBehaviour
         RectTransform explainRect = explainObj.GetComponent<RectTransform>();
         if (explainRect != null)
         {
-            explainRect.sizeDelta = MechnnicExplain.rect.size;
+            explainRect.sizeDelta = AnimalFactory(property.animalName).rect.size;
         }
     }
 

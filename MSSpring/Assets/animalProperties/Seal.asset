@@ -20,8 +20,8 @@ MonoBehaviour:
   baseBlueChange: 0
   baseBallChange: -2
   restTurn: 3
-  mechanicNumberType: 0
-  mechanicActiveNum: 0
+  mechanicNumberType: 3
+  mechanicActiveNum: 7
   ballAction1: <b>Left(2)</b>
   scoreAction1: <b><color=#DA6CA8>+20 Fun</color></b>
   scoreAction2: <b>3</b>
