@@ -10,6 +10,7 @@ public class tempShowExplain : MonoBehaviour
     public float up = 300;
 
     public List<Sprite> images;
+    public Sprite MechnnicExplain;
 
     public void StartExplain(RectTransform target, bool IfDown, animalProperty property)
     {
@@ -23,7 +24,7 @@ public class tempShowExplain : MonoBehaviour
         if (IfDown)
         {
             // 设置到目标的上方
-            explainObj.transform.position = new Vector3(targetPosition.x, targetPosition.y +up, targetPosition.z);
+            explainObj.transform.position = new Vector3(targetPosition.x, targetPosition.y + up, targetPosition.z);
         }
         else
         {
@@ -39,10 +40,46 @@ public class tempShowExplain : MonoBehaviour
                 explainObj.transform.position = new Vector3(targetPosition.x - width, targetPosition.y, targetPosition.z);
             }
         }
+        // 获取 Image 组件
+        Image explainImage = explainObj.GetComponent<Image>();
 
-        explainObj.GetComponent<Image>().sprite = AnimalFactory(property.animalName);
+        // 赋值 Sprite
+        explainImage.sprite = AnimalFactory(property.animalName);
+
+        // 获取 RectTransform 并直接使用 Sprite 的大小
+        RectTransform explainRect = explainObj.GetComponent<RectTransform>();
+        if (explainRect != null)
+        {
+            explainRect.sizeDelta = MechnnicExplain.rect.size;
+        }
     }
 
+    public void StartMechanicExplain(RectTransform target)
+    {
+        if (explainObj == null) return;
+
+        explainObj.SetActive(true);
+
+        // 设置位置
+        Vector3 targetPosition = target.position;
+        explainObj.transform.position = new Vector3(targetPosition.x +320, targetPosition.y-80, targetPosition.z);
+
+        // 获取 Image 组件
+        Image explainImage = explainObj.GetComponent<Image>();
+        if (explainImage == null || MechnnicExplain == null) return;
+
+        // 赋值 Sprite
+        explainImage.sprite = MechnnicExplain;
+
+        // 获取 RectTransform 并直接使用 Sprite 的大小
+        RectTransform explainRect = explainObj.GetComponent<RectTransform>();
+        if (explainRect != null)
+        {
+            explainRect.sizeDelta = MechnnicExplain.rect.size;
+        }
+    }
+
+   
     public void StartExplain(Vector3 worldPosition, bool IfDown, animalProperty property)
     {
         if (explainObj == null) return;

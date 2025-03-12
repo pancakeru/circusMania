@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 867062031284951114}
   m_Layer: 5
   m_Name: PopularityPanel
-  m_TagString: Untagged
+  m_TagString: mechanicExplain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2770,6 +2770,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: c4f0cb80aae244e11b0ee3d7eddacd16, type: 3}
   - {fileID: 21300000, guid: f42b142e0d0ab4b80b5d7cc0fe5c7cda, type: 3}
   - {fileID: 21300000, guid: f42b142e0d0ab4b80b5d7cc0fe5c7cda, type: 3}
+  MechnnicExplain: {fileID: 21300000, guid: bff6063659f934d388d8f96bb3d359bb, type: 3}
 --- !u!1 &6792749960177947102
 GameObject:
   m_ObjectHideFlags: 0
@@ -3190,7 +3191,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 5032bb0cd8994477b9fa76dce11a3340, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

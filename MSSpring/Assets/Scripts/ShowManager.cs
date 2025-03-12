@@ -749,7 +749,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						if (firstDetect != null)
 							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetByValue(firstDetect).selfProperty);
 						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
-					} else {
+					} else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
+						if (firstDetect != null)
+							explainer.StartMechanicExplain(firstDetect.GetComponent<RectTransform>());
+                    } else {
 						explainer.DownExplain();
 					}
 				}
