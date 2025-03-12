@@ -586,7 +586,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			return;
 		leftAnchorX += changeX;
 		float rightLimit = Screen.width / 10;
-		float leftLimit = -Math.Max(myHand.Count * offset - Screen.width, 0) - Screen.width / 10;
+		float leftLimit = -Math.Max((myHand.Count) * offset*(Application.platform == RuntimePlatform.WebGLPlayer?2:1) - Screen.width, 0) - Screen.width / 10;
 
 		// 限制左右移动范围
 		leftAnchorX = Mathf.Clamp(leftAnchorX, leftLimit, rightLimit);
