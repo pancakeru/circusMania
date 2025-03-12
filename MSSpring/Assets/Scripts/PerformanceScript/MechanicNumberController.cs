@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEditor;
+using UnityEngine.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -167,6 +168,7 @@ public class MechanicNumberController : MonoBehaviour
 }
 
 //Dropdown menu in hierachy
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(MechanicNumberType))]
 public class MechanicNumberTypeDrawer : PropertyDrawer
 {
@@ -175,3 +177,4 @@ public class MechanicNumberTypeDrawer : PropertyDrawer
         property.enumValueIndex = (int)(MechanicNumberType)EditorGUI.EnumPopup(position, label, (MechanicNumberType)property.enumValueIndex);
     }
 }
+#endif

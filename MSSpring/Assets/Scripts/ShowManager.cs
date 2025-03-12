@@ -248,12 +248,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio)
+	private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio, bool ifChangeTurnDisplay)
 	{
 		recordScore[_curTurn - 2] = (int)_curScore;
 		curRepu = _curScore * reputationRatio;
 		curScore += _curScore;
-		targetDisplayManager.ChangeLevelState(curScore, _curTurn, curRepu, curLevel.targetScore, curLevel.allowedTurn);
+		targetDisplayManager.ChangeLevelState(curScore, _curTurn - (ifChangeTurnDisplay?0:1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
 	}
 
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
@@ -443,9 +443,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			startButtonMover.GetComponent<Button>().interactable = true;
 			thrower.addBanana(10);
 
-			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio);
+			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio,true);
 		} else {
-			ChangeLevelStatus(curTurn-1, recordScoreFromLastTime, repuRatio);
+			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio,false);
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
 			curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
@@ -581,6 +581,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	void SlideAnimalsInHand(float changeX)
 	{
 		//TODO:限制左右
+		//if(changeX!= 0)Debug.Log("改变的x是"+changeX);
+		if (Mathf.Abs(changeX) > 500)
+			return;
 		leftAnchorX += changeX;
 		float rightLimit = Screen.width / 10;
 		float leftLimit = -Math.Max(myHand.Count * offset - Screen.width, 0) - Screen.width / 10;
@@ -665,7 +668,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		EndDecideState(curDecideState);
 		switch (newState) {
 			case DecideScreenState.slide:
-				break;
+                lastMousePosition = Input.mousePosition;
+                break;
 
 			case DecideScreenState.moveAnimal:
 				inDown = true;
@@ -714,10 +718,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						StartDecideState(DecideScreenState.moveAnimal);
 
 					} else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio)) {
-						StartDecideState(DecideScreenState.slide);
-						lastMousePosition = Input.mousePosition;
-						//进入滑动
-					} else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()) {
+                        
+                        StartDecideState(DecideScreenState.slide);
+                        
+                        //进入滑动
+                    } else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()) {
 						//进入上下
 						//Debug.Log(firstDetect.transform.parent.name);
 						foreach (iconAnimal animal in myHandControls) {
