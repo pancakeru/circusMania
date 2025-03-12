@@ -150,12 +150,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		handPanelMover = handPanelTransform.GetComponent<UiMover>();
 		stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
 		camMover = Camera.main.GetComponent<CameraMover>();
-	}
+        GlobalManager_OnNextGlobalLevel();
+        GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
+    }
 
 	void Start()
 	{
-		GlobalManager_OnNextGlobalLevel();
-		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
+		
 		//SetUpAnLevel(testLevel);
 		//testList = new List<animalProperty>();
 
@@ -258,6 +259,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void GlobalManager_OnNextGlobalLevel()
 	{
 		testLevel = GlobalManager.instance.GetCurrentGlobalLevel().levelProperty;
+		Debug.Log("当前level是"+testLevel.name);
 	}
 
 	void Update()

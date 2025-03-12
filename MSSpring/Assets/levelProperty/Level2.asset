@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b155c276830174251ad04a79005b7e72, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
-  targetScore: 10000
-  allowedTurn: 5
+  targetScore: 5000
+  allowedTurn: 3

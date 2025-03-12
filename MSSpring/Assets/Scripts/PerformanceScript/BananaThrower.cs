@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class BananaThrower : MonoBehaviour
+public class  BananaThrower : MonoBehaviour
 {
     public GameObject bananaPrefab;
     public int maxBanana = 20;
@@ -15,9 +15,11 @@ public class BananaThrower : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        /*
         curBanana = maxBanana;
         if(InDecisionText!= null)InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
+        */
     }
 
     public void ShowStart(bool ifStart)
@@ -70,6 +72,7 @@ public class BananaThrower : MonoBehaviour
 
     public void changeCount(int n)
     {
+        
         curBanana = n;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
@@ -78,6 +81,7 @@ public class BananaThrower : MonoBehaviour
 
     public void changeCount()
     {
+        
         curBanana = maxBanana;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
@@ -86,6 +90,7 @@ public class BananaThrower : MonoBehaviour
 
     public void addBanana(int n)
     {
+        
         curBanana += n;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
