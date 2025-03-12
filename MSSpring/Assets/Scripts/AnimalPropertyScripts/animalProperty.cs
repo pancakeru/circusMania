@@ -6,6 +6,7 @@ public class animalProperty : ScriptableObject
 {
     public string animalName;
     public Sprite animalCoreImg;
+    public Sprite explainImg;
 
     [Header("ForShop")]
     public int animalPrice;

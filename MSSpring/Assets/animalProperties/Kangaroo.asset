@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animalName: Kangaroo
   animalCoreImg: {fileID: 21300000, guid: 3f74194dd4065524097ee331e4838fa8, type: 3}
+  explainImg: {fileID: 21300000, guid: 591cbd4f8779d48e3a13bcd90e2be497, type: 3}
   animalPrice: 3
   baseYellowChange: 0
   baseRedChange: 0

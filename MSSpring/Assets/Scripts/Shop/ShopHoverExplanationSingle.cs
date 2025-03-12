@@ -18,7 +18,7 @@ public class ShopHoverExplanationSingle : MonoBehaviour
 	public void SetUp(ShopDisplayUnit shopDisplayUnit)
 	{
 		this.shopDisplayUnit = shopDisplayUnit;
-		image.sprite = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().animalCoreImg;
-		text.text = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnScoreAction() + "\n" + shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnBallAction();
+		image.sprite = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().explainImg;
+		//text.text = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnScoreAction() + "\n" + shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnBallAction();
 	}
 }

@@ -38,10 +38,10 @@ public class ShopDisplayUnit : MonoBehaviour
 	{
 		int displayingListCount = ShopManager.Instance.GetDisplayingListCount();
 		e.hoverExplanation.GetComponent<ShopHoverExplanationSingle>().SetUp(this);
-		if (displayIndex <= displayingListCount / 2 - 1) {
-			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(-400, 0);
-		} else {
+		if (displayIndex <= displayingListCount-2) {
 			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(300, 0);
+		} else {
+			e.hoverExplanation.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition + new Vector2(-400, 0);
 		}
 	}
 
