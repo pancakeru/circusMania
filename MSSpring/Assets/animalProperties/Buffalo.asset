@@ -18,7 +18,7 @@ MonoBehaviour:
   baseYellowChange: 0
   baseRedChange: 0
   baseBlueChange: 0.5
-  baseBallChange: -2
+  baseBallChange: -3
   restTurn: 4
   mechanicNumberType: 3
   mechanicActiveNum: 7

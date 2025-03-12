@@ -7,11 +7,13 @@ public class AnimalControlBuffalo : AbstractSpecialAnimal
 		PerformAnimalControl passer = animalBody.ball.GetPasser();
 
 		animalBody.ball.gameObject.SetActive(true);
-		if (passer == null) {
+        animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange, animalBody);
+		/*
+        if (passer == null) {
 			animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange,animalBody);
 		} else {
 			animalBody.ball.MoveBall(animalBody.selfIndexInShow, passer.selfIndexInShow + soul.baseBallChange,animalBody);
-		}
+		}*/
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
