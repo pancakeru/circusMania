@@ -22,7 +22,7 @@ MonoBehaviour:
   restTurn: 2
   mechanicNumberType: 1
   mechanicActiveNum: 0
-  ballAction1: <b>Right(Power)</b>
+  ballAction1: <b>Right(1)</b>
   scoreAction1: <b><color=#DA6CA8>+20xPower Fun</color></b>
   scoreAction2: <b>2</b>
   scoreAction3: '<b>Power</b>: +1 Power after throwing ball. '

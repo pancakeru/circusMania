@@ -52,16 +52,29 @@ public class animalProperty : ScriptableObject
     );
     }
 
-    /// <summary>
-    /// 生成传球动作的最终文本
-    /// </summary>
-    /// <returns>格式化后的传球描述字符串</returns>
     public string returnScoreAction()
     {
         return string.Format(
         "Gain {0}, Rest {1}. \n{2}",
         string.IsNullOrEmpty(scoreAction1) ? "" : scoreAction1,
         string.IsNullOrEmpty(scoreAction2) ? "" : scoreAction2,
+        string.IsNullOrEmpty(scoreAction3) ? "" : scoreAction3
+    );
+    }
+
+    public string returnBallAction1Only()
+    {
+        return string.Format(
+        "{0}",
+        string.IsNullOrEmpty(ballAction1) ? "" : ballAction1
+    );
+    }
+
+    public string returnScoreActionNoRest()
+    {
+        return string.Format(
+        "Gain {0}. \n{1}",
+        string.IsNullOrEmpty(scoreAction1) ? "" : scoreAction1,
         string.IsNullOrEmpty(scoreAction3) ? "" : scoreAction3
     );
     }
