@@ -172,6 +172,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
+      propertyPath: testProperties
+      value: 
+      objectReference: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
+    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
       propertyPath: ifDoTestInitialize
       value: 1
       objectReference: {fileID: 0}
