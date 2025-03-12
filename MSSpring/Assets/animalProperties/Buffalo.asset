@@ -19,11 +19,11 @@ MonoBehaviour:
   baseYellowChange: 0
   baseRedChange: 0
   baseBlueChange: 0.5
-  baseBallChange: -3
+  baseBallChange: 3
   restTurn: 4
   mechanicNumberType: 3
   mechanicActiveNum: 7
-  ballAction1: <b>Right(1)</b>
+  ballAction1: <b>Right(3)</b>
   scoreAction1: <b><color=#5EBBE2>+0.5 Thrill</color></b>
   scoreAction2: <b>4</b>
   scoreAction3: All <b><color=#5EBBE2>+0.3 Thrill</color></b>
