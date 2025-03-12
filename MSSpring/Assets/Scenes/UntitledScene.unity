@@ -818,10 +818,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasTroupe
       objectReference: {fileID: 0}
-    - target: {fileID: 3276076672221530364, guid: 61668c9603010cd4ca3d7b842054e5f4, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4664958971075132899, guid: 61668c9603010cd4ca3d7b842054e5f4, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
