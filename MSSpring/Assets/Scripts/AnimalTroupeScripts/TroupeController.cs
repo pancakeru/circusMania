@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class TroupeController : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class TroupeController : MonoBehaviour
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 3;
+    int visibleRows = 3;
 
     void Awake()
     {
@@ -47,7 +49,7 @@ public class TroupeController : MonoBehaviour
         if (GetComponent<Canvas>().enabled)
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0)
+            if (scroll != 0 && troupeCards.Count > cardsPerRow * visibleRows)
             {
                 slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.6f);
             }
@@ -77,7 +79,6 @@ public class TroupeController : MonoBehaviour
         }
 
         slideStartPos = new Vector2(0, 0);
-        int visibleRows = 3; 
         slideEndPos = new Vector2(0, -cardOffset.y * (Mathf.CeilToInt((float)troupeCards.Count / cardsPerRow) - visibleRows));
 
         //Debug.Log(tempTroupe[5].animalName + tempTroupe[5].returnBallAction());
