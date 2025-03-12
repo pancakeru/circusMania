@@ -13,17 +13,18 @@ public class TroupeController : MonoBehaviour
 
     public GameObject troupeCardSimple;
     public GameObject troupeCardDetailed;
-    GameObject troupeCardSelected;
+    [HideInInspector] public GameObject troupeCardSelected;
     List<animalProperty> tempTroupe = new List<animalProperty>();
     List<GameObject> troupeCards = new List<GameObject>();
 
     GameObject cardsGroup;
     GameObject slide;
 
-    Vector2 cardStartPos = new Vector2 (75f, -375f);
+    Vector2 cardStartPos = new Vector2 (215f, -220f);
+    Vector2 cardOffset = new Vector2(310f, -250f);
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
-    int cardsPerRow = 4;
+    int cardsPerRow = 3;
 
     void Awake()
     {
@@ -70,19 +71,14 @@ public class TroupeController : MonoBehaviour
             troupeCards.Add(newCard);
         }
 
-        /*
-         * 这里Neil修改了，因为在列表为空时会报错
-         */
-        float width = troupeCardSimple.GetComponent<RectTransform>().localScale.x * 450f;
-        float height = troupeCardSimple.GetComponent<RectTransform>().localScale.y * 550f;
-
         for (int i = 0; i < troupeCards.Count; i++)
         {
-            troupeCards[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(cardStartPos.x + (i % cardsPerRow) * width, cardStartPos.y - (i / cardsPerRow) * height);
+            troupeCards[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(cardStartPos.x + (i % cardsPerRow) * cardOffset.x, cardStartPos.y + (i / cardsPerRow) * cardOffset.y);
         }
 
         slideStartPos = new Vector2(0, 0);
-        slideEndPos = new Vector2(0, -100 + height * (troupeCards.Count / cardsPerRow - 2));
+        int visibleRows = 3; 
+        slideEndPos = new Vector2(0, -cardOffset.y * (Mathf.CeilToInt((float)troupeCards.Count / cardsPerRow) - visibleRows));
 
         Debug.Log(tempTroupe[5].animalName + tempTroupe[5].returnBallAction());
         DisplayCardDetail(troupeCards[0]);
@@ -96,6 +92,15 @@ public class TroupeController : MonoBehaviour
         troupeCardDetailed.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.animalName;
         troupeCardDetailed.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnBallAction();
         troupeCardDetailed.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnScoreAction();
+    }
+
+    public void SetCardsBackground()
+    {
+        foreach (var card in troupeCards)
+        {
+            card.GetComponent<TroupeCardController>().transform.GetChild(0).GetComponent<Image>().sprite = card.GetComponent<TroupeCardController>().bgSprites[0];
+        }
+        troupeCardSelected.GetComponent<TroupeCardController>().transform.GetChild(0).GetComponent<Image>().sprite = troupeCardSelected.GetComponent<TroupeCardController>().bgSprites[1];
     }
 
     public void Enable()
