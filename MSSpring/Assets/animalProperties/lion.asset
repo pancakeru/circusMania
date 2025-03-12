@@ -22,7 +22,7 @@ MonoBehaviour:
   restTurn: 5
   mechanicNumberType: 0
   mechanicActiveNum: 0
-  ballAction1: <b>#1, #3, #5</b> in order
+  ballAction1: <b>#1, 3, 5</b>
   scoreAction1: <b><color=#5EBBE2>+0.3 Thrill</color></b>
   scoreAction2: <b>4</b>
   scoreAction3: 

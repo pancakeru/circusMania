@@ -22,7 +22,7 @@ MonoBehaviour:
   restTurn: 4
   mechanicNumberType: 3
   mechanicActiveNum: 7
-  ballAction1: <b>Right(of the Passer)</b>
+  ballAction1: <b>Right(1)</b>
   scoreAction1: <b><color=#5EBBE2>+0.5 Thrill</color></b>
   scoreAction2: <b>4</b>
   scoreAction3: All <b><color=#5EBBE2>+0.3 Thrill</color></b>
