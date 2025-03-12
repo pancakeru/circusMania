@@ -23,6 +23,8 @@ public class MenuController : MonoBehaviour
         showManager.gameObject.SetActive(false);
         coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         lvlsDisplay.SetActive(false);
+        
+
     }
 
     // Update is called once per frame

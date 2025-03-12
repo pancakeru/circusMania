@@ -31,18 +31,19 @@ public class ShopManager : MonoBehaviour
 		Instance = this;
 
 		menuController = FindAnyObjectByType<MenuController>();
-	}
+        GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
+    }
 
 	private void Start()
 	{
-		GlobalManager_OnNextGlobalLevel();
-		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
+		//GlobalManager_OnNextGlobalLevel();
+		
 	}
 
-	private void GlobalManager_OnNextGlobalLevel()
+	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
 	{
 		animalInventory = new List<ShopAnimal>();
-		foreach (AnimalPool.AnimalEntry animalEntry in GlobalManager.instance.GetCurrentGlobalLevel().animalPool.animals) {
+		foreach (AnimalPool.AnimalEntry animalEntry in level.animalPool.animals) {
 			int count = animalEntry.count;
 			for (int i = 0; i < count; i++) {
 				animalInventory.Add(new ShopAnimal(animalEntry.animalProperty));

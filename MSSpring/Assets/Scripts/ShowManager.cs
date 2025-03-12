@@ -150,7 +150,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		handPanelMover = handPanelTransform.GetComponent<UiMover>();
 		stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
 		camMover = Camera.main.GetComponent<CameraMover>();
-        GlobalManager_OnNextGlobalLevel();
+        //GlobalManager_OnNextGlobalLevel();
         GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
     }
 
@@ -256,9 +256,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		targetDisplayManager.ChangeLevelState(curScore, _curTurn, curRepu, curLevel.targetScore, curLevel.allowedTurn);
 	}
 
-	private void GlobalManager_OnNextGlobalLevel()
+	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
 	{
-		testLevel = GlobalManager.instance.GetCurrentGlobalLevel().levelProperty;
+		testLevel = level.levelProperty;
 		Debug.Log("当前level是"+testLevel.name);
 	}
 

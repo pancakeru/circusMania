@@ -7,7 +7,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 {
 	public static GlobalManager instance;
 
-	public static event Action OnNextGlobalLevel;
+	public static event Action<GlobalLevel> OnNextGlobalLevel;
 
 	private string globalLevelFolderPath = "GlobalLevels";
 	private GlobalLevel[] globalLevelArray;
@@ -58,8 +58,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	private void Start()
 	{
-		
-	}
+        OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
+    }
 
 	private void Update()
 	{
@@ -97,7 +97,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	{
 		if (currentLevelIndex + 1 < globalLevelArray.Length) {
 			currentLevelIndex += 1;
-			OnNextGlobalLevel?.Invoke();
+			OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
 		}
 	}
 

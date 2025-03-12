@@ -2864,6 +2864,7 @@ GameObject:
   - component: {fileID: 7394487558581083907}
   - component: {fileID: 6489314159823313935}
   - component: {fileID: 2404739391270008787}
+  - component: {fileID: 5530018475454044584}
   m_Layer: 5
   m_Name: ButtonShow
   m_TagString: Untagged
@@ -2986,6 +2987,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5530018475454044584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352953528660150353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87336655f943424cb2d07ae843280d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 4154027310524468901}
 --- !u!1 &7846338194143769289
 GameObject:
   m_ObjectHideFlags: 0
@@ -3298,7 +3312,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2712240092604029547}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: ButtonShow
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
