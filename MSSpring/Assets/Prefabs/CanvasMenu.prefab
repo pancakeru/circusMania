@@ -486,6 +486,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2712240092604029547}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: CallSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1453056995685081458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1028,6 +1040,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2712240092604029547}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: ShowLevels
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2712240092604029547}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: CallSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2485,6 +2509,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2712240092604029547}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: CallSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5114395787691169803
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,6 +2646,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2712240092604029547}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
         m_MethodName: ButtonAnimalTroupe
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2712240092604029547}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: CallSound
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3683,6 +3731,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 2712240092604029547}
+        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
+        m_MethodName: CallSound
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

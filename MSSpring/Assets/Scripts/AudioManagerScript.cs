@@ -28,6 +28,17 @@ public class AudioManagerScript : MonoBehaviour
         }
     }
 
+/*
+    public void Update()
+    {
+        if (Input.GetMouseButtonDown(0)) {
+            if (!battleSource.isPlaying) {
+                PlayUISound(UI[0]);
+            }
+        }
+    }
+    */
+
     public void PlayUISound(AudioClip clip)
     {
         if (!isMuted && clip != null)
