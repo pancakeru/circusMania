@@ -62,6 +62,9 @@ public class  BananaThrower : MonoBehaviour
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
         //animalManager.Instance.curLeft.changeLeft(curBanana);
+
+        GameObject audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[3]);
     }
 
     public void reportUiReach()

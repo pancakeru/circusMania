@@ -53,7 +53,6 @@ public class PerformAnimalControl : MonoBehaviour
 
 		originalScale = renderer.transform.localScale; // 记录原始缩放
 		baseRatio = renderer.transform.localScale;
-
 		//StartState(animalSceneState.inShop);
 
     }
@@ -309,6 +308,8 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
+		GameObject audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[0]);
 		GenerateScore(animalInfo);
 
         controlUnit.InvokeOnExcitementEvent(animalInfo);
