@@ -19,7 +19,7 @@ public class MenuController : MonoBehaviour
         showManager = FindFirstObjectByType<ShowManager>();
 
         troupeController.GetComponent<Canvas>().enabled = false;
-        shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
+        //shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
         showManager.gameObject.SetActive(false);
         coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         lvlsDisplay.SetActive(false);
