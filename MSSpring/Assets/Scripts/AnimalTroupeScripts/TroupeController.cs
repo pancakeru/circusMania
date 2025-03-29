@@ -13,7 +13,7 @@ public class TroupeController : MonoBehaviour
     MenuController menuController;
 
     public GameObject troupeCardSimple;
-    public GameObject troupeCardDetailed;
+    public TroupeDetailController troupeCardDetailed;
     [HideInInspector] public GameObject troupeCardSelected;
     List<animalProperty> tempTroupe = new List<animalProperty>();
     List<GameObject> troupeCards = new List<GameObject>();
@@ -21,8 +21,8 @@ public class TroupeController : MonoBehaviour
     GameObject cardsGroup;
     GameObject slide;
 
-    Vector2 cardStartPos = new Vector2 (215f, -220f);
-    Vector2 cardOffset = new Vector2(310f, -250f);
+    Vector2 cardStartPos = new Vector2 (215f, -420f);
+    Vector2 cardOffset = new Vector2(275f, -275f);
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 3;
@@ -32,6 +32,8 @@ public class TroupeController : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
+
+        cardOffset = new Vector2(cardOffset.x * troupeCardSimple.transform.localScale.x, cardOffset.y * troupeCardSimple.transform.localScale.y);
     }
 
     void Start()
@@ -89,11 +91,11 @@ public class TroupeController : MonoBehaviour
     {
         troupeCardSelected = selectedTroupeCard;
         animalProperty theAnimalProperty = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
-        troupeCardDetailed.transform.GetChild(1).GetComponent<Image>().sprite = theAnimalProperty.animalCoreImg;
-        troupeCardDetailed.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.animalName;
-        troupeCardDetailed.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnBallAction1Only();
-        troupeCardDetailed.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.restTurn.ToString();
-        troupeCardDetailed.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = theAnimalProperty.returnScoreActionNoRest();
+        troupeCardDetailed.coreImage.sprite = theAnimalProperty.animalCoreImg;
+        troupeCardDetailed.animalName.text = theAnimalProperty.animalName;
+        troupeCardDetailed.ballAction.text = theAnimalProperty.returnBallAction1Only();
+        troupeCardDetailed.restTurn.text = theAnimalProperty.restTurn.ToString();
+        troupeCardDetailed.scoreAction.text = theAnimalProperty.returnScoreActionNoRest();
     }
 
     public void SetCardsBackground()
