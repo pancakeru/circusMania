@@ -9,6 +9,7 @@ public class TroupeDetailController : MonoBehaviour
     public TextMeshProUGUI ballAction;
     public TextMeshProUGUI restTurn;
     public TextMeshProUGUI scoreAction;
+    public TextMeshProUGUI numInTroupe;
 
     void Start()
     {

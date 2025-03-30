@@ -421,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShopCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6646536338200159771, guid: f8650455bbdec475fb1d97a9a2f9a847, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6717073131941951087, guid: f8650455bbdec475fb1d97a9a2f9a847, type: 3}
       propertyPath: m_Camera
       value: 

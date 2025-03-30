@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentLevelIndex: 0
+  allAnimals: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
   redEffect: {r: 0.99607843, g: 0.003921569, b: 0.5058824, a: 1}
   blueEffect: {r: 0, g: 0.74509805, b: 0.9098039, a: 1}
   yellowEffect: {r: 1, g: 0.85490197, b: 0.38039216, a: 1}

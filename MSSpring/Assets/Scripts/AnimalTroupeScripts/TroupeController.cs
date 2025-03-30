@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -15,7 +16,6 @@ public class TroupeController : MonoBehaviour
     public GameObject troupeCardSimple;
     public TroupeDetailController troupeCardDetailed;
     [HideInInspector] public GameObject troupeCardSelected;
-    List<animalProperty> tempTroupe = new List<animalProperty>();
     List<GameObject> troupeCards = new List<GameObject>();
 
     GameObject cardsGroup;
@@ -27,6 +27,10 @@ public class TroupeController : MonoBehaviour
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 3;
     int visibleRows = 3;
+
+    public TextMeshProUGUI textCoin;
+    int coin = -1;
+    int price = 3;
 
     void Awake()
     {
@@ -48,6 +52,7 @@ public class TroupeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /* Slide is not used. 
         if (GetComponent<Canvas>().enabled)
         {
             float scroll = Input.GetAxis("Mouse ScrollWheel");
@@ -56,22 +61,24 @@ public class TroupeController : MonoBehaviour
                 slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.6f);
             }
         }
+        */
     }
 
     void DisplayCards()
     {
-        tempTroupe = GlobalManager.instance.getAllAnimals();
         for (int i = 0; i < troupeCards.Count; i++)
         {
             Destroy(troupeCards[i]);
         }
         troupeCards.Clear();
 
-        for (int i = 0; i < tempTroupe.Count; i++)
+        List<animalProperty> myTroupe = GlobalManager.instance.getAllAnimals();
+
+        for (int i = 0; i < GlobalManager.instance.allAnimals.properies.Length; i++)
         {
             GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);
-            newCard.GetComponent<TroupeCardController>().Init(tempTroupe[i]);
-            
+            newCard.GetComponent<TroupeCardController>().Init(GlobalManager.instance.allAnimals.properies[i]);
+
             troupeCards.Add(newCard);
         }
 
@@ -83,8 +90,8 @@ public class TroupeController : MonoBehaviour
         slideStartPos = new Vector2(0, 0);
         slideEndPos = new Vector2(0, -cardOffset.y * (Mathf.CeilToInt((float)troupeCards.Count / cardsPerRow) - visibleRows));
 
-        //Debug.Log(tempTroupe[5].animalName + tempTroupe[5].returnBallAction());
         DisplayCardDetail(troupeCards[0]);
+        SetCardsBackground();
     }
 
     public void DisplayCardDetail(GameObject selectedTroupeCard)
@@ -96,6 +103,8 @@ public class TroupeController : MonoBehaviour
         troupeCardDetailed.ballAction.text = theAnimalProperty.returnBallAction1Only();
         troupeCardDetailed.restTurn.text = theAnimalProperty.restTurn.ToString();
         troupeCardDetailed.scoreAction.text = theAnimalProperty.returnScoreActionNoRest();
+
+        
     }
 
     public void SetCardsBackground()
@@ -110,18 +119,66 @@ public class TroupeController : MonoBehaviour
     public void Enable()
     {
         GetComponent<Canvas>().enabled = true;
+
         DisplayCards();
+        coin = GlobalManager.instance.getCurCoinAmount();
+        UpdateText();
     }
 
     public void Disable()
     {
+        GlobalManager.instance.setCoinAmount(coin);
+
         GetComponent<Canvas>().enabled = false;
         menuController.Enable();
-
     }
 
     public void SlideCards(float value)
     {
         cardsGroup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, Mathf.Lerp(slideStartPos.y, slideEndPos.y, value));
+    }
+
+    public void UpdateText()
+    {
+        foreach (GameObject card in troupeCards)
+        {
+            int animalCount = NumberInTroupe(card.GetComponent<TroupeCardController>().myAnimalProperty.animalName); 
+            card.GetComponent<TroupeCardController>().textNum.text = animalCount.ToString(); 
+            if (animalCount == 0) card.GetComponent<TroupeCardController>().profile.color = Color.black; 
+        }
+
+        textCoin.text = $"Coin: {coin}";
+    }
+
+    public int NumberInTroupe(string animalName)
+    {
+        int animalCount = 0;
+        foreach (animalProperty animal in GlobalManager.instance.getAllAnimals())
+        {
+            if (animal.animalName == animalName) animalCount++;
+        }
+
+        return animalCount;
+    }
+
+    public void Buy()
+    {
+        if (coin >= price)
+        {
+            coin -= price;
+            GlobalManager.instance.addAnAnimal(troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty);
+            UpdateText();
+        }
+    }
+
+    public void Sell()
+    {
+        animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
+        if (NumberInTroupe(animal.animalName) > 1)
+        {
+            GlobalManager.instance.removeAnAnimal(animal);
+            coin += GlobalManager.instance.animalPrices[animal.animalName];
+            UpdateText();
+        }
     }
 }
