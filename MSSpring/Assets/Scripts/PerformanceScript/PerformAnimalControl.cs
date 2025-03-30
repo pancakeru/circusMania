@@ -10,6 +10,12 @@ public class PerformAnimalControl : MonoBehaviour
 {
 	//public enum ShowState { Charge, Actioned, Rest}
 
+	public static event EventHandler<OnAnyPassingBallEventArgs> OnAnyPassingBall;
+	public class OnAnyPassingBallEventArgs : EventArgs
+	{
+		public string animalName;
+	}
+
 	public AbstractSpecialAnimal animalBrain;
 
 	[Header("Flip Related")]
@@ -44,10 +50,10 @@ public class PerformAnimalControl : MonoBehaviour
 	private Vector3 baseRatio;
 
 	[Header("MechanicNumber")]
-    public GameObject mechanicNumberUIPrefab;
-    public MechanicNumberController mechanicNumberUI;
+	public GameObject mechanicNumberUIPrefab;
+	public MechanicNumberController mechanicNumberUI;
 
-    void Start()
+	void Start()
 	{
 
 
@@ -56,7 +62,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 		//StartState(animalSceneState.inShop);
 
-    }
+	}
 
 	private void Update()
 	{
@@ -80,12 +86,12 @@ public class PerformAnimalControl : MonoBehaviour
 		animalBrain.InitBrain(controlUnit, this);
 		selfIndexInShow = index;
 
-        GameObject myMechanicNumberUI = Instantiate(mechanicNumberUIPrefab, transform.position + new Vector3(0, -2f, 0), Quaternion.identity);
-        mechanicNumberUI = myMechanicNumberUI.GetComponent<MechanicNumberController>();
-        mechanicNumberUI.myAnimalBrain = animalBrain;
-        mechanicNumberUI.Begin();
+		GameObject myMechanicNumberUI = Instantiate(mechanicNumberUIPrefab, transform.position + new Vector3(0, -2f, 0), Quaternion.identity);
+		mechanicNumberUI = myMechanicNumberUI.GetComponent<MechanicNumberController>();
+		mechanicNumberUI.myAnimalBrain = animalBrain;
+		mechanicNumberUI.Begin();
 
-        if (!ifEnSouled)
+		if (!ifEnSouled)
 			Debug.LogError("Remember to do EnSoul to each animal in show");
 	}
 
@@ -94,21 +100,20 @@ public class PerformAnimalControl : MonoBehaviour
 		Debug.Log(name + "开始了");
 		//如果有球
 		if (ifHaveBall) {
-            animalBrain.InteractWithBall();
+			animalBrain.InteractWithBall();
 
-        } else if (!ifReadyToInteract) {
+		} else if (!ifReadyToInteract) {
 			//如果无球并且在休息状态，就休息
 			animalBrain.DoRest();
-        }
-        mechanicNumberUI.UpdateText();
-        //否则就什么都不做
-    }
+		}
+		mechanicNumberUI.UpdateText();
+		//否则就什么都不做
+	}
 
 	public void DoTurnEnd()
 	{
 		Debug.Log("回合结束行动");
 		if (ifJustInteract) {
-
 			animalBrain.EnterRest(false);
 			ifJustInteract = false;
 		} else if (curRestTurn <= 1 && !ifReadyToInteract) {
@@ -121,45 +126,38 @@ public class PerformAnimalControl : MonoBehaviour
 	{
 		if (ifHaveBall) {
 			b.DoDrop();
-		} else
-		{
-            Debug.Log("拿到球");
-            if (!ifReadyToInteract)
-			{
+		} else {
+			Debug.Log("拿到球");
+			if (!ifReadyToInteract) {
 				if (ifJustInteract)
 					animalBrain.EnterRest(true);
-                int realTake = animalBrain.controlUnit.thrower.takeBanana(curRestTurn);
-				if (realTake < curRestTurn)
-				{
+				int realTake = animalBrain.controlUnit.thrower.takeBanana(curRestTurn);
+				if (realTake < curRestTurn) {
 					b.DoDrop();
 					return;
+				} else {
+					TakeBanana(realTake);
 				}
-				else
-				{
-                    TakeBanana(realTake);
-                }
-            }
-            ball = b;
-            b.gameObject.SetActive(false);
+			}
+			ball = b;
+			b.gameObject.SetActive(false);
 
-            if (ball.GetPasser() != null)
-            {
-                if (ball.GetPasser().animalBrain.soul.name == "Goat")
-                {
-                    if (animalBrain.animalInfo.power > 1)
-                    {
-                        int powerDifference = animalBrain.animalInfo.power - 1;
-                        animalBrain.animalInfo.power = 1;
-                        for (int i = 0; i < powerDifference; i++)
-                        {
-                            animalBrain.Scoring(new float[] { 0, 0, 0.5f });
-                        }
-                    }
-                }
-            }
+			if (ball.GetPasser() != null) {
+				if (ball.GetPasser().animalBrain.soul.name == "Goat") {
+					if (animalBrain.animalInfo.power > 1) {
+						int powerDifference = animalBrain.animalInfo.power - 1;
+						animalBrain.animalInfo.power = 1;
+						for (int i = 0; i < powerDifference; i++) {
+							animalBrain.Scoring(new float[] { 0, 0, 0.5f });
+						}
+					}
+				}
+			}
 			ifJustInteract = false;
-            ifHaveBall = true;
-        }
+			ifHaveBall = true;
+
+			OnAnyPassingBall?.Invoke(this, new OnAnyPassingBallEventArgs { animalName = animalBrain.soul.animalName });
+		}
 	}
 
 	public void TakeBanana(int n)
@@ -254,7 +252,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void BackToInitial()
 	{
-		Debug.Log(name+"正在back to initial");
+		Debug.Log(name + "正在back to initial");
 		ifInRest = false;
 		ifJustInteract = false;
 		FlipSprite(0, false);
@@ -287,14 +285,14 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		if (soul == null)
 			_body.EnSoul(testProperty);
 
-        DoWhenShowStart();
-    }
+		DoWhenShowStart();
+	}
 
 	public void EnSoul(animalProperty newSoul)
 	{
 		soul = newSoul;
-        animalInfo = new AnimalInfoPack(soul,animalBody);
-    }
+		animalInfo = new AnimalInfoPack(soul, animalBody);
+	}
 
 	public virtual void DoWhenShowStart()
 	{
@@ -304,21 +302,21 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	public virtual void InteractWithBall()
 	{
 		animalBody.ball.gameObject.SetActive(true);
-		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange,animalBody);
+		animalBody.ball.MoveBall(animalBody.selfIndexInShow, animalBody.selfIndexInShow + soul.baseBallChange, animalBody);
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
 		GenerateScore(animalInfo);
 
-        controlUnit.InvokeOnExcitementEvent(animalInfo);
+		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalBody.ifReadyToInteract = false;
 	}
 
 	internal void Scoring(float[] inputScore)
 	{
-		
+
 		if (inputScore[0] != 0) {
 			controlUnit.ChangeRedScore(inputScore[0]);
 			//animalBody.generator.RequestTextEffect(inputScore[0], ScoreTextEffectGenerator.ScoreType.Red);
