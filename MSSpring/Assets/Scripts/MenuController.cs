@@ -23,7 +23,6 @@ public class MenuController : MonoBehaviour
         showManager.gameObject.SetActive(false);
         coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         lvlsDisplay.SetActive(false);
-        
 
     }
 
@@ -75,5 +74,10 @@ public class MenuController : MonoBehaviour
         lvlsDisplay.SetActive(true);
        }
 
+    }
+
+    public void CallSound() {
+        GameObject audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[0]);
     }
 }
