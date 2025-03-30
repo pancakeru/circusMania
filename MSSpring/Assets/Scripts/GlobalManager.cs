@@ -55,6 +55,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                 addAnAnimal(apt);
             curCoinAmount = testCoinNum;
 			InitAnimalPrice();
+			InitAnimalLevel();
         }
 
 		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
@@ -156,7 +157,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	}
     #endregion
 
-    #region 动物价格
+    #region 动物价格/等级
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
     int initPrice = 1;
     public void InitAnimalPrice()
@@ -170,7 +171,23 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	public void UpdatePrice(string animalName, int updateAmount)
 	{
 		animalPrices[animalName] += updateAmount;
-		Math.Clamp(animalPrices[animalName], 0, 99);
+		Math.Clamp(animalPrices[animalName], 1, 99);
+    }
+
+    public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
+    int initLevel = 1;
+    public void InitAnimalLevel()
+    {
+        foreach (animalProperty animal in allAnimals.properies)
+        {
+            animalLevels[animal.animalName] = initLevel;
+        }
+    }
+
+    public void UpdateLevel(string animalName, int updateAmount)
+    {
+        animalLevels[animalName] += updateAmount;
+        Math.Clamp(animalLevels[animalName], 1, 99);
     }
 
     #endregion

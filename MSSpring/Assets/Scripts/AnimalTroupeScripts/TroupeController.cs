@@ -142,9 +142,12 @@ public class TroupeController : MonoBehaviour
     {
         foreach (GameObject card in troupeCards)
         {
-            int animalCount = NumberInTroupe(card.GetComponent<TroupeCardController>().myAnimalProperty.animalName); 
-            card.GetComponent<TroupeCardController>().textNum.text = animalCount.ToString(); 
-            if (animalCount == 0) card.GetComponent<TroupeCardController>().profile.color = Color.black; 
+            TroupeCardController cardController = card.GetComponent<TroupeCardController>();
+            cardController.textLv.text = GlobalManager.instance.animalLevels[cardController.myAnimalProperty.animalName].ToString();
+
+            int animalCount = NumberInTroupe(cardController.myAnimalProperty.animalName);
+            cardController.textNum.text = animalCount.ToString(); 
+            if (animalCount == 0) cardController.profile.color = Color.black; 
         }
 
         textCoin.text = $"Coin: {coin}";
@@ -178,6 +181,17 @@ public class TroupeController : MonoBehaviour
         {
             GlobalManager.instance.removeAnAnimal(animal);
             coin += GlobalManager.instance.animalPrices[animal.animalName];
+            UpdateText();
+        }
+    }
+
+    public void Upgrade()
+    {
+        animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
+        if (coin >= price)
+        {
+            coin -= price;
+            GlobalManager.instance.UpdateLevel(animal.animalName, 1);
             UpdateText();
         }
     }
