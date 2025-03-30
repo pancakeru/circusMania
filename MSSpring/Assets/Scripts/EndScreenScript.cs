@@ -68,7 +68,7 @@ public class EndScreenScript : MonoBehaviour
 
 			//第一部分-宏观信息
 			case DisplaySequence.ShowScore:
-				scoreText.text = "Required Score: " + curReql.ToString();
+				//scoreText.text = "Required Score: " + curReql.ToString();
 
 				currentState = DisplaySequence.Breakdown;
 
