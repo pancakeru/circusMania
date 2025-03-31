@@ -1399,6 +1399,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5597002066211040376}
+  - component: {fileID: 6023724977547820698}
   - component: {fileID: 8664984945210255775}
   - component: {fileID: 2487634125788820234}
   - component: {fileID: 6295693836575266517}
@@ -1429,6 +1430,21 @@ RectTransform:
   m_AnchoredPosition: {x: 584.32, y: -411.7}
   m_SizeDelta: {x: 189.045, y: 61.4}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6023724977547820698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673100926713355596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dc1dfd25b2f744fb011a26739b0db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonName: sell
+  buttonBg: {fileID: 2487634125788820234}
+  buttonText: {fileID: 7243084358665955741}
 --- !u!222 &8664984945210255775
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1511,9 +1527,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7109893685192633506}
-        m_TargetAssemblyTypeName: TroupeController, Assembly-CSharp
-        m_MethodName: Sell
+      - m_Target: {fileID: 6023724977547820698}
+        m_TargetAssemblyTypeName: TroupeButtonController, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1810,6 +1826,7 @@ MonoBehaviour:
   troupeCardDetailed: {fileID: 8435721785902675760}
   troupeCardSelected: {fileID: 0}
   textCoin: {fileID: 6184609963440859624}
+  price: 3
 --- !u!223 &2197162910942375020
 Canvas:
   m_ObjectHideFlags: 0
@@ -4052,6 +4069,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5054631170454527368}
   - component: {fileID: 415943808205310336}
+  - component: {fileID: 6680696084472991076}
   - component: {fileID: 9049196885324535288}
   - component: {fileID: 8389982871324075580}
   m_Layer: 5
@@ -4089,6 +4107,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7279842452384390196}
   m_CullTransparentMesh: 1
+--- !u!114 &6680696084472991076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7279842452384390196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dc1dfd25b2f744fb011a26739b0db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonName: upgrade
+  buttonBg: {fileID: 9049196885324535288}
+  buttonText: {fileID: 5628252193638664219}
 --- !u!114 &9049196885324535288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4163,9 +4196,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7109893685192633506}
-        m_TargetAssemblyTypeName: TroupeController, Assembly-CSharp
-        m_MethodName: Upgrade
+      - m_Target: {fileID: 6680696084472991076}
+        m_TargetAssemblyTypeName: TroupeButtonController, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4483,6 +4516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7082978482971334747}
   - component: {fileID: 7025037989436921581}
+  - component: {fileID: 2922052584364185288}
   - component: {fileID: 8804517176314891687}
   - component: {fileID: 3996578546567638910}
   m_Layer: 5
@@ -4520,6 +4554,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8058200921111267623}
   m_CullTransparentMesh: 1
+--- !u!114 &2922052584364185288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8058200921111267623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2dc1dfd25b2f744fb011a26739b0db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonName: buy
+  buttonBg: {fileID: 8804517176314891687}
+  buttonText: {fileID: 1236382453639277757}
 --- !u!114 &8804517176314891687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4594,9 +4643,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7109893685192633506}
-        m_TargetAssemblyTypeName: TroupeController, Assembly-CSharp
-        m_MethodName: Buy
+      - m_Target: {fileID: 2922052584364185288}
+        m_TargetAssemblyTypeName: TroupeButtonController, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
