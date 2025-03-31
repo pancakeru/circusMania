@@ -221,7 +221,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//TODO:改成到地方再可以交互
 		startButtonMover.GetComponent<Button>().interactable = true;
 		camMover.SetTo(CamInDecition.position, DecideCamScale);
-		GetComponent<ShowScoreManager>().StartTurn();
 	}
 
 	private void SetUpAnLevel(LevelProperty level)
@@ -229,8 +228,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		curLevel = level;
 		curScore = 0;
 		curTurn = 1;
+		GetComponent<ShowScoreManager>().StartTurn();
 		curRepu = GetComponent<ShowScoreManager>().currentReputation;
-		targetDisplayManager.ChangeLevelState(curScore, curTurn, curRepu, level.targetScore, level.allowedTurn);
+		targetDisplayManager.ChangeLevelState(curTurn, curRepu, level.targetScore, level.allowedTurn);
 	}
 
 	private void InitializeHand(List<animalProperty> properties)
@@ -257,7 +257,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         curRepu = GetComponent<ShowScoreManager>().currentReputation;
 		curScore += _curScore;
 		
-		targetDisplayManager.ChangeLevelState(curScore, _curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
+		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
 	}
 
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
