@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TroupeButtonController : MonoBehaviour
+public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
 {
     [SerializeField] string buttonName;
     [SerializeField] Image buttonBg;
@@ -26,31 +27,25 @@ public class TroupeButtonController : MonoBehaviour
     {
         if (isClicked)
         {
-            isClicked = false;
+            SetToDefault();
 
             switch (buttonName)
             {
                 case "buy":
 
                     TroupeController.instance.Buy();
-                    buttonText.text = "Buy";
-                    buttonBg.color = Color.white;
 
                     break;
 
                 case "sell":
 
                     TroupeController.instance.Sell();
-                    buttonText.text = "Sell";
-                    buttonBg.color = Color.white;
 
                     break;
 
                 case "upgrade":
 
                     TroupeController.instance.Upgrade();
-                    buttonText.text = "Upgrade";
-                    buttonBg.color = Color.white;
 
                     break;
 
@@ -63,37 +58,82 @@ public class TroupeButtonController : MonoBehaviour
         }
         else
         {
-            isClicked = true;
-
-            switch (buttonName)
-            {
-                case "buy":
-
-                    buttonText.text = $"${TroupeController.instance.price}";
-                    buttonBg.color = Color.yellow;
-
-                    break;
-
-                case "sell":
-
-                    buttonText.text = $"${GlobalManager.instance.animalPrices[TroupeController.instance.troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty.animalName]}";
-                    buttonBg.color = Color.yellow;
-
-                    break;
-
-                case "upgrade":
-
-                    buttonText.text = $"${TroupeController.instance.price}";
-                    buttonBg.color = Color.yellow;
-
-                    break;
-
-                default:
-
-                    Debug.Log("[Error] Assign Button Type");
-
-                    break;
-            }
+            SetToConfirming();
         }
+    }
+
+    void SetToDefault()
+    {
+        isClicked = false;
+
+        switch (buttonName)
+        {
+            case "buy":
+
+                buttonText.text = "Buy";
+                buttonBg.color = Color.white;
+
+                break;
+
+            case "sell":
+
+                buttonText.text = "Sell";
+                buttonBg.color = Color.white;
+
+                break;
+
+            case "upgrade":
+
+                buttonText.text = "Upgrade";
+                buttonBg.color = Color.white;
+
+                break;
+
+            default:
+
+                Debug.Log("[Error] Assign Button Type");
+
+                break;
+        }
+    }
+
+    void SetToConfirming()
+    {
+        isClicked = true;
+
+        switch (buttonName)
+        {
+            case "buy":
+
+                buttonText.text = $"${TroupeController.instance.price}";
+                buttonBg.color = Color.yellow;
+
+                break;
+
+            case "sell":
+
+                buttonText.text = $"${GlobalManager.instance.animalPrices[TroupeController.instance.troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty.animalName]}";
+                buttonBg.color = Color.yellow;
+
+                break;
+
+            case "upgrade":
+
+                buttonText.text = $"${TroupeController.instance.price}";
+                buttonBg.color = Color.yellow;
+
+                break;
+
+            default:
+
+                Debug.Log("[Error] Assign Button Type");
+
+                break;
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        SetToDefault();
     }
 }

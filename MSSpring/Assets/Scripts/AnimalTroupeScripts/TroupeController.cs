@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class TroupeController : MonoBehaviour
 {
@@ -111,9 +112,9 @@ public class TroupeController : MonoBehaviour
     {
         foreach (var card in troupeCards)
         {
-            card.GetComponent<TroupeCardController>().transform.GetChild(0).GetComponent<Image>().sprite = card.GetComponent<TroupeCardController>().bgSprites[0];
+            card.GetComponent<TroupeCardController>().bg.sprite = card.GetComponent<TroupeCardController>().bgSprites[0];
         }
-        troupeCardSelected.GetComponent<TroupeCardController>().transform.GetChild(0).GetComponent<Image>().sprite = troupeCardSelected.GetComponent<TroupeCardController>().bgSprites[1];
+        troupeCardSelected.GetComponent<TroupeCardController>().bg.sprite = troupeCardSelected.GetComponent<TroupeCardController>().bgSprites[1];
     }
 
     public void Enable()
@@ -172,6 +173,7 @@ public class TroupeController : MonoBehaviour
             GlobalManager.instance.addAnAnimal(troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty);
             UpdateText();
         }
+        else GlobalManager.instance.ShowMessageBox("Not enough coins!");
     }
 
     public void Sell()
@@ -183,6 +185,7 @@ public class TroupeController : MonoBehaviour
             coin += GlobalManager.instance.animalPrices[animal.animalName];
             UpdateText();
         }
+        else GlobalManager.instance.ShowMessageBox("Cannot sell more animal of this kind!");
     }
 
     public void Upgrade()
@@ -194,5 +197,6 @@ public class TroupeController : MonoBehaviour
             GlobalManager.instance.UpdateLevel(animal.animalName, 1);
             UpdateText();
         }
+        else GlobalManager.instance.ShowMessageBox("Not enough coins!");
     }
 }

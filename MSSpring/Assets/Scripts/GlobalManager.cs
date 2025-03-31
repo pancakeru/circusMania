@@ -33,6 +33,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	[SerializeField]
 	private animalProperty toTestAdd;
 
+	[Header("Others")]
+	[SerializeField] GameObject messageBox;
+
 
     private void Awake()
 	{
@@ -191,6 +194,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     }
 
     #endregion
+
+	public void ShowMessageBox(string text)
+	{
+		GameObject newMessageBox = Instantiate(messageBox, CanvasMain.instance.transform);
+		newMessageBox.GetComponent<MessageBoxController>().uiText.text = text;
+	}
 
     public enum TestAction
 	{

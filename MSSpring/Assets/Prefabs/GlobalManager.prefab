@@ -55,3 +55,4 @@ MonoBehaviour:
   testAction: 2
   ifTestAction: 0
   toTestAdd: {fileID: 0}
+  messageBox: {fileID: 1266231390577246562, guid: d8465fded50ec17499996f1eebad7c86, type: 3}
