@@ -167,7 +167,7 @@ public class BallScript : MonoBehaviour
 		Debug.Log("球掉落");
 		
 		GameObject audioObj = GameObject.FindWithTag("audio manager");
-		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[5]);
+		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[0]);
 		
 		ifDropped = true;
 		showUnit.ReportDrop(this);
