@@ -252,10 +252,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void ChangeLevelStatus(int _curTurn, float _curScore, bool ifChangeTurnDisplay)
 	{
 		recordScore[_curTurn - 2] = (int)_curScore;
-		curRepu = GetComponent<ShowScoreManager>().currentReputation;
+        GetComponent<ShowScoreManager>().EndTurn();
+        GetComponent<ShowScoreManager>().StartTurn();
+        curRepu = GetComponent<ShowScoreManager>().currentReputation;
 		curScore += _curScore;
-		GetComponent<ShowScoreManager>().EndTurn();
-		GetComponent<ShowScoreManager>().StartTurn();
+		
 		targetDisplayManager.ChangeLevelState(curScore, _curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
 	}
 
