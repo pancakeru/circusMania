@@ -739,6 +739,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 								} else {
 									//生成一个小动物
 									holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
+									
 								}
 							}
 						}
