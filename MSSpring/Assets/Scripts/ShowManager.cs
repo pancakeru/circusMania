@@ -156,36 +156,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void Start()
 	{
-		
-		//SetUpAnLevel(testLevel);
-		//testList = new List<animalProperty>();
-
-
-		//GlobalManager做完后把这个搬到 SelectAnimal
-		//取animalProperty list 的 animalName
-		/*
-        for (int i = 0; i < 12; i++) {
-            GameObject temp = Instantiate(animalIcon, canvasTransform);
-            myHand.Add(temp);
-           // Debug.Log($"Added object to myHand. Current count: {myHand.Count}");
-            temp.GetComponent<iconAnimal>().Initialize(testProperty, false);
-            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset*i, yStart);
-            temp.GetComponent<iconAnimal>().myIndex = i;
-            //TODO:把这个目标位置整合
-            initialPos.Add(new Vector2(x + offset * i, -350));
-            myHandControls.Add(temp.GetComponent<iconAnimal>());
-        }*/
-
-		//FOR ADDING BACK TO DECK
-		//instantiate a new iconAnimal prefab on the performance animal
-		//hide the sprite of the perfomance animal and only destroy obj if add condition is valid
-		//List.Insert(index, obj)
-		//when adding back to deck, check the two neighboring iconAnimal objs via collision detection
-		//when detected, get larger index position for insert
-		//for each iconAnimal on the smaller index and less, move distance left
-		//for each iconAnimal on the larger index and more, move distance right
-		//when pointer is let go in a valid spot, Insert the obj into the list and update all obj positions and Indexes
-		//if not in valid spot, go back to previous pos in performance
 
 	}
 

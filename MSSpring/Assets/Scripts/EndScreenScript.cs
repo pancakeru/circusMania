@@ -49,6 +49,7 @@ public class EndScreenScript : MonoBehaviour
 		//currentState = DisplaySequence.ShowScore;
 		lvlName.text = "Level " + GlobalManager.instance.GetCurrentGlobalLevel().levelIndex;
 		audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
 	}
 
 	public void InitialScore(int required, int[] eachTurn, int total, int moneyEarned)

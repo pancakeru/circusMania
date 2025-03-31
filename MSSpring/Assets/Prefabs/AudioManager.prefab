@@ -305,6 +305,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UI:
   - {fileID: 8300000, guid: 85fa5ce7c221ce14eb4548bb7e7547a8, type: 3}
+  - {fileID: 8300000, guid: ae8470fea198ce44d9bcc08cdc397751, type: 3}
+  - {fileID: 8300000, guid: f0d7f6bfd8414e246a824acd6d94536c, type: 3}
+  - {fileID: 8300000, guid: 8d6ce64d433b97e4487ae5cfce832f93, type: 3}
+  - {fileID: 8300000, guid: 114e028fc1934d4468b5f6c4d4b14141, type: 3}
   Environment:
   - {fileID: 8300000, guid: e024a322bba86d7478f49b1b8d8081f8, type: 3}
   Battle:
