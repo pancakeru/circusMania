@@ -30,7 +30,7 @@ public class TroupeController : MonoBehaviour
 
     public TextMeshProUGUI textCoin;
     int coin = -1;
-    int price = 3;
+    public int price = 3;
 
     void Awake()
     {
