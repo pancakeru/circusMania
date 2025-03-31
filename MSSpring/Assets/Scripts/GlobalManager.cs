@@ -14,6 +14,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	public int currentLevelIndex = 0;
     public AnimalStart allAnimals;
 
+    public AnimalBallPassTimes animalBallPassTimes;
+
     [Header("Show Score Effect Color")]
 	public Color redEffect;
 	public Color blueEffect;
