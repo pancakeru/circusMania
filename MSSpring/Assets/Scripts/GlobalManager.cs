@@ -12,10 +12,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private string globalLevelFolderPath = "GlobalLevels";
 	private GlobalLevel[] globalLevelArray;
 	public int currentLevelIndex = 0;
+    public AnimalStart allAnimals;
 
-	public AnimalBallPassTimes animalBallPassTimes;
-
-	[Header("Show Score Effect Color")]
+    [Header("Show Score Effect Color")]
 	public Color redEffect;
 	public Color blueEffect;
 	public Color yellowEffect;
@@ -35,7 +34,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private animalProperty toTestAdd;
 
 
-	private void Awake()
+    private void Awake()
 	{
 		if (instance == null) {
 			instance = this;
@@ -49,20 +48,23 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 			Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
 		}
 
-		if (ifDoTestInitialize) {
+        if (ifDoTestInitialize)
+        {
 
-			foreach (animalProperty apt in testProperties.properies)
-				addAnAnimal(apt);
-			curCoinAmount = testCoinNum;
-		}
+            foreach (animalProperty apt in testProperties.properies)
+                addAnAnimal(apt);
+            curCoinAmount = testCoinNum;
+			InitAnimalPrice();
+			InitAnimalLevel();
+        }
 
 		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
-	}
+    }
 
 	private void Start()
 	{
-		OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
-	}
+        OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
+    }
 
 	private void Update()
 	{
@@ -98,9 +100,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void ToNextGlobalLevel()
 	{
-		animalBallPassTimes = FindFirstObjectByType<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
-		FindFirstObjectByType<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes();
-
 		if (currentLevelIndex + 1 < globalLevelArray.Length) {
 			currentLevelIndex += 1;
 			OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
@@ -121,6 +120,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	{
 		animals.Add(newAnimal);
 	}
+
+	public void removeAnAnimal(animalProperty theAnimal)
+	{
+		animals.Remove(theAnimal);
+	}
+
+
 	#endregion
 	// 金币管理
 	#region 金币管理
@@ -149,9 +155,44 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	{
 		curCoinAmount = n;
 	}
-	#endregion
+    #endregion
 
-	public enum TestAction
+    #region 动物价格/等级
+    public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
+    int initPrice = 1;
+    public void InitAnimalPrice()
+	{
+		foreach(animalProperty animal in allAnimals.properies)
+		{
+            animalPrices[animal.animalName] = initPrice;
+        }
+	}
+
+	public void UpdatePrice(string animalName, int updateAmount)
+	{
+		animalPrices[animalName] += updateAmount;
+		Math.Clamp(animalPrices[animalName], 1, 99);
+    }
+
+    public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
+    int initLevel = 1;
+    public void InitAnimalLevel()
+    {
+        foreach (animalProperty animal in allAnimals.properies)
+        {
+            animalLevels[animal.animalName] = initLevel;
+        }
+    }
+
+    public void UpdateLevel(string animalName, int updateAmount)
+    {
+        animalLevels[animalName] += updateAmount;
+        Math.Clamp(animalLevels[animalName], 1, 99);
+    }
+
+    #endregion
+
+    public enum TestAction
 	{
 		Add,
 		LogInfo,
