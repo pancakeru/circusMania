@@ -13,6 +13,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private GlobalLevel[] globalLevelArray;
 	public int currentLevelIndex = 0;
 
+	public AnimalBallPassTimes animalBallPassTimes;
+
 	[Header("Show Score Effect Color")]
 	public Color redEffect;
 	public Color blueEffect;
@@ -31,7 +33,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private bool ifTestAction = false;
 	[SerializeField]
 	private animalProperty toTestAdd;
-	
+
 
 	private void Awake()
 	{
@@ -47,21 +49,20 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 			Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
 		}
 
-        if (ifDoTestInitialize)
-        {
+		if (ifDoTestInitialize) {
 
-            foreach (animalProperty apt in testProperties.properies)
-                addAnAnimal(apt);
-            curCoinAmount = testCoinNum;
-        }
+			foreach (animalProperty apt in testProperties.properies)
+				addAnAnimal(apt);
+			curCoinAmount = testCoinNum;
+		}
 
 		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
-    }
+	}
 
 	private void Start()
 	{
-        OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
-    }
+		OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
+	}
 
 	private void Update()
 	{
@@ -97,6 +98,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void ToNextGlobalLevel()
 	{
+		animalBallPassTimes = FindFirstObjectByType<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
+		FindFirstObjectByType<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes();
+
 		if (currentLevelIndex + 1 < globalLevelArray.Length) {
 			currentLevelIndex += 1;
 			OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
