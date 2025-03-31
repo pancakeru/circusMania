@@ -735,9 +735,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 							if (animal.gameObject != firstDetect.transform.parent.gameObject) {
 								animal.EnterState(iconAnimal.iconState.half);
 							} else {
-								GameObject tryGet;
-								//区分是否已经生成
-								if (iconToOnStage.TryGetByKey(animal, out tryGet)) {
+                                //GameObject tryGet;
+                                //区分是否已经生成
+                                /*
+								if (iconToOnStage.TryGetValuesByKey(animal, out tryGet)) {
 									//如果已经创建
 									holdingAnimalObj = tryGet;
 									//释放onstage里
@@ -745,9 +746,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 								} else {
 									//生成一个小动物
 									holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
+									animal.TryMinus(1);
 									
-								}
-							}
+								}*/
+                                holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
+                                animal.TryMinus(1);
+
+                            }
 						}
 						StartDecideState(DecideScreenState.choose);
 					}
@@ -759,7 +764,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 							explainer.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
 					} else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
 						if (firstDetect != null)
-							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetByValue(firstDetect).selfProperty);
+							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
 						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
 					} else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
 						if (firstDetect != null)
@@ -811,7 +816,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 						MoveObjToIndexOnStage(-1, Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
 
-						SetSelectIconInHand(holdingAnimalObj);
+						//SetSelectIconInHand(holdingAnimalObj);
 						holdingAnimalObj = null;
 					} else {
 						UnRegisterPerformAnimal(holdingAnimalObj);
@@ -829,7 +834,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						if (!inDown) {
 							inDown = true;
 							foreach (iconAnimal animal in myHandControls) {
-								if (animal != iconToOnStage.GetByValue(holdingAnimalObj)) {
+								if (animal != iconToOnStage.GetKeyByValue(holdingAnimalObj)) {
 									animal.EnterState(iconAnimal.iconState.half);
 								}
 							}
@@ -838,7 +843,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						if (inDown) {
 							inDown = false;
 							foreach (iconAnimal animal in myHandControls) {
-								if (animal != iconToOnStage.GetByValue(holdingAnimalObj)) {
+								if (animal != iconToOnStage.GetKeyByValue(holdingAnimalObj)) {
 									animal.EnterState(iconAnimal.iconState.movingUp);
 								}
 							}
@@ -913,7 +918,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void SetSelectIconInHand(GameObject obj)
 	{
-		iconToOnStage.GetByValue(obj).SetSelectState(true);
+		iconToOnStage.GetKeyByValue(obj).SetSelectState(true);
 	}
 
 	private GameObject RegisterAndCreateNewAnimal(iconAnimal chooseAnimal)
@@ -925,7 +930,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void UnRegisterPerformAnimal(GameObject choosePerformAnimal)
 	{
-		iconToOnStage.GetByValue(choosePerformAnimal).SetSelectState(false);
+		iconToOnStage.GetKeyByValue(choosePerformAnimal).AddNum(1);
 		iconToOnStage.RemoveByValue(choosePerformAnimal);
 
 	}
@@ -941,54 +946,71 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 public class BiDictionary<TKey, TValue>
 {
-	private Dictionary<TKey, TValue> forward = new Dictionary<TKey, TValue>();
-	private Dictionary<TValue, TKey> reverse = new Dictionary<TValue, TKey>();
+    private Dictionary<TKey, List<TValue>> forward = new Dictionary<TKey, List<TValue>>();
+    private Dictionary<TValue, TKey> reverse = new Dictionary<TValue, TKey>();
 
-	public void Add(TKey key, TValue value)
-	{
-		if (forward.ContainsKey(key) || reverse.ContainsKey(value)) {
-			throw new ArgumentException("Key or Value already exists in BiDictionary");
-		}
+    public void Add(TKey key, TValue value)
+    {
+        if (reverse.ContainsKey(value))
+            throw new ArgumentException("This value already exists and is bound to a key.");
 
-		forward[key] = value;
-		reverse[value] = key;
-	}
+        if (!forward.ContainsKey(key))
+            forward[key] = new List<TValue>();
 
-	public bool TryGetByKey(TKey key, out TValue value) => forward.TryGetValue(key, out value);
+        forward[key].Add(value);
+        reverse[value] = key;
+    }
 
-	public bool TryGetByValue(TValue value, out TKey key) => reverse.TryGetValue(value, out key);
+    public bool TryGetValuesByKey(TKey key, out List<TValue> values)
+    {
+        return forward.TryGetValue(key, out values);
+    }
 
-	public TValue GetByKey(TKey key) => forward[key];
+    public bool TryGetKeyByValue(TValue value, out TKey key)
+    {
+        return reverse.TryGetValue(value, out key);
+    }
 
-	public TKey GetByValue(TValue value) => reverse[value];
+    public List<TValue> GetValuesByKey(TKey key) => forward[key];
 
-	public bool RemoveByKey(TKey key)
-	{
-		if (forward.TryGetValue(key, out TValue value)) {
-			forward.Remove(key);
-			reverse.Remove(value);
-			return true;
-		}
-		return false;
-	}
+    public TKey GetKeyByValue(TValue value) => reverse[value];
 
-	public bool RemoveByValue(TValue value)
-	{
-		if (reverse.TryGetValue(value, out TKey key)) {
-			reverse.Remove(value);
-			forward.Remove(key);
-			return true;
-		}
-		return false;
-	}
+    public bool RemoveByKey(TKey key)
+    {
+        if (forward.TryGetValue(key, out List<TValue> values))
+        {
+            foreach (var v in values)
+                reverse.Remove(v);
 
-	public void Clear()
-	{
-		forward.Clear();
-		reverse.Clear();
-	}
+            forward.Remove(key);
+            return true;
+        }
+        return false;
+    }
 
-	public int Count => forward.Count;
+    public bool RemoveByValue(TValue value)
+    {
+        if (reverse.TryGetValue(value, out TKey key))
+        {
+            reverse.Remove(value);
+            if (forward.TryGetValue(key, out List<TValue> list))
+            {
+                list.Remove(value);
+                if (list.Count == 0)
+                    forward.Remove(key);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public void Clear()
+    {
+        forward.Clear();
+        reverse.Clear();
+    }
+
+    public int Count => reverse.Count; // value 是唯一的，reverse 代表总项数
 }
 
 public class Counter

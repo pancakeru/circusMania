@@ -77,6 +77,8 @@ MonoBehaviour:
   destinationX: 0
   otherDestinationX: 0
   lerpUpTime: 0.2
+  numberText: {fileID: 9175730151871105555}
+  levelText: {fileID: 2973630729420495034}
 --- !u!1 &2664942529549638830
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +96,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3695564606675098385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -564,7 +566,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4573170576879564352
 RectTransform:
   m_ObjectHideFlags: 0

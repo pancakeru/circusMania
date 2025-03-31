@@ -120,6 +120,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }*/
 
         infoGroup = new AnimalInfoGroupInShowIcon(animalType, property, 1, 3);
+        numberText.text = infoGroup.number.ToString();
 
         if (!insert) {
             currentState = iconState.appear;
@@ -428,7 +429,7 @@ public void UpdateRight() {
     bool canBeSelect = false;
     public bool CanBeSelect()
     {
-        return canBeSelect;
+        return canBeSelect && (infoGroup.number > 0);
     }
 
     private bool canGen = true;
@@ -442,9 +443,18 @@ public void UpdateRight() {
         if (infoGroup.MinusNum(n))
         {
             numberText.text = infoGroup.number.ToString();
+            if(infoGroup.number == 0)
+                uiImage.color =  Color.gray;
             return true;
         }
         return false;
+    }
+
+    public void AddNum(int n)
+    {
+        infoGroup.number += 1;
+        uiImage.color = Color.white;
+        numberText.text = infoGroup.number.ToString();
     }
 
 }
