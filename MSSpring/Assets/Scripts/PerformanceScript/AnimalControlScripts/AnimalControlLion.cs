@@ -19,6 +19,8 @@ public class AnimalControlLion : AbstractSpecialAnimal
 		ballToArrayIndex += 1;
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 
     public override void ResetWhenBackToInitial()

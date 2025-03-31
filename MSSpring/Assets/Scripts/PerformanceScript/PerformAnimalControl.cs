@@ -307,14 +307,18 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		animalBody.FlipSprite(1, false);
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
-
-		GameObject audioObj = GameObject.FindWithTag("audio manager");
-		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[0]);
+		BallSound();
+		
 		GenerateScore(animalInfo);
 
         controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalBody.ifReadyToInteract = false;
+	}
+
+	public void BallSound() {
+		GameObject audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[0]);
 	}
 
 	internal void Scoring(float[] inputScore)

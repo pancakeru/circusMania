@@ -32,6 +32,7 @@ public class AnimalControlSnake : AbstractSpecialAnimal
         }
 
         animalBody.ifReadyToInteract = false;
+        BallSound();
     }
 
 	private void WarmUp()

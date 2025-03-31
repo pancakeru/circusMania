@@ -23,6 +23,8 @@ public class AnimalControlBuffalo : AbstractSpecialAnimal
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 
     public override void DoWhenShowStart()

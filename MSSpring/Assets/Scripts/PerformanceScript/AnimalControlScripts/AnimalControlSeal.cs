@@ -40,6 +40,7 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 			animalBody.ifReadyToInteract = false;
 		}
         animalBody.mechanicNumberUI.StartEffectImpact(false);
+		BallSound();
     }
 
 	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)

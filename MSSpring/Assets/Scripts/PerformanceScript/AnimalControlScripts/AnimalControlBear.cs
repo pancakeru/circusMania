@@ -18,6 +18,8 @@ public class AnimalControlBear : AbstractSpecialAnimal
 		animalInfo.power += 1;
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 
     public override void ResetWhenBackToInitial()

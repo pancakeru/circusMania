@@ -18,6 +18,8 @@ public class AnimalControlLizard : AbstractSpecialAnimal
 		animalInfo.power += 1;
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 
 	public override void EnterRest(bool ifDirect)
