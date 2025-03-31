@@ -39,6 +39,11 @@ public class ShowScoreManager : MonoBehaviour
 		Debug.Log("Current Turn Target Score: " + targetRedScore + ", " + targetYellowScore + ", " + targetBlueScore);
 	}
 
+	public float[] GetTargetScore()
+	{
+		return new float[] { targetRedScore, targetYellowScore, targetBlueScore };
+	}
+
 	public void EndTurn()
 	{
 		float[] endScreenScoreArray = showManager.totalPerformanceControl.GetCurrentScoreArray();
