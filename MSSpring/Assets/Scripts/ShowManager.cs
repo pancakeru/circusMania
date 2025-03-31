@@ -150,13 +150,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		handPanelMover = handPanelTransform.GetComponent<UiMover>();
 		stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
 		camMover = Camera.main.GetComponent<CameraMover>();
-        //GlobalManager_OnNextGlobalLevel();
-        GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
-    }
+		//GlobalManager_OnNextGlobalLevel();
+		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
+	}
 
 	void Start()
 	{
-		
+
 		//SetUpAnLevel(testLevel);
 		//testList = new List<animalProperty>();
 
@@ -221,6 +221,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//TODO:改成到地方再可以交互
 		startButtonMover.GetComponent<Button>().interactable = true;
 		camMover.SetTo(CamInDecition.position, DecideCamScale);
+		GetComponent<ShowScoreManager>().StartTurn();
 	}
 
 	private void SetUpAnLevel(LevelProperty level)
@@ -228,7 +229,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		curLevel = level;
 		curScore = 0;
 		curTurn = 1;
-		curRepu = 1;
+		curRepu = GetComponent<ShowScoreManager>().currentReputation;
 		targetDisplayManager.ChangeLevelState(curScore, curTurn, curRepu, level.targetScore, level.allowedTurn);
 	}
 
@@ -248,18 +249,21 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	private void ChangeLevelStatus(int _curTurn, float _curScore, float reputationRatio, bool ifChangeTurnDisplay)
+	private void ChangeLevelStatus(int _curTurn, float _curScore, bool ifChangeTurnDisplay)
 	{
 		recordScore[_curTurn - 2] = (int)_curScore;
-		curRepu = _curScore * reputationRatio;
+        GetComponent<ShowScoreManager>().EndTurn();
+        GetComponent<ShowScoreManager>().StartTurn();
+        curRepu = GetComponent<ShowScoreManager>().currentReputation;
 		curScore += _curScore;
-		targetDisplayManager.ChangeLevelState(curScore, _curTurn - (ifChangeTurnDisplay?0:1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
+		
+		targetDisplayManager.ChangeLevelState(curScore, _curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
 	}
 
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
 	{
 		testLevel = level.levelProperty;
-		Debug.Log("当前level是"+testLevel.name);
+		Debug.Log("当前level是" + testLevel.name);
 	}
 
 	void Update()
@@ -308,16 +312,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 			case ShowStates.Performance:
 				//表演
-				if (Input.GetKeyDown(KeyCode.E))
-				{
-                    if (speedRatio != 1)
-                        speedRatio = 1;
-                    else
-                        speedRatio *= 2;
+				if (Input.GetKeyDown(KeyCode.E)) {
+					if (speedRatio != 1)
+						speedRatio = 1;
+					else
+						speedRatio *= 2;
 
 					Time.timeScale = speedRatio;
-                    
-                }
+
+				}
 				break;
 		}
 
@@ -399,19 +402,21 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		showBanana.MoveTo(ShowBanannaInShow.anchoredPosition);
 		totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
 		moveCounter.SetUpCount(7);
-        var toGive = from x in onStage
-                     let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
-                     select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
-        totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
+		var toGive = from x in onStage
+					 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
+					 select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
+		totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
 
 
 	}
 
 	void StartShow()
 	{
-        Time.timeScale = speedRatio;
-        totalPerformanceControl.StartState(showState.showStart);
+		Time.timeScale = speedRatio;
+		totalPerformanceControl.StartState(showState.showStart);
 		currentState = ShowStates.Performance;
+
+		GetComponent<ShowScoreManager>().StartTurn();
 	}
 
 	public void EndMoveToDecide(float score)
@@ -443,9 +448,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			startButtonMover.GetComponent<Button>().interactable = true;
 			thrower.addBanana(10);
 
-			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio,true);
+			ChangeLevelStatus(curTurn, recordScoreFromLastTime, true);
 		} else {
-			ChangeLevelStatus(curTurn, recordScoreFromLastTime, repuRatio,false);
+			ChangeLevelStatus(curTurn, recordScoreFromLastTime, false);
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
 			curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
@@ -468,6 +473,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		gameObject.SetActive(false);
 		Destroy(curEndScreen);
 		menu.Enable();
+		GetComponent<ShowScoreManager>().ResetReputation();
 	}
 
 	private Counter moveCounter = new Counter();
@@ -586,7 +592,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			return;
 		leftAnchorX += changeX;
 		float rightLimit = Screen.width / 10;
-		float leftLimit = -Math.Max((myHand.Count) * offset*(Application.platform == RuntimePlatform.WebGLPlayer?2:1) - Screen.width, 0) - Screen.width / 10;
+		float leftLimit = -Math.Max((myHand.Count) * offset * (Application.platform == RuntimePlatform.WebGLPlayer ? 2 : 1) - Screen.width, 0) - Screen.width / 10;
 
 		// 限制左右移动范围
 		leftAnchorX = Mathf.Clamp(leftAnchorX, leftLimit, rightLimit);
@@ -668,8 +674,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		EndDecideState(curDecideState);
 		switch (newState) {
 			case DecideScreenState.slide:
-                lastMousePosition = Input.mousePosition;
-                break;
+				lastMousePosition = Input.mousePosition;
+				break;
 
 			case DecideScreenState.moveAnimal:
 				inDown = true;
@@ -718,11 +724,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						StartDecideState(DecideScreenState.moveAnimal);
 
 					} else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio)) {
-                        
-                        StartDecideState(DecideScreenState.slide);
-                        
-                        //进入滑动
-                    } else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()) {
+
+						StartDecideState(DecideScreenState.slide);
+
+						//进入滑动
+					} else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()) {
 						//进入上下
 						//Debug.Log(firstDetect.transform.parent.name);
 						foreach (iconAnimal animal in myHandControls) {
@@ -739,6 +745,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 								} else {
 									//生成一个小动物
 									holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
+									
 								}
 							}
 						}
@@ -757,7 +764,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					} else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
 						if (firstDetect != null)
 							explainer.StartMechanicExplain(firstDetect.GetComponent<RectTransform>());
-                    } else {
+					} else {
 						explainer.DownExplain();
 					}
 				}

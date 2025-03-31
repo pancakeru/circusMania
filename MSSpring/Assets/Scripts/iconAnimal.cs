@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
@@ -13,6 +14,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private RectTransform myPosition;
     public int yGoal = -350;
     public animalProperty selfProperty;
+    private AnimalInfoGroupInShowIcon infoGroup;
 
     //idle state animation
     private Vector2 originalPosition;
@@ -55,6 +57,10 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private float downY;
     private float upY;
     private bool firstTime = true;
+
+    [Header("DisplayUnit")]
+    [SerializeField] private TextMeshProUGUI numberText;
+    [SerializeField] private TextMeshProUGUI levelText;
 
     public enum iconState {
         appear,
@@ -113,6 +119,8 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             } 
         }*/
 
+        infoGroup = new AnimalInfoGroupInShowIcon(animalType, property, 1, 3);
+
         if (!insert) {
             currentState = iconState.appear;
         } else {
@@ -159,32 +167,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 //玩着还没选
                 showScript.stopMoving = false;
 
-                /*
-                if (myIndex == 0 && myOtherNeighbor == null) {
-                    myOtherNeighbor = showScript.myHand[1];
-                }
-
-                if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750 && showScript.myHand.Count >= 6) {
-                    otherDestinationX = 750;
-                    showScript.FixRightSpacing(myIndex);
-                 }
-                */
                 
-                if (isHovered) {
-                    //myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, hoverPosition, hoverSpeed * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.Mouse0)) {
-                        //currentState = iconState.selected;
-                    } 
-                } else {
-                    //myPosition.anchoredPosition = Vector2.Lerp(myPosition.anchoredPosition, originalPosition, hoverSpeed * Time.deltaTime);
-                    if (Input.GetKey(KeyCode.Mouse0)) {
-                        if (showScript.holding) {
-                            //currentState = iconState.half;
-                        } else {
-                            //currentState = iconState.sliding;
-                        }
-                    } 
-                }
                 break;
 
             case iconState.half:
@@ -454,6 +437,40 @@ public void UpdateRight() {
         return canGen;
     }
 
-    
+    public bool TryMinus(int n)
+    {
+        if (infoGroup.MinusNum(n))
+        {
+            numberText.text = infoGroup.number.ToString();
+            return true;
+        }
+        return false;
+    }
 
+}
+
+public class AnimalInfoGroupInShowIcon
+{
+    public string animalName;
+    public animalProperty property;
+    public int level;
+    public int number;
+
+    public AnimalInfoGroupInShowIcon(string _name, animalProperty _property, int _level, int _number)
+    {
+        animalName = _name;
+        property = _property;
+        level = _level;
+        number = _number;
+    }
+
+    public bool MinusNum(int n)
+    {
+        if (number >= n)
+        {
+            number -= n;
+            return true;
+        }
+        return false;
+    }
 }

@@ -399,6 +399,10 @@ public class PerformUnit : MonoBehaviour
 			animalInfo = animalInfo
 		});
 	}
+
+	public float[] GetCurrentScoreArray(){
+		return new float[] { curRedScore, curYellowScore, curBlueScore };
+	}
 }
 
 
