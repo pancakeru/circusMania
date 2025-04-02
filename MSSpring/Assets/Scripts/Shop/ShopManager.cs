@@ -21,6 +21,9 @@ public class ShopManager : MonoBehaviour
 
 	MenuController menuController;
 
+	private GameObject audioObj;
+	private AudioManagerScript audioScript;
+
 	private void Awake()
 	{
 		if (Instance != null) {
@@ -37,7 +40,8 @@ public class ShopManager : MonoBehaviour
 	private void Start()
 	{
 		//GlobalManager_OnNextGlobalLevel();
-		
+		audioObj = GameObject.FindWithTag("audio manager");
+		audioScript = audioObj.GetComponent<AudioManagerScript>();
 	}
 
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
@@ -148,5 +152,9 @@ public class ShopManager : MonoBehaviour
 
 		transform.parent.GetComponent<Canvas>().enabled = false;
 		menuController.Enable();
+	}
+
+	public void CallUISound() {
+		audioScript.PlayUISound(audioScript.UI[0]);
 	}
 }

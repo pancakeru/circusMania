@@ -21,6 +21,7 @@ public class TroupeCardController : MonoBehaviour
     {
         TroupeController.instance.DisplayCardDetail(gameObject);
         TroupeController.instance.SetCardsBackground();
+        AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
     }
 
 }

@@ -115,6 +115,7 @@ public class TroupeController : MonoBehaviour
     {
         GetComponent<Canvas>().enabled = false;
         menuController.Enable();
+        AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
 
     }
 

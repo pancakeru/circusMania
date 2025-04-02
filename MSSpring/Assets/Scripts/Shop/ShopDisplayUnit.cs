@@ -14,6 +14,9 @@ public class ShopDisplayUnit : MonoBehaviour
 
 	[HideInInspector] public int displayIndex;
 
+	private GameObject audioObj;
+	private AudioManagerScript audioScript;
+
 	public void SetUp(ShopAnimal shopAnimal)
 	{
 		this.shopAnimal = shopAnimal;
@@ -48,5 +51,12 @@ public class ShopDisplayUnit : MonoBehaviour
 	public ShopAnimal GetShopAnimal()
 	{
 		return shopAnimal;
+	}
+
+	public void BuySound() {
+		audioObj = GameObject.FindWithTag("audio manager");
+		audioScript = audioObj.GetComponent<AudioManagerScript>();
+
+		audioScript.PlayUISound(audioScript.UI[4]);
 	}
 }
