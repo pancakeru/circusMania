@@ -52,6 +52,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	public bool holding = false;
 	public bool stopMoving = false;
+	public int soundIndex;
 
 	private List<animalProperty> testList;
 	public List<GameObject> animalPerformancePrefabs;
@@ -451,46 +452,66 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		switch (name) {
 			case "Monkey":
+				soundIndex = 8;
 				return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity, transform);
 
 			case "Elephant":
+				soundIndex = 2;
 				return Instantiate(animalPerformancePrefabs[1], position, Quaternion.identity, transform);
 
 			case "Bear":
+				soundIndex = 0;
 				return Instantiate(animalPerformancePrefabs[2], position, Quaternion.identity, transform);
 
 			case "Lion":
+				soundIndex = 6;
 				return Instantiate(animalPerformancePrefabs[3], position, Quaternion.identity, transform);
 
 			case "Giraffe":
+				soundIndex = 4;
 				return Instantiate(animalPerformancePrefabs[4], position, Quaternion.identity, transform);
 
 			case "Snake":
+				soundIndex = 12;
 				return Instantiate(animalPerformancePrefabs[5], position, Quaternion.identity, transform);
 
 			case "Fox":
+				soundIndex = 3;
 				return Instantiate(animalPerformancePrefabs[6], position, Quaternion.identity, transform);
 
 			case "Seal":
+				
 				return Instantiate(animalPerformancePrefabs[7], position, Quaternion.identity, transform);
 
 			case "Ostrich":
+				soundIndex = 9;
 				return Instantiate(animalPerformancePrefabs[8], position, Quaternion.identity, transform);
 
 			case "Kangaroo":
+				soundIndex = 5;
 				return Instantiate(animalPerformancePrefabs[9], position, Quaternion.identity, transform);
 
 			case "Buffalo":
+				soundIndex = 1;
 				return Instantiate(animalPerformancePrefabs[10], position, Quaternion.identity, transform);
 
 			case "Goat":
+
 				return Instantiate(animalPerformancePrefabs[11], position, Quaternion.identity, transform);
 
 			case "Lizard":
+				soundIndex = 7;
 				return Instantiate(animalPerformancePrefabs[12], position, Quaternion.identity, transform);
 		}
 		return null;
 	}
+
+	public void CallSound(int index) {
+		GameObject audioObj = GameObject.FindWithTag("audio manager");
+		AudioManagerScript audioScript = audioObj.GetComponent<AudioManagerScript>();
+		audioScript.PlayUISound(audioScript.AnimalSounds[index]);
+	}
+
 
 	/*
     public void UpdateHand(int index) {
@@ -876,6 +897,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void SetSelectIconInHand(GameObject obj)
 	{
+		CallSound(soundIndex);
 		iconToOnStage.GetByValue(obj).SetSelectState(true);
 	}
 
