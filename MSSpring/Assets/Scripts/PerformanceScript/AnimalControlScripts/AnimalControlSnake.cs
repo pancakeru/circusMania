@@ -1,7 +1,7 @@
 
 public class AnimalControlSnake : AbstractSpecialAnimal
 {
-	float warmUpScore = 5;
+	public float warmUpScore = 5;
 
     public override void DoWhenShowStart()
     {

@@ -18,7 +18,7 @@ MonoBehaviour:
   animalPrice: 3
   baseYellowChange: 0
   baseRedChange: 0
-  baseBlueChange: 0.2
+  baseBlueChange: 10
   baseBallChange: 4
   restTurn: 5
   mechanicNumberType: 3

@@ -16,7 +16,7 @@ MonoBehaviour:
   animalCoreImg: {fileID: 21300000, guid: 255a408d19a30d1429598f41cf5ecae1, type: 3}
   explainImg: {fileID: 21300000, guid: 1785de6b812a244b186838c9a619a388, type: 3}
   animalPrice: 3
-  baseYellowChange: 2
+  baseYellowChange: 10
   baseRedChange: 0
   baseBlueChange: 0
   baseBallChange: -3

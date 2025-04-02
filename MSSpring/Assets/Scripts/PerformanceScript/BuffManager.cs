@@ -206,7 +206,7 @@ public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate
 
 	public override float[] Apply()
 	{
-		return new float[] { 0, 0, 0.2f };
+		return new float[] { 0, 0, 8f };
 	}
 
     public override List<BuffExtraMessage> GetMessages()
@@ -232,7 +232,7 @@ public class BuffBuffalo : BuffChangeBase //When generate blue, blue +0.3
 
 	public override float[] Apply()
 	{
-		return new float[] { 0, 0, 0.3f };
+		return new float[] { 0, 0, 5f };
 	}
 }
 
