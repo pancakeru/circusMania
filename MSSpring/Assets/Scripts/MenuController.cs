@@ -46,6 +46,8 @@ public class MenuController : MonoBehaviour
 
     public void ButtonShow()
     {
+        CallSound();
+        BGMSwap("battle");
         showManager.gameObject.SetActive(true);
         Disable();
         showManager.EnterOneShow();

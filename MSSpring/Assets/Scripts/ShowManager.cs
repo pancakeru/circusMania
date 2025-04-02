@@ -407,7 +407,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					 select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
 		totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
 
-
+		AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
 	}
 
 	void StartShow()
