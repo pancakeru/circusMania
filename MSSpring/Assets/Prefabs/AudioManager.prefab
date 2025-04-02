@@ -334,6 +334,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ca149e4f7f2e2fc49abefcc0bcd4d7a0, type: 3}
   - {fileID: 8300000, guid: f6c3461a07322394593454361e1255b6, type: 3}
   - {fileID: 8300000, guid: efd6d0e0cd436d444b30aa4472b9cc55, type: 3}
+  - {fileID: 8300000, guid: bd5d256a4ebbdc840a1581b481bf9b43, type: 3}
+  - {fileID: 8300000, guid: 25feafb049245564a97f648679fc9328, type: 3}
   environmentSource: {fileID: 7019119606970291129}
   uiSource: {fileID: 6287552626960251689}
   battleSource: {fileID: 6935513691995218}
