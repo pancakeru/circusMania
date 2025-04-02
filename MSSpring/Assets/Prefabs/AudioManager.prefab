@@ -42,9 +42,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e024a322bba86d7478f49b1b8d8081f8, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9e475af5e4765394cb9d811253bdc5da, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.28
+  m_Volume: 0.349
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -305,8 +305,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UI:
   - {fileID: 8300000, guid: 85fa5ce7c221ce14eb4548bb7e7547a8, type: 3}
+  - {fileID: 8300000, guid: ae8470fea198ce44d9bcc08cdc397751, type: 3}
+  - {fileID: 8300000, guid: f0d7f6bfd8414e246a824acd6d94536c, type: 3}
+  - {fileID: 8300000, guid: 8d6ce64d433b97e4487ae5cfce832f93, type: 3}
+  - {fileID: 8300000, guid: 7ea24e957228d254594dfb5ffbaf90ee, type: 3}
   Environment:
   - {fileID: 8300000, guid: e024a322bba86d7478f49b1b8d8081f8, type: 3}
+  - {fileID: 8300000, guid: 9e475af5e4765394cb9d811253bdc5da, type: 3}
   Battle:
   - {fileID: 8300000, guid: 4d026a0b6d61e614c92b28ad807e49f7, type: 3}
   - {fileID: 8300000, guid: 5c6116162ff8dda409b67ad4691a0d35, type: 3}
@@ -314,6 +319,21 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aec04aa69fa12774e9cffc9a5a09c1f9, type: 3}
   - {fileID: 8300000, guid: 519728a77a7296a43a7c89c989467325, type: 3}
   - {fileID: 8300000, guid: 8b621cf4a5a86e94580af65d60a01e84, type: 3}
+  - {fileID: 8300000, guid: 5e029ab6e4302584091d6009bbeb402f, type: 3}
+  AnimalSounds:
+  - {fileID: 8300000, guid: 0b2eab03fa0e37047bd75f8629b700d3, type: 3}
+  - {fileID: 8300000, guid: a8bfa34b5ae1a76479b03bb87c1bea16, type: 3}
+  - {fileID: 8300000, guid: db37889fb284d61478a1909f7596aefe, type: 3}
+  - {fileID: 8300000, guid: 0644ed0124e5aa04abe31da4fef68cf9, type: 3}
+  - {fileID: 8300000, guid: 6909d32d69f18f844a22fd1c46b5dacc, type: 3}
+  - {fileID: 8300000, guid: 621f9324df771294b812ee3c97169b9d, type: 3}
+  - {fileID: 8300000, guid: 6c54756e0ea3c6345a1526e6e44d6876, type: 3}
+  - {fileID: 8300000, guid: 87d2141ef75a0b042bece2f0d45f81fa, type: 3}
+  - {fileID: 8300000, guid: 2bbb5544aa8f18848b0b73cc6fd193e3, type: 3}
+  - {fileID: 8300000, guid: 26a17b831e2b5f844bc240a1f95ae41f, type: 3}
+  - {fileID: 8300000, guid: ca149e4f7f2e2fc49abefcc0bcd4d7a0, type: 3}
+  - {fileID: 8300000, guid: f6c3461a07322394593454361e1255b6, type: 3}
+  - {fileID: 8300000, guid: efd6d0e0cd436d444b30aa4472b9cc55, type: 3}
   environmentSource: {fileID: 7019119606970291129}
   uiSource: {fileID: 6287552626960251689}
   battleSource: {fileID: 6935513691995218}

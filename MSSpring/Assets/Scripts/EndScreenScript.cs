@@ -42,11 +42,14 @@ public class EndScreenScript : MonoBehaviour
 	private int curReql;
 	private int curTotal;
 	private int curMoneyEarned;
+	private GameObject audioObj;
 
 	void Start()
 	{
 		//currentState = DisplaySequence.ShowScore;
 		lvlName.text = "Level " + GlobalManager.instance.GetCurrentGlobalLevel().levelIndex;
+		audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
 	}
 
 	public void InitialScore(int required, int[] eachTurn, int total, int moneyEarned)
@@ -69,6 +72,8 @@ public class EndScreenScript : MonoBehaviour
 			//第一部分-宏观信息
 			case DisplaySequence.ShowScore:
 				//scoreText.text = "Required Score: " + curReql.ToString();
+				audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[4]);
+				audioObj.GetComponent<AudioManagerScript>().battleSource.loop = true;
 
 				currentState = DisplaySequence.Breakdown;
 
@@ -102,6 +107,8 @@ public class EndScreenScript : MonoBehaviour
 
 			case DisplaySequence.EndButton:
 
+				audioObj.GetComponent<AudioManagerScript>().battleSource.loop = false;
+				//audioObj.GetComponent<AudioManagerScript>().battleSource.Stop();
 				//Play Again 按钮
 				endButton.SetActive(true);
 				//endButton.GetComponent<Button>().onClick.AddListener(() => { });
@@ -153,6 +160,11 @@ public class EndScreenScript : MonoBehaviour
 		scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {test[currentIndex]}\n";
 		currentIndex += 1;
 		lineDelay = 0.5f;
+	}
+
+	public void PlayIdle() {
+		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[0]);
+		audioObj.GetComponent<AudioManagerScript>().PlayEnvironmentSound(audioObj.GetComponent<AudioManagerScript>().Environment[1]);
 	}
 
 }

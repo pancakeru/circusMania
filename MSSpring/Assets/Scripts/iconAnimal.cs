@@ -83,6 +83,9 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private iconState currentState;
 
+    private GameObject audioObj;
+    private AudioManagerScript audioScript;
+
     void Start()
     {
         myPosition = this.GetComponentInChildren<RectTransform>();
@@ -103,6 +106,9 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             myNeighbor = null;
             myOtherNeighbor = showScript.myHand[myIndex + 1];
          }
+
+        audioObj = GameObject.FindWithTag("audio manager");
+		audioScript = audioObj.GetComponent<AudioManagerScript>();
     }
 
     //新的constructor，直接写动物种类
@@ -272,6 +278,9 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+
+        audioScript.PlayUISound(audioScript.UI[1]);
+        
         isHovered = true;
     }
 

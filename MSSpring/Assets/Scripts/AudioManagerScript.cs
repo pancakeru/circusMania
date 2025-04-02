@@ -7,6 +7,7 @@ public class AudioManagerScript : MonoBehaviour
     public AudioClip[] UI;
     public AudioClip[] Environment;
     public AudioClip[] Battle;
+    public AudioClip[] AnimalSounds;
     public static AudioManagerScript Instance;
 
     public AudioSource environmentSource;
@@ -51,7 +52,7 @@ public class AudioManagerScript : MonoBehaviour
             battleSource.PlayOneShot(clip);
     }
 
-    public void PlayEnvironmentSound(AudioClip clip, bool loop = false)
+    public void PlayEnvironmentSound(AudioClip clip, bool loop = true)
     {
         if (!isMuted && clip != null)
         {

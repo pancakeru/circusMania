@@ -14,5 +14,7 @@ public class AnimalControlGoat : AbstractSpecialAnimal
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 }

@@ -32,6 +32,7 @@ public class UiMover : MonoBehaviour
     {
         if (isMoving)
         {
+            //CallSound();
             MoveTowardsTarget();
         }
     }

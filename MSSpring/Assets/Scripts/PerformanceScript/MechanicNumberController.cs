@@ -165,6 +165,11 @@ public class MechanicNumberController : MonoBehaviour
                 break;
         }
     }
+
+    public void CallSound() {
+        GameObject audioObj = GameObject.FindWithTag("audio manager");
+        audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
+    }
 }
 
 //Dropdown menu in hierachy

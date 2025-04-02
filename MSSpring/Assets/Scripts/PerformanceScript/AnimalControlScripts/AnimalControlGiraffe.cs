@@ -16,5 +16,7 @@ public class AnimalControlGiraffe : AbstractSpecialAnimal
 		controlUnit.thrower.addBanana(3);
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 }

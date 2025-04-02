@@ -33,6 +33,8 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
         animalBody.mechanicNumberUI.StartEffectImpact(false);
 
 		animalBody.ifReadyToInteract = false;
+
+		BallSound();
 	}
 
 	private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
