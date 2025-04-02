@@ -542,7 +542,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	}
 
 	public void CallSound() {
-		AudioManagerScript.Instance.PlayBattleSound(AudioManagerScript.Instance.AnimalSounds[soundIndex]);
+		AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.AnimalSounds[soundIndex]);
 	}
 
 	/*
@@ -832,7 +832,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						}
 
 						MoveObjToIndexOnStage(-1, Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
-
+						CallSound();
 						//SetSelectIconInHand(holdingAnimalObj);
 						holdingAnimalObj = null;
 					} else {
