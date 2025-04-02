@@ -105,7 +105,7 @@ public class TroupeController : MonoBehaviour
         troupeCardDetailed.restTurn.text = theAnimalProperty.restTurn.ToString();
         troupeCardDetailed.scoreAction.text = theAnimalProperty.returnScoreActionNoRest();
 
-        
+        troupeCardDetailed.SetLineChart();
     }
 
     public void SetCardsBackground()
@@ -149,6 +149,7 @@ public class TroupeController : MonoBehaviour
             int animalCount = NumberInTroupe(cardController.myAnimalProperty.animalName);
             cardController.textNum.text = animalCount.ToString(); 
             if (animalCount == 0) cardController.profile.color = Color.black; 
+            else cardController.profile.color = Color.white;
         }
 
         textCoin.text = $"Coin: {coin}";
