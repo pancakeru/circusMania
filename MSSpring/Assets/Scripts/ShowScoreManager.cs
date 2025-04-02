@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class ShowScoreManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ShowScoreManager : MonoBehaviour
 	private float defaultReputation = 50f;
 	public float currentReputation { get; private set; }
 	private float reputationConversionRate = 0.1f;
+	public Queue repuChanges;
 
 	private GlobalLevel currentGlobalLevel;
 
@@ -46,6 +48,7 @@ public class ShowScoreManager : MonoBehaviour
 
 	public void EndTurn()
 	{
+		float lastRepu = currentReputation;
 		float[] endScreenScoreArray = showManager.totalPerformanceControl.GetCurrentScoreArray();
 		for (int i = 0; i < endScreenScoreArray.Length; i++) {
 			switch (i) {
@@ -73,11 +76,13 @@ public class ShowScoreManager : MonoBehaviour
 			}
 		}
 		Debug.Log("Current Reputation: " + currentReputation);
+		repuChanges.Enqueue(currentReputation-lastRepu);
 	}
 
 	public void ResetReputation()
 	{
 		currentReputation = defaultReputation;
+		repuChanges = new Queue();
 	}
 
 	private float CalculateTargetScore(ScoreType scoreType, int n)
