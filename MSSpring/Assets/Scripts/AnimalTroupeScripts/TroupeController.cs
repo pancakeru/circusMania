@@ -129,7 +129,7 @@ public class TroupeController : MonoBehaviour
     public void Disable()
     {
         GlobalManager.instance.setCoinAmount(coin);
-
+        AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
         GetComponent<Canvas>().enabled = false;
         menuController.Enable();
     }

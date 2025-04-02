@@ -918,6 +918,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void SetSelectIconInHand(GameObject obj)
 	{
+		
 		iconToOnStage.GetKeyByValue(obj).SetSelectState(true);
 	}
 
