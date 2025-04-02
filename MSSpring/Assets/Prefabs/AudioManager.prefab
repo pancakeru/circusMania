@@ -308,7 +308,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ae8470fea198ce44d9bcc08cdc397751, type: 3}
   - {fileID: 8300000, guid: f0d7f6bfd8414e246a824acd6d94536c, type: 3}
   - {fileID: 8300000, guid: 8d6ce64d433b97e4487ae5cfce832f93, type: 3}
-  - {fileID: 8300000, guid: 114e028fc1934d4468b5f6c4d4b14141, type: 3}
   Environment:
   - {fileID: 8300000, guid: e024a322bba86d7478f49b1b8d8081f8, type: 3}
   Battle:
@@ -318,6 +317,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aec04aa69fa12774e9cffc9a5a09c1f9, type: 3}
   - {fileID: 8300000, guid: 519728a77a7296a43a7c89c989467325, type: 3}
   - {fileID: 8300000, guid: 8b621cf4a5a86e94580af65d60a01e84, type: 3}
+  AnimalSounds:
+  - {fileID: 8300000, guid: fead17748f7a3bb46a97066b21849244, type: 3}
+  - {fileID: 8300000, guid: a8bfa34b5ae1a76479b03bb87c1bea16, type: 3}
+  - {fileID: 8300000, guid: fbd9bfb2b24ff954d8ed3b6156e71110, type: 3}
+  - {fileID: 8300000, guid: 0644ed0124e5aa04abe31da4fef68cf9, type: 3}
+  - {fileID: 8300000, guid: 6909d32d69f18f844a22fd1c46b5dacc, type: 3}
+  - {fileID: 8300000, guid: 621f9324df771294b812ee3c97169b9d, type: 3}
+  - {fileID: 8300000, guid: 6c54756e0ea3c6345a1526e6e44d6876, type: 3}
+  - {fileID: 8300000, guid: 29c47e2c294f4814a89aac90487593e1, type: 3}
+  - {fileID: 8300000, guid: 2bbb5544aa8f18848b0b73cc6fd193e3, type: 3}
+  - {fileID: 8300000, guid: 26a17b831e2b5f844bc240a1f95ae41f, type: 3}
+  - {fileID: 8300000, guid: ca149e4f7f2e2fc49abefcc0bcd4d7a0, type: 3}
+  - {fileID: 8300000, guid: f6c3461a07322394593454361e1255b6, type: 3}
+  - {fileID: 8300000, guid: efd6d0e0cd436d444b30aa4472b9cc55, type: 3}
   environmentSource: {fileID: 7019119606970291129}
   uiSource: {fileID: 6287552626960251689}
   battleSource: {fileID: 6935513691995218}
