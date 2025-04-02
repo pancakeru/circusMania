@@ -162,4 +162,9 @@ public class EndScreenScript : MonoBehaviour
 		lineDelay = 0.5f;
 	}
 
+	public void PlayIdle() {
+		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[0]);
+		audioObj.GetComponent<AudioManagerScript>().PlayEnvironmentSound(audioObj.GetComponent<AudioManagerScript>().Environment[1]);
+	}
+
 }

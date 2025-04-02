@@ -52,7 +52,7 @@ public class AudioManagerScript : MonoBehaviour
             battleSource.PlayOneShot(clip);
     }
 
-    public void PlayEnvironmentSound(AudioClip clip, bool loop = false)
+    public void PlayEnvironmentSound(AudioClip clip, bool loop = true)
     {
         if (!isMuted && clip != null)
         {

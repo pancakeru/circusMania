@@ -80,4 +80,22 @@ public class MenuController : MonoBehaviour
         GameObject audioObj = GameObject.FindWithTag("audio manager");
 		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[0]);
     }
+
+    public void BGMSwap(string name) {
+        GameObject audioObj = GameObject.FindWithTag("audio manager");
+        AudioManagerScript audioScript = audioObj.GetComponent<AudioManagerScript>();
+		
+        //audioScript.FadeOutEnvironment(2);
+
+        switch (name) {
+            case "battle":
+                audioScript.PlayEnvironmentSound(audioScript.Environment[0]);
+            break;
+
+            case "idle":
+                audioScript.PlayEnvironmentSound(audioScript.Environment[1]);
+            break;
+
+        }
+    }
 }

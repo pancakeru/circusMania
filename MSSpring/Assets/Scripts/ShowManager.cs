@@ -509,7 +509,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public void CallSound(int index) {
 		GameObject audioObj = GameObject.FindWithTag("audio manager");
 		AudioManagerScript audioScript = audioObj.GetComponent<AudioManagerScript>();
-		audioScript.PlayUISound(audioScript.AnimalSounds[index]);
+		audioScript.PlayBattleSound(audioScript.AnimalSounds[index]);
 	}
 
 
