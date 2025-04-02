@@ -318,6 +318,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aec04aa69fa12774e9cffc9a5a09c1f9, type: 3}
   - {fileID: 8300000, guid: 519728a77a7296a43a7c89c989467325, type: 3}
   - {fileID: 8300000, guid: 8b621cf4a5a86e94580af65d60a01e84, type: 3}
+  - {fileID: 8300000, guid: 5e029ab6e4302584091d6009bbeb402f, type: 3}
   AnimalSounds:
   - {fileID: 8300000, guid: 0b2eab03fa0e37047bd75f8629b700d3, type: 3}
   - {fileID: 8300000, guid: a8bfa34b5ae1a76479b03bb87c1bea16, type: 3}

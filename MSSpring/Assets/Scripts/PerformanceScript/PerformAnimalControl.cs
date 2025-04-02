@@ -163,7 +163,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void TakeBanana(int n)
 	{
-
+		BananaSound();
 		curRestTurn = Mathf.Max(curRestTurn - n, 0);
 		animalBrain.ConsumeBanana(n);
 		if (ifInRest) {
@@ -174,6 +174,11 @@ public class PerformAnimalControl : MonoBehaviour
 			}
 		}
 		bananaEffect.Play();
+	}
+
+	public void BananaSound() {
+		GameObject audioObj = GameObject.FindWithTag("audio manager");
+		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[3]);
 	}
 
 	public void ChangeRestCount(int num)

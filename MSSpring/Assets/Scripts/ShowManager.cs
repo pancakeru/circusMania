@@ -884,6 +884,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		// 让 `toMove` 平滑移动到 `posRecord[to]` 记录的位置
 		toMove.GetComponent<dragBack>().SetToStagePos(posRecord[to].myPosition);
 
+		if (!GameObject.FindWithTag("audio manager").GetComponent<AudioManagerScript>().battleSource.isPlaying) {
+			GameObject.FindWithTag("audio manager").GetComponent<AudioManagerScript>().PlayUISound(GameObject.FindWithTag("audio manager").GetComponent<AudioManagerScript>().Battle[6]);
+		}
+		
 		// 直接瞬移到目标位置的备用代码（已注释）
 		// toMove.transform.position = posRecord[to].myPosition;
 	}
