@@ -47,7 +47,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private float y;
 	private float yStart;
-	private float x;
+	public float xStart;
 	public float offset;
 	public float areaOffset = 1.5f;
 	public float centerOffset = 4;
@@ -197,7 +197,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	//Functions
 	public void EnterOneShow()
 	{
-		x = -750;
+		//x = -750;
 		//offset = 300;
 		yStart = -600;
 		//areaOffset = 2;
@@ -246,10 +246,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			myHand.Add(temp);
 
 			temp.GetComponent<iconAnimal>().Initialize(properties[i], false);
-			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(x + offset * i, yStart);
+			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(xStart + offset * i, yStart);
 			temp.GetComponent<iconAnimal>().myIndex = i;
 			//TODO:把这个目标位置整合
-			initialPos.Add(new Vector2(x + offset * i, temp.GetComponent<iconAnimal>().yGoal));
+			initialPos.Add(new Vector2(xStart + offset * i, temp.GetComponent<iconAnimal>().yGoal));
 			myHandControls.Add(temp.GetComponent<iconAnimal>());
 		}
 	}

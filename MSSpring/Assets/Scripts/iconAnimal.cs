@@ -12,7 +12,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     [SerializeField] private Image uiImage;
     private string animalType;
     private RectTransform myPosition;
-    public int yGoal = -350;
+    public float yGoal = -350;
     public animalProperty selfProperty;
     private AnimalInfoGroupInShowIcon infoGroup;
 
