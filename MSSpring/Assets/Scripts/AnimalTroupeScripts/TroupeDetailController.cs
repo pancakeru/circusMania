@@ -18,7 +18,8 @@ public class TroupeDetailController : MonoBehaviour
 
     Dictionary<string, List<int>> animalPriceChanges = new Dictionary<string, List<int>>();
     List<GameObject> lineChartIcons = new List<GameObject>();
-    int maxLengthOfChart = 5;
+    int maxChartLength = 5;
+    int maxChartHeight = 3;
 
     Vector2 lineChartIconBasePos = Vector2.one * 9000;
 
@@ -32,7 +33,7 @@ public class TroupeDetailController : MonoBehaviour
             };
         }
 
-        for (int i = 0; i < maxLengthOfChart; i++)
+        for (int i = 0; i < maxChartLength; i++)
         {
             GameObject newIcon = Instantiate(lineChartIcon, troupeLineChart.transform);
             newIcon.GetComponent<RectTransform>().anchoredPosition = lineChartIconBasePos;
@@ -45,14 +46,18 @@ public class TroupeDetailController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey += Random.Range(1, 30);
+            SetLineChart();
+        }
     }
 
     public void SetLineChart()
     {
         AnimalBallPassTimes allAnimalBallPassTimes = ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
         string theAnimalName = troupeController.troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty.animalName;
-        float newBallPassTimes = 0;
+        int newBallPassTimes = 0;
 
         switch (theAnimalName.ToLower())
         {
@@ -73,22 +78,24 @@ public class TroupeDetailController : MonoBehaviour
                 Debug.LogWarning($"Bug Found"); break;
         }
 
-        int newPrice = (int)newBallPassTimes / maxLengthOfChart + GlobalManager.instance.initPrice;
+        GlobalManager.instance.UpdatePrice(theAnimalName, newBallPassTimes);
+        int newPrice = GlobalManager.instance.animalPrices[theAnimalName];
+        Debug.Log( newPrice );
 
         if (!(newPrice == animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1])) //if current price != previous price
         {
-            animalPriceChanges[theAnimalName].Add((int)(newBallPassTimes / maxLengthOfChart));
-            if (animalPriceChanges[theAnimalName].Count > maxLengthOfChart) animalPriceChanges[theAnimalName].RemoveAt(0);
+            animalPriceChanges[theAnimalName].Add(newBallPassTimes);
+            if (animalPriceChanges[theAnimalName].Count > maxChartLength) animalPriceChanges[theAnimalName].RemoveAt(0);
         }
 
         List<Vector2> ballPassTimesToVertex = new List<Vector2>();
         for (int i = 0; i < animalPriceChanges[theAnimalName].Count; i++)
         {
-            ballPassTimesToVertex.Add(new Vector2(i, animalPriceChanges[theAnimalName][i]));
+            ballPassTimesToVertex.Add(new Vector2(i, (float)animalPriceChanges[theAnimalName][i] * (float)maxChartHeight / (float)GlobalManager.instance.maxPrice));
 
         }
         troupeLineChart.points = ballPassTimesToVertex;
-
+        troupeLineChart.SetAllDirty(); //Draw Line
 
         Rect chartRect = troupeLineChart.rectTransform.rect;
         for (int i = 0; i < lineChartIcons.Count; i++)
@@ -107,7 +114,7 @@ public class TroupeDetailController : MonoBehaviour
             }
         }
 
-        troupeLineChart.SetAllDirty();
+        
     }
 
 }

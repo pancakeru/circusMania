@@ -165,6 +165,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     #region 动物价格/等级
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
     public int initPrice = 1;
+    public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
 		foreach(animalProperty animal in allAnimals.properies)
@@ -176,11 +177,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	public void UpdatePrice(string animalName, int updateAmount)
 	{
 		animalPrices[animalName] += updateAmount;
-		Math.Clamp(animalPrices[animalName], 1, 99);
+        animalPrices[animalName] = Math.Clamp(animalPrices[animalName], initPrice, maxPrice);
     }
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;
+	int maxLevel = 99;
     public void InitAnimalLevel()
     {
         foreach (animalProperty animal in allAnimals.properies)
@@ -192,7 +194,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public void UpdateLevel(string animalName, int updateAmount)
     {
         animalLevels[animalName] += updateAmount;
-        Math.Clamp(animalLevels[animalName], 1, 99);
+        animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
     }
 
     #endregion
