@@ -82,7 +82,7 @@ public class TroupeDetailController : MonoBehaviour
         int newPrice = GlobalManager.instance.animalPrices[theAnimalName];
         Debug.Log( newPrice );
 
-        if (!(newPrice == animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1])) //if current price != previous price
+        if (newPrice != animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1]) //if current price != previous price
         {
             animalPriceChanges[theAnimalName].Add(newBallPassTimes);
             if (animalPriceChanges[theAnimalName].Count > maxChartLength) animalPriceChanges[theAnimalName].RemoveAt(0);
@@ -91,7 +91,8 @@ public class TroupeDetailController : MonoBehaviour
         List<Vector2> ballPassTimesToVertex = new List<Vector2>();
         for (int i = 0; i < animalPriceChanges[theAnimalName].Count; i++)
         {
-            ballPassTimesToVertex.Add(new Vector2(i, (float)animalPriceChanges[theAnimalName][i] * (float)maxChartHeight / (float)GlobalManager.instance.maxPrice));
+            int clamped = Mathf.Min(animalPriceChanges[theAnimalName][i], GlobalManager.instance.maxPrice);
+            ballPassTimesToVertex.Add(new Vector2(i, (float)clamped * maxChartHeight / GlobalManager.instance.maxPrice));
 
         }
         troupeLineChart.points = ballPassTimesToVertex;
