@@ -19,7 +19,8 @@ public class TroupeDetailController : MonoBehaviour
     Dictionary<string, List<int>> animalPriceChanges = new Dictionary<string, List<int>>();
     List<GameObject> lineChartIcons = new List<GameObject>();
     int maxChartLength = 5;
-    int maxChartHeight = 3;
+    float lengthFix = 0.5f;
+    int maxChartHeight = 2;
 
     Vector2 lineChartIconBasePos = Vector2.one * 9000;
 
@@ -92,7 +93,7 @@ public class TroupeDetailController : MonoBehaviour
         for (int i = 0; i < animalPriceChanges[theAnimalName].Count; i++)
         {
             int clamped = Mathf.Min(animalPriceChanges[theAnimalName][i], GlobalManager.instance.maxPrice);
-            ballPassTimesToVertex.Add(new Vector2(i, (float)clamped * maxChartHeight / GlobalManager.instance.maxPrice));
+            ballPassTimesToVertex.Add(new Vector2(i * lengthFix, (float)clamped * maxChartHeight / GlobalManager.instance.maxPrice));
 
         }
         troupeLineChart.points = ballPassTimesToVertex;

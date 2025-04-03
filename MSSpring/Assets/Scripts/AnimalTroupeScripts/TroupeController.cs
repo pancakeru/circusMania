@@ -19,11 +19,11 @@ public class TroupeController : MonoBehaviour
     [HideInInspector] public GameObject troupeCardSelected;
     List<GameObject> troupeCards = new List<GameObject>();
 
-    GameObject cardsGroup;
-    GameObject slide;
+    public GameObject cardsGroup;
+    public GameObject slide;
 
-    Vector2 cardStartPos = new Vector2 (215f, -420f);
-    Vector2 cardOffset = new Vector2(275f, -275f);
+    Vector2 cardStartPos = new Vector2 (215f, -400f);
+    Vector2 cardOffset = new Vector2(330f, -275f);
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 3;
@@ -45,8 +45,6 @@ public class TroupeController : MonoBehaviour
     {
         menuController = FindAnyObjectByType<MenuController>();
 
-        cardsGroup = transform.GetChild(1).gameObject;
-        slide = transform.GetChild(2).gameObject;
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
     }
 
