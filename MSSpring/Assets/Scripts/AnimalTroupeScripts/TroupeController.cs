@@ -73,8 +73,6 @@ public class TroupeController : MonoBehaviour
         }
         troupeCards.Clear();
 
-        List<animalProperty> myTroupe = GlobalManager.instance.getAllAnimals();
-
         for (int i = 0; i < GlobalManager.instance.allAnimals.properies.Length; i++)
         {
             GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);

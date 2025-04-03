@@ -117,7 +117,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public List<animalProperty> getAllAnimals()
 	{
-		Debug.Log("动物list有这些: " + animals.Count);
+		//Debug.Log("动物list有这些: " + animals.Count);
 		return animals;
 	}
 
@@ -164,7 +164,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     #region 动物价格/等级
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
-    int initPrice = 1;
+    public int initPrice = 1;
     public void InitAnimalPrice()
 	{
 		foreach(animalProperty animal in allAnimals.properies)

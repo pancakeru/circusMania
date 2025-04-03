@@ -8,6 +8,8 @@ using System.Linq;
 
 public class ShowManager : MonoBehaviour, IReportReceiver
 {
+	public static ShowManager instance;
+
 	//State Machine
 	private enum ShowStates
 	{
@@ -146,7 +148,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private bool ifToShow = false;
 	private void Awake()
 	{
-		menu = FindAnyObjectByType<MenuController>();
+		if (instance == null) instance = this;
+		else Destroy(gameObject);
+
+        menu = FindAnyObjectByType<MenuController>();
 		handPanelMover = handPanelTransform.GetComponent<UiMover>();
 		stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
 		camMover = Camera.main.GetComponent<CameraMover>();

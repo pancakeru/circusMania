@@ -2028,6 +2028,7 @@ MonoBehaviour:
   restTurn: {fileID: 206193310129090774}
   scoreAction: {fileID: 293888580589631232}
   numInTroupe: {fileID: 6157677988485971537}
+  lineChartIcon: {fileID: 8702299410134532018, guid: 4a8322b84924ad2409c8757579d0ebee, type: 3}
 --- !u!1 &3408706351567166482
 GameObject:
   m_ObjectHideFlags: 0
