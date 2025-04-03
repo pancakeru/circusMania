@@ -19,11 +19,11 @@ public class TroupeController : MonoBehaviour
     [HideInInspector] public GameObject troupeCardSelected;
     List<GameObject> troupeCards = new List<GameObject>();
 
-    GameObject cardsGroup;
-    GameObject slide;
+    public GameObject cardsGroup;
+    public GameObject slide;
 
-    Vector2 cardStartPos = new Vector2 (215f, -420f);
-    Vector2 cardOffset = new Vector2(275f, -275f);
+    Vector2 cardStartPos = new Vector2 (215f, -400f);
+    Vector2 cardOffset = new Vector2(330f, -275f);
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
     int cardsPerRow = 3;
@@ -32,6 +32,8 @@ public class TroupeController : MonoBehaviour
     public TextMeshProUGUI textCoin;
     int coin = -1;
     public int price = 3;
+
+    public bool isFirstGameCompleted = false;
 
     void Awake()
     {
@@ -45,8 +47,6 @@ public class TroupeController : MonoBehaviour
     {
         menuController = FindAnyObjectByType<MenuController>();
 
-        cardsGroup = transform.GetChild(1).gameObject;
-        slide = transform.GetChild(2).gameObject;
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
     }
 
@@ -73,9 +73,9 @@ public class TroupeController : MonoBehaviour
         }
         troupeCards.Clear();
 
-        List<animalProperty> myTroupe = GlobalManager.instance.getAllAnimals();
+        int showNumOfAnimals = GlobalManager.instance.currentLevelIndex == 0 ? 3 : GlobalManager.instance.allAnimals.properies.Length;
 
-        for (int i = 0; i < GlobalManager.instance.allAnimals.properies.Length; i++)
+        for (int i = 0; i < showNumOfAnimals; i++)
         {
             GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);
             newCard.GetComponent<TroupeCardController>().Init(GlobalManager.instance.allAnimals.properies[i]);
@@ -105,7 +105,7 @@ public class TroupeController : MonoBehaviour
         troupeCardDetailed.restTurn.text = theAnimalProperty.restTurn.ToString();
         troupeCardDetailed.scoreAction.text = theAnimalProperty.returnScoreActionNoRest();
 
-        
+        troupeCardDetailed.SetLineChart();
     }
 
     public void SetCardsBackground()
@@ -149,6 +149,7 @@ public class TroupeController : MonoBehaviour
             int animalCount = NumberInTroupe(cardController.myAnimalProperty.animalName);
             cardController.textNum.text = animalCount.ToString(); 
             if (animalCount == 0) cardController.profile.color = Color.black; 
+            else cardController.profile.color = Color.white;
         }
 
         textCoin.text = $"Coin: {coin}";

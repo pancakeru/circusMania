@@ -11,7 +11,7 @@ public class MessageBoxController : MonoBehaviour
 
     void Start()
     {
-        
+        Destroy(gameObject, 2f);
     }
 
     // Update is called once per frame
