@@ -25,44 +25,44 @@ public class ShowAnimalBallPassTimesCounter : MonoBehaviour
 
 	private void PerformAnimalControl_OnAnyPassingBall(object sender, PerformAnimalControl.OnAnyPassingBallEventArgs e)
 	{
-		switch (e.animalName) {
-			case "Monkey":
+		switch (e.animalName.ToLower()) {
+			case "monkey":
 				monkey++;
 				break;
-			case "Elephant":
+			case "elephant":
 				elephant++;
 				break;
-			case "Bear":
+			case "bear":
 				bear++;
 				break;
-			case "Lion":
+			case "lion":
 				lion++;
 				break;
-			case "Giraffe":
+			case "giraffe":
 				giraffe++;
 				break;
-			case "Snake":
+			case "snake":
 				snake++;
 				break;
-			case "Fox":
+			case "fox":
 				fox++;
 				break;
-			case "Seal":
+			case "seal":
 				seal++;
 				break;
-			case "Ostrich":
+			case "ostrich":
 				ostrich++;
 				break;
-			case "Kangaroo":
+			case "kangaroo":
 				kangaroo++;
 				break;
-			case "Buffalo":
+			case "buffalo":
 				buffalo++;
 				break;
-			case "Goat":
+			case "goat":
 				goat++;
 				break;
-			case "Lizard":
+			case "lizard":
 				lizard++;
 				break;
 		}
@@ -73,22 +73,51 @@ public class ShowAnimalBallPassTimesCounter : MonoBehaviour
 		return new AnimalBallPassTimes(monkey, elephant, bear, lion, giraffe, snake, fox, seal, ostrich, kangaroo, buffalo, goat, lizard);
 	}
 
-	public void ResetAnimalBallPassTimes()
+	public void ResetAnimalBallPassTimes(string animalName)
 	{
-		monkey = 0;
-		elephant = 0;
-		bear = 0;
-		lion = 0;
-		giraffe = 0;
-		snake = 0;
-		fox = 0;
-		seal = 0;
-		ostrich = 0;
-		kangaroo = 0;
-		buffalo = 0;
-		goat = 0;
-		lizard = 0;
-	}
+        switch (animalName.ToLower())
+        {
+            case "monkey":
+                monkey = 0;
+                break;
+            case "elephant":
+                elephant = 0;
+                break;
+            case "bear":
+                bear = 0;
+                break;
+            case "lion":
+                lion = 0;
+                break;
+            case "giraffe":
+                giraffe = 0;
+                break;
+            case "snake":
+                snake = 0;
+                break;
+            case "fox":
+                fox = 0;
+                break;
+            case "seal":
+                seal = 0;
+                break;
+            case "ostrich":
+                ostrich = 0;
+                break;
+            case "kangaroo":
+                kangaroo = 0;
+                break;
+            case "buffalo":
+                buffalo = 0;
+                break;
+            case "goat":
+                goat = 0;
+                break;
+            case "lizard":
+                lizard = 0;
+                break;
+        }
+    }
 }
 
 public struct AnimalBallPassTimes

@@ -30,8 +30,8 @@ public class TroupeController : MonoBehaviour
     int visibleRows = 3;
 
     public TextMeshProUGUI textCoin;
+    [HideInInspector] public int upgradePrice;
     int coin = -1;
-    public int price = 3;
 
     public bool isFirstGameCompleted = false;
 
@@ -41,6 +41,7 @@ public class TroupeController : MonoBehaviour
         else Destroy(gameObject);
 
         cardOffset = new Vector2(cardOffset.x * troupeCardSimple.transform.localScale.x, cardOffset.y * troupeCardSimple.transform.localScale.y);
+        upgradePrice = 10;
     }
 
     void Start()
@@ -168,6 +169,8 @@ public class TroupeController : MonoBehaviour
 
     public void Buy()
     {
+        animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
+        int price = GlobalManager.instance.animalPrices[animal.animalName];
         if (coin >= price)
         {
             coin -= price;
@@ -184,6 +187,9 @@ public class TroupeController : MonoBehaviour
         {
             GlobalManager.instance.removeAnAnimal(animal);
             coin += GlobalManager.instance.animalPrices[animal.animalName];
+
+            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
+            DisplayCardDetail(troupeCardSelected);
             UpdateText();
         }
         else GlobalManager.instance.ShowMessageBox("Cannot sell more animal of this kind!");
@@ -192,9 +198,9 @@ public class TroupeController : MonoBehaviour
     public void Upgrade()
     {
         animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
-        if (coin >= price)
+        if (coin >= upgradePrice)
         {
-            coin -= price;
+            coin -= upgradePrice;
             GlobalManager.instance.UpdateLevel(animal.animalName, 1);
             UpdateText();
         }

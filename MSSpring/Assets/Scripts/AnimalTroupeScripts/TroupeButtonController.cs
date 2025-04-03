@@ -105,7 +105,7 @@ public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
         {
             case "buy":
 
-                buttonText.text = $"${TroupeController.instance.price}";
+                buttonText.text = $"${GlobalManager.instance.animalPrices[TroupeController.instance.troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty.animalName]}";
                 buttonBg.color = Color.yellow;
 
                 break;
@@ -119,7 +119,7 @@ public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
 
             case "upgrade":
 
-                buttonText.text = $"${TroupeController.instance.price}";
+                buttonText.text = $"${TroupeController.instance.upgradePrice}";
                 buttonBg.color = Color.yellow;
 
                 break;
