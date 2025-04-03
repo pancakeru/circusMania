@@ -33,6 +33,8 @@ public class TroupeController : MonoBehaviour
     int coin = -1;
     public int price = 3;
 
+    public bool isFirstGameCompleted = false;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -71,7 +73,9 @@ public class TroupeController : MonoBehaviour
         }
         troupeCards.Clear();
 
-        for (int i = 0; i < GlobalManager.instance.allAnimals.properies.Length; i++)
+        int showNumOfAnimals = GlobalManager.instance.currentLevelIndex == 0 ? 3 : GlobalManager.instance.allAnimals.properies.Length;
+
+        for (int i = 0; i < showNumOfAnimals; i++)
         {
             GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);
             newCard.GetComponent<TroupeCardController>().Init(GlobalManager.instance.allAnimals.properies[i]);

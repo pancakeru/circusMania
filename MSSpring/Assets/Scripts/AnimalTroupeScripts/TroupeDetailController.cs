@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Linq;
 
 public class TroupeDetailController : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class TroupeDetailController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey += Random.Range(1, 30);
+            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey += 10;
             SetLineChart();
         }
     }
