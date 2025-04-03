@@ -50,7 +50,7 @@ public class TroupeDetailController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey += 10;
+            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey = 10;
             SetLineChart();
         }
     }
@@ -80,13 +80,13 @@ public class TroupeDetailController : MonoBehaviour
                 Debug.LogWarning($"Bug Found"); break;
         }
 
-        GlobalManager.instance.UpdatePrice(theAnimalName, newBallPassTimes);
-        int newPrice = GlobalManager.instance.animalPrices[theAnimalName];
-        Debug.Log( newPrice );
-
-        if (newPrice != animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1]) //if current price != previous price
+        if (animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1] != newBallPassTimes + GlobalManager.instance.initPrice)
         {
-            animalPriceChanges[theAnimalName].Add(newBallPassTimes);
+            GlobalManager.instance.UpdatePrice(theAnimalName, newBallPassTimes);
+            int newPrice = GlobalManager.instance.animalPrices[theAnimalName];
+            Debug.Log(newPrice);
+
+            animalPriceChanges[theAnimalName].Add(newPrice);
             if (animalPriceChanges[theAnimalName].Count > maxChartLength) animalPriceChanges[theAnimalName].RemoveAt(0);
         }
 

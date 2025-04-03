@@ -176,7 +176,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void UpdatePrice(string animalName, int updateAmount)
 	{
-		animalPrices[animalName] += updateAmount;
+		animalPrices[animalName] = initPrice + updateAmount;
         animalPrices[animalName] = Math.Clamp(animalPrices[animalName], initPrice, maxPrice);
     }
 
