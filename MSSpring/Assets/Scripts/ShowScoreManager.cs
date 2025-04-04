@@ -53,6 +53,7 @@ public class ShowScoreManager : MonoBehaviour
 		for (int i = 0; i < endScreenScoreArray.Length; i++) {
 			switch (i) {
 				case 0:
+					Debug.Log("红分是" + endScreenScoreArray[i]);
 					if (endScreenScoreArray[i] > targetRedScore) {
 						currentReputation += (endScreenScoreArray[i] - targetRedScore) * reputationConversionRate;
 					} else {
@@ -60,14 +61,16 @@ public class ShowScoreManager : MonoBehaviour
 					}
 					break;
 				case 1:
-					if (endScreenScoreArray[i] > targetYellowScore) {
+                    Debug.Log("黄分是" + endScreenScoreArray[i]);
+                    if (endScreenScoreArray[i] > targetYellowScore) {
 						currentReputation += (endScreenScoreArray[i] - targetYellowScore) * reputationConversionRate;
 					} else {
 						currentReputation -= targetYellowScore - endScreenScoreArray[i];
 					}
 					break;
 				case 2:
-					if (endScreenScoreArray[i] > targetBlueScore) {
+                    Debug.Log("蓝分是" + endScreenScoreArray[i]);
+                    if (endScreenScoreArray[i] > targetBlueScore) {
 						currentReputation += (endScreenScoreArray[i] - targetBlueScore) * reputationConversionRate;
 					} else {
 						currentReputation -= targetBlueScore - endScreenScoreArray[i];
