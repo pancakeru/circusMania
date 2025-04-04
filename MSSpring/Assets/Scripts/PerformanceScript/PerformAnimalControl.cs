@@ -329,15 +329,15 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 
 		if (inputScore[0] != 0) {
 			controlUnit.ChangeRedScore(inputScore[0]);
-			//animalBody.generator.RequestTextEffect(inputScore[0], ScoreTextEffectGenerator.ScoreType.Red);
+			animalBody.generator.RequestTextEffect(inputScore[0], ScoreTextEffectGenerator.ScoreType.Red);
 		}
 		if (inputScore[1] != 0) {
 			controlUnit.ChangeYellowScore(inputScore[1]);
-			//animalBody.generator.RequestTextEffect(inputScore[1], ScoreTextEffectGenerator.ScoreType.Yellow);
+			animalBody.generator.RequestTextEffect(inputScore[1], ScoreTextEffectGenerator.ScoreType.Yellow);
 		}
 		if (inputScore[2] != 0) {
 			controlUnit.ChangeBlueScore(inputScore[2]);
-			//animalBody.generator.RequestTextEffect(inputScore[2], ScoreTextEffectGenerator.ScoreType.Blue);
+			animalBody.generator.RequestTextEffect(inputScore[2], ScoreTextEffectGenerator.ScoreType.Blue);
 		}
 	}
 
