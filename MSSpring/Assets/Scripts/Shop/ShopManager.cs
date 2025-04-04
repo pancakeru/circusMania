@@ -99,7 +99,7 @@ public class ShopManager : MonoBehaviour
 			boughtList.Add(shopAnimal);
 			return true;
 		} else {
-			Debug.Log("You do not have sufficient coins to buy this!");
+			//Debug.Log("You do not have sufficient coins to buy this!");
 			return false;
 		}
 	}
@@ -111,7 +111,7 @@ public class ShopManager : MonoBehaviour
             DisplayCoin();
             Display();
 		} else {
-			Debug.Log("You do not have sufficient coins to roll!");
+			//Debug.Log("You do not have sufficient coins to roll!");
 		}
 	}
 

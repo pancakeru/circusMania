@@ -47,7 +47,7 @@ public class spriteSizer : MonoBehaviour
             
             
             transform.localScale = new Vector3(newScaleX, newScaleX, 1f);
-            Debug.Log(transform.localScale);
+            //Debug.Log(transform.localScale);
         }
     }
 }

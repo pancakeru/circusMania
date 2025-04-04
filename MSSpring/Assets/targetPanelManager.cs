@@ -12,7 +12,7 @@ public class targetPanelManager : MonoBehaviour
 
 	public void ChangeLevelState(int curTurn, float curRepu, float totalTargetScore, int totalTurn)
 	{
-		Debug.Log("现在的Target是" + totalTargetScore);
+		//Debug.Log("现在的Target是" + totalTargetScore);
 		turnText.text = curTurn.ToString() + "/" + totalTurn.ToString();
 		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
 		redText.text = targetScoreArray[0].ToString();

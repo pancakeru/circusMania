@@ -156,7 +156,7 @@ public class EndScreenScript : MonoBehaviour
 
     void DisplayList()
 	{
-		Debug.Log(currentIndex);
+		//ebug.Log(currentIndex);
 		scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {test[currentIndex]}\n";
 		currentIndex += 1;
 		lineDelay = 0.5f;

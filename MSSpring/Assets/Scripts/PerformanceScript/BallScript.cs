@@ -118,7 +118,7 @@ public class BallScript : MonoBehaviour
 		transform.position = end;
 		if (toCatch != null) {
 			toCatch.TakeBall(this);
-			Debug.Log("球成功传递");
+			//Debug.Log("球成功传递");
 		} else {
 			DoDrop();
 		}
@@ -164,7 +164,7 @@ public class BallScript : MonoBehaviour
 
 	public void DoDrop()
 	{
-		Debug.Log("球掉落");
+		//Debug.Log("球掉落");
 		
 		GameObject audioObj = GameObject.FindWithTag("audio manager");
 		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[0]);
@@ -229,7 +229,7 @@ public class BallScript : MonoBehaviour
 
 	public void MoveBall(int from, int to, PerformAnimalControl _passer)
 	{
-		Debug.Log("从" + from + "到" + to);
+		//Debug.Log("从" + from + "到" + to);
 		fromIndex = from;
 		passer = _passer;
 		// Validate indices
@@ -244,7 +244,7 @@ public class BallScript : MonoBehaviour
 		}
 
 		if (to < 0 || to >= points.Count) {
-			Debug.Log("这里是投出场地");
+			//Debug.Log("这里是投出场地");
 			//Debug.LogError($"End index {endIndex} is out of range.");
 			isMoving = true; // Set the flag to indicate movement has started
 			if (curPara != null)
@@ -276,12 +276,12 @@ public class BallScript : MonoBehaviour
 		Vector3 pos2;
 		PerformAnimalControl an;
 		if (showUnit.CheckAndGetAnimalThrowAcceptPos(from, true, out pos1) && showUnit.CheckAndGetAnimalThrowAcceptPos(to, false, out pos2) && showUnit.CheckAndGetAnimalBasedOnIndex(to, out an)) {
-			Debug.Log("这里是有人接");
+			//Debug.Log("这里是有人接");
 			if (curPara != null)
 				StopCoroutine(curPara);
 			curPara = StartCoroutine(MoveInParabola(pos1, pos2, Mathf.Min(baseYV + initialYVperUnit * (Mathf.Abs(to - from)),maxAllowHeight), gravity, an, showUnit));
 		} else {
-			Debug.Log("这里是没有人接,目前有问题");
+			//Debug.Log("这里是没有人接,目前有问题");
 			if (curPara != null)
 				StopCoroutine(curPara);
 			curPara = StartCoroutine(MoveInParabola(transform.position, showUnit.GetPositionWhenThrowToEmpty(to), Mathf.Min(baseYV + initialYVperUnit * (Mathf.Abs(to - from)), maxAllowHeight), gravity, null, showUnit));

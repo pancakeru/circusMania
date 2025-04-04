@@ -99,14 +99,14 @@ public class BananaScript : MonoBehaviour
         {
             if (collider.CompareTag("animalTag"))
             {
-                Debug.Log("Detected an object with animalTag: " + collider.gameObject.name);
+                //Debug.Log("Detected an object with animalTag: " + collider.gameObject.name);
                 PerformAnimalControl animal = collider.GetComponent<PerformAnimalControl>();
                 animal.TakeBanana(1);
                 break;
             }
             else if (collider.CompareTag("ballTag"))
             {
-                Debug.Log("Detected an object with ballTag: " + collider.gameObject.name);
+                //Debug.Log("Detected an object with ballTag: " + collider.gameObject.name);
                 BallScript ball = collider.GetComponent<BallScript>();
                 ball.takeBanana();
                 break;

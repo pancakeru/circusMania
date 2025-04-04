@@ -84,7 +84,7 @@ public class TroupeDetailController : MonoBehaviour
         {
             GlobalManager.instance.UpdatePrice(theAnimalName, newBallPassTimes);
             int newPrice = GlobalManager.instance.animalPrices[theAnimalName];
-            Debug.Log(newPrice);
+            //Debug.Log(newPrice);
 
             animalPriceChanges[theAnimalName].Add(newPrice);
             if (animalPriceChanges[theAnimalName].Count > maxChartLength) animalPriceChanges[theAnimalName].RemoveAt(0);

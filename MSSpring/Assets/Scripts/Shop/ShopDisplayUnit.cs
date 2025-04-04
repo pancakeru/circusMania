@@ -20,7 +20,7 @@ public class ShopDisplayUnit : MonoBehaviour
 	public void SetUp(ShopAnimal shopAnimal)
 	{
 		this.shopAnimal = shopAnimal;
-		Debug.Log(shopAnimal== null);
+		//Debug.Log(shopAnimal== null);
 		image.sprite = shopAnimal.GetAnimalProperty().animalCoreImg;
 		priceText.text = "$ " + shopAnimal.GetAnimalProperty().animalPrice.ToString();
 		outOfStock.SetActive(false);

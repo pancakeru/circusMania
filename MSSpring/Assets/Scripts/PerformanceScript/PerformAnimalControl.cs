@@ -96,7 +96,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void DoTurnStart()
 	{
-		Debug.Log(name + "开始了");
+		//Debug.Log(name + "开始了");
 		//如果有球
 		if (ifHaveBall) {
 			animalBrain.InteractWithBall();
@@ -111,7 +111,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void DoTurnEnd()
 	{
-		Debug.Log("回合结束行动");
+		//Debug.Log("回合结束行动");
 		if (ifJustInteract) {
 			animalBrain.EnterRest(false);
 			ifJustInteract = false;
@@ -126,7 +126,7 @@ public class PerformAnimalControl : MonoBehaviour
 		if (ifHaveBall) {
 			b.DoDrop();
 		} else {
-			Debug.Log("拿到球");
+			//Debug.Log("拿到球");
 			if (!ifReadyToInteract) {
 				if (ifJustInteract)
 					animalBrain.EnterRest(true);
@@ -196,12 +196,12 @@ public class PerformAnimalControl : MonoBehaviour
 	public void FlipSprite(int state, bool ifDirect, Action doInFlip = null)
 	{
 		if (flipCor != null) {
-			Debug.Log("在翻面执行中时再次翻面");
+			//Debug.Log("在翻面执行中时再次翻面");
 			StopCoroutine(flipCor);
 			//return;
 		}
 
-		Debug.Log("触发翻面");
+		//Debug.Log("触发翻面");
 		flipCor = StartCoroutine(FlipSpriteCor(displaySprites[state], ifDirect, doInFlip));
 		if (state == 2)
 			renderer.color = Color.gray;
@@ -256,7 +256,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void BackToInitial()
 	{
-		Debug.Log(name + "正在back to initial");
+		//Debug.Log(name + "正在back to initial");
 		ifInRest = false;
 		ifJustInteract = false;
 		FlipSprite(0, false);

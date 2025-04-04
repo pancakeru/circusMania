@@ -246,7 +246,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void ReportMoveFinish(BallScript ball)
 	{
-		Debug.Log("我来拉");
+		//Debug.Log("我来拉");
 		if (ball == curBall)
 			ifBallMoveFinish = true;
 	}
@@ -285,7 +285,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void TurnStart()
 	{
-		Debug.Log("回合开始了");
+		//Debug.Log("回合开始了");
 		foreach (PerformAnimalControl an in allAnimalsInShow) {
 			if (an != null)
 				an.DoTurnStart();
@@ -294,7 +294,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void TurnEnd()
 	{
-		Debug.Log("回合结束了");
+		//Debug.Log("回合结束了");
 		foreach (PerformAnimalControl an in allAnimalsInShow) {
 			if (an != null)
 				an.DoTurnEnd();
