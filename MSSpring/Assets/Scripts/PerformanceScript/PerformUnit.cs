@@ -81,7 +81,7 @@ public class PerformUnit : MonoBehaviour
 	{
 		SetLastScore(1);
 		ChangeYellowScore(0,ChangeScoreType.Set);
-		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeBlueScore(0,ChangeScoreType.Set);
 		ChangeRedScore(0,ChangeScoreType.Set);
 		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);
@@ -91,7 +91,7 @@ public class PerformUnit : MonoBehaviour
 	{
 		SetLastScore(last);
 		ChangeYellowScore(0,ChangeScoreType.Set);
-		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeBlueScore(0,ChangeScoreType.Set);
 		ChangeRedScore(0,ChangeScoreType.Set);
 		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);

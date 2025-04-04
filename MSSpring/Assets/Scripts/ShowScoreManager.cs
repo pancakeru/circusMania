@@ -54,6 +54,7 @@ public class ShowScoreManager : MonoBehaviour
 			switch (i) {
 				case 0:
 					Debug.Log("红分是" + endScreenScoreArray[i]);
+					Debug.Log("目标红分时"+ targetRedScore);
 					if (endScreenScoreArray[i] > targetRedScore) {
 						currentReputation += (endScreenScoreArray[i] - targetRedScore) * reputationConversionRate;
 					} else {
@@ -62,6 +63,7 @@ public class ShowScoreManager : MonoBehaviour
 					break;
 				case 1:
                     Debug.Log("黄分是" + endScreenScoreArray[i]);
+                    Debug.Log("目标黄分时" + targetYellowScore);
                     if (endScreenScoreArray[i] > targetYellowScore) {
 						currentReputation += (endScreenScoreArray[i] - targetYellowScore) * reputationConversionRate;
 					} else {
@@ -70,6 +72,7 @@ public class ShowScoreManager : MonoBehaviour
 					break;
 				case 2:
                     Debug.Log("蓝分是" + endScreenScoreArray[i]);
+                    Debug.Log("目标蓝分时" + targetBlueScore);
                     if (endScreenScoreArray[i] > targetBlueScore) {
 						currentReputation += (endScreenScoreArray[i] - targetBlueScore) * reputationConversionRate;
 					} else {
