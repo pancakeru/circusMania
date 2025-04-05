@@ -200,7 +200,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     Debug.LogWarning($"Bug Found"); break;
             }
 
-            if (myBallPassTimes == 0) UpdatePrice(animal.animalName, animalPrices[animal.animalName] / 2);
+            if (myBallPassTimes <= 10) UpdatePrice(animal.animalName, (int)(animalPrices[animal.animalName] / 1f - 0.5f * (myBallPassTimes / 10f)));
 			else UpdatePrice(animal.animalName, myBallPassTimes);
 
             ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);

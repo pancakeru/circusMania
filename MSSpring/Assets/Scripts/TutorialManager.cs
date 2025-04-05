@@ -24,6 +24,7 @@ public class TutorialManager : MonoBehaviour
         if (id == 0) Debug.LogError("Assign ID");
         sprites.Add(MenuSprites);
         sprites.Add(troupeSprites);
+        sprites.Add(showSprites);
 
         image.raycastTarget = false;
     }
