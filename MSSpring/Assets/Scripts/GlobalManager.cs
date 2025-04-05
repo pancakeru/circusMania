@@ -59,7 +59,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             foreach (animalProperty apt in testProperties.properies)
                 addAnAnimal(apt);
             curCoinAmount = testCoinNum;
-			InitAnimalPrice();
+			
+			InitAnimalUnlock();
+            InitAnimalPrice();
 			InitAnimalLevel();
         }
 
@@ -162,15 +164,37 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	}
     #endregion
 
-    #region 动物价格/等级
+    #region 动物解锁/价格/等级
+
+    public Dictionary<string, bool> isAnimalUnlocked = new Dictionary<string, bool>();
+    public void InitAnimalUnlock()
+    {
+        foreach (animalProperty animal in allAnimals.properies)
+        {
+            isAnimalUnlocked[animal.animalName] = false;
+        }
+		UnlockAnimal();
+    }
+
+	public void UnlockAnimal()
+	{
+        foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
+		{
+			if (isAnimalUnlocked.ContainsKey(animalName))
+			{
+				isAnimalUnlocked[animalName] = true;
+			}
+		}
+    }
+
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
-    public int initPrice = 1;
+    public Dictionary<string, int> animalInitPrice = new Dictionary<string, int>();
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
 		foreach(animalProperty animal in allAnimals.properies)
 		{
-            animalPrices[animal.animalName] = initPrice;
+            animalPrices[animal.animalName] = maxPrice;
         }
 	}
 
@@ -211,8 +235,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public void UpdatePrice(string animalName, int updateAmount)
 	{
-		animalPrices[animalName] = initPrice + updateAmount;
-        animalPrices[animalName] = Math.Clamp(animalPrices[animalName], initPrice, maxPrice);
+		//animalPrices[animalName] = initPrice + updateAmount;
+        //animalPrices[animalName] = Math.Clamp(animalPrices[animalName], initPrice, maxPrice);
     }
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();

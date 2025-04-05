@@ -74,14 +74,15 @@ public class TroupeController : MonoBehaviour
         }
         troupeCards.Clear();
 
-        int showNumOfAnimals = GlobalManager.instance.currentLevelIndex == 0 ? 3 : GlobalManager.instance.allAnimals.properies.Length;
-
-        for (int i = 0; i < showNumOfAnimals; i++)
+        foreach(animalProperty animal in GlobalManager.instance.allAnimals.properies)
         {
-            GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);
-            newCard.GetComponent<TroupeCardController>().Init(GlobalManager.instance.allAnimals.properies[i]);
+            if (GlobalManager.instance.isAnimalUnlocked[animal.animalName])
+            {
+                GameObject newCard = Instantiate(troupeCardSimple, cardsGroup.transform);
+                newCard.GetComponent<TroupeCardController>().Init(animal);
 
-            troupeCards.Add(newCard);
+                troupeCards.Add(newCard);
+            }
         }
 
         for (int i = 0; i < troupeCards.Count; i++)
