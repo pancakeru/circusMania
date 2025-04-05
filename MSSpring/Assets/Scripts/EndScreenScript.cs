@@ -75,7 +75,9 @@ public class EndScreenScript : MonoBehaviour
 				audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[4]);
 				audioObj.GetComponent<AudioManagerScript>().battleSource.loop = true;
 
-				currentState = DisplaySequence.Breakdown;
+                GlobalManager.instance.CalculateAnimalPrice();
+
+                currentState = DisplaySequence.Breakdown;
 
 				break;
 
@@ -106,8 +108,6 @@ public class EndScreenScript : MonoBehaviour
 				break;
 
 			case DisplaySequence.EndButton:
-
-				GlobalManager.instance.CalculateAnimalPrice();
 
                 audioObj.GetComponent<AudioManagerScript>().battleSource.loop = false;
 				//audioObj.GetComponent<AudioManagerScript>().battleSource.Stop();
