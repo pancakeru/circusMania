@@ -188,8 +188,6 @@ public class TroupeController : MonoBehaviour
             GlobalManager.instance.removeAnAnimal(animal);
             coin += GlobalManager.instance.animalPrices[animal.animalName];
 
-            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
-            DisplayCardDetail(troupeCardSelected);
             UpdateText();
         }
         else GlobalManager.instance.ShowMessageBox("Cannot sell more animal of this kind!");

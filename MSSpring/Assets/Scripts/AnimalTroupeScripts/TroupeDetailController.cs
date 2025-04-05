@@ -57,36 +57,11 @@ public class TroupeDetailController : MonoBehaviour
 
     public void SetLineChart()
     {
-        AnimalBallPassTimes allAnimalBallPassTimes = ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
         string theAnimalName = troupeController.troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty.animalName;
-        int newBallPassTimes = 0;
 
-        switch (theAnimalName.ToLower())
+        if (animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1] != GlobalManager.instance.animalPrices[theAnimalName])
         {
-            case "monkey": newBallPassTimes = allAnimalBallPassTimes.monkey; break;
-            case "elephant": newBallPassTimes = allAnimalBallPassTimes.elephant; break;
-            case "bear": newBallPassTimes = allAnimalBallPassTimes.bear; break;
-            case "lion": newBallPassTimes = allAnimalBallPassTimes.lion; break;
-            case "giraffe": newBallPassTimes = allAnimalBallPassTimes.giraffe; break;
-            case "snake": newBallPassTimes = allAnimalBallPassTimes.snake; break;
-            case "fox": newBallPassTimes = allAnimalBallPassTimes.fox; break;
-            case "seal": newBallPassTimes = allAnimalBallPassTimes.seal; break;
-            case "ostrich": newBallPassTimes = allAnimalBallPassTimes.ostrich; break;
-            case "kangaroo": newBallPassTimes = allAnimalBallPassTimes.kangaroo; break;
-            case "buffalo": newBallPassTimes = allAnimalBallPassTimes.buffalo; break;
-            case "goat": newBallPassTimes = allAnimalBallPassTimes.goat; break;
-            case "lizard": newBallPassTimes = allAnimalBallPassTimes.lizard; break;
-            default:
-                Debug.LogWarning($"Bug Found"); break;
-        }
-
-        if (animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1] != newBallPassTimes + GlobalManager.instance.initPrice)
-        {
-            GlobalManager.instance.UpdatePrice(theAnimalName, newBallPassTimes);
-            int newPrice = GlobalManager.instance.animalPrices[theAnimalName];
-            Debug.Log(newPrice);
-
-            animalPriceChanges[theAnimalName].Add(newPrice);
+            animalPriceChanges[theAnimalName].Add(GlobalManager.instance.animalPrices[theAnimalName]);
             if (animalPriceChanges[theAnimalName].Count > maxChartLength) animalPriceChanges[theAnimalName].RemoveAt(0);
         }
 

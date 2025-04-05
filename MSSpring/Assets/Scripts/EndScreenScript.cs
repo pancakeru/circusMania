@@ -107,7 +107,9 @@ public class EndScreenScript : MonoBehaviour
 
 			case DisplaySequence.EndButton:
 
-				audioObj.GetComponent<AudioManagerScript>().battleSource.loop = false;
+				GlobalManager.instance.CalculateAnimalPrice();
+
+                audioObj.GetComponent<AudioManagerScript>().battleSource.loop = false;
 				//audioObj.GetComponent<AudioManagerScript>().battleSource.Stop();
 				//Play Again 按钮
 				endButton.SetActive(true);

@@ -174,7 +174,40 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
 	}
 
-	public void UpdatePrice(string animalName, int updateAmount)
+    public void CalculateAnimalPrice()
+    {
+        AnimalBallPassTimes allAnimalBallPassTimes = ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
+
+        foreach (animalProperty animal in allAnimals.properies)
+        {
+            int myBallPassTimes = 0;
+            switch (animal.animalName.ToLower())
+            {
+                case "monkey": myBallPassTimes = allAnimalBallPassTimes.monkey; break;
+                case "elephant": myBallPassTimes = allAnimalBallPassTimes.elephant; break;
+                case "bear": myBallPassTimes = allAnimalBallPassTimes.bear; break;
+                case "lion": myBallPassTimes = allAnimalBallPassTimes.lion; break;
+                case "giraffe": myBallPassTimes = allAnimalBallPassTimes.giraffe; break;
+                case "snake": myBallPassTimes = allAnimalBallPassTimes.snake; break;
+                case "fox": myBallPassTimes = allAnimalBallPassTimes.fox; break;
+                case "seal": myBallPassTimes = allAnimalBallPassTimes.seal; break;
+                case "ostrich": myBallPassTimes = allAnimalBallPassTimes.ostrich; break;
+                case "kangaroo": myBallPassTimes = allAnimalBallPassTimes.kangaroo; break;
+                case "buffalo": myBallPassTimes = allAnimalBallPassTimes.buffalo; break;
+                case "goat": myBallPassTimes = allAnimalBallPassTimes.goat; break;
+                case "lizard": myBallPassTimes = allAnimalBallPassTimes.lizard; break;
+                default:
+                    Debug.LogWarning($"Bug Found"); break;
+            }
+
+            if (myBallPassTimes == 0) UpdatePrice(animal.animalName, animalPrices[animal.animalName] / 2);
+			else UpdatePrice(animal.animalName, myBallPassTimes);
+
+            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
+        }
+    }
+
+    public void UpdatePrice(string animalName, int updateAmount)
 	{
 		animalPrices[animalName] = initPrice + updateAmount;
         animalPrices[animalName] = Math.Clamp(animalPrices[animalName], initPrice, maxPrice);
