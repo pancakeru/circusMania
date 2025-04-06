@@ -24,6 +24,6 @@ MonoBehaviour:
   mechanicNumberType: 2
   mechanicActiveNum: 3
   ballAction1: <b>Left(2)</b>
-  scoreAction1: <b><color=#DA6CA8>+8 Fun</color></b>
+  scoreAction1: <b><color=#DA6CA8>+5 Fun</color></b>
   scoreAction2: <b>3</b>
-  scoreAction3: 'Warm Up(3): Gain +5 Skill. '
+  scoreAction3: 'Warm Up(3): Gain +50 Skill. '

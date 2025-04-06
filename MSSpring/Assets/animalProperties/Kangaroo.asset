@@ -24,6 +24,6 @@ MonoBehaviour:
   mechanicNumberType: 3
   mechanicActiveNum: 7
   ballAction1: <b>Right(4)</b>
-  scoreAction1: <b><color=#5EBBE2>+0.2 Thrill</color></b>
+  scoreAction1: <b><color=#5EBBE2>+10 Wonder</color></b>
   scoreAction2: <b>5</b>
-  scoreAction3: '<b>Excited(7)</b>: When any animal gain Fun, gain +0.2 Thrill.'
+  scoreAction3: '<b>Excited(7)</b>: When any animal gain Fun, gain +8 Wonder.'
