@@ -236,10 +236,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     Debug.LogWarning($"Bug Found"); break;
             }
 
-			Debug.Log($"{animal.animalName}: {myBallPassTimes}");
+			Debug.Log($"{animal.animalName}'s BPT: {myBallPassTimes}");
 
             if (myBallPassTimes <= 10) UpdatePrice(animal.animalName, (int)(animalPrices[animal.animalName] * (1f - 0.5f * (myBallPassTimes / 10f))));
 			else UpdatePrice(animal.animalName, animalPrices[animal.animalName] + myBallPassTimes/2 );
+
+            Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
             ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
         }
@@ -247,8 +249,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public void UpdatePrice(string animalName, int updateAmount)
 	{
-		//animalPrices[animalName] = initPrice + updateAmount;
-        //animalPrices[animalName] = Math.Clamp(animalPrices[animalName], initPrice, maxPrice);
+		animalPrices[animalName] = animalInitPrice[animalName] + updateAmount;
+        animalPrices[animalName] = Math.Clamp(animalPrices[animalName], animalInitPrice[animalName], maxPrice);
     }
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();

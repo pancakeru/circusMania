@@ -75,9 +75,6 @@ public class EndScreenScript : MonoBehaviour
 				audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[4]);
 				audioObj.GetComponent<AudioManagerScript>().battleSource.loop = true;
 
-                GlobalManager.instance.UnlockAnimal();
-                GlobalManager.instance.CalculateAnimalPrice();
-
                 currentState = DisplaySequence.Breakdown;
 
 				break;
@@ -121,9 +118,11 @@ public class EndScreenScript : MonoBehaviour
 
 	public void Leave()
 	{
-		GlobalManager.instance.ToNextGlobalLevel();
+        GlobalManager.instance.ToNextGlobalLevel();
 		GlobalManager.instance.changeCoinAmount(15);
-		FindAnyObjectByType<ShowManager>().LeaveShow();
+        GlobalManager.instance.UnlockAnimal();
+        GlobalManager.instance.CalculateAnimalPrice();
+        FindAnyObjectByType<ShowManager>().LeaveShow();
 	}
 
 	void DisplayText(TMP_Text text, float value, DisplaySequence nextState)

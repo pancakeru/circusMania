@@ -37,7 +37,7 @@ public class tempBlackManager : MonoBehaviour
 
     private IEnumerator FadeToAlpha(Image img, float targetAlphaNormalized, float duration)
     {
-        Debug.Log(targetAlphaNormalized);
+        //Debug.Log(targetAlphaNormalized);
         float startAlpha = img.color.a;
         float elapsedTime = 0f;
 
@@ -49,7 +49,7 @@ public class tempBlackManager : MonoBehaviour
             // 计算新的透明度
             float newAlpha = Mathf.Lerp(startAlpha, targetAlphaNormalized, t);
             img.color = new Color(img.color.r, img.color.g, img.color.b, newAlpha);
-            Debug.Log(newAlpha);
+            //Debug.Log(newAlpha);
             yield return null;
         }
 
