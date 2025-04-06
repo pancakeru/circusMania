@@ -60,9 +60,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                 addAnAnimal(apt);
             curCoinAmount = testCoinNum;
 			
-			InitAnimalUnlock();
-            InitAnimalPrice();
-			InitAnimalLevel();
+			
         }
 
 		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
@@ -71,6 +69,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private void Start()
 	{
         OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
+        InitAnimalUnlock();
+        InitAnimalPrice();
+        InitAnimalLevel();
     }
 
 	private void Update()
@@ -178,6 +179,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void UnlockAnimal()
 	{
+		//Debug.Log(DataManager.instance == null);
         foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
 		{
 			if (isAnimalUnlocked.ContainsKey(animalName))

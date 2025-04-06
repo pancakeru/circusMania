@@ -477,7 +477,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
 			curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
-			curEndScreen.GetComponent<EndScreenScript>().InitialScore((int)curLevel.targetScore, recordScore, (int)curScore, 15);
+			curEndScreen.GetComponent<EndScreenScript>().InitialScore((int)curLevel.targetScore, GetComponent<ShowScoreManager>().repuChanges, (int)curRepu, (int)curScore, 40);
 			curEndScreen.GetComponent<RectTransform>().anchoredPosition = endScreenDownPos.anchoredPosition;
 			curEndScreen.GetComponent<UiMover>().MoveTo(endScreenUpPos.anchoredPosition);
 			//LeaveShow();

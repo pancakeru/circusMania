@@ -13,7 +13,7 @@ public class ShowScoreManager : MonoBehaviour
 	private float targetBlueScore;
 	private float defaultReputation = 50f;
 	public float currentReputation { get; private set; }
-	private float reputationConversionRate = 0.1f;
+	private float reputationConversionRate = 0.5f;
 	public Queue repuChanges;
 
 	private GlobalLevel currentGlobalLevel;
@@ -82,7 +82,7 @@ public class ShowScoreManager : MonoBehaviour
 			}
 		}
 		//Debug.Log("Current Reputation: " + currentReputation);
-		repuChanges.Enqueue(currentReputation-lastRepu);
+		repuChanges.Enqueue((int)(currentReputation-lastRepu));
 	}
 
 	public void ResetReputation()

@@ -17,7 +17,8 @@ public class EndScreenScript : MonoBehaviour
 	private float addSpeed = 1;
 	private float lineDelay = 0.3f;
 	private int currentIndex = 0;
-	public int[] test;
+	public object[] test;
+	private int curRepu;
 
 	public GameObject endButton;
 
@@ -52,11 +53,13 @@ public class EndScreenScript : MonoBehaviour
 		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
 	}
 
-	public void InitialScore(int required, int[] eachTurn, int total, int moneyEarned)
+	public void InitialScore(int required, Queue eachTurn, int curRepu,int total, int moneyEarned)
 	{
 		curReql = required;
-		test = eachTurn;
+		
+		test = eachTurn.ToArray();
 		curTotal = total;
+		this.curRepu = curRepu;
 		curMoneyEarned = moneyEarned;
 	}
 
@@ -95,7 +98,7 @@ public class EndScreenScript : MonoBehaviour
 			//第三部分收获
 			case DisplaySequence.TotalCalc:
 				//数量
-				DisplayTextForTotalScore(totalScore, curTotal, DisplaySequence.MoneyCalc);
+				DisplayTextForTotalScore(totalScore, curRepu, DisplaySequence.MoneyCalc);
 
 				break;
 
@@ -119,7 +122,7 @@ public class EndScreenScript : MonoBehaviour
 	public void Leave()
 	{
         GlobalManager.instance.ToNextGlobalLevel();
-		GlobalManager.instance.changeCoinAmount(15);
+		GlobalManager.instance.changeCoinAmount(curMoneyEarned);
         GlobalManager.instance.UnlockAnimal();
         GlobalManager.instance.CalculateAnimalPrice();
         FindAnyObjectByType<ShowManager>().LeaveShow();
@@ -144,8 +147,8 @@ public class EndScreenScript : MonoBehaviour
         {
             starting += addSpeed;
             addSpeed += 1;
-			progressSLider.fillAmount = (starting / curReql) - ((int)(starting / curReql));
-			percentText.text = (int)(starting / curReql * 100) + "/100%";
+			progressSLider.fillAmount = (starting / curRepu) - ((int)(starting / curRepu));
+			percentText.text = (int)(starting / curRepu * 100) + "/100%";
             text.text = starting.ToString();
         }
         else
@@ -159,7 +162,7 @@ public class EndScreenScript : MonoBehaviour
     void DisplayList()
 	{
 		//ebug.Log(currentIndex);
-		scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {test[currentIndex]}\n";
+		scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {(int)(test[currentIndex])}\n";
 		currentIndex += 1;
 		lineDelay = 0.5f;
 	}
