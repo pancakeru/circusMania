@@ -35,6 +35,8 @@ public class TroupeController : MonoBehaviour
 
     public bool isFirstGameCompleted = false;
 
+    List<animalProperty> newAnimalOrder;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -49,6 +51,29 @@ public class TroupeController : MonoBehaviour
         menuController = FindAnyObjectByType<MenuController>();
 
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
+
+        newAnimalOrder = new List<animalProperty>();
+        HashSet<string> animalNames = new HashSet<string>();
+        foreach (var unlockData in DataManager.instance.unlockLoader.allUnlockData)
+        {
+            foreach (string animalName in unlockData.animalToUnlock)
+            {
+                if (!animalNames.Contains(animalName))
+                {
+                    animalProperty foundAnimal = System.Array.Find(GlobalManager.instance.allAnimals.properies, ap => ap.animalName == animalName);
+
+                    if (foundAnimal != null)
+                    {
+                        newAnimalOrder.Add(foundAnimal);
+                        animalNames.Add(animalName);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Animal '{animalName}' not found in allAnimals.properies.");
+                    }
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -73,8 +98,8 @@ public class TroupeController : MonoBehaviour
             Destroy(troupeCards[i]);
         }
         troupeCards.Clear();
-
-        foreach(animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        
+        foreach (animalProperty animal in newAnimalOrder)
         {
             if (GlobalManager.instance.isAnimalUnlocked[animal.animalName])
             {
@@ -82,6 +107,8 @@ public class TroupeController : MonoBehaviour
                 newCard.GetComponent<TroupeCardController>().Init(animal);
 
                 troupeCards.Add(newCard);
+
+                Debug.Log(animal.animalName);
             }
         }
 

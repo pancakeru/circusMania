@@ -12,7 +12,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private string globalLevelFolderPath = "GlobalLevels";
 	private GlobalLevel[] globalLevelArray;
 	public int currentLevelIndex = 0;
-    public AnimalStart allAnimals;
+    public AnimalStart allAnimals; //all kinds of animal
 
     public AnimalBallPassTimes animalBallPassTimes;
 
