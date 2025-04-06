@@ -107,8 +107,6 @@ public class TroupeController : MonoBehaviour
                 newCard.GetComponent<TroupeCardController>().Init(animal);
 
                 troupeCards.Add(newCard);
-
-                Debug.Log(animal.animalName);
             }
         }
 

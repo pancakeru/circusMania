@@ -192,11 +192,23 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
-		foreach(animalProperty animal in allAnimals.properies)
-		{
-            animalPrices[animal.animalName] = maxPrice;
+        foreach (UnlockData dataRow in DataManager.instance.unlockLoader.allUnlockData)
+        {
+            foreach (string animalName in dataRow.animalToUnlock)
+            {
+                if (dataRow.animalToUnlock.Contains(animalName))
+                {
+                    animalInitPrice[animalName] = dataRow.initialPrice;
+                }
+            }
         }
-	}
+
+        foreach (animalProperty animal in allAnimals.properies)
+        {
+			if (animalInitPrice.ContainsKey(animal.animalName)) animalPrices[animal.animalName] = animalInitPrice[animal.animalName];
+            else Debug.LogError("ERROR");
+        }
+    }
 
     public void CalculateAnimalPrice()
     {
