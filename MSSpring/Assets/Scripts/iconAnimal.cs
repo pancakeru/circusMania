@@ -112,7 +112,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     //新的constructor，直接写动物种类
-    public void Initialize(animalProperty property, bool insert)
+    public void Initialize(animalProperty property, int num ,bool insert)
     {
         selfProperty = property;
         animalType = property.name; //动物种类
@@ -125,7 +125,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             } 
         }*/
 
-        infoGroup = new AnimalInfoGroupInShowIcon(animalType, property, 1, 3);
+        infoGroup = new AnimalInfoGroupInShowIcon(animalType, property, 1, num);
         numberText.text = infoGroup.number.ToString();
 
         if (!insert) {

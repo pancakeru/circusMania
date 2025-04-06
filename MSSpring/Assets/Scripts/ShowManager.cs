@@ -240,12 +240,30 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void InitializeHand(List<animalProperty> properties)
 	{
-		for (int i = 0; i < properties.Count; i++) {
+        Dictionary<string, int> nameToCount = new Dictionary<string, int>();
+        List<animalProperty> uniqueProperties = new List<animalProperty>();
+
+        // 统计数量 + 构造不重复的新列表
+        foreach (var prop in properties)
+        {
+            string name = prop.animalName;
+            if (nameToCount.ContainsKey(name))
+            {
+                nameToCount[name]++;
+            }
+            else
+            {
+                nameToCount[name] = 1;
+                uniqueProperties.Add(prop); // 第一次出现才加进去
+            }
+        }
+
+        for (int i = 0; i < uniqueProperties.Count; i++) {
 			//Debug.Log(properties[i].animalName);
 			GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
 			myHand.Add(temp);
 
-			temp.GetComponent<iconAnimal>().Initialize(properties[i], false);
+			temp.GetComponent<iconAnimal>().Initialize(uniqueProperties[i], nameToCount[uniqueProperties[i].animalName] ,false);
 			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(xStart + offset * i, yStart);
 			temp.GetComponent<iconAnimal>().myIndex = i;
 			//TODO:把这个目标位置整合
