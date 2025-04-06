@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine;
 public class CanvasMain : MonoBehaviour
 {
     public static CanvasMain instance;
+
+    public static event Action OnUIInteractionEnabled;
+    public static event Action OnUIInteractionDisabled;
     
     void Awake()
     {
@@ -13,9 +17,34 @@ public class CanvasMain : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        OnUIInteractionEnabled += ShowManager.instance.EnableCanvas;
+        OnUIInteractionDisabled += ShowManager.instance.DisableCanvas;
+
+        OnUIInteractionEnabled += UnlockMouse;
+        OnUIInteractionDisabled += LockMouse;
+    }
+
+    public static void EnableUIInteraction()
+    {
+        OnUIInteractionEnabled?.Invoke();
+    }
+
+    public static void DisableUIInteraction()
+    {
+        OnUIInteractionDisabled?.Invoke();
+    }
+
+    void LockMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void UnlockMouse()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

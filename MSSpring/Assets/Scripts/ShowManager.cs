@@ -967,6 +967,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			onStage[index] = null;
 		}
 	}
+
+	public void EnableCanvas()
+	{
+		uiRaycaster.enabled = true;
+	}
+
+    public void DisableCanvas()
+    {
+        uiRaycaster.enabled = false;
+    }
 }
 
 public class BiDictionary<TKey, TValue>

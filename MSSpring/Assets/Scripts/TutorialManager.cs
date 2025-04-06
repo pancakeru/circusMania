@@ -43,6 +43,7 @@ public class TutorialManager : MonoBehaviour
         isActive = true;
         pageNum = -1;
         image.raycastTarget = true;
+        CanvasMain.DisableUIInteraction();
     }
 
     void ShowTutorial()
@@ -54,6 +55,7 @@ public class TutorialManager : MonoBehaviour
             isActive = false;
             image.sprite = blank;
             image.raycastTarget = false;
+            CanvasMain.EnableUIInteraction();
             return;
         }
         image.sprite = sprites[id - 1][pageNum];
