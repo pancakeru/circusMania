@@ -386,7 +386,7 @@ public void UpdateRight() {
 
     void OnDestroy()
     {
-        Debug.Log("Removed: " + myIndex);
+        //Debug.Log("Removed: " + myIndex);
         //showScript.UpdateHand(myIndex);
     }
 

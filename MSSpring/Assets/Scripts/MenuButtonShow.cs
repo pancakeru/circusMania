@@ -10,7 +10,7 @@ public class MenuButtonShow : MonoBehaviour
     }
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel nextLevel)
 	{
-		Debug.Log("代码在这里" + gameObject.name);
+		//Debug.Log("代码在这里" + gameObject.name);
 		if (text != null)
 			text.text = "To Win:" + nextLevel.levelProperty.targetScore;
 		//GetComponent<Image>().sprite = GlobalManager.instance.GetCurrentGlobalLevel().showVisual;

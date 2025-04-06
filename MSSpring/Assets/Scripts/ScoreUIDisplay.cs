@@ -99,7 +99,7 @@ public class ScoreUIDisplay : MonoBehaviour
 	{
 		//Debug.Log("改动蓝" + newValue.ToString());
 		if (blueCoroutine != null) StopCoroutine(blueCoroutine);
-		blueCoroutine = StartCoroutine(AnimateText(blueText, newValue, 2));
+		blueCoroutine = StartCoroutine(AnimateText(blueText, newValue, 0));
 
 		ChangeFillAmount("Blue", GetScoreNormalized(newValue, targetBlueScore));
 	}
@@ -125,6 +125,7 @@ public class ScoreUIDisplay : MonoBehaviour
 
 	public void UpdateTotalScore(float newValue, string changeName) // 新增总分更新
 	{
+		return;
 		//Debug.Log("改动总" + newValue.ToString());
 		if (totalScoreCoroutine != null) StopCoroutine(totalScoreCoroutine);
 		totalScoreCoroutine = StartCoroutine(AnimateText(totalScoreText, newValue, 0));

@@ -89,11 +89,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 						infoMessage += ", ";
 					}
 
-					Debug.Log("现在仓库有" + infoMessage);
+					//Debug.Log("现在仓库有" + infoMessage);
 					break;
 
 				case TestAction.LogCoin:
-					Debug.Log("现在金币是" + curCoinAmount);
+					//Debug.Log("现在金币是" + curCoinAmount);
 					break;
 			}
 

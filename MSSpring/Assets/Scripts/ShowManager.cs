@@ -241,7 +241,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void InitializeHand(List<animalProperty> properties)
 	{
 		for (int i = 0; i < properties.Count; i++) {
-			Debug.Log(properties[i].animalName);
+			//Debug.Log(properties[i].animalName);
 			GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
 			myHand.Add(temp);
 
@@ -268,7 +268,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
 	{
 		testLevel = level.levelProperty;
-		Debug.Log("当前level是" + testLevel.name);
+		//Debug.Log("当前level是" + testLevel.name);
 	}
 
 	void Update()
@@ -421,7 +421,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		totalPerformanceControl.StartState(showState.showStart);
 		currentState = ShowStates.Performance;
 
-		GetComponent<ShowScoreManager>().StartTurn();
+		//GetComponent<ShowScoreManager>().StartTurn();
 	}
 
 	public void EndMoveToDecide(float score)
@@ -447,7 +447,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		curTurn += 1;
 		if (curTurn <= curLevel.allowedTurn) {
-			Debug.Log("开始decide");
+			//Debug.Log("开始decide");
 			currentState = ShowStates.SelectAnimal;
 			stagePanelMover.gameObject.SetActive(true);
 			startButtonMover.GetComponent<Button>().interactable = true;
@@ -739,7 +739,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					//Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
 					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
 						//选择到了表演小动物
-						Debug.Log(firstDetect.name);
+						//Debug.Log(firstDetect.name);
 						holdingAnimalObj = firstDetect;
 						moveFromStageIndex = Array.IndexOf(onStage, firstDetect);
 						FreePosOnStage(firstDetect);

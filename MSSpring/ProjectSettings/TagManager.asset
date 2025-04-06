@@ -49,6 +49,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: stage
+    uniqueID: 771210615
+    locked: 0
   - name: animal
     uniqueID: 191747665
     locked: 0

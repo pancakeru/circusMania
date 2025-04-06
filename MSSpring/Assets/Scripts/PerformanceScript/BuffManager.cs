@@ -27,7 +27,7 @@ public class BuffManager : MonoBehaviour
 	public void AddGiveExtraBuff(BuffGiveExtra giveExtra)
 	{
 		//未来可能要有buff顺序问题，需要添加时排序，现在没有。
-		if(giveExtra is BuffFox)Debug.Log("添加了狐狸buff");
+		if(giveExtra is BuffFox)//Debug.Log("添加了狐狸buff");
 		buffsGiveExtraWhenScore.Add(giveExtra);
 	}
 
@@ -64,9 +64,9 @@ public class BuffManager : MonoBehaviour
 		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl,messages));
 
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore) {
-			Debug.Log("正在检查buff"+buff.GetType().ToString());
+			//Debug.Log("正在检查buff"+buff.GetType().ToString());
 			if (buff.Check(myBaseScore, animalInfo.performAnimalControl,messages)) {
-				Debug.Log(buff.GetType().ToString()+"应用成功");
+				//Debug.Log(buff.GetType().ToString()+"应用成功");
 				//Debug.Log("是soul吗？"+ animalInfo.performAnimalControl == null);
                 List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul, animalInfo.performAnimalControl)
 																{
@@ -143,7 +143,7 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 	{
 		PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 		int myIndex = Array.IndexOf(animalsOnStage, performAnimalControl);
-		Debug.Log(performAnimalControl.gameObject.name+"的index是"+myIndex);
+		//Debug.Log(performAnimalControl.gameObject.name+"的index是"+myIndex);
 		PerformAnimalControl leftAnimal = animalsOnStage[myIndex - 1 < 0 ? 0 : myIndex - 1];
 		PerformAnimalControl rightAnimal = animalsOnStage[myIndex + 1 >= animalsOnStage.Length ? animalsOnStage.Length - 1 : myIndex + 1];
 
@@ -161,7 +161,7 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
         //Debug.Log("是否为红分: " + (baseScore[0] != 0));
 
         //第四个检测是否为额外加分
-        Debug.Log("是否是额外分？" + !messages.Contains(BuffExtraMessage.extraRed));
+        //Debug.Log("是否是额外分？" + !messages.Contains(BuffExtraMessage.extraRed));
         if ((myIndex >= 0) && (myIndex < animalsOnStage.Length - 1) &&
 			((leftAnimal != null && leftAnimal == fromAnimal)
 			|| (rightAnimal != null && rightAnimal == fromAnimal))

@@ -37,8 +37,8 @@ public class ShowScoreManager : MonoBehaviour
 		targetYellowScore = CalculateTargetScore(ScoreType.Yellow, nArray[1]);
 		targetBlueScore = CalculateTargetScore(ScoreType.Blue, nArray[2]);
 
-		Debug.Log("Current Reputation: " + currentReputation);
-		Debug.Log("Current Turn Target Score: " + targetRedScore + ", " + targetYellowScore + ", " + targetBlueScore);
+		//Debug.Log("Current Reputation: " + currentReputation);
+		//Debug.Log("Current Turn Target Score: " + targetRedScore + ", " + targetYellowScore + ", " + targetBlueScore);
 	}
 
 	public float[] GetTargetScore()
@@ -53,6 +53,8 @@ public class ShowScoreManager : MonoBehaviour
 		for (int i = 0; i < endScreenScoreArray.Length; i++) {
 			switch (i) {
 				case 0:
+					//Debug.Log("红分是" + endScreenScoreArray[i]);
+					//Debug.Log("目标红分时"+ targetRedScore);
 					if (endScreenScoreArray[i] > targetRedScore) {
 						currentReputation += (endScreenScoreArray[i] - targetRedScore) * reputationConversionRate;
 					} else {
@@ -60,14 +62,18 @@ public class ShowScoreManager : MonoBehaviour
 					}
 					break;
 				case 1:
-					if (endScreenScoreArray[i] > targetYellowScore) {
+                    //Debug.Log("黄分是" + endScreenScoreArray[i]);
+                    //Debug.Log("目标黄分时" + targetYellowScore);
+                    if (endScreenScoreArray[i] > targetYellowScore) {
 						currentReputation += (endScreenScoreArray[i] - targetYellowScore) * reputationConversionRate;
 					} else {
 						currentReputation -= targetYellowScore - endScreenScoreArray[i];
 					}
 					break;
 				case 2:
-					if (endScreenScoreArray[i] > targetBlueScore) {
+                    //Debug.Log("蓝分是" + endScreenScoreArray[i]);
+                    //Debug.Log("目标蓝分时" + targetBlueScore);
+                    if (endScreenScoreArray[i] > targetBlueScore) {
 						currentReputation += (endScreenScoreArray[i] - targetBlueScore) * reputationConversionRate;
 					} else {
 						currentReputation -= targetBlueScore - endScreenScoreArray[i];
@@ -75,7 +81,7 @@ public class ShowScoreManager : MonoBehaviour
 					break;
 			}
 		}
-		Debug.Log("Current Reputation: " + currentReputation);
+		//Debug.Log("Current Reputation: " + currentReputation);
 		repuChanges.Enqueue(currentReputation-lastRepu);
 	}
 

@@ -81,7 +81,7 @@ public class PerformUnit : MonoBehaviour
 	{
 		SetLastScore(1);
 		ChangeYellowScore(0,ChangeScoreType.Set);
-		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeBlueScore(0,ChangeScoreType.Set);
 		ChangeRedScore(0,ChangeScoreType.Set);
 		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);
@@ -91,7 +91,7 @@ public class PerformUnit : MonoBehaviour
 	{
 		SetLastScore(last);
 		ChangeYellowScore(0,ChangeScoreType.Set);
-		ChangeBlueScore(1,ChangeScoreType.Set);
+		ChangeBlueScore(0,ChangeScoreType.Set);
 		ChangeRedScore(0,ChangeScoreType.Set);
 		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);
@@ -246,7 +246,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void ReportMoveFinish(BallScript ball)
 	{
-		Debug.Log("我来拉");
+		//Debug.Log("我来拉");
 		if (ball == curBall)
 			ifBallMoveFinish = true;
 	}
@@ -285,7 +285,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void TurnStart()
 	{
-		Debug.Log("回合开始了");
+		//Debug.Log("回合开始了");
 		foreach (PerformAnimalControl an in allAnimalsInShow) {
 			if (an != null)
 				an.DoTurnStart();
@@ -294,7 +294,7 @@ public class PerformUnit : MonoBehaviour
 
 	public void TurnEnd()
 	{
-		Debug.Log("回合结束了");
+		//Debug.Log("回合结束了");
 		foreach (PerformAnimalControl an in allAnimalsInShow) {
 			if (an != null)
 				an.DoTurnEnd();

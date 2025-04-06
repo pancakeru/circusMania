@@ -51,7 +51,7 @@ public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
 
                 default:
 
-                    Debug.Log("[Error] Assign Button Type");
+                    //Debug.Log("[Error] Assign Button Type");
 
                     break;
             }
@@ -91,7 +91,7 @@ public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
 
             default:
 
-                Debug.Log("[Error] Assign Button Type");
+                //Debug.Log("[Error] Assign Button Type");
 
                 break;
         }
@@ -126,7 +126,7 @@ public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
 
             default:
 
-                Debug.Log("[Error] Assign Button Type");
+                //Debug.Log("[Error] Assign Button Type");
 
                 break;
         }
