@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Data;
 
 public class GlobalManager : MonoBehaviour, IGeneralManager
 {
@@ -192,20 +193,19 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     }
 
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
-    public Dictionary<string, int> animalInitPrice = new Dictionary<string, int>();
     public Dictionary<string, int> animalPriceLevel = new Dictionary<string, int>();
+    public Dictionary<string, int> animalBasePrice = new Dictionary<string, int>();
+    public Dictionary<string, int> animalPricePerLv = new Dictionary<string, int>();
+
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
         foreach (PriceData dataRow in DataManager.instance.priceLoader.allPriceData)
         {
-            animalInitPrice[dataRow.animalName] = dataRow.basePrice;
-        }
-
-        foreach (animalProperty animal in allAnimals.properies)
-        {
-			if (animalInitPrice.ContainsKey(animal.animalName)) animalPrices[animal.animalName] = animalInitPrice[animal.animalName];
-            else Debug.LogError("ERROR");
+			animalPriceLevel[dataRow.animalName] = 5;
+			animalBasePrice[dataRow.animalName] = dataRow.basePrice;
+			animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
+			UpdatePrice(dataRow.animalName);
         }
     }
 
@@ -215,6 +215,14 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         foreach (animalProperty animal in allAnimals.properies)
         {
+			bool isNumberZero = true;
+			foreach(animalProperty checkAnimal in getAllAnimals())
+			{
+				if (checkAnimal.animalName == animal.animalName) isNumberZero = false;
+
+            }
+			if (isNumberZero) return;
+
             int myBallPassTimes = 0;
             switch (animal.animalName.ToLower())
             {
@@ -237,8 +245,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 			Debug.Log($"{animal.animalName}'s BPT: {myBallPassTimes}");
 
-            if (myBallPassTimes <= 10) UpdatePrice(animal.animalName, (int)(animalPrices[animal.animalName] * (1f - 0.5f * (myBallPassTimes / 10f))));
-			else UpdatePrice(animal.animalName, animalPrices[animal.animalName] + myBallPassTimes/2 );
+			UpdatePriceLevel(animal.animalName, myBallPassTimes);
+            UpdatePrice(animal.animalName);
 
             Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
@@ -246,15 +254,22 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
     }
 
-    public void UpdatePrice(string animalName, int updateAmount)
-	{
-		animalPrices[animalName] = animalInitPrice[animalName] + updateAmount;
-        animalPrices[animalName] = Math.Clamp(animalPrices[animalName], animalInitPrice[animalName], maxPrice);
+    void UpdatePrice(string animalName)
+    {
+        animalPrices[animalName] = animalBasePrice[animalName] + animalPricePerLv[animalName] * animalPriceLevel[animalName];
     }
+
+	void UpdatePriceLevel(string animalName, int ballPassTimes)
+	{
+		int basePriceLv = -2;
+		int priceLvUpPerPass = 3;
+		int maxPriceLvUpAmount = 3;
+		animalPriceLevel[animalName] += basePriceLv + Math.Clamp(ballPassTimes / priceLvUpPerPass, 0, maxPriceLvUpAmount);
+	}
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;
-	int maxLevel = 99;
+    int maxLevel = 99;
     public void InitAnimalLevel()
     {
         foreach (animalProperty animal in allAnimals.properies)
