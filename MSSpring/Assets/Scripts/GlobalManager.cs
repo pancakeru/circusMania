@@ -179,12 +179,14 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void UnlockAnimal()
 	{
-		//Debug.Log(DataManager.instance == null);
-        foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
+		if (DataManager.instance.unlockLoader.allUnlockData.Count > currentLevelIndex)
 		{
-			if (isAnimalUnlocked.ContainsKey(animalName))
+			foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
 			{
-				isAnimalUnlocked[animalName] = true;
+				if (isAnimalUnlocked.ContainsKey(animalName))
+				{
+					isAnimalUnlocked[animalName] = true;
+				}
 			}
 		}
     }
@@ -194,15 +196,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
-        foreach (UnlockData dataRow in DataManager.instance.unlockLoader.allUnlockData)
+        foreach (PriceData dataRow in DataManager.instance.priceLoader.allPriceData)
         {
-            foreach (string animalName in dataRow.animalToUnlock)
-            {
-                if (dataRow.animalToUnlock.Contains(animalName))
-                {
-                    animalInitPrice[animalName] = dataRow.initialPrice;
-                }
-            }
+            animalInitPrice[dataRow.animalName] = dataRow.basePrice;
         }
 
         foreach (animalProperty animal in allAnimals.properies)
