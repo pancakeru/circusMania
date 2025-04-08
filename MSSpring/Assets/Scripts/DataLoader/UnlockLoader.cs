@@ -12,7 +12,7 @@ public class UnlockData
 public class UnlockLoader : MonoBehaviour
 {
     public List<UnlockData> allUnlockData = new List<UnlockData>();
-    void Start()
+    public void Load()
     {
         TextAsset csvFile = Resources.Load<TextAsset>("UnlockDataCVS");
         List<string[]> rows = DataManager.instance.ParseCSV(csvFile.text);

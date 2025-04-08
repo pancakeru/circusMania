@@ -12,7 +12,7 @@ public class PriceData
 public class PriceLoader : MonoBehaviour
 {
     public List<PriceData> allPriceData = new List<PriceData>();
-    void Start()
+    public void Load()
     {
         TextAsset csvFile = Resources.Load<TextAsset>("PriceDataCVS");
         List<string[]> rows = DataManager.instance.ParseCSV(csvFile.text);
@@ -25,6 +25,7 @@ public class PriceLoader : MonoBehaviour
             data.pricePerLv = int.Parse(rows[i][2]);
 
             allPriceData.Add(data);
+            Debug.Log($"{allPriceData[i - 1].animalName}: {allPriceData[i - 1].basePrice}, {allPriceData[i - 1].pricePerLv}");
         }
     }
 }

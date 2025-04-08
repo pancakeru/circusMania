@@ -193,6 +193,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
     public Dictionary<string, int> animalInitPrice = new Dictionary<string, int>();
+    public Dictionary<string, int> animalPriceLevel = new Dictionary<string, int>();
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{

@@ -18,6 +18,9 @@ public class DataManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
+
+        unlockLoader.Load();
+        priceLoader.Load();
     }
 
     public List<string[]> ParseCSV(string csvText)
