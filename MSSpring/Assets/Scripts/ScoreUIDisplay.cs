@@ -75,7 +75,7 @@ public class ScoreUIDisplay : MonoBehaviour
 		//Debug.Log("改动黄"+newValue.ToString());
 		if (yellowCoroutine != null) StopCoroutine(yellowCoroutine);
 		yellowCoroutine = StartCoroutine(AnimateText(yellowText, newValue, 0));
-
+		ScoreSound();
 		ChangeFillAmount("Yellow", GetScoreNormalized(newValue, targetYellowScore));
 	}
 
@@ -91,7 +91,7 @@ public class ScoreUIDisplay : MonoBehaviour
 		//Debug.Log("改动红" + newValue.ToString());
 		if (redCoroutine != null) StopCoroutine(redCoroutine);
 		redCoroutine = StartCoroutine(AnimateText(redText, newValue, 0));
-
+		ScoreSound();
 		ChangeFillAmount("Red", GetScoreNormalized(newValue, targetRedScore));
 	}
 
@@ -100,8 +100,12 @@ public class ScoreUIDisplay : MonoBehaviour
 		//Debug.Log("改动蓝" + newValue.ToString());
 		if (blueCoroutine != null) StopCoroutine(blueCoroutine);
 		blueCoroutine = StartCoroutine(AnimateText(blueText, newValue, 0));
-
+		ScoreSound();
 		ChangeFillAmount("Blue", GetScoreNormalized(newValue, targetBlueScore));
+	}
+
+	public void ScoreSound() {
+		AudioManagerScript.Instance.PlayBattleSound(AudioManagerScript.Instance.UI[5]);
 	}
 
 	private IEnumerator AnimateText(TextMeshProUGUI text, float targetValue, int decimalPlaces)

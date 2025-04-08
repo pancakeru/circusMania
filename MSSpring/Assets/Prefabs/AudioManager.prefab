@@ -309,6 +309,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f0d7f6bfd8414e246a824acd6d94536c, type: 3}
   - {fileID: 8300000, guid: 8d6ce64d433b97e4487ae5cfce832f93, type: 3}
   - {fileID: 8300000, guid: 7ea24e957228d254594dfb5ffbaf90ee, type: 3}
+  - {fileID: 8300000, guid: e4e5d47112145324282f4f32931311aa, type: 3}
+  - {fileID: 8300000, guid: 804f7773ec2272d4a98b4845ba011c8f, type: 3}
   Environment:
   - {fileID: 8300000, guid: e024a322bba86d7478f49b1b8d8081f8, type: 3}
   - {fileID: 8300000, guid: 9e475af5e4765394cb9d811253bdc5da, type: 3}
