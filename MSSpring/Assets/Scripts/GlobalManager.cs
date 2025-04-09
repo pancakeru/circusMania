@@ -12,11 +12,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private string globalLevelFolderPath = "GlobalLevels";
 	private GlobalLevel[] globalLevelArray;
 	public int currentLevelIndex = 0;
-    public AnimalStart allAnimals; //all kinds of animal
+	public AnimalStart allAnimals; //all kinds of animal
 
-    public AnimalBallPassTimes animalBallPassTimes;
+	public AnimalBallPassTimes animalBallPassTimes;
 
-    [Header("Show Score Effect Color")]
+	[Header("Show Score Effect Color")]
 	public Color redEffect;
 	public Color blueEffect;
 	public Color yellowEffect;
@@ -38,54 +38,62 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	[Header("Others")]
 	[SerializeField] GameObject messageBox;
 
+	[SerializeField] LevelPreviewController levelPreviewController;
 
-    private void Awake()
+	private void Awake()
 	{
-		if (instance == null) {
+		if (instance == null)
+		{
 			instance = this;
 			DontDestroyOnLoad(gameObject);
-		} else {
+		}
+		else
+		{
 			Destroy(gameObject);
 		}
 
 		globalLevelArray = Resources.LoadAll<GlobalLevel>(globalLevelFolderPath);
-		if (globalLevelArray.Length > 1) {
+		if (globalLevelArray.Length > 1)
+		{
 			Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
 		}
 
-        if (ifDoTestInitialize)
-        {
+		if (ifDoTestInitialize)
+		{
 
-            foreach (animalProperty apt in testProperties.properies)
-                addAnAnimal(apt);
-            curCoinAmount = testCoinNum;
-			
-			
-        }
+			foreach (animalProperty apt in testProperties.properies)
+				addAnAnimal(apt);
+			curCoinAmount = testCoinNum;
+
+
+		}
 
 		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
-    }
+	}
 
 	private void Start()
 	{
-        OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
-        InitAnimalUnlock();
-        InitAnimalPrice();
-        InitAnimalLevel();
-    }
+		OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
+		InitAnimalUnlock();
+		InitAnimalPrice();
+		InitAnimalLevel();
+	}
 
 	private void Update()
 	{
-		if (ifTestAction) {
+		if (ifTestAction)
+		{
 			ifTestAction = false;
-			switch (testAction) {
+			switch (testAction)
+			{
 				case TestAction.Add:
 					addAnAnimal(toTestAdd);
 					break;
 
 				case TestAction.LogInfo:
 					string infoMessage = "";
-					foreach (animalProperty apt in animals) {
+					foreach (animalProperty apt in animals)
+					{
 						infoMessage += apt.name;
 						infoMessage += ", ";
 					}
@@ -97,8 +105,17 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 					//Debug.Log("现在金币是" + curCoinAmount);
 					break;
 			}
-
 		}
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			levelPreviewController.gameObject.SetActive(true);
+		}
+	}
+
+	public GlobalLevel[] GetGlobalLevelArray()
+	{
+		return globalLevelArray;
 	}
 
 	public GlobalLevel GetCurrentGlobalLevel()
@@ -108,7 +125,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void ToNextGlobalLevel()
 	{
-		if (currentLevelIndex + 1 < globalLevelArray.Length) {
+		if (currentLevelIndex + 1 < globalLevelArray.Length)
+		{
 			currentLevelIndex += 1;
 			OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
 		}
@@ -152,7 +170,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public bool changeCoinAmount(int n)
 	{
-		if (checkIfCanChangeCoin(n)) {
+		if (checkIfCanChangeCoin(n))
+		{
 			curCoinAmount += n;
 			return true;
 		}
@@ -163,116 +182,116 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	{
 		curCoinAmount = n;
 	}
-    #endregion
+	#endregion
 
-    #region 动物解锁/价格/等级
+	#region 动物解锁/价格/等级
 
-    public Dictionary<string, bool> isAnimalUnlocked = new Dictionary<string, bool>();
-    public void InitAnimalUnlock()
-    {
-        foreach (animalProperty animal in allAnimals.properies)
-        {
-            isAnimalUnlocked[animal.animalName] = false;
-        }
+	public Dictionary<string, bool> isAnimalUnlocked = new Dictionary<string, bool>();
+	public void InitAnimalUnlock()
+	{
+		foreach (animalProperty animal in allAnimals.properies)
+		{
+			isAnimalUnlocked[animal.animalName] = false;
+		}
 		UnlockAnimal();
-    }
+	}
 
 	public void UnlockAnimal()
 	{
 		//Debug.Log(DataManager.instance == null);
-        foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
+		foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
 		{
 			if (isAnimalUnlocked.ContainsKey(animalName))
 			{
 				isAnimalUnlocked[animalName] = true;
 			}
 		}
-    }
+	}
 
-    public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
-    public Dictionary<string, int> animalInitPrice = new Dictionary<string, int>();
-    public int maxPrice = 99;
-    public void InitAnimalPrice()
+	public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
+	public Dictionary<string, int> animalInitPrice = new Dictionary<string, int>();
+	public int maxPrice = 99;
+	public void InitAnimalPrice()
 	{
-        foreach (UnlockData dataRow in DataManager.instance.unlockLoader.allUnlockData)
-        {
-            foreach (string animalName in dataRow.animalToUnlock)
-            {
-                if (dataRow.animalToUnlock.Contains(animalName))
-                {
-                    animalInitPrice[animalName] = dataRow.initialPrice;
-                }
-            }
-        }
+		foreach (UnlockData dataRow in DataManager.instance.unlockLoader.allUnlockData)
+		{
+			foreach (string animalName in dataRow.animalToUnlock)
+			{
+				if (dataRow.animalToUnlock.Contains(animalName))
+				{
+					animalInitPrice[animalName] = dataRow.initialPrice;
+				}
+			}
+		}
 
-        foreach (animalProperty animal in allAnimals.properies)
-        {
+		foreach (animalProperty animal in allAnimals.properies)
+		{
 			if (animalInitPrice.ContainsKey(animal.animalName)) animalPrices[animal.animalName] = animalInitPrice[animal.animalName];
-            else Debug.LogError("ERROR");
-        }
-    }
+			else Debug.LogError("ERROR");
+		}
+	}
 
-    public void CalculateAnimalPrice()
-    {
-        AnimalBallPassTimes allAnimalBallPassTimes = ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
+	public void CalculateAnimalPrice()
+	{
+		AnimalBallPassTimes allAnimalBallPassTimes = ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
 
-        foreach (animalProperty animal in allAnimals.properies)
-        {
-            int myBallPassTimes = 0;
-            switch (animal.animalName.ToLower())
-            {
-                case "monkey": myBallPassTimes = allAnimalBallPassTimes.monkey; break;
-                case "elephant": myBallPassTimes = allAnimalBallPassTimes.elephant; break;
-                case "bear": myBallPassTimes = allAnimalBallPassTimes.bear; break;
-                case "lion": myBallPassTimes = allAnimalBallPassTimes.lion; break;
-                case "giraffe": myBallPassTimes = allAnimalBallPassTimes.giraffe; break;
-                case "snake": myBallPassTimes = allAnimalBallPassTimes.snake; break;
-                case "fox": myBallPassTimes = allAnimalBallPassTimes.fox; break;
-                case "seal": myBallPassTimes = allAnimalBallPassTimes.seal; break;
-                case "ostrich": myBallPassTimes = allAnimalBallPassTimes.ostrich; break;
-                case "kangaroo": myBallPassTimes = allAnimalBallPassTimes.kangaroo; break;
-                case "buffalo": myBallPassTimes = allAnimalBallPassTimes.buffalo; break;
-                case "goat": myBallPassTimes = allAnimalBallPassTimes.goat; break;
-                case "lizard": myBallPassTimes = allAnimalBallPassTimes.lizard; break;
-                default:
-                    Debug.LogWarning($"Bug Found"); break;
-            }
+		foreach (animalProperty animal in allAnimals.properies)
+		{
+			int myBallPassTimes = 0;
+			switch (animal.animalName.ToLower())
+			{
+				case "monkey": myBallPassTimes = allAnimalBallPassTimes.monkey; break;
+				case "elephant": myBallPassTimes = allAnimalBallPassTimes.elephant; break;
+				case "bear": myBallPassTimes = allAnimalBallPassTimes.bear; break;
+				case "lion": myBallPassTimes = allAnimalBallPassTimes.lion; break;
+				case "giraffe": myBallPassTimes = allAnimalBallPassTimes.giraffe; break;
+				case "snake": myBallPassTimes = allAnimalBallPassTimes.snake; break;
+				case "fox": myBallPassTimes = allAnimalBallPassTimes.fox; break;
+				case "seal": myBallPassTimes = allAnimalBallPassTimes.seal; break;
+				case "ostrich": myBallPassTimes = allAnimalBallPassTimes.ostrich; break;
+				case "kangaroo": myBallPassTimes = allAnimalBallPassTimes.kangaroo; break;
+				case "buffalo": myBallPassTimes = allAnimalBallPassTimes.buffalo; break;
+				case "goat": myBallPassTimes = allAnimalBallPassTimes.goat; break;
+				case "lizard": myBallPassTimes = allAnimalBallPassTimes.lizard; break;
+				default:
+					Debug.LogWarning($"Bug Found"); break;
+			}
 
 			Debug.Log($"{animal.animalName}'s BPT: {myBallPassTimes}");
 
-            if (myBallPassTimes <= 10) UpdatePrice(animal.animalName, (int)(animalPrices[animal.animalName] * (1f - 0.5f * (myBallPassTimes / 10f))));
-			else UpdatePrice(animal.animalName, animalPrices[animal.animalName] + myBallPassTimes/2 );
+			if (myBallPassTimes <= 10) UpdatePrice(animal.animalName, (int)(animalPrices[animal.animalName] * (1f - 0.5f * (myBallPassTimes / 10f))));
+			else UpdatePrice(animal.animalName, animalPrices[animal.animalName] + myBallPassTimes / 2);
 
-            Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
+			Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
-            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
-        }
-    }
+			ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
+		}
+	}
 
-    public void UpdatePrice(string animalName, int updateAmount)
+	public void UpdatePrice(string animalName, int updateAmount)
 	{
 		animalPrices[animalName] = animalInitPrice[animalName] + updateAmount;
-        animalPrices[animalName] = Math.Clamp(animalPrices[animalName], animalInitPrice[animalName], maxPrice);
-    }
+		animalPrices[animalName] = Math.Clamp(animalPrices[animalName], animalInitPrice[animalName], maxPrice);
+	}
 
-    public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
-    int initLevel = 1;
+	public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
+	int initLevel = 1;
 	int maxLevel = 99;
-    public void InitAnimalLevel()
-    {
-        foreach (animalProperty animal in allAnimals.properies)
-        {
-            animalLevels[animal.animalName] = initLevel;
-        }
-    }
+	public void InitAnimalLevel()
+	{
+		foreach (animalProperty animal in allAnimals.properies)
+		{
+			animalLevels[animal.animalName] = initLevel;
+		}
+	}
 
-    public void UpdateLevel(string animalName, int updateAmount)
-    {
-        animalLevels[animalName] += updateAmount;
-        animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
-    }
+	public void UpdateLevel(string animalName, int updateAmount)
+	{
+		animalLevels[animalName] += updateAmount;
+		animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
+	}
 
-    #endregion
+	#endregion
 
 	public void ShowMessageBox(string text)
 	{
@@ -280,7 +299,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 		newMessageBox.GetComponent<MessageBoxController>().uiText.text = text;
 	}
 
-    public enum TestAction
+	public enum TestAction
 	{
 		Add,
 		LogInfo,
