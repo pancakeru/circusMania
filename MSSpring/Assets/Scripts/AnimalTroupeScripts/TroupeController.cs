@@ -54,7 +54,7 @@ public class TroupeController : MonoBehaviour
 
         newAnimalOrder = new List<animalProperty>();
         HashSet<string> animalNames = new HashSet<string>();
-        foreach (var unlockData in DataManager.instance.unlockLoader.allUnlockData)
+        foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
         {
             foreach (string animalName in unlockData.animalToUnlock)
             {

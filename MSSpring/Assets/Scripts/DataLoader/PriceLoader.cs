@@ -11,7 +11,7 @@ public class PriceData
 
 public class PriceLoader : MonoBehaviour
 {
-    public List<PriceData> allPriceData = new List<PriceData>();
+    public List<PriceData> priceData = new List<PriceData>();
     public void Load()
     {
         TextAsset csvFile = Resources.Load<TextAsset>("PriceDataCVS");
@@ -24,8 +24,8 @@ public class PriceLoader : MonoBehaviour
             data.basePrice = int.Parse(rows[i][1]);
             data.pricePerLv = int.Parse(rows[i][2]);
 
-            allPriceData.Add(data);
-            Debug.Log($"{allPriceData[i - 1].animalName}: {allPriceData[i - 1].basePrice}, {allPriceData[i - 1].pricePerLv}");
+            priceData.Add(data);
+            Debug.Log($"{priceData[i - 1].animalName}: {priceData[i - 1].basePrice}, {priceData[i - 1].pricePerLv}");
         }
     }
 }

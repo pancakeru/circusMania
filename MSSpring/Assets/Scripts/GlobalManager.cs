@@ -64,11 +64,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 			
         }
 
-		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
+        //Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
     }
 
 	private void Start()
 	{
+        DataManager.instance.animalLoader.Load();
+        DataManager.instance.unlockLoader.Load();
+        DataManager.instance.priceLoader.Load();
+
         OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
         InitAnimalUnlock();
         InitAnimalPrice();
@@ -180,9 +184,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void UnlockAnimal()
 	{
-		if (DataManager.instance.unlockLoader.allUnlockData.Count > currentLevelIndex)
+		if (DataManager.instance.unlockLoader.unlockData.Count > currentLevelIndex)
 		{
-			foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
+			foreach (string animalName in DataManager.instance.unlockLoader.unlockData[currentLevelIndex].animalToUnlock)
 			{
 				if (isAnimalUnlocked.ContainsKey(animalName))
 				{
@@ -200,7 +204,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
-        foreach (PriceData dataRow in DataManager.instance.priceLoader.allPriceData)
+        foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
         {
 			animalPriceLevel[dataRow.animalName] = 5;
 			animalBasePrice[dataRow.animalName] = dataRow.basePrice;

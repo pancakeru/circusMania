@@ -7,6 +7,7 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
+    public AnimalLoader animalLoader;
     public UnlockLoader unlockLoader;
     public PriceLoader priceLoader;
 
@@ -18,9 +19,6 @@ public class DataManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(gameObject);
-
-        unlockLoader.Load();
-        priceLoader.Load();
     }
 
     public List<string[]> ParseCSV(string csvText)

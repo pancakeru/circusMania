@@ -11,7 +11,7 @@ public class UnlockData
 
 public class UnlockLoader : MonoBehaviour
 {
-    public List<UnlockData> allUnlockData = new List<UnlockData>();
+    public List<UnlockData> unlockData = new List<UnlockData>();
     public void Load()
     {
         TextAsset csvFile = Resources.Load<TextAsset>("UnlockDataCVS");
@@ -28,7 +28,7 @@ public class UnlockLoader : MonoBehaviour
             data.level = level;
             data.animalToUnlock = new List<string>(animals);
 
-            allUnlockData.Add(data);
+            unlockData.Add(data);
         }
     }
 }
