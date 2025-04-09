@@ -1,4 +1,5 @@
 
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "Animal System/AnimalProperty")]
@@ -7,9 +8,6 @@ public class animalProperty : ScriptableObject
     public string animalName;
     public Sprite animalCoreImg;
     public Sprite explainImg;
-
-    [Header("ForShop")]
-    public int animalPrice;
 
     [Header("For Ball passing")]
     public float baseYellowChange;
@@ -81,3 +79,23 @@ public class animalProperty : ScriptableObject
     }
 
 }
+
+public enum MechanicNumberType
+{
+    None,
+    Power,
+    WarmUp,
+    Excited,
+}
+
+//Dropdown menu in hierachy
+#if UNITY_EDITOR
+[CustomPropertyDrawer(typeof(MechanicNumberType))]
+public class MechanicNumberTypeDrawer : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        property.enumValueIndex = (int)(MechanicNumberType)EditorGUI.EnumPopup(position, label, (MechanicNumberType)property.enumValueIndex);
+    }
+}
+#endif

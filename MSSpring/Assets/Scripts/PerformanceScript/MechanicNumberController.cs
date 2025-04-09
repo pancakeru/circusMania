@@ -6,14 +6,6 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 
-public enum MechanicNumberType
-{
-    None, 
-    Power, 
-    WarmUp, 
-    Excited, 
-}
-
 public class MechanicNumberController : MonoBehaviour
 {
     [HideInInspector] public AbstractSpecialAnimal myAnimalBrain;
@@ -171,15 +163,3 @@ public class MechanicNumberController : MonoBehaviour
         audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
     }
 }
-
-//Dropdown menu in hierachy
-#if UNITY_EDITOR
-[CustomPropertyDrawer(typeof(MechanicNumberType))]
-public class MechanicNumberTypeDrawer : PropertyDrawer
-{
-    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-    {
-        property.enumValueIndex = (int)(MechanicNumberType)EditorGUI.EnumPopup(position, label, (MechanicNumberType)property.enumValueIndex);
-    }
-}
-#endif

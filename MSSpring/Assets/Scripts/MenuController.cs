@@ -38,11 +38,13 @@ public class MenuController : MonoBehaviour
         Disable();
     }
 
+    /*
     public void ButtonShop()
     {
         shopManager.Enable();
         Disable();
     }
+    */
 
     public void ButtonShow()
     {
