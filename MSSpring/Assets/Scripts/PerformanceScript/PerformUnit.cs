@@ -32,6 +32,7 @@ public class PerformUnit : MonoBehaviour
 	[SerializeField] private Transform leftOut;
 	[SerializeField] private Transform rightOut;
 	[SerializeField] private Transform[] inSequenceEmpty;
+	[SerializeField] private Transform[] singleStages;
 
 	[Header("For Test")]
 	public PerformAnimalControl[] testAnimals;
@@ -69,6 +70,29 @@ public class PerformUnit : MonoBehaviour
 		}
 	}
 
+	private void SetStageAndEmptyLocalPos(int n, float[] EmptyLocalposes, float[] StageLocalposes)
+	{
+		for (int i = 0; i < n; i++)
+		{
+			inSequenceEmpty[i].localPosition = new Vector3(EmptyLocalposes[i], inSequenceEmpty[i].localPosition.y, 0);
+			if (singleStages != null)
+			{
+				singleStages[i].gameObject.SetActive(true);
+				singleStages[i].localPosition = new Vector3(StageLocalposes[i], singleStages[i].localPosition.y, 0);
+
+            }
+		}
+
+		if (n < 6)
+		{
+			for (int i = n; i < 6; i++)
+			{
+                inSequenceEmpty[i].localPosition = new Vector3(EmptyLocalposes[i], inSequenceEmpty[i].localPosition.y, 0);
+                if(singleStages!= null)singleStages[i].gameObject.SetActive(false);
+			}
+		}
+	}
+
 	public void GetInfoFromShowManager(PerformAnimalControl[] animals, ShowManager _manager)
 	{
 		allAnimalsInShow = animals;
@@ -77,7 +101,7 @@ public class PerformUnit : MonoBehaviour
 
 	
 
-	public void InitShow()
+	public void InitShow(int n, float[] EmptyLocalposes, float[] StageLocalposes)
 	{
 		SetLastScore(1);
 		ChangeYellowScore(0,ChangeScoreType.Set);
@@ -85,6 +109,7 @@ public class PerformUnit : MonoBehaviour
 		ChangeRedScore(0,ChangeScoreType.Set);
 		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);
+		SetStageAndEmptyLocalPos(n, EmptyLocalposes, StageLocalposes);
 	}
 
 	public void InitShow(float last)

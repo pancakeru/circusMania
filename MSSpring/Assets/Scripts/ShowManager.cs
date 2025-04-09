@@ -194,14 +194,25 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	}
 
-	//Functions
-	public void EnterOneShow()
+	#region 调整show设置的函数
+	private SceneSetUpInfoContainer infoContainer = new SceneSetUpInfoContainer();
+
+	public void SetShowPositionNum(int n)
+	{
+		infoContainer.SetPosNum(n);
+	}
+
+    #endregion
+
+    //Functions
+    public void EnterOneShow()
 	{
 		//x = -750;
 		//offset = 300;
 		yStart = -600;
 		//areaOffset = 2;
-		curTurn = 1;
+		SetShowPositionNum(3);
+        curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
 		posRecord = new areaReport[6];
@@ -210,14 +221,20 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		myHand = new List<GameObject>();
 		initialPos = new List<Vector2>();
 		SetUpAnLevel(testLevel);
-		totalPerformanceControl.InitShow();
+		totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0,6)
+                         .Select(i => infoContainer.GetEmptyPosLocalX(i))
+                         .ToArray(), Enumerable.Range(0, 6)
+                         .Select(i => infoContainer.GetStageLocalX(i))
+                         .ToArray());
 		recordScore = new int[curLevel.allowedTurn];
 		thrower.changeCount(10);
 		//位置 GameObject
-		for (int i = 0; i < 6; i++) {
+		
+		
+		for (int i = 0; i < infoContainer.posNum; i++) {
 			GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
 			temp.GetComponent<areaReport>().spotNum = i;
-			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + areaOffset * i + centerOffset, 0);
+			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + infoContainer.areaOffset * i + infoContainer.centerOffset, 0);
 			posRecord[i] = temp.GetComponent<areaReport>();
 		}
 		InitializeHand(GlobalManager.instance.getAllAnimals());
@@ -316,6 +333,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             
         }*/
 		//查现在是哪个State
+
+		
 		switch (currentState) {
 
 			case ShowStates.SelectAnimal:
@@ -1095,4 +1114,52 @@ public class Counter
 		}
 		return false;
 	}
+}
+
+public class SceneSetUpInfoContainer
+{
+	public int posNum {get; private set; }
+	public float areaOffset { get; private set; }
+	public float centerOffset { get; private set; }
+
+	public SceneSetUpInfoContainer()
+	{
+		posNum = 6;
+		areaOffset = 1.3f;
+		centerOffset = 1.8f;
+	}
+
+	public void SetPosNum(int n)
+	{
+		posNum = Mathf.Clamp(n, 1, 6);
+		centerOffset = 1.8f+(6-posNum)*areaOffset/2;
+		//要改配套emptypos 和台子pos
+	}
+
+	public float GetStageLocalX(int n)
+	{
+		if (n >= 0 && n < 6)
+		{
+			return -6.05f + n * 2.7f + (6 - posNum) * 2.7f / 2;
+		}
+		else
+		{
+			Debug.LogWarning("尝试获取非法的舞台位置");
+			return 0;
+		}
+	}
+
+	public float GetEmptyPosLocalX(int n)
+	{
+        if (n >= 0 && n <6)
+        {
+            return -6.65f + n * 2.95f + (6 - posNum) * 2.95f / 2;
+        }
+        else
+        {
+            Debug.LogWarning("尝试获取非法的舞台位置");
+            return 0;
+        }
+    }
+
 }
