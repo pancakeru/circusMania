@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Data;
 
 public class GlobalManager : MonoBehaviour, IGeneralManager
 {
@@ -63,15 +64,20 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 			
         }
 
-		//Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
+        //Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
     }
 
 	private void Start()
 	{
+        DataManager.instance.animalLoader.Load();
+        DataManager.instance.unlockLoader.Load();
+        DataManager.instance.priceLoader.Load();
+
         OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
         InitAnimalUnlock();
         InitAnimalPrice();
         InitAnimalLevel();
+        SetAnimalProperty();
     }
 
 	private void Update()
@@ -134,6 +140,21 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 		animals.Remove(theAnimal);
 	}
 
+	void SetAnimalProperty()
+	{
+		foreach (animalProperty animal in allAnimals.properies)
+		{
+			AnimalData animalData = DataManager.instance.animalLoader.animalData[animal.animalName];
+			animal.baseRedChange = animalData.scoreColor == "Red Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+            animal.baseYellowChange = animalData.scoreColor == "Yellow Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+            animal.baseBlueChange = animalData.scoreColor == "Blue Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+			animal.restTurn = animalData.restTurn[animalLevels[animal.animalName]];
+			animal.mechanicActiveNum = animalData.skillCondition.Count > 1 ? animalData.skillCondition[animalLevels[animal.animalName]] : animalData.skillCondition[0];
+			animal.skillNum = animalData.skillNumber.Count > 1 ? animalData.skillNumber[animalLevels[animal.animalName]] : animalData.skillNumber[0];
+			animal.ballAction1 = animal.baseBallChange.ToString();
+			animal.scoreAction1 = animalData.scoreColor + animalData.score[animalLevels[animal.animalName]];
+        }
+	}
 
 	#endregion
 	// 金币管理
@@ -179,36 +200,32 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void UnlockAnimal()
 	{
-		//Debug.Log(DataManager.instance == null);
-        foreach (string animalName in DataManager.instance.unlockLoader.allUnlockData[currentLevelIndex].animalToUnlock)
+		if (DataManager.instance.unlockLoader.unlockData.Count > currentLevelIndex)
 		{
-			if (isAnimalUnlocked.ContainsKey(animalName))
+			foreach (string animalName in DataManager.instance.unlockLoader.unlockData[currentLevelIndex].animalToUnlock)
 			{
-				isAnimalUnlocked[animalName] = true;
+				if (isAnimalUnlocked.ContainsKey(animalName))
+				{
+					isAnimalUnlocked[animalName] = true;
+				}
 			}
 		}
     }
 
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();
-    public Dictionary<string, int> animalInitPrice = new Dictionary<string, int>();
+    public Dictionary<string, int> animalPriceLevel = new Dictionary<string, int>();
+    public Dictionary<string, int> animalBasePrice = new Dictionary<string, int>();
+    public Dictionary<string, int> animalPricePerLv = new Dictionary<string, int>();
+
     public int maxPrice = 99;
     public void InitAnimalPrice()
 	{
-        foreach (UnlockData dataRow in DataManager.instance.unlockLoader.allUnlockData)
+        foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
         {
-            foreach (string animalName in dataRow.animalToUnlock)
-            {
-                if (dataRow.animalToUnlock.Contains(animalName))
-                {
-                    animalInitPrice[animalName] = dataRow.initialPrice;
-                }
-            }
-        }
-
-        foreach (animalProperty animal in allAnimals.properies)
-        {
-			if (animalInitPrice.ContainsKey(animal.animalName)) animalPrices[animal.animalName] = animalInitPrice[animal.animalName];
-            else Debug.LogError("ERROR");
+			animalPriceLevel[dataRow.animalName] = 5;
+			animalBasePrice[dataRow.animalName] = dataRow.basePrice;
+			animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
+			UpdatePrice(dataRow.animalName);
         }
     }
 
@@ -218,6 +235,14 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         foreach (animalProperty animal in allAnimals.properies)
         {
+			bool isNumberZero = true;
+			foreach(animalProperty checkAnimal in getAllAnimals())
+			{
+				if (checkAnimal.animalName == animal.animalName) isNumberZero = false;
+
+            }
+			if (isNumberZero) return;
+
             int myBallPassTimes = 0;
             switch (animal.animalName.ToLower())
             {
@@ -240,8 +265,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 			Debug.Log($"{animal.animalName}'s BPT: {myBallPassTimes}");
 
-            if (myBallPassTimes <= 10) UpdatePrice(animal.animalName, (int)(animalPrices[animal.animalName] * (1f - 0.5f * (myBallPassTimes / 10f))));
-			else UpdatePrice(animal.animalName, animalPrices[animal.animalName] + myBallPassTimes/2 );
+			UpdatePriceLevel(animal.animalName, myBallPassTimes);
+            UpdatePrice(animal.animalName);
 
             Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
@@ -249,15 +274,22 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
     }
 
-    public void UpdatePrice(string animalName, int updateAmount)
-	{
-		animalPrices[animalName] = animalInitPrice[animalName] + updateAmount;
-        animalPrices[animalName] = Math.Clamp(animalPrices[animalName], animalInitPrice[animalName], maxPrice);
+    void UpdatePrice(string animalName)
+    {
+        animalPrices[animalName] = animalBasePrice[animalName] + animalPricePerLv[animalName] * animalPriceLevel[animalName];
     }
+
+	void UpdatePriceLevel(string animalName, int ballPassTimes)
+	{
+		int basePriceLv = -2;
+		int priceLvUpPerPass = 3;
+		int maxPriceLvUpAmount = 3;
+		animalPriceLevel[animalName] += basePriceLv + Math.Clamp(ballPassTimes / priceLvUpPerPass, 0, maxPriceLvUpAmount);
+	}
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;
-	int maxLevel = 99;
+    int maxLevel = 5;
     public void InitAnimalLevel()
     {
         foreach (animalProperty animal in allAnimals.properies)
@@ -270,6 +302,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         animalLevels[animalName] += updateAmount;
         animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
+		SetAnimalProperty();
+        TroupeController.instance.DisplayCardDetail(TroupeController.instance.troupeCardSelected);
     }
 
     #endregion

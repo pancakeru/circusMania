@@ -17,6 +17,7 @@ public class ShopDisplayUnit : MonoBehaviour
 	private GameObject audioObj;
 	private AudioManagerScript audioScript;
 
+	/*
 	public void SetUp(ShopAnimal shopAnimal)
 	{
 		this.shopAnimal = shopAnimal;
@@ -59,4 +60,5 @@ public class ShopDisplayUnit : MonoBehaviour
 
 		audioScript.PlayUISound(audioScript.UI[4]);
 	}
+	*/
 }

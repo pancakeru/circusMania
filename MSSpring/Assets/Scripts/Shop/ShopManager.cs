@@ -24,6 +24,7 @@ public class ShopManager : MonoBehaviour
 	private GameObject audioObj;
 	private AudioManagerScript audioScript;
 
+	/*
 	private void Awake()
 	{
 		if (Instance != null) {
@@ -157,4 +158,5 @@ public class ShopManager : MonoBehaviour
 	public void CallUISound() {
 		audioScript.PlayUISound(audioScript.UI[0]);
 	}
+	*/
 }

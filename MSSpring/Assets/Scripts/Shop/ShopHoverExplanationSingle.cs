@@ -10,6 +10,7 @@ public class ShopHoverExplanationSingle : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI text;
 	private ShopDisplayUnit shopDisplayUnit;
 
+	/*
 	private void Awake()
 	{
 		transform.SetParent(ShopManager.Instance.transform);
@@ -21,4 +22,5 @@ public class ShopHoverExplanationSingle : MonoBehaviour
 		image.sprite = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().explainImg;
 		//text.text = shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnScoreAction() + "\n" + shopDisplayUnit.GetShopAnimal().GetAnimalProperty().returnBallAction();
 	}
+	*/
 }
