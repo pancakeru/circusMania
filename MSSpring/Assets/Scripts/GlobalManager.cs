@@ -77,6 +77,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         InitAnimalUnlock();
         InitAnimalPrice();
         InitAnimalLevel();
+        SetAnimalProperty();
     }
 
 	private void Update()
@@ -139,6 +140,21 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 		animals.Remove(theAnimal);
 	}
 
+	void SetAnimalProperty()
+	{
+		foreach (animalProperty animal in allAnimals.properies)
+		{
+			AnimalData animalData = DataManager.instance.animalLoader.animalData[animal.animalName];
+			animal.baseRedChange = animalData.scoreColor == "Red Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+            animal.baseYellowChange = animalData.scoreColor == "Yellow Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+            animal.baseBlueChange = animalData.scoreColor == "Blue Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+			animal.restTurn = animalData.restTurn[animalLevels[animal.animalName]];
+			animal.mechanicActiveNum = animalData.skillCondition.Count > 1 ? animalData.skillCondition[animalLevels[animal.animalName]] : animalData.skillCondition[0];
+			animal.skillNum = animalData.skillNumber.Count > 1 ? animalData.skillNumber[animalLevels[animal.animalName]] : animalData.skillNumber[0];
+			animal.ballAction1 = animal.baseBallChange.ToString();
+			animal.scoreAction1 = animalData.scoreColor + animalData.score[animalLevels[animal.animalName]];
+        }
+	}
 
 	#endregion
 	// 金币管理
@@ -273,7 +289,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;
-    int maxLevel = 99;
+    int maxLevel = 5;
     public void InitAnimalLevel()
     {
         foreach (animalProperty animal in allAnimals.properies)
@@ -286,6 +302,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         animalLevels[animalName] += updateAmount;
         animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
+		SetAnimalProperty();
+        TroupeController.instance.DisplayCardDetail(TroupeController.instance.troupeCardSelected);
     }
 
     #endregion

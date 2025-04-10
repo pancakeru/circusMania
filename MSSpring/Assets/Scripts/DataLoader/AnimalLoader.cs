@@ -5,10 +5,10 @@ using UnityEngine;
 public class AnimalData
 {
     public string scoreColor;
-    public List<int> score = new List<int>();
-    public List<int> restTurn = new List<int>();
-    public List<int> skillCondition = new List<int>();
-    public List<int> skillNumber = new List<int>();
+    public List<int> score = new List<int> { -99 };
+    public List<int> restTurn = new List<int> { -99 };
+    public List<int> skillCondition = new List<int> { -99 };
+    public List<int> skillNumber = new List<int> { -99 };
 }
 
 public class AnimalLoader : MonoBehaviour
@@ -33,7 +33,7 @@ public class AnimalLoader : MonoBehaviour
         {
             string[] fields = rows[i];
 
-            data.scoreColor = fields[0];
+            if (i == 1) data.scoreColor = fields[0];
             for (int j = 1; j < fields.Length; j++)
             {
                 if (string.IsNullOrEmpty(fields[j])) continue; 
