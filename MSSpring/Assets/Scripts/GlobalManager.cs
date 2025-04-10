@@ -39,6 +39,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	[Header("Others")]
 	[SerializeField] GameObject messageBox;
 
+    [SerializeField] LevelPreviewController levelPreviewController;
+
 
     private void Awake()
 	{
@@ -80,34 +82,46 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         SetAnimalProperty();
     }
 
-	private void Update()
-	{
-		if (ifTestAction) {
-			ifTestAction = false;
-			switch (testAction) {
-				case TestAction.Add:
-					addAnAnimal(toTestAdd);
-					break;
+    private void Update()
+    {
+        if (ifTestAction)
+        {
+            ifTestAction = false;
+            switch (testAction)
+            {
+                case TestAction.Add:
+                    addAnAnimal(toTestAdd);
+                    break;
 
-				case TestAction.LogInfo:
-					string infoMessage = "";
-					foreach (animalProperty apt in animals) {
-						infoMessage += apt.name;
-						infoMessage += ", ";
-					}
+                case TestAction.LogInfo:
+                    string infoMessage = "";
+                    foreach (animalProperty apt in animals)
+                    {
+                        infoMessage += apt.name;
+                        infoMessage += ", ";
+                    }
 
-					//Debug.Log("现在仓库有" + infoMessage);
-					break;
+                    //Debug.Log("现在仓库有" + infoMessage);
+                    break;
 
-				case TestAction.LogCoin:
-					//Debug.Log("现在金币是" + curCoinAmount);
-					break;
-			}
+                case TestAction.LogCoin:
+                    //Debug.Log("现在金币是" + curCoinAmount);
+                    break;
+            }
+        }
 
-		}
-	}
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            levelPreviewController.gameObject.SetActive(true);
+        }
+    }
 
-	public GlobalLevel GetCurrentGlobalLevel()
+    public GlobalLevel[] GetGlobalLevelArray()
+    {
+        return globalLevelArray;
+    }
+
+    public GlobalLevel GetCurrentGlobalLevel()
 	{
 		return globalLevelArray[currentLevelIndex];
 	}
