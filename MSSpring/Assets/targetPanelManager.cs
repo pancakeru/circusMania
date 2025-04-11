@@ -10,11 +10,11 @@ public class targetPanelManager : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI yellowText;
 	[SerializeField] private TextMeshProUGUI blueText;
 
-	public void ChangeLevelState(int curTurn, float curRepu, float totalTargetScore, int totalTurn)
+	public void ChangeLevelState(int curTurn, float curRepu, float[] targets, int totalTurn)
 	{
 		//Debug.Log("现在的Target是" + totalTargetScore);
 		turnText.text = curTurn.ToString() + "/" + totalTurn.ToString();
-		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
+		float[] targetScoreArray = targets;
 		redText.text = targetScoreArray[0].ToString();
 		yellowText.text = targetScoreArray[1].ToString();
 		blueText.text = targetScoreArray[2].ToString();

@@ -94,6 +94,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         showScript = showManager.GetComponent<ShowManager>();
         areaDetectors = GameObject.FindGameObjectsWithTag("areaTag");
 
+        /*
         if (myIndex > 0 && myIndex < showScript.myHand.Count) {
             myNeighbor = showScript.myHand[myIndex - 1];
 
@@ -105,7 +106,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
          } else {
             myNeighbor = null;
             myOtherNeighbor = showScript.myHand[myIndex + 1];
-         }
+         }*/
 
         audioObj = GameObject.FindWithTag("audio manager");
 		audioScript = audioObj.GetComponent<AudioManagerScript>();
@@ -172,7 +173,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             case iconState.idle:
                 //animation
                 //玩着还没选
-                showScript.stopMoving = false;
+                //showScript.stopMoving = false;
 
                 
                 break;
@@ -187,6 +188,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                 break;
 
             case iconState.sliding:
+                /*
                 if (Input.GetKey(KeyCode.Mouse0)) {
                     if (!showScript.holding) {
             // Dragging left/right
@@ -206,29 +208,31 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
                          velocity = Vector2.zero;
                          currentState = iconState.idle;
                           }
-                    }
+                    }*/
     
         // Calculate new position before applying it
             Vector2 newPosition = myPosition.anchoredPosition + new Vector2(velocity.x, 0) * Time.deltaTime * 300f;
     
             // check if movement should be restricted
+            /*
                  if (myIndex == 0 && velocity.x > 0 && newPosition.x > leftThreshold) {
                   newPosition.x = leftThreshold;
                     velocity.x = 0;
-                    showScript.stopMoving = true;
+                    //showScript.stopMoving = true;
                     }
                 if (myIndex == showScript.myHand.Count - 1 && velocity.x < 0 && newPosition.x < rightThreshold) {
                   newPosition.x = rightThreshold;
                  velocity.x = 0;
-                 showScript.stopMoving = true;
+                 //showScript.stopMoving = true;
                  }
 
                 myPosition.anchoredPosition = newPosition;
+            */
                 break;
 
             case iconState.callFactory:
                 showScript.AnimalFactory(animalType, worldPosition);
-                showScript.myHand.Remove(showScript.myHand[myIndex]);
+                //showScript.myHand.Remove(showScript.myHand[myIndex]);
                 Destroy(gameObject);
             break;
 
@@ -270,10 +274,10 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         lastMousePosition = Input.mousePosition;
     }
 
-    public void StartMove(RectTransform target) {
-        float targetX = target.anchoredPosition.x + showScript.offset;
-        float targetY = yGoal;
-         targetPosition = new Vector2(targetX, targetY);
+    void StartMove(RectTransform target) {
+        //float targetX = target.anchoredPosition.x + showScript.offset;
+        //float targetY = yGoal;
+        //targetPosition = new Vector2(targetX, targetY);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -352,14 +356,14 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         } else {
             destinationX = myPosition.anchoredPosition.x;
         }
-
+        /*
         if (myOtherNeighbor != null) {
             otherDestinationX = myOtherNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
         } else if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750) {
             otherDestinationX = 750;
         } else {
             otherDestinationX = myPosition.anchoredPosition.x;
-        }
+        }*/
     }
 
 public void UpdateDistance(float x, int i) {
@@ -371,7 +375,7 @@ public void UpdateDistance(float x, int i) {
 }
 
 public void UpdateRight() {
-
+    /*
     if (myOtherNeighbor != null) {
             otherDestinationX = myOtherNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
         } else if (myIndex == showScript.myHand.Count - 1 && myPosition.anchoredPosition.x < 750) {
@@ -382,6 +386,7 @@ public void UpdateRight() {
 
     targetPosition = new Vector2(otherDestinationX, yGoal);
     currentState = iconState.moving;
+    */
 }
 
     void OnDestroy()

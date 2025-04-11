@@ -27,73 +27,88 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		choose,
 		moveAnimal
 	}
-	//State变量
-	private ShowStates currentState;
 
-	public GameObject animalIcon;
-	public GameObject areaPrefab;
-	public Transform handPanelTransform;
-	[SerializeField] private Transform handPanelBackground;
-	public Transform stagePanelTransform;
-	public UiMover scorePanelMover;
-	public CameraMover camMover;
+	#region 从外部获取的变量
+	[Header("手中动物的起始x")]
+	[SerializeField] private float xStart;
+	[Header("手中动物的offset")]
+    [SerializeField] private float offset;
+	[Header("检测为手牌区的下方比例")]
+    [SerializeField] private float downRatio = 0.2f;
+
+    [Header("预制体")]
+    public GameObject animalIcon;
+    public GameObject areaPrefab;
+
+    [Header("动物的预制体")]
+    public List<GameObject> animalPerformancePrefabs;
+
+    [Header("获取组件")]
+    [SerializeField] private GraphicRaycaster uiRaycaster;
+    [SerializeField] private Transform handPanelTransform;
+    [SerializeField] private Transform handPanelBackground;
+    [SerializeField] private Transform stagePanelTransform;
+    [SerializeField] private UiMover scorePanelMover;
 	public PerformUnit totalPerformanceControl;
-	public UiMover startButtonMover;
-	public UiMover bananaUiMover;
-	public BananaThrower thrower;
-	public UiMover targetPanelMover;
-	[SerializeField] private targetPanelManager targetDisplayManager;
-	[SerializeField] private UiMover showBanana;
+    [SerializeField] private targetPanelManager targetDisplayManager;
+    [SerializeField] private UiMover showBanana;
+    [SerializeField] private UiMover startButtonMover;
+    [SerializeField] private UiMover bananaUiMover;
+    [SerializeField] private BananaThrower thrower;
+    [SerializeField] private UiMover targetPanelMover;
+    #endregion
 
-	private float y;
-	private float yStart;
-	public float xStart;
-	public float offset;
-	public float areaOffset = 1.5f;
-	public float centerOffset = 4;
+    #region 记录变量
+    //State变量
+    private ShowStates currentState;
+    private LevelProperty curLevel;
+    private float curScore;
+    private int curTurn;
+    private float curRepu;
+    private bool inDown = false;
+    private int moveFromStageIndex;
+    private GameObject holdingAnimalObj;
+    private GameObject firstDetect;
+    private Vector2 lastMousePosition;
+    private EventSystem eventSystem;
+    private CameraMover camMover;
+    private int soundIndex;
+    private MenuController menu;
+    private ShowScoreManager scoreManager;
+    private bool ifToShow = false;
 
-	public bool holding = false;
-	public bool stopMoving = false;
+    //icon的开始y
+    private float yStart;
+	//移动时改变的量，加上initial pos就是结果
+    private float leftAnchorX;
 
-	private List<animalProperty> testList;
-	public List<GameObject> animalPerformancePrefabs;
+    //private bool enterInteraction = false;
+    //private bool canBeMovedOrSelected = true;
+    //private bool sliding = false;
+    //public bool holding = false; zoe的
+    //public bool stopMoving = false; zoe的
+    //private List<animalProperty> testList;
+    #endregion
 
-	public List<GameObject> myHand;//需要重置
+    #region 每次表演的记录变量
+    private List<GameObject> myHand;//需要重置
 	private GameObject[] onStage;//需要重置
-
-	private float leftAnchorX;
 	private List<Vector2> initialPos = new List<Vector2>();//需要重置
-
-	public GraphicRaycaster uiRaycaster;
-	[SerializeField] private float downRatio = 0.2f;
-	private EventSystem eventSystem;
-	private bool sliding = false;
-	private Vector2 lastMousePosition;
 	private List<iconAnimal> myHandControls = new List<iconAnimal>();//需要重置
-	private GameObject firstDetect;
-	private bool canBeMovedOrSelected = true;
-	private bool enterInteraction = false;
-	private GameObject holdingAnimalObj;
 	private areaReport[] posRecord;//需要重置
 	private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();//需要重置
-	private int moveFromStageIndex;
-	private bool inDown = false;
-	private LevelProperty curLevel;
-	private float curScore;
-	private int curTurn;
-	private float curRepu;
+    #endregion
 
-	//表演速率和状态
-	private int speedRatio = 1;
-
-	private float recordScoreFromLastTime;
-	[Header("For Show Setting")]
+    #region 表演的设置变量
+    [Header("表演设置")]
 	[SerializeField] private float repuRatio = 0.1f;
+    private int speedRatio = 1;
+    #endregion
 
-	//for general uiControl
-	private UiMover handPanelMover;
+    #region 选人界面和表演界面切换用到的变量
+    private UiMover handPanelMover;
 	private UiMover stagePanelMover;
-	[Header("For stage switch")]
+	[Header("舞台切换")]
 	[SerializeField]
 	private RectTransform handPanelUpPos;
 	[SerializeField]
@@ -118,35 +133,37 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[SerializeField] private RectTransform BanannaInShow;
 	[SerializeField] private RectTransform ShowBanannaInDecision;
 	[SerializeField] private RectTransform ShowBanannaInShow;
+    #endregion
 
-	[Header("End Screen")]
+    #region EndScreen 相关变量
+    [Header("结算界面")]
 	[SerializeField] private Transform canvasTrans;
 	[SerializeField] private GameObject EndScreenPrefab;
 	[SerializeField] private RectTransform endScreenUpPos;
 	[SerializeField] private RectTransform endScreenDownPos;
 	[SerializeField] private tempBlackManager blacker;
 	private GameObject curEndScreen;
-	private int[] recordScore;
+    #endregion
 
-	[Header("Explain")]
-	public tempShowExplain explainer;
-	public int soundIndex;
+    #region 动物解释相关
+    [Header("动物解释相关")]
+	[SerializeField]private tempShowExplain explainer;
+    #endregion
 
-	private MenuController menu;
-
-	public animalProperty testProperty;
-
-	[Header("For test")]
-	[SerializeField]
+    #region 测试相关变量
+    [Header("For test")]
+	//[SerializeField]
 	private bool ifTest;
-	[SerializeField]
+	//[SerializeField]
 	private RectTransform tarTrans;
-	[SerializeField]
+	//[SerializeField]
 	private UiMover mover;
 	[SerializeField] private LevelProperty testLevel;
+    //public animalProperty testProperty;
+    #endregion
 
-	private bool ifToShow = false;
-	private void Awake()
+
+    private void Awake()
 	{
 		if (instance == null) instance = this;
 		else Destroy(gameObject);
@@ -157,7 +174,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		camMover = Camera.main.GetComponent<CameraMover>();
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
-	}
+		scoreManager = GetComponent<ShowScoreManager>();
+
+    }
 
 	void Start()
 	{
@@ -202,6 +221,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		infoContainer.SetPosNum(n);
 	}
 
+	public void SetScoreEnableState(bool ifRed, bool ifBlue, bool ifYellow, bool ifPopularity)
+	{
+		//首先是选人界面的不显示
+
+	}
+
     #endregion
 
     //Functions
@@ -211,7 +236,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//offset = 300;
 		yStart = -600;
 		//areaOffset = 2;
-		SetShowPositionNum(3);
+		//SetShowPositionNum(3);
         curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
@@ -226,7 +251,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                          .ToArray(), Enumerable.Range(0, 6)
                          .Select(i => infoContainer.GetStageLocalX(i))
                          .ToArray());
-		recordScore = new int[curLevel.allowedTurn];
 		thrower.changeCount(10);
 		//位置 GameObject
 		
@@ -252,7 +276,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		curTurn = 1;
 		GetComponent<ShowScoreManager>().StartTurn();
 		curRepu = GetComponent<ShowScoreManager>().currentReputation;
-		targetDisplayManager.ChangeLevelState(curTurn, curRepu, level.targetScore, level.allowedTurn);
+		targetDisplayManager.ChangeLevelState(curTurn, curRepu, scoreManager.GetTargetScore(), level.allowedTurn);
 	}
 
 	private void InitializeHand(List<animalProperty> properties)
@@ -289,15 +313,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	private void ChangeLevelStatus(int _curTurn, float _curScore, bool ifChangeTurnDisplay)
+	private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
 	{
-		recordScore[_curTurn - 2] = (int)_curScore;
         GetComponent<ShowScoreManager>().EndTurn();
         GetComponent<ShowScoreManager>().StartTurn();
         curRepu = GetComponent<ShowScoreManager>().currentReputation;
-		curScore += _curScore;
 		
-		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, curLevel.targetScore, curLevel.allowedTurn);
+		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
 	}
 
 	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
@@ -366,67 +388,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				break;
 		}
 
-		//TODO:把这部分结合进statemachine
-		/*
-        if (Input.GetMouseButtonDown(0)&& canBeMovedOrSelected)
-        {
-            //Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
-            
-            if (!CheckIfRayCastElementWithTag("showAnimalInHand",out firstDetect))
-            {
-                sliding = true;
-                lastMousePosition = Input.mousePosition;
-                //进入滑动
-            }
-            else
-            {
-                //进入上下
-                Debug.Log(firstDetect.transform.parent.name);
-                foreach (iconAnimal animal in myHandControls)
-                {
-                    if (animal.gameObject != firstDetect.transform.parent.gameObject)
-                    {
-                        animal.EnterState(iconAnimal.iconState.half);
-                    }
-                    else
-                    {
-                        //生成一个小动物
-                        holdingAnimalObj = AnimalFactory(animal.selfProperty.name,GetMouseWorldPositionAtZeroZ());
-                    }
-                }
-            }
-            enterInteraction = true;
-        }
-
-        
-
-        if (Input.GetMouseButtonUp(0)&& enterInteraction)
-        {
-            Debug.Log("触发了");
-            if (!sliding)
-            {
-                foreach (iconAnimal animal in myHandControls)
-                {
-                    if (animal.gameObject != firstDetect.transform.parent.gameObject)
-                    {
-                        animal.EnterState(iconAnimal.iconState.movingUp);
-                    }
-                    //canBeMovedOrSelected = false;
-                    //Invoke("ResetCanBeMoveOrSelect", 0.3f);
-                }
-            }
-            sliding = false;
-            enterInteraction = false;
-        }*/
+		
 
 	}
-
-	void ResetCanBeMoveOrSelect()
-	{
-		canBeMovedOrSelected = true;
-	}
-
-
 
 	public void StartMoveToShow()
 	{
@@ -467,7 +431,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		Time.timeScale = 1;
 
 		ifToShow = false;
-		recordScoreFromLastTime = score;
 		currentState = ShowStates.Animation;
 		handPanelMover.MoveTo(handPanelUpPos.anchoredPosition);
 		//stagePanelMover.MoveTo(stagePanelUpPos.anchoredPosition);
@@ -490,9 +453,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			startButtonMover.GetComponent<Button>().interactable = true;
 			thrower.addBanana(10);
 
-			ChangeLevelStatus(curTurn, recordScoreFromLastTime, true);
+			ChangeLevelStatus(curTurn, true);
 		} else {
-			ChangeLevelStatus(curTurn, recordScoreFromLastTime, false);
+			ChangeLevelStatus(curTurn, false);
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
 			curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
@@ -771,12 +734,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			case DecideScreenState.empty:
 
 
-				if (Input.GetMouseButtonDown(0) && canBeMovedOrSelected) {
-					enterInteraction = true;
-					//Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
+				if (Input.GetMouseButtonDown(0)) {
+					//enterInteraction = true;
+					
 					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
 						//选择到了表演小动物
-						//Debug.Log(firstDetect.name);
 						holdingAnimalObj = firstDetect;
 						moveFromStageIndex = Array.IndexOf(onStage, firstDetect);
 						FreePosOnStage(firstDetect);
@@ -794,20 +756,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 							if (animal.gameObject != firstDetect.transform.parent.gameObject) {
 								animal.EnterState(iconAnimal.iconState.half);
 							} else {
-                                //GameObject tryGet;
-                                //区分是否已经生成
-                                /*
-								if (iconToOnStage.TryGetValuesByKey(animal, out tryGet)) {
-									//如果已经创建
-									holdingAnimalObj = tryGet;
-									//释放onstage里
-									FreePosOnStage(tryGet);
-								} else {
-									//生成一个小动物
-									holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
-									animal.TryMinus(1);
-									
-								}*/
                                 holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
                                 animal.TryMinus(1);
 
@@ -842,9 +790,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					lastMousePosition = currentMousePosition; // 更新鼠标位置
 				}
 				if (Input.GetMouseButtonUp(0)) {
-
-					sliding = false;
-					enterInteraction = false;
+					//enterInteraction = false;
 					StartDecideState(DecideScreenState.empty);
 				}
 				break;
@@ -862,7 +808,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						//canBeMovedOrSelected = false;
 						//Invoke("ResetCanBeMoveOrSelect", 0.3f);
 					}
-					enterInteraction = false;
+					//enterInteraction = false;
 					GameObject Rect;
 					if (CheckIfRayCastElementWithTag("areaTag", out Rect)) {
 						//区分目标位置是否有动物
@@ -911,7 +857,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				}
 				if (Input.GetMouseButtonUp(0)) {
 
-					enterInteraction = false;
+					//enterInteraction = false;
 					GameObject Rect;
 					if (CheckIfRayCastElementWithTag("areaTag", out Rect)) {
 						areaReport rectReport = Rect.GetComponentInParent<areaReport>();
