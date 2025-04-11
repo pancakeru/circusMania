@@ -76,6 +76,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private MenuController menu;
     private ShowScoreManager scoreManager;
     private bool ifToShow = false;
+	private TutorialRelatedFunctionContainer tContainer = new TutorialRelatedFunctionContainer();
 
     //icon的开始y
     private float yStart;
@@ -159,9 +160,32 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	//[SerializeField]
 	private UiMover mover;
 	[SerializeField] private LevelProperty testLevel;
-    //public animalProperty testProperty;
-    #endregion
+	//public animalProperty testProperty;
+	#endregion
 
+	//这个类的作用是方便管理一些功能的开关
+	private class TutorialRelatedFunctionContainer
+	{
+		public bool ifBananaEnabled;
+
+		private int tempCountOfMover = 0;
+
+		public void DoBananaMoverAction(UiMover mover, Vector2 tarPos, int triggerindex = 0)
+		{
+			if (!ifBananaEnabled)
+				return;
+			tempCountOfMover += 1;
+			mover.MoveTo(tarPos, triggerindex);
+		}
+
+		public int TakeCount()
+		{
+			int realCount = tempCountOfMover;
+			tempCountOfMover = 0;
+			return realCount;
+		}
+
+	}
 
     private void Awake()
 	{
@@ -199,32 +223,30 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             initialPos.Add(new Vector2(x + offset * i, -350));
             myHandControls.Add(temp.GetComponent<iconAnimal>());
         }*/
-
-		//FOR ADDING BACK TO DECK
-		//instantiate a new iconAnimal prefab on the performance animal
-		//hide the sprite of the perfomance animal and only destroy obj if add condition is valid
-		//List.Insert(index, obj)
-		//when adding back to deck, check the two neighboring iconAnimal objs via collision detection
-		//when detected, get larger index position for insert
-		//for each iconAnimal on the smaller index and less, move distance left
-		//for each iconAnimal on the larger index and more, move distance right
-		//when pointer is let go in a valid spot, Insert the obj into the list and update all obj positions and Indexes
-		//if not in valid spot, go back to previous pos in performance
-
 	}
 
 	#region 调整show设置的函数
 	private SceneSetUpInfoContainer infoContainer = new SceneSetUpInfoContainer();
 
-	public void SetShowPositionNum(int n)
+	void SetShowPositionNum(int n)
 	{
 		infoContainer.SetPosNum(n);
 	}
 
-	public void SetScoreEnableState(bool ifRed, bool ifBlue, bool ifYellow, bool ifPopularity)
+	void SetScoreEnableState(bool ifRed, bool ifYellow, bool ifBlue, bool ifPopularity)
 	{
 		//首先是选人界面的不显示
+		targetDisplayManager.ChangeLevelTargetUiDisplayStatus(ifRed, ifYellow, ifBlue, ifPopularity);
 
+		//还要在结算禁用，这里先不搞了。
+	}
+
+	void SetBananaEnableState(bool ifBanana)
+	{
+		//首先依然是ui禁用
+		showBanana.gameObject.SetActive(ifBanana);
+		bananaUiMover.gameObject.SetActive(ifBanana);
+		tContainer.ifBananaEnabled = ifBanana;
 	}
 
     #endregion
@@ -237,6 +259,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		yStart = -600;
 		//areaOffset = 2;
 		//SetShowPositionNum(3);
+		//SetScoreEnableState(true, false, false, false);
+		SetBananaEnableState(false);
         curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
@@ -403,11 +427,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		camMover.MoveTo(CamInShow.position, ShowCamScale);
 		startButtonMover.MoveTo(StartButtonUp.anchoredPosition);
 		startButtonMover.GetComponent<Button>().interactable = false;
-		bananaUiMover.MoveTo(BanannaInShow.anchoredPosition);
-		targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
-		showBanana.MoveTo(ShowBanannaInShow.anchoredPosition);
+        targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
+
+        int count = 5;
+		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInShow.anchoredPosition);
+        tContainer.DoBananaMoverAction(showBanana, ShowBanannaInShow.anchoredPosition);
 		totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
-		moveCounter.SetUpCount(7);
+		moveCounter.SetUpCount(count+ tContainer.TakeCount());
 		var toGive = from x in onStage
 					 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
 					 select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
@@ -437,10 +463,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		scorePanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
 		camMover.MoveTo(CamInDecition.position, DecideCamScale);
 		startButtonMover.MoveTo(StartButtonDown.anchoredPosition);
-		bananaUiMover.MoveTo(BanannaInDecision.anchoredPosition);
-		targetPanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
-		showBanana.MoveTo(ShowBanannaInDecision.anchoredPosition);
-		moveCounter.SetUpCount(7);
+        targetPanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
+		int count = 5;
+		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInDecision.anchoredPosition);
+		tContainer.DoBananaMoverAction(showBanana, ShowBanannaInDecision.anchoredPosition);
+		moveCounter.SetUpCount(count+ tContainer.TakeCount());
 	}
 
 	void StartDecide()
@@ -550,61 +577,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.AnimalSounds[soundIndex]);
 	}
 
-	/*
-    public void UpdateHand(int index) {
-        for (int i = 0; i < myHand.Count; i++) {
-            GameObject icon = myHand[i];
-            iconAnimal script = icon.GetComponent<iconAnimal>();
-            script.myIndex = i;
-
-            if (script.myIndex > 0 && script.myIndex >= index && index != myHand.Count) {
-                script.myNeighbor = myHand[script.myIndex - 1];
-
-                float neighborX = script.myNeighbor.GetComponent<RectTransform>().anchoredPosition.x;
-
-                if (Mathf.Abs(icon.GetComponent<RectTransform>().anchoredPosition.x - neighborX) > offset) {
-                    script.UpdateDistance(neighborX, 1);
-                  // Debug.Log(script.myIndex + "'s NeighborX: " + (neighborX + offset));
-                } else {
-                   // script.destinationX = neighborX - offset;
-                    script.UpdateDistance(neighborX - offset, 1);
-                   // Debug.Log(script.myIndex + "'s !! NeighborX: " + (neighborX + offset));
-                }
-
-            } else if (script.myIndex == 0 && script.GetComponent<RectTransform>().anchoredPosition.x > -750) {
-                script.UpdateDistance(x, 0);
-            } else if (index == myHand.Count){
-                if (script.myIndex == index - 1) {
-                    script.myOtherNeighbor = null;
-                } else {
-                    script.myOtherNeighbor = myHand[script.myIndex + 1];
-                }
-
-                script.UpdateRight();
-            }
-        }
-    }
-
-    public void FixRightSpacing(int index) {
-
-        for (int i = 0; i < myHand.Count; i++) {
-            GameObject icon = myHand[i];
-            iconAnimal script = icon.GetComponent<iconAnimal>();
-            script.myIndex = i;
-
-     
-            if (script.myIndex == myHand.Count - 1) {
-                script.myOtherNeighbor = null;
-                script.otherDestinationX = 750;
-            } else {
-                 script.myOtherNeighbor = myHand[script.myIndex + 1];
-             }
-
-            script.UpdateRight();
-
-
-        }
-    }*/
+	
 
 	void SlideAnimalsInHand(float changeX)
 	{

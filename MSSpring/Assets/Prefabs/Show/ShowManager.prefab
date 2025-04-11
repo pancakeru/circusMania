@@ -2706,6 +2706,10 @@ MonoBehaviour:
   redText: {fileID: 6864463778176210473}
   yellowText: {fileID: 1444002410133575307}
   blueText: {fileID: 8936813985326299463}
+  redGroup: {fileID: 5197810709006361525}
+  blueGroup: {fileID: 8480561930158945181}
+  yellowGroup: {fileID: 355313479497637529}
+  popularityGroup: {fileID: 1555443441401525165}
 --- !u!1 &3851144513931929851
 GameObject:
   m_ObjectHideFlags: 0
@@ -5389,26 +5393,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23fe3117385458543a421328fd2cf9ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animalIcon: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
-  areaPrefab: {fileID: 8673306862137156812, guid: 421f6495fd1a04941bb6580cd8540860, type: 3}
-  handPanelTransform: {fileID: 5260605745781027647}
-  handPanelBackground: {fileID: 8233060587331449725}
-  stagePanelTransform: {fileID: 361399764238064026}
-  scorePanelMover: {fileID: 4884642555398274273}
-  camMover: {fileID: 0}
-  totalPerformanceControl: {fileID: 6179951092009611692}
-  startButtonMover: {fileID: 7459164847429035218}
-  bananaUiMover: {fileID: 3688654070112926123}
-  thrower: {fileID: 46177387696118106}
-  targetPanelMover: {fileID: 344609590902085556}
-  targetDisplayManager: {fileID: 6212122916851306683}
-  showBanana: {fileID: 5536725032797241924}
   xStart: -787
   offset: 220
-  areaOffset: 1.3
-  centerOffset: 1.8
-  holding: 1
-  stopMoving: 0
+  downRatio: 0.2
+  animalIcon: {fileID: 421157489778875282, guid: b74c3ada418f3b7429a1bb4946e5af5c, type: 3}
+  areaPrefab: {fileID: 8673306862137156812, guid: 421f6495fd1a04941bb6580cd8540860, type: 3}
   animalPerformancePrefabs:
   - {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
   - {fileID: 8739138568653257116, guid: 9c662ab07c59a4e6b9986f0fe6d40b76, type: 3}
@@ -5423,9 +5412,18 @@ MonoBehaviour:
   - {fileID: 9206156781316568134, guid: a3ec47397a70f44dd973f12578ddd128, type: 3}
   - {fileID: 6430829929080733764, guid: 93143acf62ea246638c546dde87be1c2, type: 3}
   - {fileID: 3849001227410943370, guid: d47ee8b15bb1c4fe9b6204b137dbc3c3, type: 3}
-  myHand: []
   uiRaycaster: {fileID: 7575455781150157547}
-  downRatio: 0.2
+  handPanelTransform: {fileID: 5260605745781027647}
+  handPanelBackground: {fileID: 8233060587331449725}
+  stagePanelTransform: {fileID: 361399764238064026}
+  scorePanelMover: {fileID: 4884642555398274273}
+  totalPerformanceControl: {fileID: 6179951092009611692}
+  targetDisplayManager: {fileID: 6212122916851306683}
+  showBanana: {fileID: 5536725032797241924}
+  startButtonMover: {fileID: 7459164847429035218}
+  bananaUiMover: {fileID: 3688654070112926123}
+  thrower: {fileID: 46177387696118106}
+  targetPanelMover: {fileID: 344609590902085556}
   repuRatio: 0.1
   handPanelUpPos: {fileID: 4742952251531995159}
   handPanelDownPos: {fileID: 2295095856043891573}
@@ -5449,11 +5447,6 @@ MonoBehaviour:
   endScreenDownPos: {fileID: 8101294351710891560}
   blacker: {fileID: 7464349264640751192}
   explainer: {fileID: 5278052055861880444}
-  soundIndex: 0
-  testProperty: {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
-  ifTest: 0
-  tarTrans: {fileID: 0}
-  mover: {fileID: 0}
   testLevel: {fileID: 11400000, guid: 1a17f8f76d2cd4bb5ae7c7a9d8db9631, type: 2}
 --- !u!114 &5278052055861880444
 MonoBehaviour:
