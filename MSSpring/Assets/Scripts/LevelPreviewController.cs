@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class LevelPreviewController : MonoBehaviour
 {
-    float scoreFillMax = 1000f;
+    private float scoreFillMax = 1000f;
+
+    private RectTransform backgroundRectTransform;
 
     [SerializeField] private Image nextSpotImage;
     [SerializeField] private TextMeshProUGUI nextSpotText;
@@ -15,14 +17,43 @@ public class LevelPreviewController : MonoBehaviour
     [SerializeField] private Image noveltyImageFill;
     [SerializeField] private TextMeshProUGUI noveltyText;
 
+    private bool isLetsGoButtonPressed = false;
+    [SerializeField] private GameObject decidePanel;
+
     private void Awake()
     {
         gameObject.SetActive(false);
+
+        backgroundRectTransform = GetComponent<RectTransform>();
+    }
+
+    private void Update()
+    {
+        if (!isLetsGoButtonPressed)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                Vector2 localMousePosition = backgroundRectTransform.InverseTransformPoint(Input.mousePosition);
+                if (!backgroundRectTransform.rect.Contains(localMousePosition))
+                {
+                    gameObject.SetActive(false);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     private void OnEnable()
     {
         UpdateVisual();
+    }
+
+    private void OnDisable()
+    {
+        isLetsGoButtonPressed = false;
     }
 
     private void UpdateVisual()
@@ -55,5 +86,17 @@ public class LevelPreviewController : MonoBehaviour
         {
             return 0f;
         }
+    }
+
+    public void LetsGoButtonPressed()
+    {
+        isLetsGoButtonPressed = true;
+        decidePanel.SetActive(true);
+    }
+
+    public void DecidePanelCancelled()
+    {
+        isLetsGoButtonPressed = false;
+        decidePanel.SetActive(false);
     }
 }
