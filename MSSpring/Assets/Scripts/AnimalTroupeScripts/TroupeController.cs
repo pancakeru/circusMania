@@ -222,12 +222,17 @@ public class TroupeController : MonoBehaviour
     public void Upgrade()
     {
         animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
-        if (coin >= upgradePrice)
+        if (GlobalManager.instance.animalLevels[animal.animalName] < GlobalManager.instance.maxLevel)
         {
-            coin -= upgradePrice;
-            GlobalManager.instance.UpdateLevel(animal.animalName, 1);
-            UpdateText();
+            if (coin >= upgradePrice)
+            {
+                coin -= upgradePrice;
+                GlobalManager.instance.UpdateLevel(animal.animalName, 1);
+                UpdateText();
+            }
+            else GlobalManager.instance.ShowMessageBox("Not enough coins!");
         }
-        else GlobalManager.instance.ShowMessageBox("Not enough coins!");
+        else GlobalManager.instance.ShowMessageBox("Already reached max level!");
+
     }
 }

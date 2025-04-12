@@ -231,7 +231,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public Dictionary<string, int> animalBasePrice = new Dictionary<string, int>();
     public Dictionary<string, int> animalPricePerLv = new Dictionary<string, int>();
 
-    public int maxPrice = 99;
+    public int maxPrice = 40;
     public void InitAnimalPrice()
 	{
         foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
@@ -303,9 +303,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;
-    int maxLevel = 5;
+    public int maxLevel;
     public void InitAnimalLevel()
     {
+		maxLevel = 5;
+
         foreach (animalProperty animal in allAnimals.properies)
         {
             animalLevels[animal.animalName] = initLevel;

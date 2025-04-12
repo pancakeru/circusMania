@@ -355,12 +355,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			case ShowStates.Performance:
 				//表演
 				if (Input.GetKeyDown(KeyCode.E)) {
-					if (speedRatio != 1)
-						speedRatio = 1;
-					else
-						speedRatio *= 2;
+					if (speedRatio == 1) speedRatio = 2;
+					else if (speedRatio == 2) speedRatio = 5;
+                    else if (speedRatio == 5) speedRatio = 1;
 
-					Time.timeScale = speedRatio;
+                    Time.timeScale = speedRatio;
 
 				}
 				break;
