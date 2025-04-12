@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class MessageBoxController : MonoBehaviour
 {
-    public MessageType messageType;
+    [HideInInspector] public MessageType messageType;
+    [HideInInspector] public Action action;
+
     public TextMeshProUGUI uiText;
     public Image uiBg;
     public GameObject yesButton;
     public GameObject noButton;
+    
 
     void Start()
     {
@@ -41,11 +45,12 @@ public class MessageBoxController : MonoBehaviour
 
     public void Yes()
     {
-
+        action?.Invoke();
+        Destroy(gameObject);
     }
 
     public void No()
     {
-
+        Destroy(gameObject);
     }
 }

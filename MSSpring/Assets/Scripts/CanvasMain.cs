@@ -42,9 +42,12 @@ public class CanvasMain : MonoBehaviour
         newMessageBox.GetComponent<MessageBoxController>().uiText.text = text;
     }
 
-    public void DisplaySelection(string text)
+    public void DisplaySelection(string text, Action action)
     {
-
+        GameObject newMessageBox = Instantiate(messageBox, transform);
+        newMessageBox.GetComponent<MessageBoxController>().messageType = MessageType.Selection;
+        newMessageBox.GetComponent<MessageBoxController>().action = action;
+        newMessageBox.GetComponent<MessageBoxController>().uiText.text = text;
     }
 
     public static void EnableUIInteraction()

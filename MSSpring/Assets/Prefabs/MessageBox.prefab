@@ -120,7 +120,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7862744608703569814}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8433732640480254676}
+        m_TargetAssemblyTypeName: MessageBoxController, Assembly-CSharp
+        m_MethodName: No
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1043413468956954203
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,8 +320,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b9628fef9672774ab0b8462c805899b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  messageType: 0
   uiText: {fileID: 3675451293325336634}
   uiBg: {fileID: 1099975314448479618}
+  yesButton: {fileID: 5359397968502663698}
+  noButton: {fileID: 277254912239192762}
 --- !u!114 &8833304432156618415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,7 +710,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 151078583282604691}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8433732640480254676}
+        m_TargetAssemblyTypeName: MessageBoxController, Assembly-CSharp
+        m_MethodName: Yes
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8388007236394500586
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,9 +81,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();//需要重置
 	private int moveFromStageIndex;
 	private bool inDown = false;
-	private LevelProperty curLevel;
+	[HideInInspector] public LevelProperty curLevel;
 	private float curScore;
-	private int curTurn;
+    [HideInInspector] public int curTurn;
 	private float curRepu;
 
 	//表演速率和状态
@@ -369,24 +369,24 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 				}
 
-				if (Input.GetKeyDown(KeyCode.Escape))
-				{
-					if (Time.timeScale > 0)
-					{
-                        Time.timeScale = 0;
-                        pauseShow.SetActive(true);
-                    }
-					else
-					{
-						PauseResume();
-                    }
-				}
-
 				break;
 		}
 
-		//TODO:把这部分结合进statemachine
-		/*
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale > 0)
+            {
+                Time.timeScale = 0;
+                pauseShow.SetActive(true);
+            }
+            else
+            {
+                PauseResume();
+            }
+        }
+
+        //TODO:把这部分结合进statemachine
+        /*
         if (Input.GetMouseButtonDown(0)&& canBeMovedOrSelected)
         {
             //Debug.Log(CheckIfRayCastElementWithTag("showAnimalInHand"));
@@ -438,22 +438,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
             enterInteraction = false;
         }*/
 
-	}
-
-    #region Pause Menu
+    }
 
 	public void PauseResume()
 	{
         Time.timeScale = speedRatio;
         pauseShow.SetActive(false);
     }
-
-	public void PauseEndThisRound()
-	{
-
-	}
-
-    #endregion
 
     void ResetCanBeMoveOrSelect()
 	{
@@ -514,7 +505,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		moveCounter.SetUpCount(7);
 	}
 
-	void StartDecide()
+	public void StartDecide()
 	{
 		curTurn += 1;
 		if (curTurn <= curLevel.allowedTurn) {
