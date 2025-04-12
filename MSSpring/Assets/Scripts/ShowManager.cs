@@ -56,6 +56,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     [SerializeField] private UiMover bananaUiMover;
     [SerializeField] private BananaThrower thrower;
     [SerializeField] private UiMover targetPanelMover;
+	[SerializeField] private GameObject turnRelatedGMO;
     #endregion
 
     #region 记录变量
@@ -76,7 +77,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     private MenuController menu;
     private ShowScoreManager scoreManager;
     private bool ifToShow = false;
-	private TutorialRelatedFunctionContainer tContainer = new TutorialRelatedFunctionContainer();
+	private TutorialRelatedFunctionContainer tContainer;
 
     //icon的开始y
     private float yStart;
@@ -161,14 +162,30 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private UiMover mover;
 	[SerializeField] private LevelProperty testLevel;
 	//public animalProperty testProperty;
+
+	[Header("测试替换")]
+	[SerializeField] private AnimalStart switchhand;
+
 	#endregion
 
 	//这个类的作用是方便管理一些功能的开关
 	private class TutorialRelatedFunctionContainer
 	{
+		private ShowManager father;
+
+		public TutorialRelatedFunctionContainer(ShowManager manager)
+		{
+			father = manager;
+		}
+
 		public bool ifBananaEnabled;
+		public bool ifTurnEnabled;
+		
 
 		private int tempCountOfMover = 0;
+
+		private bool ifNewHand = false;
+		private List<animalProperty> hand;
 
 		public void DoBananaMoverAction(UiMover mover, Vector2 tarPos, int triggerindex = 0)
 		{
@@ -185,6 +202,30 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			return realCount;
 		}
 
+		public void ChangeBananaDuringShow(int toAdd)
+		{
+			if (!ifBananaEnabled)
+				return;
+			father.thrower.addBanana(toAdd);
+		}
+
+		public void DoTurnAddAction()
+		{
+			if (ifTurnEnabled)
+				father.curTurn += 1;
+		}
+
+		public void ChangeHand(bool ifNewHand, List<animalProperty> newHand)
+		{
+			this.ifNewHand = ifNewHand;
+			hand = newHand;
+		}
+
+		public List<animalProperty> GetCurrentHand()
+		{
+			return ifNewHand ? hand : GlobalManager.instance.getAllAnimals();
+		}
+
 	}
 
     private void Awake()
@@ -199,6 +240,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
 		scoreManager = GetComponent<ShowScoreManager>();
+		
 
     }
 
@@ -249,6 +291,49 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		tContainer.ifBananaEnabled = ifBanana;
 	}
 
+	void SetTurnEnableState(bool ifTurn)
+	{
+		//禁用ui
+		turnRelatedGMO.SetActive(ifTurn);
+		//设置逻辑
+		tContainer.ifTurnEnabled = ifTurn;
+	}
+
+	public bool GetIfBananaEnabled()
+	{
+		return tContainer.ifBananaEnabled;
+	}
+
+	void SetHandAnimal(bool ifNewHand, List<animalProperty> newHand)
+	{
+		tContainer.ChangeHand(ifNewHand, newHand);
+	}
+
+	void SetAndInitializeHandAnimal(bool ifNewHand, List<animalProperty> newHand)
+	{
+		SetHandAnimal(ifNewHand, newHand);
+        foreach (GameObject an in onStage)
+        {
+            if (an != null)
+                SetUnSelectIconInHand(an);
+        }
+        foreach (GameObject handIcon in myHand)
+        {
+            Destroy(handIcon);
+        }
+        onStage = new GameObject[6];
+        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+        myHandControls = new List<iconAnimal>();
+        myHand = new List<GameObject>();
+        initialPos = new List<Vector2>();
+        InitializeHand(tContainer.GetCurrentHand());
+	}
+
+	void SetIfChangeTroupePrice()
+	{
+
+	}
+
     #endregion
 
     //Functions
@@ -257,10 +342,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//x = -750;
 		//offset = 300;
 		yStart = -600;
+        tContainer = new TutorialRelatedFunctionContainer(this);
 		//areaOffset = 2;
 		//SetShowPositionNum(3);
 		//SetScoreEnableState(true, false, false, false);
-		SetBananaEnableState(false);
+		//SetBananaEnableState(false);
+		//SetTurnEnableState(false);
+		//SetHandAnimal(false, new List<animalProperty>(switchhand.properies));
         curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
@@ -275,17 +363,17 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                          .ToArray(), Enumerable.Range(0, 6)
                          .Select(i => infoContainer.GetStageLocalX(i))
                          .ToArray());
-		thrower.changeCount(10);
-		//位置 GameObject
-		
-		
-		for (int i = 0; i < infoContainer.posNum; i++) {
+        tContainer.ChangeBananaDuringShow(10);
+        //位置 GameObject
+
+
+        for (int i = 0; i < infoContainer.posNum; i++) {
 			GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
 			temp.GetComponent<areaReport>().spotNum = i;
 			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + infoContainer.areaOffset * i + infoContainer.centerOffset, 0);
 			posRecord[i] = temp.GetComponent<areaReport>();
 		}
-		InitializeHand(GlobalManager.instance.getAllAnimals());
+		InitializeHand(tContainer.GetCurrentHand());
 		currentState = ShowStates.SelectAnimal;
 		stagePanelMover.gameObject.SetActive(true);
 		//TODO:改成到地方再可以交互
@@ -399,17 +487,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				break;
 
 			case ShowStates.Performance:
-				//表演
-				if (Input.GetKeyDown(KeyCode.E)) {
-					if (speedRatio != 1)
-						speedRatio = 1;
-					else
-						speedRatio *= 2;
+                //表演
+                if(Input.GetKeyDown(KeyCode.E)) {
+                    if (speedRatio == 1) speedRatio = 2;
+                    else if (speedRatio == 2) speedRatio = 10;
+                    else if (speedRatio == 5) speedRatio = 1;
 
-					Time.timeScale = speedRatio;
+                    Time.timeScale = speedRatio;
 
-				}
-				break;
+                }
+                break;
 		}
 
 		
@@ -472,13 +559,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void StartDecide()
 	{
-		curTurn += 1;
+		tContainer.DoTurnAddAction();
 		if (curTurn <= curLevel.allowedTurn) {
 			//Debug.Log("开始decide");
 			currentState = ShowStates.SelectAnimal;
 			stagePanelMover.gameObject.SetActive(true);
 			startButtonMover.GetComponent<Button>().interactable = true;
-			thrower.addBanana(10);
+			tContainer.ChangeBananaDuringShow(10);
 
 			ChangeLevelStatus(curTurn, true);
 		} else {
@@ -705,8 +792,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		switch (curDecideState) {
 			case DecideScreenState.empty:
-
-
 				if (Input.GetMouseButtonDown(0)) {
 					//enterInteraction = true;
 					
@@ -724,7 +809,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						//进入滑动
 					} else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()) {
 						//进入上下
-						//Debug.Log(firstDetect.transform.parent.name);
+						Debug.Log(firstDetect.transform.parent.name);
 						foreach (iconAnimal animal in myHandControls) {
 							if (animal.gameObject != firstDetect.transform.parent.gameObject) {
 								animal.EnterState(iconAnimal.iconState.half);

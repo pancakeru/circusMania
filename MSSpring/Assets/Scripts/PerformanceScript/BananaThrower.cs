@@ -8,6 +8,8 @@ public class  BananaThrower : MonoBehaviour
     private int curBanana = 20;
 
     private bool showStart;
+    private ShowManager selfManager;
+
 
     [SerializeField] private TextMeshProUGUI InDecisionText;
     [SerializeField] private TextMeshProUGUI InShowText;
@@ -22,9 +24,13 @@ public class  BananaThrower : MonoBehaviour
         */
     }
 
-    public void ShowStart(bool ifStart)
+    public void ShowStart(bool ifStart, ShowManager manager)
     {
         showStart = ifStart;
+        if (ifStart)
+        {
+            selfManager = manager;
+        }
     }
 
     // Update is called once per frame
@@ -35,7 +41,7 @@ public class  BananaThrower : MonoBehaviour
             return;
         }
             
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)&& selfManager.GetIfBananaEnabled())
         {
             if (curBanana <= 0)
                 return;

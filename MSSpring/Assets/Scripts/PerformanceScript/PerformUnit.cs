@@ -125,7 +125,7 @@ public class PerformUnit : MonoBehaviour
 	void StartShow()
 	{
 		//allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
-		thrower.ShowStart(true);
+		thrower.ShowStart(true,totalManager);
 
 		for (int i = 0; i < allAnimalsInShow.Length; i++) {
 			if (allAnimalsInShow[i] != null) {
@@ -249,7 +249,7 @@ public class PerformUnit : MonoBehaviour
 					control.BackToInitial();
 			}
 
-			thrower.ShowStart(false);
+			thrower.ShowStart(false,totalManager);
 			Invoke("BackToDecide", 1f);
 		}
 	}

@@ -5424,6 +5424,7 @@ MonoBehaviour:
   bananaUiMover: {fileID: 3688654070112926123}
   thrower: {fileID: 46177387696118106}
   targetPanelMover: {fileID: 344609590902085556}
+  turnRelatedGMO: {fileID: 4443025822569602612}
   repuRatio: 0.1
   handPanelUpPos: {fileID: 4742952251531995159}
   handPanelDownPos: {fileID: 2295095856043891573}
