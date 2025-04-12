@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 
 public class ShowManager : MonoBehaviour, IReportReceiver
 {
@@ -44,6 +45,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public UiMover targetPanelMover;
 	[SerializeField] private targetPanelManager targetDisplayManager;
 	[SerializeField] private UiMover showBanana;
+
+	public GameObject pauseShow;
 
 	private float y;
 	private float yStart;
@@ -157,7 +160,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		camMover = Camera.main.GetComponent<CameraMover>();
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
-	}
+
+		pauseShow.SetActive(false);
+
+    }
 
 	void Start()
 	{
@@ -356,12 +362,26 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				//表演
 				if (Input.GetKeyDown(KeyCode.E)) {
 					if (speedRatio == 1) speedRatio = 2;
-					else if (speedRatio == 2) speedRatio = 5;
+					else if (speedRatio == 2) speedRatio = 10;
                     else if (speedRatio == 5) speedRatio = 1;
 
                     Time.timeScale = speedRatio;
 
 				}
+
+				if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					if (Time.timeScale > 0)
+					{
+                        Time.timeScale = 0;
+                        pauseShow.SetActive(true);
+                    }
+					else
+					{
+						PauseResume();
+                    }
+				}
+
 				break;
 		}
 
@@ -420,7 +440,22 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	}
 
-	void ResetCanBeMoveOrSelect()
+    #region Pause Menu
+
+	public void PauseResume()
+	{
+        Time.timeScale = speedRatio;
+        pauseShow.SetActive(false);
+    }
+
+	public void PauseEndThisRound()
+	{
+
+	}
+
+    #endregion
+
+    void ResetCanBeMoveOrSelect()
 	{
 		canBeMovedOrSelected = true;
 	}

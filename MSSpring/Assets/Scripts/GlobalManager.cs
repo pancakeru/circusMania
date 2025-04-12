@@ -37,7 +37,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 	private animalProperty toTestAdd;
 
 	[Header("Others")]
-	[SerializeField] GameObject messageBox;
 
     [SerializeField] LevelPreviewController levelPreviewController;
 
@@ -323,12 +322,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     }
 
     #endregion
-
-	public void ShowMessageBox(string text)
-	{
-		GameObject newMessageBox = Instantiate(messageBox, CanvasMain.instance.transform);
-		newMessageBox.GetComponent<MessageBoxController>().uiText.text = text;
-	}
 
     public enum TestAction
 	{
