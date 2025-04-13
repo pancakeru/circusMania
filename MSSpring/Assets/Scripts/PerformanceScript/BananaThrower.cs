@@ -99,7 +99,7 @@ public class  BananaThrower : MonoBehaviour
 
     public void addBanana(int n)
     {
-        
+        Debug.Log("添加了"+n);
         curBanana += n;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();

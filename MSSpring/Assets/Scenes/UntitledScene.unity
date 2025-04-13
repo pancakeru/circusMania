@@ -517,6 +517,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 116246184334567822, guid: 1720febd179164b488a09579afca0477, type: 3}
+      propertyPath: addhand
+      value: 
+      objectReference: {fileID: 11400000, guid: e03bcde6684594403a9ab211a7e75c60, type: 2}
+    - target: {fileID: 116246184334567822, guid: 1720febd179164b488a09579afca0477, type: 3}
       propertyPath: switchhand
       value: 
       objectReference: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
@@ -789,7 +793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 396708199601040024, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000031086613
+      value: 0.000012397766
       objectReference: {fileID: 0}
     - target: {fileID: 773762158328301882, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: m_AnchorMax.x

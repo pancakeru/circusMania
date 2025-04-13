@@ -288,6 +288,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
     }
 
+
+	public void DirectResetAnimalBallPassTime()
+	{
+		foreach (animalProperty animal in allAnimals.properies)
+		{
+            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
+        }
+	}
+
     void UpdatePrice(string animalName)
     {
         animalPrices[animalName] = animalBasePrice[animalName] + animalPricePerLv[animalName] * animalPriceLevel[animalName];

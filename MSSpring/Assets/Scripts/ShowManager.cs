@@ -25,7 +25,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		empty,
 		slide,
 		choose,
-		moveAnimal
+		moveAnimal,
+		tutorial
 	}
 
 	#region 从外部获取的变量
@@ -165,7 +166,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	[Header("测试替换")]
 	[SerializeField] private AnimalStart switchhand;
-
+	[Header("测试添加")]
+	[SerializeField] private animalProperty addhand;
 	#endregion
 
 	//这个类的作用是方便管理一些功能的开关
@@ -178,8 +180,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			father = manager;
 		}
 
-		public bool ifBananaEnabled;
-		public bool ifTurnEnabled;
+		public bool ifBananaEnabled = true;
+		public bool ifTurnEnabled = true;
+		public bool ifChangePrice = true;
+		public bool ifUpdatePopularity = true;
 		
 
 		private int tempCountOfMover = 0;
@@ -225,6 +229,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			return ifNewHand ? hand : GlobalManager.instance.getAllAnimals();
 		}
+
+		public void EndTurnScoreChange()
+		{
+            if (ifUpdatePopularity)
+                father.scoreManager.EndTurn();
+        }
 
 	}
 
@@ -329,10 +339,56 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         InitializeHand(tContainer.GetCurrentHand());
 	}
 
-	void SetIfChangeTroupePrice()
+	void SetIfChangeTroupePrice(bool ifChange)
 	{
-
+		tContainer.ifChangePrice = ifChange;
 	}
+
+	void SetIfUpdatePopularity(bool ifPopularity)
+	{
+		tContainer.ifUpdatePopularity = ifPopularity;
+	}
+
+	void SetDicideStateInteractionEnabled(bool ifCanInteract)
+	{
+		StartDecideState(ifCanInteract? DecideScreenState.empty:DecideScreenState.tutorial);
+	}
+
+    public void AddAnimalToHand(animalProperty animal)
+    {
+        // 检查是否已经存在这个动物（按名字）
+        bool alreadyExists = false;
+
+        foreach (iconAnimal icon in myHandControls)
+        {
+            if (icon.selfProperty.animalName == animal.animalName)
+            {
+				icon.AddNum(1);
+				alreadyExists = true;
+                break;
+            }
+        }
+
+        if (alreadyExists)
+        {
+            return; // ✅ 已经有这个动物，只是更新数量即可
+        }
+
+        // ✅ 否则是一个新动物：创建新 icon
+        GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
+        myHand.Add(temp);
+
+        int index = myHand.Count - 1;
+        iconAnimal iconComp = temp.GetComponent<iconAnimal>();
+        iconComp.Initialize(animal, 1, false);
+        iconComp.myIndex = index;
+
+        RectTransform rt = temp.GetComponentInChildren<RectTransform>();
+        rt.anchoredPosition = new Vector2(xStart + offset * index, yStart);
+
+        initialPos.Add(new Vector2(xStart + offset * index, iconComp.yGoal));
+        myHandControls.Add(iconComp);
+    }
 
     #endregion
 
@@ -349,6 +405,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//SetBananaEnableState(false);
 		//SetTurnEnableState(false);
 		//SetHandAnimal(false, new List<animalProperty>(switchhand.properies));
+		//SetIfChangeTroupePrice(false);
+		SetIfUpdatePopularity(false);
         curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
@@ -363,7 +421,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                          .ToArray(), Enumerable.Range(0, 6)
                          .Select(i => infoContainer.GetStageLocalX(i))
                          .ToArray());
-        tContainer.ChangeBananaDuringShow(10);
+		//tContainer.ChangeBananaDuringShow(10);
+		//是要设置香蕉
+		thrower.changeCount(10);
         //位置 GameObject
 
 
@@ -427,8 +487,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
 	{
-        GetComponent<ShowScoreManager>().EndTurn();
-        GetComponent<ShowScoreManager>().StartTurn();
+		tContainer.EndTurnScoreChange();   
+        scoreManager.StartTurn();
         curRepu = GetComponent<ShowScoreManager>().currentReputation;
 		
 		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
@@ -582,6 +642,14 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	public void LeaveShow()
 	{
+		if (tContainer.ifChangePrice)
+		{
+			GlobalManager.instance.CalculateAnimalPrice();
+		}
+		else
+		{
+			GlobalManager.instance.DirectResetAnimalBallPassTime();
+		}
 		foreach (GameObject an in onStage) {
 			if (an != null)
 				SetUnSelectIconInHand(an);
@@ -593,6 +661,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		Destroy(curEndScreen);
 		menu.Enable();
 		GetComponent<ShowScoreManager>().ResetReputation();
+		
 	}
 
 	private Counter moveCounter = new Counter();
@@ -762,6 +831,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			case DecideScreenState.moveAnimal:
 				inDown = true;
 				break;
+
 		}
 		curDecideState = newState;
 	}
@@ -792,7 +862,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		switch (curDecideState) {
 			case DecideScreenState.empty:
-				if (Input.GetMouseButtonDown(0)) {
+				
+                if (Input.GetMouseButtonDown(0)) {
 					//enterInteraction = true;
 					
 					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
@@ -831,14 +902,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						if (firstDetect != null)
 							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
 						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
-					} else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
-						if (firstDetect != null)
-							explainer.StartMechanicExplain(firstDetect.GetComponent<RectTransform>());
 					} else {
 						explainer.DownExplain();
 					}
-				}
-				break;
+                    /*
+					 * } else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
+						if (firstDetect != null)
+							explainer.StartMechanicExplain(firstDetect.GetComponent<RectTransform>());
+					 */
+                }
+                //if (Input.GetKeyDown(KeyCode.P))
+                    //SetDicideStateInteractionEnabled(false);
+                break;
 
 			case DecideScreenState.slide:
 				if (Input.GetMouseButton(0)) {
@@ -937,6 +1012,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 				}
 				break;
+
+			case DecideScreenState.tutorial:
+                //if (Input.GetKeyDown(KeyCode.P))
+                    //SetDicideStateInteractionEnabled(true);
+                break;
 		}
 	}
 
