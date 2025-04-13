@@ -5,6 +5,7 @@ public class GlobalLevel : ScriptableObject
 {
 	public int levelIndex;
 	public Sprite showVisual;
+	public string levelName;
 	public AnimalPool animalPool;
 	public LevelProperty levelProperty;
 }

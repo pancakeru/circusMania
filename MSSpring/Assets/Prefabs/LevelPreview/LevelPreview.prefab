@@ -621,7 +621,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextSpotImage: {fileID: 5945677459264155098}
-  nextSpotText: {fileID: 5333279138099081906}
+  nextSpotName: {fileID: 4956263327594873096}
+  nextSpotTurnText: {fileID: 5333279138099081906}
   funImageFill: {fileID: 6544143487528645161}
   funText: {fileID: 4703495839056519520}
   skillImageFill: {fileID: 2981315537349071775}
@@ -630,6 +631,7 @@ MonoBehaviour:
   noveltyText: {fileID: 6843833904994331595}
   tourSchedule: {fileID: 4581790882294715717}
   decidePanel: {fileID: 0}
+  container: {fileID: 0}
 --- !u!1 &1688542047268060193
 GameObject:
   m_ObjectHideFlags: 0

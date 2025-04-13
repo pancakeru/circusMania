@@ -11,7 +11,8 @@ public class LevelPreviewController : MonoBehaviour
 
     [Header("Next Spot")]
     [SerializeField] private Image nextSpotImage;
-    [SerializeField] private TextMeshProUGUI nextSpotText;
+    [SerializeField] private TextMeshProUGUI nextSpotName;
+    [SerializeField] private TextMeshProUGUI nextSpotTurnText;
 
     [Header("Fun - Skill - Novelty")]
     [SerializeField] private Image funImageFill;
@@ -129,7 +130,8 @@ public class LevelPreviewController : MonoBehaviour
         LevelProperty currentLevelProperty = currentGlobalLevel.levelProperty;
 
         nextSpotImage.sprite = currentGlobalLevel.showVisual;
-        nextSpotText.text = GlobalManager.instance.GetCurrentGlobalLevel().levelIndex.ToString() + "/" + GlobalManager.instance.GetGlobalLevelArray().Length.ToString();
+        nextSpotName.text = currentGlobalLevel.levelName;
+        nextSpotTurnText.text = GlobalManager.instance.GetCurrentGlobalLevel().levelIndex.ToString() + "/" + GlobalManager.instance.GetGlobalLevelArray().Length.ToString();
 
         float[] targetScoreArray = CalculateTargetScore(currentLevelProperty);
         float funTargetScore = targetScoreArray[0];
