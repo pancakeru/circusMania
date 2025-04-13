@@ -706,7 +706,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5063139464447580199}
+      - m_Target: {fileID: 6380959229761856796}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -4763,7 +4763,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6433276060346271447, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
   m_PrefabInstance: {fileID: 5838155602892403097}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5063139464447580199}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cde418adef074563b86162d19926f5f, type: 3}
@@ -4772,10 +4772,5 @@ MonoBehaviour:
 --- !u!224 &2505855674852534218 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8341754903594587731, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
-  m_PrefabInstance: {fileID: 5838155602892403097}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5063139464447580199 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1677213808960170430, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
   m_PrefabInstance: {fileID: 5838155602892403097}
   m_PrefabAsset: {fileID: 0}
