@@ -58,6 +58,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     [SerializeField] private BananaThrower thrower;
     [SerializeField] private UiMover targetPanelMover;
 	[SerializeField] private GameObject turnRelatedGMO;
+    public GameObject pauseShow;
     #endregion
 
     #region 记录变量
@@ -250,7 +251,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
 		scoreManager = GetComponent<ShowScoreManager>();
-		
+        pauseShow.SetActive(false);
 
     }
 
@@ -559,11 +560,31 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 break;
 		}
 
-		
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale > 0)
+            {
+                Time.timeScale = 0;
+                pauseShow.SetActive(true);
+            }
+            else
+            {
+                PauseResume();
+            }
+        }
 
-	}
 
-	public void StartMoveToShow()
+
+    }
+
+    public void PauseResume()
+    {
+        Time.timeScale = speedRatio;
+        pauseShow.SetActive(false);
+    }
+
+
+    public void StartMoveToShow()
 	{
 		ifToShow = true;
 		currentState = ShowStates.Animation;
@@ -911,8 +932,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 							explainer.StartMechanicExplain(firstDetect.GetComponent<RectTransform>());
 					 */
                 }
+
+                
                 //if (Input.GetKeyDown(KeyCode.P))
-                    //SetDicideStateInteractionEnabled(false);
+                //SetDicideStateInteractionEnabled(false);
                 break;
 
 			case DecideScreenState.slide:
