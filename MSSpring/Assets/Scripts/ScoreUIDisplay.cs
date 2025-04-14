@@ -28,6 +28,10 @@ public class ScoreUIDisplay : MonoBehaviour
 	[SerializeField] private Image yellowFill;
 	[SerializeField] private Image blueFill;
 
+	[SerializeField] private TextMeshProUGUI redPopularityChange;
+	[SerializeField] private TextMeshProUGUI yellowPopularityChange;
+	[SerializeField] private TextMeshProUGUI bluePopularityChange;
+
 	[Header("For Test")]
 	[SerializeField]
 	TestAction nextTestAction;
@@ -44,9 +48,11 @@ public class ScoreUIDisplay : MonoBehaviour
 
 	private void Update()
 	{
-		if (ifTest) {
+		if (ifTest)
+		{
 			ifTest = false;
-			switch (nextTestAction) {
+			switch (nextTestAction)
+			{
 				case TestAction.ChangeYellow:
 					UpdateYellowScore(changeTo, "测试");
 					break;
@@ -81,7 +87,6 @@ public class ScoreUIDisplay : MonoBehaviour
 
 	public void UpdateLastScore(float newValue, string changeName)
 	{
-		//Debug.Log("改动上一次" + newValue.ToString());
 		if (lastCoroutine != null) StopCoroutine(lastCoroutine);
 		lastCoroutine = StartCoroutine(AnimateText(lastText, newValue, 0));
 	}
@@ -104,7 +109,8 @@ public class ScoreUIDisplay : MonoBehaviour
 		ChangeFillAmount("Blue", GetScoreNormalized(newValue, targetBlueScore));
 	}
 
-	public void ScoreSound() {
+	public void ScoreSound()
+	{
 		AudioManagerScript.Instance.PlayBattleSound(AudioManagerScript.Instance.UI[5]);
 	}
 
@@ -113,7 +119,8 @@ public class ScoreUIDisplay : MonoBehaviour
 		float startValue = float.Parse(text.text);
 		float elapsedTime = 0f;
 
-		while (elapsedTime < changeDuration) {
+		while (elapsedTime < changeDuration)
+		{
 			elapsedTime += Time.deltaTime;
 			float t = elapsedTime / changeDuration;
 			float newValue = Mathf.Lerp(startValue, targetValue, t);
@@ -131,8 +138,8 @@ public class ScoreUIDisplay : MonoBehaviour
 	{
 		return;
 		//Debug.Log("改动总" + newValue.ToString());
-		if (totalScoreCoroutine != null) StopCoroutine(totalScoreCoroutine);
-		totalScoreCoroutine = StartCoroutine(AnimateText(totalScoreText, newValue, 0));
+		/*if (totalScoreCoroutine != null) StopCoroutine(totalScoreCoroutine);
+		totalScoreCoroutine = StartCoroutine(AnimateText(totalScoreText, newValue, 0));*/
 	}
 
 	public void UpdateTargetScores(float targetRed, float targetYellow, float targetBlue)
@@ -147,16 +154,20 @@ public class ScoreUIDisplay : MonoBehaviour
 
 	private float GetScoreNormalized(float currentScore, float targetScore)
 	{
-		if (currentScore != 0f) {
+		if (currentScore != 0f)
+		{
 			return currentScore / targetScore;
-		} else {
+		}
+		else
+		{
 			return 0f;
 		}
 	}
 
 	private void ChangeFillAmount(string scoreType, float fillAmount)
 	{
-		switch (scoreType) {
+		switch (scoreType)
+		{
 			case "Red":
 				redFill.fillAmount = fillAmount;
 				break;
@@ -167,6 +178,13 @@ public class ScoreUIDisplay : MonoBehaviour
 				blueFill.fillAmount = fillAmount;
 				break;
 		}
+	}
+
+	public void UpdatePopularityChangeVisual(float[] respectiveEndTurnReputationChange)
+	{
+		redPopularityChange.text = respectiveEndTurnReputationChange[0].ToString();
+		yellowPopularityChange.text = respectiveEndTurnReputationChange[1].ToString();
+		bluePopularityChange.text = respectiveEndTurnReputationChange[2].ToString();
 	}
 
 	public enum TestAction

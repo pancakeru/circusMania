@@ -36,9 +36,6 @@ public class ShowScoreManager : MonoBehaviour
 		targetRedScore = CalculateTargetScore(ScoreType.Red, nArray[0]);
 		targetYellowScore = CalculateTargetScore(ScoreType.Yellow, nArray[1]);
 		targetBlueScore = CalculateTargetScore(ScoreType.Blue, nArray[2]);
-
-		//Debug.Log("Current Reputation: " + currentReputation);
-		//Debug.Log("Current Turn Target Score: " + targetRedScore + ", " + targetYellowScore + ", " + targetBlueScore);
 	}
 
 	public float[] GetTargetScore()
@@ -49,40 +46,57 @@ public class ShowScoreManager : MonoBehaviour
 	public void EndTurn()
 	{
 		float lastRepu = currentReputation;
+		float[] respectiveEndTurnReputationChangeArray = CalculateRespectiveEndTurnReputationChange();
+		foreach (float respectiveEndTurnReputationChange in respectiveEndTurnReputationChangeArray)
+		{
+			currentReputation += respectiveEndTurnReputationChange;
+		}
+		repuChanges.Enqueue((int)(currentReputation - lastRepu));
+	}
+
+	public float[] CalculateRespectiveEndTurnReputationChange()
+	{
 		float[] endScreenScoreArray = showManager.totalPerformanceControl.GetCurrentScoreArray();
-		for (int i = 0; i < endScreenScoreArray.Length; i++) {
-			switch (i) {
+		float redChange = 0f;
+		float yellowChange = 0f;
+		float blueChange = 0f;
+		for (int i = 0; i < endScreenScoreArray.Length; i++)
+		{
+			switch (i)
+			{
 				case 0:
-					//Debug.Log("红分是" + endScreenScoreArray[i]);
-					//Debug.Log("目标红分时"+ targetRedScore);
-					if (endScreenScoreArray[i] > targetRedScore) {
-						currentReputation += (endScreenScoreArray[i] - targetRedScore) * reputationConversionRate;
-					} else {
-						currentReputation -= targetRedScore - endScreenScoreArray[i];
+					if (endScreenScoreArray[i] > targetRedScore)
+					{
+						redChange = (endScreenScoreArray[i] - targetRedScore) * reputationConversionRate;
+					}
+					else
+					{
+						redChange = -(targetRedScore - endScreenScoreArray[i]);
 					}
 					break;
 				case 1:
-                    //Debug.Log("黄分是" + endScreenScoreArray[i]);
-                    //Debug.Log("目标黄分时" + targetYellowScore);
-                    if (endScreenScoreArray[i] > targetYellowScore) {
-						currentReputation += (endScreenScoreArray[i] - targetYellowScore) * reputationConversionRate;
-					} else {
-						currentReputation -= targetYellowScore - endScreenScoreArray[i];
+					if (endScreenScoreArray[i] > targetYellowScore)
+					{
+						yellowChange = (endScreenScoreArray[i] - targetYellowScore) * reputationConversionRate;
+					}
+					else
+					{
+						yellowChange = -(targetYellowScore - endScreenScoreArray[i]);
 					}
 					break;
 				case 2:
-                    //Debug.Log("蓝分是" + endScreenScoreArray[i]);
-                    //Debug.Log("目标蓝分时" + targetBlueScore);
-                    if (endScreenScoreArray[i] > targetBlueScore) {
-						currentReputation += (endScreenScoreArray[i] - targetBlueScore) * reputationConversionRate;
-					} else {
-						currentReputation -= targetBlueScore - endScreenScoreArray[i];
+					if (endScreenScoreArray[i] > targetBlueScore)
+					{
+						blueChange = (endScreenScoreArray[i] - targetBlueScore) * reputationConversionRate;
+					}
+					else
+					{
+						blueChange = -(targetBlueScore - endScreenScoreArray[i]);
 					}
 					break;
 			}
 		}
-		//Debug.Log("Current Reputation: " + currentReputation);
-		repuChanges.Enqueue((int)(currentReputation-lastRepu));
+		return new float[] { redChange, yellowChange, blueChange };
 	}
 
 	public void ResetReputation()
@@ -93,7 +107,8 @@ public class ShowScoreManager : MonoBehaviour
 
 	private float CalculateTargetScore(ScoreType scoreType, int n)
 	{
-		switch (scoreType) {
+		switch (scoreType)
+		{
 			case ScoreType.Red:
 				return currentGlobalLevel.levelProperty.redA * n + currentGlobalLevel.levelProperty.redB;
 			case ScoreType.Yellow:
@@ -118,16 +133,25 @@ public class ShowScoreManager : MonoBehaviour
 		int a, b, c;
 
 		a = UnityEngine.Random.Range(1, maxPerPart);
-		if ((totalN - a - maxPerPart) > 1) {
-			if ((totalN - a) < maxPerPart) {
+		if ((totalN - a - maxPerPart) > 1)
+		{
+			if ((totalN - a) < maxPerPart)
+			{
 				b = UnityEngine.Random.Range(totalN - a - maxPerPart, totalN - a);
-			} else {
+			}
+			else
+			{
 				b = UnityEngine.Random.Range(totalN - a - maxPerPart, maxPerPart);
 			}
-		} else {
-			if ((totalN - a) < maxPerPart) {
+		}
+		else
+		{
+			if ((totalN - a) < maxPerPart)
+			{
 				b = UnityEngine.Random.Range(1, totalN - a);
-			} else {
+			}
+			else
+			{
 				b = UnityEngine.Random.Range(1, maxPerPart);
 			}
 		}

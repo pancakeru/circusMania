@@ -5,6 +5,7 @@ using System;
 public class PerformUnit : MonoBehaviour
 {
 	public ShowManager totalManager;
+	private ShowScoreManager showScoreManager;
 	private showState curState;
 
 	public GameObject ballPrefab;
@@ -51,7 +52,8 @@ public class PerformUnit : MonoBehaviour
 		if (scoreUI == null)
 			scoreUI = FindObjectOfType<ScoreUIDisplay>();
 		curState = showState.empty;
-		
+
+		showScoreManager = FindFirstObjectByType<ShowScoreManager>();
 	}
 
 	// Update is called once per frame
@@ -59,13 +61,15 @@ public class PerformUnit : MonoBehaviour
 	{
 		UpdateState();
 
-		if (ifTest) {
+		if (ifTest)
+		{
 			ifTest = false;
 			ifInitWithTest = true;
 			StartState(showState.showStart);
 		}
 
-		if (Input.GetKeyDown(KeyCode.R)) {
+		if (Input.GetKeyDown(KeyCode.R))
+		{
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
@@ -80,15 +84,15 @@ public class PerformUnit : MonoBehaviour
 				singleStages[i].gameObject.SetActive(true);
 				singleStages[i].localPosition = new Vector3(StageLocalposes[i], singleStages[i].localPosition.y, 0);
 
-            }
+			}
 		}
 
 		if (n < 6)
 		{
 			for (int i = n; i < 6; i++)
 			{
-                inSequenceEmpty[i].localPosition = new Vector3(EmptyLocalposes[i], inSequenceEmpty[i].localPosition.y, 0);
-                if(singleStages!= null)singleStages[i].gameObject.SetActive(false);
+				inSequenceEmpty[i].localPosition = new Vector3(EmptyLocalposes[i], inSequenceEmpty[i].localPosition.y, 0);
+				if (singleStages != null) singleStages[i].gameObject.SetActive(false);
 			}
 		}
 	}
@@ -99,36 +103,38 @@ public class PerformUnit : MonoBehaviour
 		totalManager = _manager;
 	}
 
-	
+
 
 	public void InitShow(int n, float[] EmptyLocalposes, float[] StageLocalposes)
 	{
 		SetLastScore(1);
-		ChangeYellowScore(0,ChangeScoreType.Set);
-		ChangeBlueScore(0,ChangeScoreType.Set);
-		ChangeRedScore(0,ChangeScoreType.Set);
-		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
-		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);
+		ChangeYellowScore(0, ChangeScoreType.Set);
+		ChangeBlueScore(0, ChangeScoreType.Set);
+		ChangeRedScore(0, ChangeScoreType.Set);
+		float[] targetScoreArray = showScoreManager.GetTargetScore();
+		scoreUI.UpdateTargetScores(targetScoreArray[0], targetScoreArray[1], targetScoreArray[2]);
 		SetStageAndEmptyLocalPos(n, EmptyLocalposes, StageLocalposes);
 	}
 
 	public void InitShow(float last)
 	{
 		SetLastScore(last);
-		ChangeYellowScore(0,ChangeScoreType.Set);
-		ChangeBlueScore(0,ChangeScoreType.Set);
-		ChangeRedScore(0,ChangeScoreType.Set);
-		float[] targetScoreArray = FindFirstObjectByType<ShowScoreManager>().GetTargetScore();
-		scoreUI.UpdateTargetScores(targetScoreArray[0],targetScoreArray[1],targetScoreArray[2]);
+		ChangeYellowScore(0, ChangeScoreType.Set);
+		ChangeBlueScore(0, ChangeScoreType.Set);
+		ChangeRedScore(0, ChangeScoreType.Set);
+		float[] targetScoreArray = showScoreManager.GetTargetScore();
+		scoreUI.UpdateTargetScores(targetScoreArray[0], targetScoreArray[1], targetScoreArray[2]);
 	}
 
 	void StartShow()
 	{
 		//allAnimalsInShow = GetAllAnimalsInShow(ifInitWithTest);
-		thrower.ShowStart(true,totalManager);
+		thrower.ShowStart(true, totalManager);
 
-		for (int i = 0; i < allAnimalsInShow.Length; i++) {
-			if (allAnimalsInShow[i] != null) {
+		for (int i = 0; i < allAnimalsInShow.Length; i++)
+		{
+			if (allAnimalsInShow[i] != null)
+			{
 				allAnimalsInShow[i].ShowStart(this, i);
 			}
 		}
@@ -141,17 +147,18 @@ public class PerformUnit : MonoBehaviour
 		}
 		else
 		{
-            curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+			curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
 			curBall.DoInitialDrop(GetPositionWhenThrowToEmpty(0), null, this);
-        }
+		}
 		//Debug.LogError("没有起始动物");
-		
+
 	}
 
 	public void StartState(showState newState)
 	{
 		EndState(curState);
-		switch (newState) {
+		switch (newState)
+		{
 			case showState.showStart:
 				StartShow();
 				ifBallMoveFinish = false;
@@ -180,7 +187,8 @@ public class PerformUnit : MonoBehaviour
 
 	private void EndState(showState lastState)
 	{
-		switch (lastState) {
+		switch (lastState)
+		{
 			default:
 				break;
 		}
@@ -188,16 +196,19 @@ public class PerformUnit : MonoBehaviour
 
 	private void UpdateState()
 	{
-		switch (curState) {
+		switch (curState)
+		{
 			case showState.showStart:
-				if (ifBallMoveFinish) {
+				if (ifBallMoveFinish)
+				{
 					StartState(showState.turnStart);
 
 				}
 				break;
 
 			case showState.turnStart:
-				if (ifBallMoveFinish) {
+				if (ifBallMoveFinish)
+				{
 
 					StartState(gameFail ? showState.gameEnd : showState.turnEnd);
 
@@ -206,7 +217,8 @@ public class PerformUnit : MonoBehaviour
 				break;
 
 			case showState.turnEnd:
-				if (ifendTurnAnimationFinish) {
+				if (ifendTurnAnimationFinish)
+				{
 					StartState(showState.turnStart);
 
 				}
@@ -220,7 +232,7 @@ public class PerformUnit : MonoBehaviour
 
 	PerformAnimalControl ReturnFirstAnimal()
 	{
-		
+
 		foreach (PerformAnimalControl an in allAnimalsInShow)
 		{
 			if (an != null)
@@ -243,13 +255,18 @@ public class PerformUnit : MonoBehaviour
 
 	void DoShowEnd()
 	{
-		if (totalManager != null) {
-			foreach (PerformAnimalControl control in allAnimalsInShow) {
+		float[] respectiveEndTurnReputationChange = showScoreManager.CalculateRespectiveEndTurnReputationChange();
+		scoreUI.UpdatePopularityChangeVisual(respectiveEndTurnReputationChange);
+
+		if (totalManager != null)
+		{
+			foreach (PerformAnimalControl control in allAnimalsInShow)
+			{
 				if (control != null)
 					control.BackToInitial();
 			}
 
-			thrower.ShowStart(false,totalManager);
+			thrower.ShowStart(false, totalManager);
 			Invoke("BackToDecide", 1f);
 		}
 	}
@@ -278,7 +295,8 @@ public class PerformUnit : MonoBehaviour
 
 	public bool CheckAndGetAnimalThrowAcceptPos(int i, bool ifThrowPos, out Vector3 pos)
 	{
-		if (allAnimalsInShow[i] == null) {
+		if (allAnimalsInShow[i] == null)
+		{
 			pos = Vector3.zero;
 			return false;
 		}
@@ -289,7 +307,8 @@ public class PerformUnit : MonoBehaviour
 	public bool CheckAndGetAnimalBasedOnIndex(int n, out PerformAnimalControl animal)
 	{
 
-		if (allAnimalsInShow[n] == null) {
+		if (allAnimalsInShow[n] == null)
+		{
 			animal = null;
 			return false;
 		}
@@ -311,7 +330,8 @@ public class PerformUnit : MonoBehaviour
 	public void TurnStart()
 	{
 		//Debug.Log("回合开始了");
-		foreach (PerformAnimalControl an in allAnimalsInShow) {
+		foreach (PerformAnimalControl an in allAnimalsInShow)
+		{
 			if (an != null)
 				an.DoTurnStart();
 		}
@@ -320,7 +340,8 @@ public class PerformUnit : MonoBehaviour
 	public void TurnEnd()
 	{
 		//Debug.Log("回合结束了");
-		foreach (PerformAnimalControl an in allAnimalsInShow) {
+		foreach (PerformAnimalControl an in allAnimalsInShow)
+		{
 			if (an != null)
 				an.DoTurnEnd();
 		}
@@ -351,7 +372,8 @@ public class PerformUnit : MonoBehaviour
 
 	public void ChangeYellowScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
 	{
-		switch (type) {
+		switch (type)
+		{
 			case ChangeScoreType.Add:
 				curYellowScore += changeNum;
 				break;
@@ -370,7 +392,8 @@ public class PerformUnit : MonoBehaviour
 
 	public void ChangeRedScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
 	{
-		switch (type) {
+		switch (type)
+		{
 			case ChangeScoreType.Add:
 				curRedScore += changeNum;
 				break;
@@ -388,7 +411,8 @@ public class PerformUnit : MonoBehaviour
 
 	public void ChangeBlueScore(float changeNum, ChangeScoreType type = ChangeScoreType.Add)
 	{
-		switch (type) {
+		switch (type)
+		{
 			case ChangeScoreType.Add:
 				curBlueScore += changeNum;
 				break;
@@ -424,12 +448,14 @@ public class PerformUnit : MonoBehaviour
 
 	public void InvokeOnExcitementEvent(AnimalInfoPack animalInfo)
 	{
-		OnExcitement?.Invoke(this, new OnExcitementEventArgs {
+		OnExcitement?.Invoke(this, new OnExcitementEventArgs
+		{
 			animalInfo = animalInfo
 		});
 	}
 
-	public float[] GetCurrentScoreArray(){
+	public float[] GetCurrentScoreArray()
+	{
 		return new float[] { curRedScore, curYellowScore, curBlueScore };
 	}
 }

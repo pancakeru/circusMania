@@ -33,84 +33,84 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[Header("手中动物的起始x")]
 	[SerializeField] private float xStart;
 	[Header("手中动物的offset")]
-    [SerializeField] private float offset;
+	[SerializeField] private float offset;
 	[Header("检测为手牌区的下方比例")]
-    [SerializeField] private float downRatio = 0.2f;
+	[SerializeField] private float downRatio = 0.2f;
 
-    [Header("预制体")]
-    public GameObject animalIcon;
-    public GameObject areaPrefab;
+	[Header("预制体")]
+	public GameObject animalIcon;
+	public GameObject areaPrefab;
 
-    [Header("动物的预制体")]
-    public List<GameObject> animalPerformancePrefabs;
+	[Header("动物的预制体")]
+	public List<GameObject> animalPerformancePrefabs;
 
-    [Header("获取组件")]
-    [SerializeField] private GraphicRaycaster uiRaycaster;
-    [SerializeField] private Transform handPanelTransform;
-    [SerializeField] private Transform handPanelBackground;
-    [SerializeField] private Transform stagePanelTransform;
-    [SerializeField] private UiMover scorePanelMover;
+	[Header("获取组件")]
+	[SerializeField] private GraphicRaycaster uiRaycaster;
+	[SerializeField] private Transform handPanelTransform;
+	[SerializeField] private Transform handPanelBackground;
+	[SerializeField] private Transform stagePanelTransform;
+	[SerializeField] private UiMover scorePanelMover;
 	public PerformUnit totalPerformanceControl;
-    [SerializeField] private targetPanelManager targetDisplayManager;
-    [SerializeField] private UiMover showBanana;
-    [SerializeField] private UiMover startButtonMover;
-    [SerializeField] private UiMover bananaUiMover;
-    [SerializeField] private BananaThrower thrower;
-    [SerializeField] private UiMover targetPanelMover;
+	[SerializeField] private targetPanelManager targetDisplayManager;
+	[SerializeField] private UiMover showBanana;
+	[SerializeField] private UiMover startButtonMover;
+	[SerializeField] private UiMover bananaUiMover;
+	[SerializeField] private BananaThrower thrower;
+	[SerializeField] private UiMover targetPanelMover;
 	[SerializeField] private GameObject turnRelatedGMO;
-    public GameObject pauseShow;
-    #endregion
+	public GameObject pauseShow;
+	#endregion
 
-    #region 记录变量
-    //State变量
-    private ShowStates currentState;
-    [HideInInspector] public LevelProperty curLevel;
-    private float curScore;
-    [HideInInspector]public int curTurn;
-    private float curRepu;
-    private bool inDown = false;
-    private int moveFromStageIndex;
-    private GameObject holdingAnimalObj;
-    private GameObject firstDetect;
-    private Vector2 lastMousePosition;
-    private EventSystem eventSystem;
-    private CameraMover camMover;
-    private int soundIndex;
-    private MenuController menu;
-    private ShowScoreManager scoreManager;
-    private bool ifToShow = false;
+	#region 记录变量
+	//State变量
+	private ShowStates currentState;
+	[HideInInspector] public LevelProperty curLevel;
+	private float curScore;
+	[HideInInspector] public int curTurn;
+	private float curRepu;
+	private bool inDown = false;
+	private int moveFromStageIndex;
+	private GameObject holdingAnimalObj;
+	private GameObject firstDetect;
+	private Vector2 lastMousePosition;
+	private EventSystem eventSystem;
+	private CameraMover camMover;
+	private int soundIndex;
+	private MenuController menu;
+	private ShowScoreManager scoreManager;
+	private bool ifToShow = false;
 	private TutorialRelatedFunctionContainer tContainer;
 
-    //icon的开始y
-    private float yStart;
+	//icon的开始y
+	private float yStart;
 	//移动时改变的量，加上initial pos就是结果
-    private float leftAnchorX;
+	private float leftAnchorX;
 
-    //private bool enterInteraction = false;
-    //private bool canBeMovedOrSelected = true;
-    //private bool sliding = false;
-    //public bool holding = false; zoe的
-    //public bool stopMoving = false; zoe的
-    //private List<animalProperty> testList;
-    #endregion
+	//private bool enterInteraction = false;
+	//private bool canBeMovedOrSelected = true;
+	//private bool sliding = false;
+	//public bool holding = false; zoe的
+	//public bool stopMoving = false; zoe的
+	//private List<animalProperty> testList;
+	#endregion
 
-    #region 每次表演的记录变量
-    private List<GameObject> myHand;//需要重置
+	#region 每次表演的记录变量
+	private List<GameObject> myHand;//需要重置
 	private GameObject[] onStage;//需要重置
 	private List<Vector2> initialPos = new List<Vector2>();//需要重置
 	private List<iconAnimal> myHandControls = new List<iconAnimal>();//需要重置
 	private areaReport[] posRecord;//需要重置
 	private BiDictionary<iconAnimal, GameObject> iconToOnStage = new BiDictionary<iconAnimal, GameObject>();//需要重置
-    #endregion
+	#endregion
 
-    #region 表演的设置变量
-    [Header("表演设置")]
+	#region 表演的设置变量
+	[Header("表演设置")]
 	[SerializeField] private float repuRatio = 0.1f;
-    private int speedRatio = 1;
-    #endregion
+	private int speedRatio = 1;
+	#endregion
 
-    #region 选人界面和表演界面切换用到的变量
-    private UiMover handPanelMover;
+	#region 选人界面和表演界面切换用到的变量
+	private UiMover handPanelMover;
 	private UiMover stagePanelMover;
 	[Header("舞台切换")]
 	[SerializeField]
@@ -137,25 +137,25 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[SerializeField] private RectTransform BanannaInShow;
 	[SerializeField] private RectTransform ShowBanannaInDecision;
 	[SerializeField] private RectTransform ShowBanannaInShow;
-    #endregion
+	#endregion
 
-    #region EndScreen 相关变量
-    [Header("结算界面")]
+	#region EndScreen 相关变量
+	[Header("结算界面")]
 	[SerializeField] private Transform canvasTrans;
 	[SerializeField] private GameObject EndScreenPrefab;
 	[SerializeField] private RectTransform endScreenUpPos;
 	[SerializeField] private RectTransform endScreenDownPos;
 	[SerializeField] private tempBlackManager blacker;
 	private GameObject curEndScreen;
-    #endregion
+	#endregion
 
-    #region 动物解释相关
-    [Header("动物解释相关")]
-	[SerializeField]private tempShowExplain explainer;
-    #endregion
+	#region 动物解释相关
+	[Header("动物解释相关")]
+	[SerializeField] private tempShowExplain explainer;
+	#endregion
 
-    #region 测试相关变量
-    [Header("For test")]
+	#region 测试相关变量
+	[Header("For test")]
 	//[SerializeField]
 	private bool ifTest;
 	//[SerializeField]
@@ -185,7 +185,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		public bool ifTurnEnabled = true;
 		public bool ifChangePrice = true;
 		public bool ifUpdatePopularity = true;
-		
+
 
 		private int tempCountOfMover = 0;
 
@@ -233,27 +233,27 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 		public void EndTurnScoreChange()
 		{
-            if (ifUpdatePopularity)
-                father.scoreManager.EndTurn();
-        }
+			if (ifUpdatePopularity)
+				father.scoreManager.EndTurn();
+		}
 
 	}
 
-    private void Awake()
+	private void Awake()
 	{
 		if (instance == null) instance = this;
 		else Destroy(gameObject);
 
-        menu = FindAnyObjectByType<MenuController>();
+		menu = FindAnyObjectByType<MenuController>();
 		handPanelMover = handPanelTransform.GetComponent<UiMover>();
 		stagePanelMover = stagePanelTransform.GetComponent<UiMover>();
 		camMover = Camera.main.GetComponent<CameraMover>();
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
 		scoreManager = GetComponent<ShowScoreManager>();
-        pauseShow.SetActive(false);
+		pauseShow.SetActive(false);
 
-    }
+	}
 
 	void Start()
 	{
@@ -323,21 +323,21 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	void SetAndInitializeHandAnimal(bool ifNewHand, List<animalProperty> newHand)
 	{
 		SetHandAnimal(ifNewHand, newHand);
-        foreach (GameObject an in onStage)
-        {
-            if (an != null)
-                SetUnSelectIconInHand(an);
-        }
-        foreach (GameObject handIcon in myHand)
-        {
-            Destroy(handIcon);
-        }
-        onStage = new GameObject[6];
-        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
-        myHandControls = new List<iconAnimal>();
-        myHand = new List<GameObject>();
-        initialPos = new List<Vector2>();
-        InitializeHand(tContainer.GetCurrentHand());
+		foreach (GameObject an in onStage)
+		{
+			if (an != null)
+				SetUnSelectIconInHand(an);
+		}
+		foreach (GameObject handIcon in myHand)
+		{
+			Destroy(handIcon);
+		}
+		onStage = new GameObject[6];
+		iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+		myHandControls = new List<iconAnimal>();
+		myHand = new List<GameObject>();
+		initialPos = new List<Vector2>();
+		InitializeHand(tContainer.GetCurrentHand());
 	}
 
 	public void SetIfChangeTroupePrice(bool ifChange)
@@ -352,54 +352,54 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void SetDicideStateInteractionEnabled(bool ifCanInteract)
 	{
-		StartDecideState(ifCanInteract? DecideScreenState.empty:DecideScreenState.tutorial);
+		StartDecideState(ifCanInteract ? DecideScreenState.empty : DecideScreenState.tutorial);
 	}
 
-    public void AddAnimalToHand(animalProperty animal)
-    {
-        // 检查是否已经存在这个动物（按名字）
-        bool alreadyExists = false;
+	public void AddAnimalToHand(animalProperty animal)
+	{
+		// 检查是否已经存在这个动物（按名字）
+		bool alreadyExists = false;
 
-        foreach (iconAnimal icon in myHandControls)
-        {
-            if (icon.selfProperty.animalName == animal.animalName)
-            {
+		foreach (iconAnimal icon in myHandControls)
+		{
+			if (icon.selfProperty.animalName == animal.animalName)
+			{
 				icon.AddNum(1);
 				alreadyExists = true;
-                break;
-            }
-        }
+				break;
+			}
+		}
 
-        if (alreadyExists)
-        {
-            return; // ✅ 已经有这个动物，只是更新数量即可
-        }
+		if (alreadyExists)
+		{
+			return; // ✅ 已经有这个动物，只是更新数量即可
+		}
 
-        // ✅ 否则是一个新动物：创建新 icon
-        GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
-        myHand.Add(temp);
+		// ✅ 否则是一个新动物：创建新 icon
+		GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
+		myHand.Add(temp);
 
-        int index = myHand.Count - 1;
-        iconAnimal iconComp = temp.GetComponent<iconAnimal>();
-        iconComp.Initialize(animal, 1, false);
-        iconComp.myIndex = index;
+		int index = myHand.Count - 1;
+		iconAnimal iconComp = temp.GetComponent<iconAnimal>();
+		iconComp.Initialize(animal, 1, false);
+		iconComp.myIndex = index;
 
-        RectTransform rt = temp.GetComponentInChildren<RectTransform>();
-        rt.anchoredPosition = new Vector2(xStart + offset * index, yStart);
+		RectTransform rt = temp.GetComponentInChildren<RectTransform>();
+		rt.anchoredPosition = new Vector2(xStart + offset * index, yStart);
 
-        initialPos.Add(new Vector2(xStart + offset * index, iconComp.yGoal));
-        myHandControls.Add(iconComp);
-    }
+		initialPos.Add(new Vector2(xStart + offset * index, iconComp.yGoal));
+		myHandControls.Add(iconComp);
+	}
 
-    #endregion
+	#endregion
 
-    //Functions
-    public void EnterOneShow()
+	//Functions
+	public void EnterOneShow()
 	{
 		//x = -750;
 		//offset = 300;
 		yStart = -600;
-        tContainer = new TutorialRelatedFunctionContainer(this);
+		tContainer = new TutorialRelatedFunctionContainer(this);
 		//areaOffset = 2;
 		//SetShowPositionNum(3);
 		//SetScoreEnableState(true, false, false, false);
@@ -407,8 +407,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//SetTurnEnableState(false);
 		//SetHandAnimal(false, new List<animalProperty>(switchhand.properies));
 		//SetIfChangeTroupePrice(false);
-		SetIfUpdatePopularity(false);
-        curTurn = 1;
+		SetIfUpdatePopularity(true);
+		curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
 		posRecord = new areaReport[6];
@@ -417,18 +417,19 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		myHand = new List<GameObject>();
 		initialPos = new List<Vector2>();
 		SetUpAnLevel(testLevel);
-		totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0,6)
-                         .Select(i => infoContainer.GetEmptyPosLocalX(i))
-                         .ToArray(), Enumerable.Range(0, 6)
-                         .Select(i => infoContainer.GetStageLocalX(i))
-                         .ToArray());
+		totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0, 6)
+						 .Select(i => infoContainer.GetEmptyPosLocalX(i))
+						 .ToArray(), Enumerable.Range(0, 6)
+						 .Select(i => infoContainer.GetStageLocalX(i))
+						 .ToArray());
 		//tContainer.ChangeBananaDuringShow(10);
 		//是要设置香蕉
 		thrower.changeCount(10);
-        //位置 GameObject
+		//位置 GameObject
 
 
-        for (int i = 0; i < infoContainer.posNum; i++) {
+		for (int i = 0; i < infoContainer.posNum; i++)
+		{
 			GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
 			temp.GetComponent<areaReport>().spotNum = i;
 			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + infoContainer.areaOffset * i + infoContainer.centerOffset, 0);
@@ -454,30 +455,31 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void InitializeHand(List<animalProperty> properties)
 	{
-        Dictionary<string, int> nameToCount = new Dictionary<string, int>();
-        List<animalProperty> uniqueProperties = new List<animalProperty>();
+		Dictionary<string, int> nameToCount = new Dictionary<string, int>();
+		List<animalProperty> uniqueProperties = new List<animalProperty>();
 
-        // 统计数量 + 构造不重复的新列表
-        foreach (var prop in properties)
-        {
-            string name = prop.animalName;
-            if (nameToCount.ContainsKey(name))
-            {
-                nameToCount[name]++;
-            }
-            else
-            {
-                nameToCount[name] = 1;
-                uniqueProperties.Add(prop); // 第一次出现才加进去
-            }
-        }
+		// 统计数量 + 构造不重复的新列表
+		foreach (var prop in properties)
+		{
+			string name = prop.animalName;
+			if (nameToCount.ContainsKey(name))
+			{
+				nameToCount[name]++;
+			}
+			else
+			{
+				nameToCount[name] = 1;
+				uniqueProperties.Add(prop); // 第一次出现才加进去
+			}
+		}
 
-        for (int i = 0; i < uniqueProperties.Count; i++) {
+		for (int i = 0; i < uniqueProperties.Count; i++)
+		{
 			//Debug.Log(properties[i].animalName);
 			GameObject temp = Instantiate(animalIcon, handPanelTransform.position, Quaternion.identity, handPanelBackground);
 			myHand.Add(temp);
 
-			temp.GetComponent<iconAnimal>().Initialize(uniqueProperties[i], nameToCount[uniqueProperties[i].animalName] ,false);
+			temp.GetComponent<iconAnimal>().Initialize(uniqueProperties[i], nameToCount[uniqueProperties[i].animalName], false);
 			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(xStart + offset * i, yStart);
 			temp.GetComponent<iconAnimal>().myIndex = i;
 			//TODO:把这个目标位置整合
@@ -488,10 +490,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
 	{
-		tContainer.EndTurnScoreChange();   
-        scoreManager.StartTurn();
-        curRepu = GetComponent<ShowScoreManager>().currentReputation;
-		
+		tContainer.EndTurnScoreChange();
+		scoreManager.StartTurn();
+		curRepu = GetComponent<ShowScoreManager>().currentReputation;
+
 		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
 	}
 
@@ -503,7 +505,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void Update()
 	{
-		if (ifTest) {
+		if (ifTest)
+		{
 			ifTest = false;
 			//mover.MoveTo(tarTrans.anchoredPosition);
 			/*
@@ -529,8 +532,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         }*/
 		//查现在是哪个State
 
-		
-		switch (currentState) {
+
+		switch (currentState)
+		{
 
 			case ShowStates.SelectAnimal:
 				//选动物
@@ -539,7 +543,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 			case ShowStates.Animation:
 				//换State
-				if (moveCounter.TakeResult()) {
+				if (moveCounter.TakeResult())
+				{
 					if (ifToShow)
 						StartShow();
 					else
@@ -548,41 +553,42 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				break;
 
 			case ShowStates.Performance:
-                //表演
-                if(Input.GetKeyDown(KeyCode.E)) {
-                    if (speedRatio == 1) speedRatio = 2;
-                    else if (speedRatio == 2) speedRatio = 10;
-                    else if (speedRatio == 5) speedRatio = 1;
+				//表演
+				if (Input.GetKeyDown(KeyCode.E))
+				{
+					if (speedRatio == 1) speedRatio = 2;
+					else if (speedRatio == 2) speedRatio = 10;
+					else if (speedRatio == 5) speedRatio = 1;
 
-                    Time.timeScale = speedRatio;
+					Time.timeScale = speedRatio;
 
-                }
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    if (Time.timeScale > 0)
-                    {
-                        Time.timeScale = 0;
-                        pauseShow.SetActive(true);
-                    }
-                    else
-                    {
-                        PauseResume();
-                    }
-                }
+				}
+				if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					if (Time.timeScale > 0)
+					{
+						Time.timeScale = 0;
+						pauseShow.SetActive(true);
+					}
+					else
+					{
+						PauseResume();
+					}
+				}
 
-                break;
+				break;
 		}
 
-    }
+	}
 
-    public void PauseResume()
-    {
-        Time.timeScale = speedRatio;
-        pauseShow.SetActive(false);
-    }
+	public void PauseResume()
+	{
+		Time.timeScale = speedRatio;
+		pauseShow.SetActive(false);
+	}
 
 
-    public void StartMoveToShow()
+	public void StartMoveToShow()
 	{
 		ifToShow = true;
 		currentState = ShowStates.Animation;
@@ -593,13 +599,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		camMover.MoveTo(CamInShow.position, ShowCamScale);
 		startButtonMover.MoveTo(StartButtonUp.anchoredPosition);
 		startButtonMover.GetComponent<Button>().interactable = false;
-        targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
+		targetPanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
 
-        int count = 5;
+		int count = 5;
 		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInShow.anchoredPosition);
-        tContainer.DoBananaMoverAction(showBanana, ShowBanannaInShow.anchoredPosition);
+		tContainer.DoBananaMoverAction(showBanana, ShowBanannaInShow.anchoredPosition);
 		totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
-		moveCounter.SetUpCount(count+ tContainer.TakeCount());
+		moveCounter.SetUpCount(count + tContainer.TakeCount());
 		var toGive = from x in onStage
 					 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
 					 select control; // 直接返回 control（如果 x 是 null，control 也会是 null）
@@ -629,17 +635,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		scorePanelMover.MoveTo(scorePanelUpPos.anchoredPosition);
 		camMover.MoveTo(CamInDecition.position, DecideCamScale);
 		startButtonMover.MoveTo(StartButtonDown.anchoredPosition);
-        targetPanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
+		targetPanelMover.MoveTo(scorePanelDownPos.anchoredPosition);
 		int count = 5;
 		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInDecision.anchoredPosition);
 		tContainer.DoBananaMoverAction(showBanana, ShowBanannaInDecision.anchoredPosition);
-		moveCounter.SetUpCount(count+ tContainer.TakeCount());
+		moveCounter.SetUpCount(count + tContainer.TakeCount());
 	}
 
 	public void StartDecide()
 	{
 		tContainer.DoTurnAddAction();
-		if (curTurn <= curLevel.allowedTurn) {
+		if (curTurn <= curLevel.allowedTurn)
+		{
 			//Debug.Log("开始decide");
 			currentState = ShowStates.SelectAnimal;
 			stagePanelMover.gameObject.SetActive(true);
@@ -647,7 +654,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			tContainer.ChangeBananaDuringShow(10);
 
 			ChangeLevelStatus(curTurn, true);
-		} else {
+		}
+		else
+		{
 			ChangeLevelStatus(curTurn, false);
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
@@ -663,25 +672,27 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		if (tContainer.ifChangePrice)
 		{
-            GlobalManager.instance.UnlockAnimal();
-            GlobalManager.instance.CalculateAnimalPrice();
+			GlobalManager.instance.UnlockAnimal();
+			GlobalManager.instance.CalculateAnimalPrice();
 		}
 		else
 		{
 			GlobalManager.instance.DirectResetAnimalBallPassTime();
 		}
-		foreach (GameObject an in onStage) {
+		foreach (GameObject an in onStage)
+		{
 			if (an != null)
 				SetUnSelectIconInHand(an);
 		}
-		foreach (GameObject handIcon in myHand) {
+		foreach (GameObject handIcon in myHand)
+		{
 			Destroy(handIcon);
 		}
 		gameObject.SetActive(false);
 		Destroy(curEndScreen);
 		menu.Enable();
 		GetComponent<ShowScoreManager>().ResetReputation();
-		
+
 	}
 
 	private Counter moveCounter = new Counter();
@@ -693,7 +704,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	//创动物prefab
 	public GameObject AnimalFactory(string name, Vector3 position)
 	{
-		switch (name) {
+		switch (name)
+		{
 			case "Monkey":
 				soundIndex = 8;
 				return Instantiate(animalPerformancePrefabs[0], position, Quaternion.identity, transform);
@@ -749,11 +761,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		return null;
 	}
 
-	public void CallSound() {
+	public void CallSound()
+	{
 		AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.AnimalSounds[soundIndex]);
 	}
 
-	
+
 
 	void SlideAnimalsInHand(float changeX)
 	{
@@ -767,7 +780,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 		// 限制左右移动范围
 		leftAnchorX = Mathf.Clamp(leftAnchorX, leftLimit, rightLimit);
-		for (int i = 0; i < myHand.Count; i++) {
+		for (int i = 0; i < myHand.Count; i++)
+		{
 			GameObject gmo = myHand[i];
 			gmo.GetComponentInChildren<RectTransform>().anchoredPosition = initialPos[i] + new Vector2(leftAnchorX, 0);
 		}
@@ -776,7 +790,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	bool CheckIfRayCastElementWithTag(string targetTag, out GameObject first)
 	{
-		if (eventSystem == null) {
+		if (eventSystem == null)
+		{
 			eventSystem = FindObjectOfType<EventSystem>();
 		}
 
@@ -791,9 +806,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		uiRaycaster.Raycast(eventData, results);
 
 		// 遍历检测到的 UI 组件
-		foreach (RaycastResult result in results) {
+		foreach (RaycastResult result in results)
+		{
 			// 检查 GameObject 是否有目标 Tag
-			if (result.gameObject.CompareTag(targetTag)) {
+			if (result.gameObject.CompareTag(targetTag))
+			{
 				first = result.gameObject;
 				return true; // 找到匹配的对象，返回 true
 			}
@@ -813,7 +830,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		RaycastHit2D hit = Physics2D.Raycast(worldPosition, Vector2.zero);
 
 		// 检测 Tag 是否匹配
-		if (hit.collider != null && hit.collider.CompareTag(targetTag)) {
+		if (hit.collider != null && hit.collider.CompareTag(targetTag))
+		{
 			first = hit.collider.gameObject;
 			return true; // 找到匹配的物体
 		}
@@ -843,7 +861,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public void StartDecideState(DecideScreenState newState)
 	{
 		EndDecideState(curDecideState);
-		switch (newState) {
+		switch (newState)
+		{
 			case DecideScreenState.slide:
 				lastMousePosition = Input.mousePosition;
 				break;
@@ -858,13 +877,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void EndDecideState(DecideScreenState lastState)
 	{
-		switch (lastState) {
+		switch (lastState)
+		{
 			case DecideScreenState.slide:
 				break;
 
 			case DecideScreenState.moveAnimal:
-				if (inDown) {
-					foreach (iconAnimal animal in myHandControls) {
+				if (inDown)
+				{
+					foreach (iconAnimal animal in myHandControls)
+					{
 						animal.EnterState(iconAnimal.iconState.movingUp);
 					}
 				}
@@ -880,95 +902,119 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void UpdateDecideState()
 	{
-		switch (curDecideState) {
+		switch (curDecideState)
+		{
 			case DecideScreenState.empty:
-				
-                if (Input.GetMouseButtonDown(0)) {
+
+				if (Input.GetMouseButtonDown(0))
+				{
 					//enterInteraction = true;
-					
-					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
+
+					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+					{
 						//选择到了表演小动物
 						holdingAnimalObj = firstDetect;
 						moveFromStageIndex = Array.IndexOf(onStage, firstDetect);
 						FreePosOnStage(firstDetect);
 						StartDecideState(DecideScreenState.moveAnimal);
 
-					} else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio)) {
+					}
+					else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio))
+					{
 
 						StartDecideState(DecideScreenState.slide);
 
 						//进入滑动
-					} else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()) {
+					}
+					else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect())
+					{
 						//进入上下
 						Debug.Log(firstDetect.transform.parent.name);
-						foreach (iconAnimal animal in myHandControls) {
-							if (animal.gameObject != firstDetect.transform.parent.gameObject) {
+						foreach (iconAnimal animal in myHandControls)
+						{
+							if (animal.gameObject != firstDetect.transform.parent.gameObject)
+							{
 								animal.EnterState(iconAnimal.iconState.half);
-							} else {
-                                holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
-                                animal.TryMinus(1);
+							}
+							else
+							{
+								holdingAnimalObj = RegisterAndCreateNewAnimal(animal);
+								animal.TryMinus(1);
 
-                            }
+							}
 						}
 						StartDecideState(DecideScreenState.choose);
 					}
 
-				} else {
+				}
+				else
+				{
 					//解释动物
-					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect)) {
+					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+					{
 						if (firstDetect != null)
 							explainer.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
-					} else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)) {
+					}
+					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+					{
 						if (firstDetect != null)
 							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
 						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
-					} else {
+					}
+					else
+					{
 						explainer.DownExplain();
 					}
-                    /*
+					/*
 					 * } else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
 						if (firstDetect != null)
 							explainer.StartMechanicExplain(firstDetect.GetComponent<RectTransform>());
 					 */
-                }
+				}
 
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    if (Time.timeScale > 0)
-                    {
-                        Time.timeScale = 0;
-                        pauseShow.SetActive(true);
-                    }
-                    else
-                    {
-                        PauseResume();
-                    }
-                }
-                //if (Input.GetKeyDown(KeyCode.P))
-                //SetDicideStateInteractionEnabled(false);
-                break;
+				if (Input.GetKeyDown(KeyCode.Escape))
+				{
+					if (Time.timeScale > 0)
+					{
+						Time.timeScale = 0;
+						pauseShow.SetActive(true);
+					}
+					else
+					{
+						PauseResume();
+					}
+				}
+				//if (Input.GetKeyDown(KeyCode.P))
+				//SetDicideStateInteractionEnabled(false);
+				break;
 
 			case DecideScreenState.slide:
-				if (Input.GetMouseButton(0)) {
+				if (Input.GetMouseButton(0))
+				{
 					Vector2 currentMousePosition = Input.mousePosition;
 					float changeX = currentMousePosition.x - lastMousePosition.x; // 计算滑动距离
 					SlideAnimalsInHand(changeX);
 					lastMousePosition = currentMousePosition; // 更新鼠标位置
 				}
-				if (Input.GetMouseButtonUp(0)) {
+				if (Input.GetMouseButtonUp(0))
+				{
 					//enterInteraction = false;
 					StartDecideState(DecideScreenState.empty);
 				}
 				break;
 
 			case DecideScreenState.choose:
-				if (Input.GetMouseButton(0)) {
+				if (Input.GetMouseButton(0))
+				{
 
 					holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
 				}
-				if (Input.GetMouseButtonUp(0)) {
-					foreach (iconAnimal animal in myHandControls) {
-						if (animal.gameObject != firstDetect.transform.parent.gameObject) {
+				if (Input.GetMouseButtonUp(0))
+				{
+					foreach (iconAnimal animal in myHandControls)
+					{
+						if (animal.gameObject != firstDetect.transform.parent.gameObject)
+						{
 							animal.EnterState(iconAnimal.iconState.movingUp);
 						}
 						//canBeMovedOrSelected = false;
@@ -976,12 +1022,14 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					}
 					//enterInteraction = false;
 					GameObject Rect;
-					if (CheckIfRayCastElementWithTag("areaTag", out Rect)) {
+					if (CheckIfRayCastElementWithTag("areaTag", out Rect))
+					{
 						//区分目标位置是否有动物
 						areaReport rectReport = Rect.GetComponentInParent<areaReport>();
 
 						GameObject atTar = onStage[Array.IndexOf(posRecord, rectReport)];
-						if (atTar != null) {
+						if (atTar != null)
+						{
 							SetUnSelectIconInHand(atTar);
 						}
 
@@ -989,7 +1037,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						CallSound();
 						//SetSelectIconInHand(holdingAnimalObj);
 						holdingAnimalObj = null;
-					} else {
+					}
+					else
+					{
 						UnRegisterPerformAnimal(holdingAnimalObj);
 						Destroy(holdingAnimalObj);
 					}
@@ -999,45 +1049,62 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				break;
 
 			case DecideScreenState.moveAnimal:
-				if (Input.GetMouseButton(0)) {
+				if (Input.GetMouseButton(0))
+				{
 					holdingAnimalObj.transform.position = GetMouseWorldPositionAtZeroZ();
-					if (DetectMouseInDownArea(downRatio)) {
-						if (!inDown) {
+					if (DetectMouseInDownArea(downRatio))
+					{
+						if (!inDown)
+						{
 							inDown = true;
-							foreach (iconAnimal animal in myHandControls) {
-								if (animal != iconToOnStage.GetKeyByValue(holdingAnimalObj)) {
+							foreach (iconAnimal animal in myHandControls)
+							{
+								if (animal != iconToOnStage.GetKeyByValue(holdingAnimalObj))
+								{
 									animal.EnterState(iconAnimal.iconState.half);
 								}
 							}
 						}
-					} else {
-						if (inDown) {
+					}
+					else
+					{
+						if (inDown)
+						{
 							inDown = false;
-							foreach (iconAnimal animal in myHandControls) {
-								if (animal != iconToOnStage.GetKeyByValue(holdingAnimalObj)) {
+							foreach (iconAnimal animal in myHandControls)
+							{
+								if (animal != iconToOnStage.GetKeyByValue(holdingAnimalObj))
+								{
 									animal.EnterState(iconAnimal.iconState.movingUp);
 								}
 							}
 						}
 					}
 				}
-				if (Input.GetMouseButtonUp(0)) {
+				if (Input.GetMouseButtonUp(0))
+				{
 
 					//enterInteraction = false;
 					GameObject Rect;
-					if (CheckIfRayCastElementWithTag("areaTag", out Rect)) {
+					if (CheckIfRayCastElementWithTag("areaTag", out Rect))
+					{
 						areaReport rectReport = Rect.GetComponentInParent<areaReport>();
 
 						GameObject atTar = onStage[Array.IndexOf(posRecord, rectReport)];
-						if (atTar != null) {
+						if (atTar != null)
+						{
 							MoveObjToIndexOnStage(Array.IndexOf(posRecord, rectReport), moveFromStageIndex, atTar);
 						}
 						MoveObjToIndexOnStage(-1, Array.IndexOf(posRecord, rectReport), holdingAnimalObj);
 						holdingAnimalObj = null;
-					} else if (DetectMouseInDownArea(downRatio)) {
+					}
+					else if (DetectMouseInDownArea(downRatio))
+					{
 						SetUnSelectIconInHand(holdingAnimalObj);
 						holdingAnimalObj = null;
-					} else {
+					}
+					else
+					{
 						MoveObjToIndexOnStage(moveFromStageIndex, moveFromStageIndex, holdingAnimalObj);
 
 					}
@@ -1047,9 +1114,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				break;
 
 			case DecideScreenState.tutorial:
-                //if (Input.GetKeyDown(KeyCode.P))
-                    //SetDicideStateInteractionEnabled(true);
-                break;
+				//if (Input.GetKeyDown(KeyCode.P))
+				//SetDicideStateInteractionEnabled(true);
+				break;
 		}
 	}
 
@@ -1096,7 +1163,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	private void SetSelectIconInHand(GameObject obj)
 	{
-		
+
 		iconToOnStage.GetKeyByValue(obj).SetSelectState(true);
 	}
 
@@ -1117,7 +1184,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void FreePosOnStage(GameObject obj)
 	{
 		int index = Array.IndexOf(onStage, obj);
-		if (index != -1) {
+		if (index != -1)
+		{
 			onStage[index] = null;
 		}
 	}
@@ -1127,79 +1195,79 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		uiRaycaster.enabled = true;
 	}
 
-    public void DisableCanvas()
-    {
-        uiRaycaster.enabled = false;
-    }
+	public void DisableCanvas()
+	{
+		uiRaycaster.enabled = false;
+	}
 }
 
 public class BiDictionary<TKey, TValue>
 {
-    private Dictionary<TKey, List<TValue>> forward = new Dictionary<TKey, List<TValue>>();
-    private Dictionary<TValue, TKey> reverse = new Dictionary<TValue, TKey>();
+	private Dictionary<TKey, List<TValue>> forward = new Dictionary<TKey, List<TValue>>();
+	private Dictionary<TValue, TKey> reverse = new Dictionary<TValue, TKey>();
 
-    public void Add(TKey key, TValue value)
-    {
-        if (reverse.ContainsKey(value))
-            throw new ArgumentException("This value already exists and is bound to a key.");
+	public void Add(TKey key, TValue value)
+	{
+		if (reverse.ContainsKey(value))
+			throw new ArgumentException("This value already exists and is bound to a key.");
 
-        if (!forward.ContainsKey(key))
-            forward[key] = new List<TValue>();
+		if (!forward.ContainsKey(key))
+			forward[key] = new List<TValue>();
 
-        forward[key].Add(value);
-        reverse[value] = key;
-    }
+		forward[key].Add(value);
+		reverse[value] = key;
+	}
 
-    public bool TryGetValuesByKey(TKey key, out List<TValue> values)
-    {
-        return forward.TryGetValue(key, out values);
-    }
+	public bool TryGetValuesByKey(TKey key, out List<TValue> values)
+	{
+		return forward.TryGetValue(key, out values);
+	}
 
-    public bool TryGetKeyByValue(TValue value, out TKey key)
-    {
-        return reverse.TryGetValue(value, out key);
-    }
+	public bool TryGetKeyByValue(TValue value, out TKey key)
+	{
+		return reverse.TryGetValue(value, out key);
+	}
 
-    public List<TValue> GetValuesByKey(TKey key) => forward[key];
+	public List<TValue> GetValuesByKey(TKey key) => forward[key];
 
-    public TKey GetKeyByValue(TValue value) => reverse[value];
+	public TKey GetKeyByValue(TValue value) => reverse[value];
 
-    public bool RemoveByKey(TKey key)
-    {
-        if (forward.TryGetValue(key, out List<TValue> values))
-        {
-            foreach (var v in values)
-                reverse.Remove(v);
+	public bool RemoveByKey(TKey key)
+	{
+		if (forward.TryGetValue(key, out List<TValue> values))
+		{
+			foreach (var v in values)
+				reverse.Remove(v);
 
-            forward.Remove(key);
-            return true;
-        }
-        return false;
-    }
+			forward.Remove(key);
+			return true;
+		}
+		return false;
+	}
 
-    public bool RemoveByValue(TValue value)
-    {
-        if (reverse.TryGetValue(value, out TKey key))
-        {
-            reverse.Remove(value);
-            if (forward.TryGetValue(key, out List<TValue> list))
-            {
-                list.Remove(value);
-                if (list.Count == 0)
-                    forward.Remove(key);
-            }
-            return true;
-        }
-        return false;
-    }
+	public bool RemoveByValue(TValue value)
+	{
+		if (reverse.TryGetValue(value, out TKey key))
+		{
+			reverse.Remove(value);
+			if (forward.TryGetValue(key, out List<TValue> list))
+			{
+				list.Remove(value);
+				if (list.Count == 0)
+					forward.Remove(key);
+			}
+			return true;
+		}
+		return false;
+	}
 
-    public void Clear()
-    {
-        forward.Clear();
-        reverse.Clear();
-    }
+	public void Clear()
+	{
+		forward.Clear();
+		reverse.Clear();
+	}
 
-    public int Count => reverse.Count; // value 是唯一的，reverse 代表总项数
+	public int Count => reverse.Count; // value 是唯一的，reverse 代表总项数
 }
 
 public class Counter
@@ -1225,7 +1293,8 @@ public class Counter
 	{
 		if (!beenSet)
 			Debug.LogError("先设置计数器才可以take");
-		if (n <= 0) {
+		if (n <= 0)
+		{
 			beenSet = false;
 			return true;
 		}
@@ -1235,7 +1304,7 @@ public class Counter
 
 public class SceneSetUpInfoContainer
 {
-	public int posNum {get; private set; }
+	public int posNum { get; private set; }
 	public float areaOffset { get; private set; }
 	public float centerOffset { get; private set; }
 
@@ -1249,7 +1318,7 @@ public class SceneSetUpInfoContainer
 	public void SetPosNum(int n)
 	{
 		posNum = Mathf.Clamp(n, 1, 6);
-		centerOffset = 1.8f+(6-posNum)*areaOffset/2;
+		centerOffset = 1.8f + (6 - posNum) * areaOffset / 2;
 		//要改配套emptypos 和台子pos
 	}
 
@@ -1268,15 +1337,15 @@ public class SceneSetUpInfoContainer
 
 	public float GetEmptyPosLocalX(int n)
 	{
-        if (n >= 0 && n <6)
-        {
-            return -6.65f + n * 2.95f + (6 - posNum) * 2.95f / 2;
-        }
-        else
-        {
-            Debug.LogWarning("尝试获取非法的舞台位置");
-            return 0;
-        }
-    }
+		if (n >= 0 && n < 6)
+		{
+			return -6.65f + n * 2.95f + (6 - posNum) * 2.95f / 2;
+		}
+		else
+		{
+			Debug.LogWarning("尝试获取非法的舞台位置");
+			return 0;
+		}
+	}
 
 }
