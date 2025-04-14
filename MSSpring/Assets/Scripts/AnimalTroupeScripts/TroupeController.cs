@@ -203,7 +203,7 @@ public class TroupeController : MonoBehaviour
             GlobalManager.instance.addAnAnimal(troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty);
             UpdateText();
         }
-        else GlobalManager.instance.ShowMessageBox("Not enough coins!");
+        else CanvasMain.instance.DisplayWarning("Not enough coins!");
     }
 
     public void Sell()
@@ -216,18 +216,23 @@ public class TroupeController : MonoBehaviour
 
             UpdateText();
         }
-        else GlobalManager.instance.ShowMessageBox("Cannot sell more animal of this kind!");
+        else CanvasMain.instance.DisplayWarning("Cannot sell more animal of this kind!");
     }
 
     public void Upgrade()
     {
         animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
-        if (coin >= upgradePrice)
+        if (GlobalManager.instance.animalLevels[animal.animalName] < GlobalManager.instance.maxLevel)
         {
-            coin -= upgradePrice;
-            GlobalManager.instance.UpdateLevel(animal.animalName, 1);
-            UpdateText();
+            if (coin >= upgradePrice)
+            {
+                coin -= upgradePrice;
+                GlobalManager.instance.UpdateLevel(animal.animalName, 1);
+                UpdateText();
+            }
+            else CanvasMain.instance.DisplayWarning("Not enough coins!");
         }
-        else GlobalManager.instance.ShowMessageBox("Not enough coins!");
+        else CanvasMain.instance.DisplayWarning("Already reached max level!");
+
     }
 }
