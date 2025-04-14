@@ -23,7 +23,7 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 
 			controlUnit.InvokeOnExcitementEvent(animalInfo);
 
-			animalInfo.excited = excitedTurnAmount;
+			animalInfo.excited = soul.mechanicActiveNum;
 
 			animalBody.ifReadyToInteract = false;
 		} else if (animalInfo.excited > 0) {

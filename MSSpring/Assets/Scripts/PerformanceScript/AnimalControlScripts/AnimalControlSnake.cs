@@ -38,7 +38,7 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 	private void WarmUp()
 	{
 		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(new animalProperty(),animalBody);
-		warmUpAnimalInfo.yellowScore = warmUpScore;
+        warmUpAnimalInfo.yellowScore = soul.skillNum;
 
 		GenerateScore(warmUpAnimalInfo);
     }
