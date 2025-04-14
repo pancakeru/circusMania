@@ -135,8 +135,10 @@ public abstract class BuffGiveExtra
 
 public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate Red, +4 Red 
 {
-	public BuffFox(PerformAnimalControl _from) : base(_from)
+	private float selfRed;
+	public BuffFox(PerformAnimalControl _from, float changeRed) : base(_from)
 	{
+		selfRed = changeRed;
 	}
 
 	public override bool Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
@@ -172,7 +174,7 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 
 	public override float[] Apply()
 	{
-		return new float[] { 4, 0, 0 };
+		return new float[] { selfRed, 0, 0 };
 	}
 
 	public override List<BuffExtraMessage> GetMessages()
@@ -183,7 +185,8 @@ public class BuffFox : BuffGiveExtra //when neighbours pass a ball and generate 
 
 public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate Red, +0.2 blue
 {
-    public BuffKangaroo(PerformAnimalControl _from) : base(_from)
+	private float selfBlue;
+    public BuffKangaroo(PerformAnimalControl _from, float changeBlue) : base(_from)
     {
     }
     public override bool Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
@@ -206,7 +209,7 @@ public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate
 
 	public override float[] Apply()
 	{
-		return new float[] { 0, 0, 8f };
+		return new float[] { 0, 0, selfBlue };
 	}
 
     public override List<BuffExtraMessage> GetMessages()

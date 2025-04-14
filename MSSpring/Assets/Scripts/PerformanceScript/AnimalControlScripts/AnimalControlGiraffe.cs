@@ -13,7 +13,7 @@ public class AnimalControlGiraffe : AbstractSpecialAnimal
 
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
-		controlUnit.thrower.addBanana(3);
+		controlUnit.thrower.addBanana(soul.skillNum);
 
 		animalBody.ifReadyToInteract = false;
 

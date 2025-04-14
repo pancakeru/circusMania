@@ -9,7 +9,7 @@ public class AnimalControlBear : AbstractSpecialAnimal
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
-		animalInfo.redScore = soul.baseRedChange * animalInfo.power;
+		animalInfo.redScore = soul.baseRedChange * animalInfo.power* soul.skillNum;
 
 		GenerateScore(animalInfo);
 

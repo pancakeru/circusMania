@@ -27,7 +27,7 @@ public class AnimalControlKangaroo : AbstractSpecialAnimal
 		{
 			BuffManager.instance.RemoveGiveExtraBuff(selfBuff);
 		}
-        selfBuff = new BuffKangaroo(animalBody);
+        selfBuff = new BuffKangaroo(animalBody,soul.skillNum);
         BuffManager.instance.AddGiveExtraBuff(selfBuff);
 		haveBuffAdded = true;
         animalBody.mechanicNumberUI.StartEffectImpact(false);
