@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelIndex: 1
   showVisual: {fileID: 21300000, guid: 35fd84f0e253547b1ba26816dd0ef0f9, type: 3}
+  levelName: Level 1
   animalPool: {fileID: 11400000, guid: 5d4e5a05c9dc24fa29873b709fc740cf, type: 2}
   levelProperty: {fileID: 11400000, guid: fc3b3a6752a894506a4debe6c9e1c82c, type: 2}
