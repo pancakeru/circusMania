@@ -64,9 +64,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     #region 记录变量
     //State变量
     private ShowStates currentState;
-    private LevelProperty curLevel;
+    [HideInInspector] public LevelProperty curLevel;
     private float curScore;
-    private int curTurn;
+    [HideInInspector]public int curTurn;
     private float curRepu;
     private bool inDown = false;
     private int moveFromStageIndex;
@@ -557,21 +557,23 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                     Time.timeScale = speedRatio;
 
                 }
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    if (Time.timeScale > 0)
+                    {
+                        Time.timeScale = 0;
+                        pauseShow.SetActive(true);
+                    }
+                    else
+                    {
+                        PauseResume();
+                    }
+                }
+
                 break;
 		}
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (Time.timeScale > 0)
-            {
-                Time.timeScale = 0;
-                pauseShow.SetActive(true);
-            }
-            else
-            {
-                PauseResume();
-            }
-        }
+        
 
 
 
@@ -638,7 +640,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		moveCounter.SetUpCount(count+ tContainer.TakeCount());
 	}
 
-	void StartDecide()
+	public void StartDecide()
 	{
 		tContainer.DoTurnAddAction();
 		if (curTurn <= curLevel.allowedTurn) {
@@ -933,7 +935,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					 */
                 }
 
-                
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    if (Time.timeScale > 0)
+                    {
+                        Time.timeScale = 0;
+                        pauseShow.SetActive(true);
+                    }
+                    else
+                    {
+                        PauseResume();
+                    }
+                }
                 //if (Input.GetKeyDown(KeyCode.P))
                 //SetDicideStateInteractionEnabled(false);
                 break;
