@@ -340,7 +340,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         InitializeHand(tContainer.GetCurrentHand());
 	}
 
-	void SetIfChangeTroupePrice(bool ifChange)
+	public void SetIfChangeTroupePrice(bool ifChange)
 	{
 		tContainer.ifChangePrice = ifChange;
 	}
