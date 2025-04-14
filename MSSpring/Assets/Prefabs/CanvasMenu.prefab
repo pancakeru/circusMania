@@ -4661,6 +4661,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7246226485392953016}
     m_Modifications:
+    - target: {fileID: 126082916001118847, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2712240092604029547}
     - target: {fileID: 1677213808960170430, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
       propertyPath: m_Name
       value: LevelPreview
