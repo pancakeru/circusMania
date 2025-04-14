@@ -573,10 +573,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 break;
 		}
 
-        
-
-
-
     }
 
     public void PauseResume()
@@ -667,7 +663,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		if (tContainer.ifChangePrice)
 		{
-			GlobalManager.instance.CalculateAnimalPrice();
+            GlobalManager.instance.UnlockAnimal();
+            GlobalManager.instance.CalculateAnimalPrice();
 		}
 		else
 		{
