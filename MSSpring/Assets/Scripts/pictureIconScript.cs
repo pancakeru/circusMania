@@ -8,7 +8,7 @@ public class pictureIconScript : MonoBehaviour
     private Image myImg;
     private Transform myTransform;
     private Vector3 targetScale;
-    private float shrinkDuration = 0.5f;
+    private float shrinkDuration = 0.6f;
 
     void Start()
     {
