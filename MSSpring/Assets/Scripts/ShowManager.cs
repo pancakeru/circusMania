@@ -251,6 +251,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
 		scoreManager = GetComponent<ShowScoreManager>();
+		CanvasMain.OnUIInteractionEnabled += EnableCanvas;
+		CanvasMain.OnUIInteractionDisabled += DisableCanvas;
+		Camera.main.GetComponent<moveReporter>().reportReceiver = gameObject;
         pauseShow.SetActive(false);
 
     }
@@ -308,6 +311,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		turnRelatedGMO.SetActive(ifTurn);
 		//设置逻辑
 		tContainer.ifTurnEnabled = ifTurn;
+	}
+
+	public bool IfChangeReputation()
+	{
+		return tContainer.ifUpdatePopularity;
 	}
 
 	public bool GetIfBananaEnabled()
@@ -396,6 +404,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     //Functions
     public void EnterOneShow()
 	{
+		Debug.Log("我是SHowManager，我是的obj是"+gameObject.name);
 		//x = -750;
 		//offset = 300;
 		yStart = -600;
@@ -486,16 +495,22 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
-	{
-		tContainer.EndTurnScoreChange();   
-        scoreManager.StartTurn();
+    private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
+    {
         curRepu = GetComponent<ShowScoreManager>().currentReputation;
-		
-		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
-	}
 
-	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
+        targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
+    }
+
+    public void ChangeTargetPanelDisplay(float reputation)
+    {
+        tContainer.EndTurnScoreChange();
+        scoreManager.StartTurn();
+        targetDisplayManager.ChangeLevelState(curTurn, (int)reputation, scoreManager.GetTargetScore(), curLevel.allowedTurn);
+    }
+
+
+    private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
 	{
 		testLevel = level.levelProperty;
 		//Debug.Log("当前level是" + testLevel.name);
@@ -573,6 +588,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 break;
 		}
 
+        
+
+
+
     }
 
     public void PauseResume()
@@ -598,7 +617,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         int count = 5;
 		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInShow.anchoredPosition);
         tContainer.DoBananaMoverAction(showBanana, ShowBanannaInShow.anchoredPosition);
-		totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
+		totalPerformanceControl.InitShow(curRepu);
 		moveCounter.SetUpCount(count+ tContainer.TakeCount());
 		var toGive = from x in onStage
 					 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
@@ -663,8 +682,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		if (tContainer.ifChangePrice)
 		{
-            GlobalManager.instance.UnlockAnimal();
-            GlobalManager.instance.CalculateAnimalPrice();
+			GlobalManager.instance.CalculateAnimalPrice();
 		}
 		else
 		{
@@ -681,6 +699,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		Destroy(curEndScreen);
 		menu.Enable();
 		GetComponent<ShowScoreManager>().ResetReputation();
+		Destroy(gameObject);
 		
 	}
 
@@ -1130,6 +1149,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public void DisableCanvas()
     {
         uiRaycaster.enabled = false;
+    }
+
+    private void OnDestroy()
+    {
+        CanvasMain.OnUIInteractionEnabled -= EnableCanvas;
+        CanvasMain.OnUIInteractionDisabled -= DisableCanvas;
     }
 }
 

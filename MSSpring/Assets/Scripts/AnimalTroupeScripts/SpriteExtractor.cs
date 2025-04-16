@@ -14,7 +14,7 @@ public class SpriteExtractor : MonoBehaviour
             animalNames.Add(animal.animalName);
         }
 
-        foreach (GameObject animal in ShowManager.instance.animalPerformancePrefabs)
+        foreach (GameObject animal in PerformancePrefabReference.instance.prefabs)
         {
             foreach (string animalName in animalNames)
             {

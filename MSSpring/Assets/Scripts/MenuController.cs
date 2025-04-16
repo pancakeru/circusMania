@@ -7,20 +7,22 @@ public class MenuController : MonoBehaviour
 {
     TroupeController troupeController;
     ShopManager shopManager;
-    ShowManager showManager;
+    //ShowManager showManager;
     public GameObject lvlsDisplay;
     [SerializeField] private TextMeshProUGUI coinDisplay;
+
+    public GameObject managerPrefab;
 
     void Start()
     {
         //Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
         troupeController = FindFirstObjectByType<TroupeController>();
         shopManager = FindFirstObjectByType<ShopManager>();
-        showManager = FindFirstObjectByType<ShowManager>();
+        //showManager = FindFirstObjectByType<ShowManager>();
 
         troupeController.GetComponent<Canvas>().enabled = false;
         //shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
-        showManager.gameObject.SetActive(false);
+        //showManager.gameObject.SetActive(false);
         coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         lvlsDisplay.SetActive(false);
 
@@ -50,9 +52,14 @@ public class MenuController : MonoBehaviour
     {
         CallSound();
         BGMSwap("battle");
-        showManager.gameObject.SetActive(true);
+        Debug.Log("重新创建一个界面");
+        GameObject instance = Instantiate(
+            managerPrefab
+            );
+        instance.SetActive(true);
+        instance.GetComponent<ShowManager>().EnterOneShow();
         Disable();
-        showManager.EnterOneShow();
+        
     }
 
     public void Enable()

@@ -28,8 +28,8 @@ public class CanvasMain : MonoBehaviour
 
     void Start()
     {
-        OnUIInteractionEnabled += ShowManager.instance.EnableCanvas;
-        OnUIInteractionDisabled += ShowManager.instance.DisableCanvas;
+        //OnUIInteractionEnabled += ShowManager.instance.EnableCanvas;
+        //OnUIInteractionDisabled += ShowManager.instance.DisableCanvas;
 
         OnUIInteractionEnabled += UnlockMouse;
         OnUIInteractionDisabled += LockMouse;
