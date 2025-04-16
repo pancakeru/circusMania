@@ -113,6 +113,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         {
             levelPreviewController.gameObject.SetActive(true);
         }
+
+        if (Input.GetKeyUp(KeyCode.U))
+        {
+			currentLevelIndex++;
+            UnlockAnimal();
+        }
     }
 
     public GlobalLevel[] GetGlobalLevelArray()
@@ -164,8 +170,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 			animal.restTurn = animalData.restTurn[animalLevels[animal.animalName]];
 			animal.mechanicActiveNum = animalData.skillCondition.Count > 1 ? animalData.skillCondition[animalLevels[animal.animalName]] : animalData.skillCondition[0];
 			animal.skillNum = animalData.skillNumber.Count > 1 ? animalData.skillNumber[animalLevels[animal.animalName]] : animalData.skillNumber[0];
-			animal.ballAction1 = animal.baseBallChange.ToString();
-			animal.scoreAction1 = animalData.scoreColor + animalData.score[animalLevels[animal.animalName]];
         }
 	}
 
