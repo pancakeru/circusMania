@@ -259,8 +259,28 @@ public class PerformUnit : MonoBehaviour
 	void DoShowEnd()
 	{
 		float[] respectiveEndTurnReputationChange = showScoreManager.CalculateRespectiveEndTurnReputationChange();
-		scoreUI.ResetPopularityChangeVisual();
-		StartCoroutine(UpdatePopularityChangeVisual(respectiveEndTurnReputationChange));
+		if (totalManager.IfChangeReputation())
+		{
+			scoreUI.ResetPopularityChangeVisual();
+			StartCoroutine(UpdatePopularityChangeVisual(respectiveEndTurnReputationChange));
+		}
+		else
+		{
+            if (totalManager != null)
+            {
+                totalManager.ChangeTargetPanelDisplay(respectiveEndTurnReputationChange[3]);
+
+                foreach (PerformAnimalControl control in allAnimalsInShow)
+                {
+                    if (control != null)
+                        control.BackToInitial();
+                }
+
+                thrower.ShowStart(false, totalManager);
+                Invoke("BackToDecide", 1f);
+            }
+        }
+		
 	}
 
 	private IEnumerator UpdatePopularityChangeVisual(float[] respectiveEndTurnReputationChange)

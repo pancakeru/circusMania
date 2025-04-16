@@ -313,6 +313,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		tContainer.ifTurnEnabled = ifTurn;
 	}
 
+	public bool IfChangeReputation()
+	{
+		return tContainer.ifUpdatePopularity;
+	}
+
 	public bool GetIfBananaEnabled()
 	{
 		return tContainer.ifBananaEnabled;
@@ -343,7 +348,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         InitializeHand(tContainer.GetCurrentHand());
 	}
 
-	void SetIfChangeTroupePrice(bool ifChange)
+	public void SetIfChangeTroupePrice(bool ifChange)
 	{
 		tContainer.ifChangePrice = ifChange;
 	}
@@ -490,16 +495,22 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
-	{
-		tContainer.EndTurnScoreChange();   
-        scoreManager.StartTurn();
+    private void ChangeLevelStatus(int _curTurn, bool ifChangeTurnDisplay)
+    {
         curRepu = GetComponent<ShowScoreManager>().currentReputation;
-		
-		targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
-	}
 
-	private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
+        targetDisplayManager.ChangeLevelState(_curTurn - (ifChangeTurnDisplay ? 0 : 1), curRepu, scoreManager.GetTargetScore(), curLevel.allowedTurn);
+    }
+
+    public void ChangeTargetPanelDisplay(float reputation)
+    {
+        tContainer.EndTurnScoreChange();
+        scoreManager.StartTurn();
+        targetDisplayManager.ChangeLevelState(curTurn, (int)reputation, scoreManager.GetTargetScore(), curLevel.allowedTurn);
+    }
+
+
+    private void GlobalManager_OnNextGlobalLevel(GlobalLevel level)
 	{
 		testLevel = level.levelProperty;
 		//Debug.Log("当前level是" + testLevel.name);
@@ -606,7 +617,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         int count = 5;
 		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInShow.anchoredPosition);
         tContainer.DoBananaMoverAction(showBanana, ShowBanannaInShow.anchoredPosition);
-		totalPerformanceControl.InitShow(Mathf.Max(1, curRepu));
+		totalPerformanceControl.InitShow(curRepu);
 		moveCounter.SetUpCount(count+ tContainer.TakeCount());
 		var toGive = from x in onStage
 					 let control = x?.GetComponent<PerformAnimalControl>() // 先获取组件，避免重复调用
