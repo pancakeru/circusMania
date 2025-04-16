@@ -42,4 +42,13 @@ public class pictureIconScript : MonoBehaviour
 
         myTransform.localScale = target;
     }
+
+    public void ChangeColor(string colorName) {
+        if (colorName == "red") {
+            myImg.color = Color.red;
+            return;
+        }
+
+        myImg.color = Color.white;
+    }
 }

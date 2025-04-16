@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class winLoseScript : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class winLoseScript : MonoBehaviour
     private TypewriterEffect rScript;
     private TypewriterEffect bScript;
 
+   // public GameObject startScreen;
+
     private enum displaySeq {
         header,
         pics,
@@ -41,7 +44,8 @@ public class winLoseScript : MonoBehaviour
         currentState = displaySeq.header;
         startPos = endButton.GetComponent<RectTransform>().anchoredPosition;
         endPos = new Vector2(0, -195);
-        BeginSeq();
+        gameObject.SetActive(false);
+       // BeginSeq();
     }
 
     void Update()
@@ -75,7 +79,7 @@ public class winLoseScript : MonoBehaviour
             break;
 
             case displaySeq.message:
-                rScript.fullText = "You have completed shows in " + $"<color=#D41818>{locations}</color>" + "\nEarning a total of " + $"<color=#D41818>{coins}</color> coins."  + "\n\nWe look forward to seeing you recreate the legend in the future!";
+                rScript.fullText = "You have completed shows in " + $"<color=#D41818>{locations}</color>" + " Earning a total of " + $"<color=#D41818>{coins}</color> coins."  + "\n\nWe look forward to seeing you recreate the legend in the future!";
                 rScript.StartTyping();
             break;
 
@@ -104,4 +108,20 @@ public class winLoseScript : MonoBehaviour
     BeginSeq();
     }
     
+
+    public void ResetGame() {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        /*
+        startingAnim = false;
+        currentState = displaySeq.header;
+        bScript.isDoneTyping = false;
+        rScript.isDoneTyping = false;
+        bScript.fullText = "";
+        rScript.fullText = "";
+        startScreen.SetActive(true);
+        AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
+        gameObject.SetActive(false);
+        */
+    }
+
 }
