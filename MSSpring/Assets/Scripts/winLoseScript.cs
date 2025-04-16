@@ -7,10 +7,14 @@ public class winLoseScript : MonoBehaviour
 {
     public GameObject[] pictures;
     int index = 0;
-    float delay = 0.5f;
+    float delay = 0.25f;
 
     public string locations; //locations completed
     public string coins; //coins earned
+    public GameObject endButton;
+    private UiMover ebScript;
+    private Vector2 endPos;
+    private Vector2 startPos;
 
     public bool startingAnim = false;
 
@@ -33,7 +37,10 @@ public class winLoseScript : MonoBehaviour
     {
         bScript = bigText.GetComponent<TypewriterEffect>();
         rScript = resultsText.GetComponent<TypewriterEffect>();
+        ebScript = endButton.GetComponent<UiMover>();
         currentState = displaySeq.header;
+        startPos = endButton.GetComponent<RectTransform>().anchoredPosition;
+        endPos = new Vector2(0, -195);
         BeginSeq();
     }
 
@@ -55,6 +62,7 @@ public class winLoseScript : MonoBehaviour
 
     public void BeginSeq() {
         startingAnim = true;
+        ebScript.GetComponent<RectTransform>().anchoredPosition = startPos;
 
         switch (currentState) {
             case displaySeq.header:
@@ -72,7 +80,7 @@ public class winLoseScript : MonoBehaviour
             break;
 
             case displaySeq.playAgain:
-
+                ebScript.MoveTo(endPos);
             break;
 
         }
