@@ -590,6 +590,7 @@ GameObject:
   - component: {fileID: 1513259092771891746}
   - component: {fileID: 279894382169124940}
   - component: {fileID: 3687375775788941702}
+  - component: {fileID: 4112311655980135823}
   m_Layer: 5
   m_Name: Big text
   m_TagString: Untagged
@@ -644,7 +645,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: World Famous
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 90a24a72f45f646cf974da337dacaeb9, type: 2}
   m_sharedMaterial: {fileID: -2194361735374502333, guid: 90a24a72f45f646cf974da337dacaeb9, type: 2}
@@ -713,6 +714,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4112311655980135823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659750399568053568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e653a3a7b317443bac9ba946f8bb0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typingSpeed: 0.03
+  fullText: World Famous
 --- !u!1 &5091312818154190552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1084,7 @@ MonoBehaviour:
   - {fileID: 273892375767448396}
   locations: New York, Shanghai, London
   coins: 10,000
+  bigText: {fileID: 4659750399568053568}
   resultsText: {fileID: 8947408163083951385}
 --- !u!1 &8314431896716341218
 GameObject:
@@ -1345,13 +1361,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You have completed shows in
-
-    Earning a total of
-
-
-    We look forward
-    to seeing you recreate the legend in the future!'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 90a24a72f45f646cf974da337dacaeb9, type: 2}
   m_sharedMaterial: {fileID: -2194361735374502333, guid: 90a24a72f45f646cf974da337dacaeb9, type: 2}

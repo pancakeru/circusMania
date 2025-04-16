@@ -8,6 +8,7 @@ public class TypewriterEffect : MonoBehaviour
     [TextArea]
     public string fullText;
     private TextMeshProUGUI textComponent;
+    public bool isDoneTyping { get; private set; } = false; 
 
     private void Awake()
     {
@@ -43,5 +44,6 @@ public class TypewriterEffect : MonoBehaviour
 
         // Ensure final text is fully displayed
         textComponent.text = fullText;
+        isDoneTyping = true;
     }
 }
