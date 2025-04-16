@@ -47,9 +47,9 @@ public class ShowScoreManager : MonoBehaviour
 	{
 		float lastRepu = currentReputation;
 		float[] respectiveEndTurnReputationChangeArray = CalculateRespectiveEndTurnReputationChange();
-		foreach (float respectiveEndTurnReputationChange in respectiveEndTurnReputationChangeArray)
+		for (int i = 0; i < 3; i++)
 		{
-			currentReputation += respectiveEndTurnReputationChange;
+			currentReputation += respectiveEndTurnReputationChangeArray[i];
 		}
 		repuChanges.Enqueue((int)(currentReputation - lastRepu));
 	}
@@ -96,7 +96,8 @@ public class ShowScoreManager : MonoBehaviour
 					break;
 			}
 		}
-		return new float[] { redChange, yellowChange, blueChange };
+		float totalRepuationChange = currentReputation + redChange + yellowChange + blueChange;
+		return new float[] { redChange, yellowChange, blueChange, totalRepuationChange };
 	}
 
 	public void ResetReputation()

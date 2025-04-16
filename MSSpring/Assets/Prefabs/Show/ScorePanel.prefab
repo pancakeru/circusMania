@@ -991,9 +991,12 @@ MonoBehaviour:
   redFill: {fileID: 6007971612083690792}
   yellowFill: {fileID: 6509833084470924412}
   blueFill: {fileID: 2066059350579488277}
-  redPopularityChange: {fileID: 8936998010998520713}
-  yellowPopularityChange: {fileID: 6331600186711917948}
-  bluePopularityChange: {fileID: 3657650306394915503}
+  redPopularityChangeText: {fileID: 8936998010998520713}
+  redPopularityChangeImage: {fileID: 2301523198434041805}
+  yellowPopularityChangeText: {fileID: 6331600186711917948}
+  yellowPopularityChangeImage: {fileID: 4294741916285819188}
+  bluePopularityChangeText: {fileID: 3657650306394915503}
+  bluePopularityChangeImage: {fileID: 7838790446359901342}
   nextTestAction: 0
   ifTest: 0
   changeTo: 0

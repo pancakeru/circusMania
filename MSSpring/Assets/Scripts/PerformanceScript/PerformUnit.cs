@@ -1,6 +1,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class PerformUnit : MonoBehaviour
 {
@@ -114,6 +115,7 @@ public class PerformUnit : MonoBehaviour
 		float[] targetScoreArray = showScoreManager.GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0], targetScoreArray[1], targetScoreArray[2]);
 		SetStageAndEmptyLocalPos(n, EmptyLocalposes, StageLocalposes);
+		scoreUI.SetPopularityChangeVisualActiveToFalse();
 	}
 
 	public void InitShow(float last)
@@ -124,6 +126,7 @@ public class PerformUnit : MonoBehaviour
 		ChangeRedScore(0, ChangeScoreType.Set);
 		float[] targetScoreArray = showScoreManager.GetTargetScore();
 		scoreUI.UpdateTargetScores(targetScoreArray[0], targetScoreArray[1], targetScoreArray[2]);
+		scoreUI.SetPopularityChangeVisualActiveToFalse();
 	}
 
 	void StartShow()
@@ -256,10 +259,24 @@ public class PerformUnit : MonoBehaviour
 	void DoShowEnd()
 	{
 		float[] respectiveEndTurnReputationChange = showScoreManager.CalculateRespectiveEndTurnReputationChange();
-		scoreUI.UpdatePopularityChangeVisual(respectiveEndTurnReputationChange);
+		scoreUI.ResetPopularityChangeVisual();
+		StartCoroutine(UpdatePopularityChangeVisual(respectiveEndTurnReputationChange));
+	}
+
+	private IEnumerator UpdatePopularityChangeVisual(float[] respectiveEndTurnReputationChange)
+	{
+		float visualChangeSpeed = 1f;
+
+		while (!scoreUI.isPopularityVisualChanged)
+		{
+			scoreUI.UpdatePopularityChangeVisual(respectiveEndTurnReputationChange, visualChangeSpeed * Time.deltaTime);
+			yield return null;
+		}
 
 		if (totalManager != null)
 		{
+			totalManager.ChangeTargetPanelDisplay(respectiveEndTurnReputationChange[3]);
+
 			foreach (PerformAnimalControl control in allAnimalsInShow)
 			{
 				if (control != null)
@@ -267,7 +284,7 @@ public class PerformUnit : MonoBehaviour
 			}
 
 			thrower.ShowStart(false, totalManager);
-			Invoke("BackToDecide", 1f);
+			Invoke("BackToDecide", 2f);
 		}
 	}
 

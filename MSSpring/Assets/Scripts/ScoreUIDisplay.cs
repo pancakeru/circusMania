@@ -28,9 +28,13 @@ public class ScoreUIDisplay : MonoBehaviour
 	[SerializeField] private Image yellowFill;
 	[SerializeField] private Image blueFill;
 
-	[SerializeField] private TextMeshProUGUI redPopularityChange;
-	[SerializeField] private TextMeshProUGUI yellowPopularityChange;
-	[SerializeField] private TextMeshProUGUI bluePopularityChange;
+	[SerializeField] private TextMeshProUGUI redPopularityChangeText;
+	[SerializeField] private Image redPopularityChangeImage;
+	[SerializeField] private TextMeshProUGUI yellowPopularityChangeText;
+	[SerializeField] private Image yellowPopularityChangeImage;
+	[SerializeField] private TextMeshProUGUI bluePopularityChangeText;
+	[SerializeField] private Image bluePopularityChangeImage;
+	public bool isPopularityVisualChanged { get; private set; } = false;
 
 	[Header("For Test")]
 	[SerializeField]
@@ -180,11 +184,79 @@ public class ScoreUIDisplay : MonoBehaviour
 		}
 	}
 
-	public void UpdatePopularityChangeVisual(float[] respectiveEndTurnReputationChange)
+	public void ResetPopularityChangeVisual()
 	{
-		redPopularityChange.text = respectiveEndTurnReputationChange[0].ToString();
-		yellowPopularityChange.text = respectiveEndTurnReputationChange[1].ToString();
-		bluePopularityChange.text = respectiveEndTurnReputationChange[2].ToString();
+		redPopularityChangeText.text = "0";
+		yellowPopularityChangeText.text = "0";
+		bluePopularityChangeText.text = "0";
+
+		redPopularityChangeText.color = new Color(0.4470588f, 0.4117647f, 0.4196078f, 0f);
+		yellowPopularityChangeText.color = new Color(0.4470588f, 0.4117647f, 0.4196078f, 0f);
+		bluePopularityChangeText.color = new Color(0.4470588f, 0.4117647f, 0.4196078f, 0f);
+
+		redPopularityChangeImage.color = new Color(1f, 1f, 1f, 0f);
+		yellowPopularityChangeImage.color = new Color(1f, 1f, 1f, 0f);
+		bluePopularityChangeImage.color = new Color(1f, 1f, 1f, 0f);
+
+		isPopularityVisualChanged = false;
+
+		redPopularityChangeImage.gameObject.SetActive(true);
+		yellowPopularityChangeImage.gameObject.SetActive(true);
+		bluePopularityChangeImage.gameObject.SetActive(true);
+	}
+
+	public void SetPopularityChangeVisualActiveToFalse()
+	{
+		redPopularityChangeImage.gameObject.SetActive(false);
+		yellowPopularityChangeImage.gameObject.SetActive(false);
+		bluePopularityChangeImage.gameObject.SetActive(false);
+	}
+
+	public void UpdatePopularityChangeVisual(float[] respectiveEndTurnReputationChange, float visualChangeSpeed)
+	{
+		if (respectiveEndTurnReputationChange[0] > 0f)
+		{
+			redPopularityChangeText.text = "+" + respectiveEndTurnReputationChange[0].ToString();
+		}
+		else
+		{
+			redPopularityChangeText.text = respectiveEndTurnReputationChange[0].ToString();
+		}
+		if (respectiveEndTurnReputationChange[1] > 0f)
+		{
+			yellowPopularityChangeText.text = "+" + respectiveEndTurnReputationChange[1].ToString();
+		}
+		else
+		{
+			yellowPopularityChangeText.text = respectiveEndTurnReputationChange[1].ToString();
+		}
+		if (respectiveEndTurnReputationChange[2] > 0f)
+		{
+			bluePopularityChangeText.text = "+" + respectiveEndTurnReputationChange[2].ToString();
+		}
+		else
+		{
+			bluePopularityChangeText.text = respectiveEndTurnReputationChange[2].ToString();
+		}
+
+		//Text Color Change
+		redPopularityChangeText.color = new Color(0.4470588f, 0.4117647f, 0.4196078f, redPopularityChangeText.color.a + visualChangeSpeed);
+		yellowPopularityChangeText.color = new Color(0.4470588f, 0.4117647f, 0.4196078f, yellowPopularityChangeText.color.a + visualChangeSpeed);
+		bluePopularityChangeText.color = new Color(0.4470588f, 0.4117647f, 0.4196078f, bluePopularityChangeText.color.a + visualChangeSpeed);
+
+		//Image Color Change
+		redPopularityChangeImage.color = new Color(1f, 1f, 1f, redPopularityChangeImage.color.a + visualChangeSpeed);
+		yellowPopularityChangeImage.color = new Color(1f, 1f, 1f, yellowPopularityChangeImage.color.a + visualChangeSpeed);
+		bluePopularityChangeImage.color = new Color(1f, 1f, 1f, bluePopularityChangeImage.color.a + visualChangeSpeed);
+
+		if (redPopularityChangeText.color.a >= 1f && yellowPopularityChangeText.color.a >= 1f && bluePopularityChangeText.color.a >= 1f)
+		{
+			if (redPopularityChangeImage.color.a >= 1f && yellowPopularityChangeImage.color.a >= 1f && bluePopularityChangeImage.color.a >= 1f)
+			{
+				isPopularityVisualChanged = true;
+				UpdateLastScore(respectiveEndTurnReputationChange[3], "");
+			}
+		}
 	}
 
 	public enum TestAction
