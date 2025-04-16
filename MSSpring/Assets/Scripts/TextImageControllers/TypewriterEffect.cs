@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class TypewriterEffect : MonoBehaviour
 {
-    public float typingSpeed = 0.05f;  // 控制每个字符出现的间隔时间
-    public string fullText;            // 你想显示的完整文本
+    public float typingSpeed = 0.03f;
+    [TextArea]
+    public string fullText;
     private TextMeshProUGUI textComponent;
 
     private void Awake()
@@ -13,18 +14,34 @@ public class TypewriterEffect : MonoBehaviour
         textComponent = GetComponent<TextMeshProUGUI>();
     }
 
-    private void Start()
+    public void StartTyping()
     {
+        StopAllCoroutines(); 
         StartCoroutine(TypeText());
     }
 
     public IEnumerator TypeText()
     {
-        textComponent.text = ""; // 清空初始文本
+        textComponent.text = "";
+        string currentText = "";
+
+        bool insideTag = false;
+
         foreach (char letter in fullText)
         {
-            textComponent.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
+            currentText += letter;
+
+            if (letter == '<') insideTag = true;
+            if (letter == '>') insideTag = false;
+
+            if (!insideTag)
+            {
+                textComponent.text = currentText;
+                yield return new WaitForSeconds(typingSpeed);
+            }
         }
+
+        // Ensure final text is fully displayed
+        textComponent.text = fullText;
     }
 }
