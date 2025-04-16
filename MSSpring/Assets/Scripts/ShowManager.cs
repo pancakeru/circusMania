@@ -251,6 +251,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//GlobalManager_OnNextGlobalLevel();
 		GlobalManager.OnNextGlobalLevel += GlobalManager_OnNextGlobalLevel;
 		scoreManager = GetComponent<ShowScoreManager>();
+		CanvasMain.OnUIInteractionEnabled += EnableCanvas;
+		CanvasMain.OnUIInteractionDisabled += DisableCanvas;
+		Camera.main.GetComponent<moveReporter>().reportReceiver = gameObject;
         pauseShow.SetActive(false);
 
     }
@@ -396,6 +399,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     //Functions
     public void EnterOneShow()
 	{
+		Debug.Log("我是SHowManager，我是的obj是"+gameObject.name);
 		//x = -750;
 		//offset = 300;
 		yStart = -600;
@@ -684,6 +688,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		Destroy(curEndScreen);
 		menu.Enable();
 		GetComponent<ShowScoreManager>().ResetReputation();
+		Destroy(gameObject);
 		
 	}
 
@@ -1133,6 +1138,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public void DisableCanvas()
     {
         uiRaycaster.enabled = false;
+    }
+
+    private void OnDestroy()
+    {
+        CanvasMain.OnUIInteractionEnabled -= EnableCanvas;
+        CanvasMain.OnUIInteractionDisabled -= DisableCanvas;
     }
 }
 

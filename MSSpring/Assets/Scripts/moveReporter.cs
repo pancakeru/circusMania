@@ -7,7 +7,7 @@ public class moveReporter : MonoBehaviour
     public GameObject reportReceiver;
     public void Report()
     {
-        if (reportReceiver.GetComponent<IReportReceiver>() != null)
+        if (reportReceiver!= null && reportReceiver.GetComponent<IReportReceiver>() != null)
             reportReceiver.GetComponent<IReportReceiver>().reportFinish();
     }
 }
