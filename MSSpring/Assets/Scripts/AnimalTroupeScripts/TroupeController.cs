@@ -130,7 +130,7 @@ public class TroupeController : MonoBehaviour
         troupeCardDetailed.animalName.text = theAnimalProperty.animalName;
         troupeCardDetailed.ballAction.text = theAnimalProperty.returnBallAction1Only();
         troupeCardDetailed.restTurn.text = theAnimalProperty.restTurn.ToString();
-        troupeCardDetailed.scoreAction.text = theAnimalProperty.returnScoreActionNoRest();
+        troupeCardDetailed.scoreAction.text = theAnimalProperty.ReturnScore();
 
         troupeCardDetailed.SetLineChart();
     }

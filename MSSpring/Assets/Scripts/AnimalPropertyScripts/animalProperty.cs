@@ -26,23 +26,19 @@ public class animalProperty : ScriptableObject
     public int skillNum;
 
     [Header("     For explain")]
-    /// <summary>
-    /// 得分动作的文本模板，例如 "得分 {0} 分，并额外获得 {1} 点奖励"
-    /// </summary>
     
     public string ballAction1;
 
-    /// <summary>
-    /// 传球动作的文本模板，例如 "向{0}传球，进入{1}回合冷却"
-    /// </summary>
     public string scoreAction1;
     public string scoreAction2;
     public string scoreAction3;
 
-    /// <summary>
-    /// 生成得分动作的最终文本
-    /// </summary>
-    /// <returns>格式化后的得分描述字符串</returns>
+    string formatScore = "<b><color=#{0}>+{1} {2}.</color></b>";
+    string formatSkill;
+
+    string colorHexFun = "D3458F";
+    string colorHexSkill = "E4CF7B";
+    string colorHexNovelty = "45A9D2";
 
     public string returnBallAction()
     {
@@ -53,14 +49,19 @@ public class animalProperty : ScriptableObject
         );
     }
 
-    public string returnScoreAction()
+    public string ReturnScore()
     {
+        (string textColor, string textScore, string textScoreName) 
+                         = baseRedChange != 0 ? (colorHexFun, baseRedChange.ToString(), "FUN")
+                         : baseYellowChange != 0 ? (colorHexSkill, baseYellowChange.ToString(), "SKILL")
+                         : baseBlueChange != 0 ? (colorHexNovelty, baseBlueChange.ToString(), "NOVELTY") : ("ERROR", "ERROR", "ERROR");
+
+        Debug.Log(formatScore);
+
         return string.Format
         (
-            "Gain {0}, Rest {1}. \n{2}",
-            string.IsNullOrEmpty(scoreAction1) ? "" : scoreAction1,
-            string.IsNullOrEmpty(scoreAction2) ? "" : scoreAction2,
-            string.IsNullOrEmpty(scoreAction3) ? "" : scoreAction3
+            formatScore,
+            textColor, textScore, textScoreName
         );
     }
 
