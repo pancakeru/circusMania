@@ -30,6 +30,7 @@ public class PauseController : MonoBehaviour
     {
         Time.timeScale = 1;
         ShowManager.instance.curTurn = ShowManager.instance.curLevel.allowedTurn;
+        ShowManager.instance.SetIfChangeTroupePrice(false);
         ShowManager.instance.StartDecide();
 
         gameObject.SetActive(false);
