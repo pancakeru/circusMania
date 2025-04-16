@@ -15,16 +15,14 @@ MonoBehaviour:
   animalName: Fox
   animalCoreImg: {fileID: 21300000, guid: 2d554d214aaa9aa49b923ce524f5f0b0, type: 3}
   explainImg: {fileID: 21300000, guid: 5032bb0cd8994477b9fa76dce11a3340, type: 3}
+  baseBallChange: 1
   mechanicNumberType: 0
   skillScoreColor: 1
-  textScoreSpecial3: 
-  textScoreSpecial4: 
-  textSkillSpecial: 'When neighbours pass a ball and generate Fun, '
-  textPowerSpecial3: 
-  baseRedChange: 4
-  baseYellowChange: 0
-  baseBlueChange: 0
-  baseBallChange: 1
-  restTurn: 3
+  textSkill: when neighbours pass a ball and generate FUN.
+  textMechanic: 
+  baseRedChange: -99
+  baseYellowChange: -99
+  baseBlueChange: -99
+  restTurn: -99
   mechanicActiveNum: -99
-  skillNum: 4
+  skillNum: -99

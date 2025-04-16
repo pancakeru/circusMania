@@ -15,16 +15,14 @@ MonoBehaviour:
   animalName: Bear
   animalCoreImg: {fileID: 21300000, guid: b29e9af7870f69a49a5c96617b493a28, type: 3}
   explainImg: {fileID: 21300000, guid: dfe9d89684e5340298fb9df67b3c6192, type: 3}
+  baseBallChange: 0
   mechanicNumberType: 1
   skillScoreColor: 0
-  textScoreSpecial3: '* POWER'
-  textScoreSpecial4: 
-  textSkillSpecial: 
-  textPowerSpecial3: 
-  baseRedChange: 20
-  baseYellowChange: 0
-  baseBlueChange: 0
-  baseBallChange: 1
-  restTurn: 2
+  textSkill: 
+  textMechanic: 
+  baseRedChange: -99
+  baseYellowChange: -99
+  baseBlueChange: -99
+  restTurn: -99
   mechanicActiveNum: -99
-  skillNum: 1
+  skillNum: -99

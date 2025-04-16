@@ -15,17 +15,14 @@ MonoBehaviour:
   animalName: Lizard
   animalCoreImg: {fileID: 21300000, guid: 255a408d19a30d1429598f41cf5ecae1, type: 3}
   explainImg: {fileID: 21300000, guid: 1785de6b812a244b186838c9a619a388, type: 3}
+  baseBallChange: -3
   mechanicNumberType: 1
-  skillScoreColor: 0
-  textScoreSpecial3: '* POWER'
-  textScoreSpecial5: 
-  textSkillSpecial: 
-  textPowerSpecial3: 
-  textExcitedSpecial3: 
+  skillScoreColor: 2
+  textSkill: 
+  textMechanic: 
   baseRedChange: 0
   baseYellowChange: 10
   baseBlueChange: 0
-  baseBallChange: -3
   restTurn: 2
-  mechanicActiveNum: 0
-  skillNum: 0
+  mechanicActiveNum: -99
+  skillNum: 1

@@ -15,16 +15,14 @@ MonoBehaviour:
   animalName: Giraffe
   animalCoreImg: {fileID: 21300000, guid: e98d6f8852f93bc4793f456d29b66394, type: 3}
   explainImg: {fileID: 21300000, guid: e602c34732e964130a347b020f98b856, type: 3}
+  baseBallChange: 1
   mechanicNumberType: 0
   skillScoreColor: 0
-  textScoreSpecial3: 
-  textScoreSpecial5: Banana
-  textSkillSpecial: 
-  textPowerSpecial3: 
-  baseRedChange: 5
-  baseYellowChange: 0
-  baseBlueChange: 0
-  baseBallChange: 1
-  restTurn: 5
+  textSkill: 
+  textMechanic: 
+  baseRedChange: -99
+  baseYellowChange: -99
+  baseBlueChange: -99
+  restTurn: -99
   mechanicActiveNum: -99
-  skillNum: 3
+  skillNum: -99

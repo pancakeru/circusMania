@@ -170,6 +170,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 			animal.restTurn = animalData.restTurn[animalLevels[animal.animalName]];
 			animal.mechanicActiveNum = animalData.skillCondition.Count > 1 ? animalData.skillCondition[animalLevels[animal.animalName]] : animalData.skillCondition[0];
 			animal.skillNum = animalData.skillNumber.Count > 1 ? animalData.skillNumber[animalLevels[animal.animalName]] : animalData.skillNumber[0];
+
+			Debug.Log($"{animal.animalName}: {animalData.skillCondition.Count}");
         }
 	}
 

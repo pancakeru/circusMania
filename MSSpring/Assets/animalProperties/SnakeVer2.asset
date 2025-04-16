@@ -15,17 +15,15 @@ MonoBehaviour:
   animalName: Snake
   animalCoreImg: {fileID: 21300000, guid: fc1cdc2e30df50541a63e83c9ee31a55, type: 3}
   explainImg: {fileID: 21300000, guid: 98dfe382de24c41c0849dec3e6cca749, type: 3}
+  baseBallChange: -2
   mechanicNumberType: 2
   skillScoreColor: 2
-  textScoreSpecial3: 
-  textScoreSpecial5: 
-  textSkillSpecial: 
-  textPowerSpecial3: 
-  textExcitedSpecial3: 
+  textSkill: 
+  textMechanicScore: useSkillNum
+  textMechanicExtra: 
   baseRedChange: 5
   baseYellowChange: 0
   baseBlueChange: 0
-  baseBallChange: -2
   restTurn: 3
   mechanicActiveNum: 3
-  skillNum: 0
+  skillNum: 50
