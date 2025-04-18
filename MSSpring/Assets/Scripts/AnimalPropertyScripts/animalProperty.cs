@@ -2,6 +2,7 @@
 using System.Runtime.ConstrainedExecution;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 
 [CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "Animal System/AnimalProperty")]
 public class animalProperty : ScriptableObject
@@ -37,8 +38,8 @@ public class animalProperty : ScriptableObject
     string formatScore = "<b><color=#{0}>+{1} {2}</color></b>";
 
     string formatPower = "<b><color=#{0}>POWER</color></b>: +1 POWER per ball passed.{1}{2}.";
-    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP reaches <b>{1}</b>, {2}, then deactives until next round.";
-    string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2}{3}.";
+    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2}, then deactives until next round.";
+    string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
 
     string colorHexFun = "D3458F";
     string colorHexSkill = "E4CF7B";
@@ -46,12 +47,13 @@ public class animalProperty : ScriptableObject
 
     public string ReturnAllExplanation()
     {
-        string banana = animalName == "Giraffe" ? $"and {ReturnBanana()}" : "";
-        string skill = string.IsNullOrEmpty(textSkill) ? "" : ReturnSkillScore();
-        string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : ReturnSkillMechanic();
+        string banana = animalName == "Giraffe" ? $" and {ReturnBanana()}" : "";
+        string skill = string.IsNullOrEmpty(textSkill) ? "" : "\n" + ReturnSkillScore();
+        textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill + ".";
+        string mechanic = mechanicNumberType == MechanicNumberType.None || mechanicNumberType == MechanicNumberType.Power ? "" : "\n" + ReturnSkillMechanic();
 
-        string textExplanation = $"{ReturnScore()}{banana}.\n{skill}{textSkill}\n{mechanic}";
-        return textExplanation;
+        string finalExplanation = $"{ReturnScore()}{banana} per ball passed.{skill}{textSkill}{mechanic}";
+        return ColorKeyWord(finalExplanation);
     }
 
     string ReturnScore()
@@ -116,6 +118,29 @@ public class animalProperty : ScriptableObject
             formatMechanic,
             color, condition, mechanicScore, mechanicExtra
         );
+    }
+
+    string ColorKeyWord(string theString)
+    {
+        if (theString.Contains("FUN"))
+        {
+            string formatColored = $"<b><color=#{colorHexFun}>FUN</color></b>";
+            theString = theString.Replace("FUN", formatColored);
+        }
+
+        if (theString.Contains("SKILL"))
+        {
+            string formatColored = $"<b><color=#{colorHexSkill}>Skill</color></b>";
+            theString = theString.Replace("SKILL", formatColored);
+        }
+
+        if (theString.Contains("NOVELTY"))
+        {
+            string formatColored = $"<b><color=#{colorHexNovelty}>NOVELTY</color></b>";
+            theString = theString.Replace("NOVELTY", formatColored);
+        }
+
+        return theString;
     }
 }
 

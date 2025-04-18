@@ -18,11 +18,12 @@ MonoBehaviour:
   baseBallChange: 1
   mechanicNumberType: 0
   skillScoreColor: 1
-  textSkill: when neighbours pass a ball and generate FUN.
-  textMechanic: 
-  baseRedChange: -99
-  baseYellowChange: -99
-  baseBlueChange: -99
-  restTurn: -99
+  textSkill: ' when neighbours pass a ball and generate FUN'
+  textMechanicScore: 
+  textMechanicExtra: 
+  baseRedChange: 4
+  baseYellowChange: 0
+  baseBlueChange: 0
+  restTurn: 3
   mechanicActiveNum: -99
-  skillNum: -99
+  skillNum: 4

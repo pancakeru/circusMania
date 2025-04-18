@@ -714,10 +714,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score Action: 1234'
+  m_text: 'Score Action: 1234
+
+    FUN SKILL NOVELTY
+
+    POWER WARM UP EXCITED
+
+    Score
+    Action: 1234
+
+    FUN SKILL NOVELTY
+
+    POWER WARM UP EXCITED'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 90a24a72f45f646cf974da337dacaeb9, type: 2}
-  m_sharedMaterial: {fileID: -2194361735374502333, guid: 90a24a72f45f646cf974da337dacaeb9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8706d4df8db4eed4d87fb61446cd8aa4, type: 2}
+  m_sharedMaterial: {fileID: -8929258029352307368, guid: 8706d4df8db4eed4d87fb61446cd8aa4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -741,8 +752,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -753,7 +764,7 @@ MonoBehaviour:
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: 10
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -2122,8 +2133,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 3
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8706d4df8db4eed4d87fb61446cd8aa4, type: 2}
+  m_sharedMaterial: {fileID: -8929258029352307368, guid: 8706d4df8db4eed4d87fb61446cd8aa4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2467,8 +2478,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Right(2)
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8706d4df8db4eed4d87fb61446cd8aa4, type: 2}
+  m_sharedMaterial: {fileID: -8929258029352307368, guid: 8706d4df8db4eed4d87fb61446cd8aa4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2549,7 +2560,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1596043635596041568
 RectTransform:
   m_ObjectHideFlags: 0

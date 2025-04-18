@@ -20,10 +20,10 @@ MonoBehaviour:
   skillScoreColor: 3
   textSkill: 
   textMechanicScore: useSkillNum
-  textMechanicExtra: ' when any animal generate FUN.'
+  textMechanicExtra: ' when any animal generate FUN'
   baseRedChange: 0
   baseYellowChange: 0
   baseBlueChange: 10
   restTurn: 5
-  mechanicActiveNum: -99
+  mechanicActiveNum: 5
   skillNum: 8

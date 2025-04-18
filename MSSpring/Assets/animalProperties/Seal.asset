@@ -20,10 +20,10 @@ MonoBehaviour:
   skillScoreColor: 0
   textSkill: 
   textMechanicScore: 
-  textMechanicExtra: gain 2 more Times and change to Left 1.
+  textMechanicExtra: gain 2 more Times and change to Left 1
   baseRedChange: 20
   baseYellowChange: 0
   baseBlueChange: 0
   restTurn: 3
-  mechanicActiveNum: 7
+  mechanicActiveNum: 3
   skillNum: -99

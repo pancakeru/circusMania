@@ -26,7 +26,7 @@ public class AnimalLoader : MonoBehaviour
     public AnimalData transferData(animalProperty animal)
     {
         AnimalData data = new AnimalData();
-        TextAsset csvFile = Resources.Load<TextAsset>("AnimalData/" + "AnimalDataCVS" + animal.animalName);
+        TextAsset csvFile = Resources.Load<TextAsset>("AnimalData/" + animal.animalName + "AnimalDataCVS");
         List<string[]> rows = DataManager.instance.ParseCSV(csvFile.text);
 
         for (int i = 1; i < rows.Count; i++) // Skip header
