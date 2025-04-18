@@ -20,7 +20,7 @@ MonoBehaviour:
   skillScoreColor: 3
   textSkill: 
   textMechanicScore: useSkillNum
-  textMechanicExtra: ' when any animal generate FUN'
+  textMechanicExtra: ' when any animal generate JOY'
   baseRedChange: 0
   baseYellowChange: 0
   baseBlueChange: 10

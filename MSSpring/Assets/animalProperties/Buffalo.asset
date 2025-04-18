@@ -20,7 +20,7 @@ MonoBehaviour:
   skillScoreColor: 3
   textSkill: 
   textMechanicScore: useSkillNum
-  textMechanicExtra: when any animal generate Novelty
+  textMechanicExtra: when any animal generate NOVELTY
   baseRedChange: 0
   baseYellowChange: 0
   baseBlueChange: 20

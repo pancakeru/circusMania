@@ -18,7 +18,7 @@ MonoBehaviour:
   baseBallChange: 1
   mechanicNumberType: 0
   skillScoreColor: 1
-  textSkill: ' when neighbours pass a ball and generate FUN'
+  textSkill: ' when neighbours pass a ball and generate JOY'
   textMechanicScore: 
   textMechanicExtra: 
   baseRedChange: 4

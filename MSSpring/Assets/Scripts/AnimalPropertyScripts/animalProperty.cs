@@ -41,9 +41,13 @@ public class animalProperty : ScriptableObject
     string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2}, then deactives until next round.";
     string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
 
-    string colorHexFun = "D3458F";
-    string colorHexSkill = "E4CF7B";
-    string colorHexNovelty = "45A9D2";
+    string colorHexRed = "D3458F";
+    string colorHexYellow = "E4CF7B";
+    string colorHexBlue = "45A9D2";
+
+    string scoreRedName = "JOY";
+    string scoreYellowName = "SKILL";
+    string scoreBlueName = "NOVELTY";
 
     public string ReturnAllExplanation()
     {
@@ -59,9 +63,9 @@ public class animalProperty : ScriptableObject
     string ReturnScore()
     {
         (string textColor, string textScore, string textScoreName)
-                         = baseRedChange != 0 ? (colorHexFun, baseRedChange.ToString(), "FUN")
-                         : baseYellowChange != 0 ? (colorHexSkill, baseYellowChange.ToString(), "SKILL")
-                         : baseBlueChange != 0 ? (colorHexNovelty, baseBlueChange.ToString(), "NOVELTY")
+                         = baseRedChange != 0 ? (colorHexRed, baseRedChange.ToString(), scoreRedName)
+                         : baseYellowChange != 0 ? (colorHexYellow, baseYellowChange.ToString(), scoreYellowName)
+                         : baseBlueChange != 0 ? (colorHexBlue, baseBlueChange.ToString(), scoreBlueName)
                          : ("ERROR", "ERROR", "ERROR");
 
         return string.Format
@@ -87,9 +91,9 @@ public class animalProperty : ScriptableObject
     string ReturnSkillScore()
     {
         (string textColor, string textScore, string textScoreName)
-                         = skillScoreColor == ScoreColor.Red ? (colorHexFun, skillNum.ToString(), "FUN")
-                         : skillScoreColor == ScoreColor.Yellow ? (colorHexSkill, skillNum.ToString(), "SKILL")
-                         : skillScoreColor == ScoreColor.Blue ? (colorHexNovelty, skillNum.ToString(), "NOVELTY")
+                         = skillScoreColor == ScoreColor.Red ? (colorHexRed, skillNum.ToString(), scoreRedName)
+                         : skillScoreColor == ScoreColor.Yellow ? (colorHexYellow, skillNum.ToString(), scoreYellowName)
+                         : skillScoreColor == ScoreColor.Blue ? (colorHexBlue, skillNum.ToString(), scoreBlueName)
                          : ("ERROR", "ERROR", "ERROR");
 
         return string.Format
@@ -122,22 +126,22 @@ public class animalProperty : ScriptableObject
 
     string ColorKeyWord(string theString)
     {
-        if (theString.Contains("FUN"))
+        if (theString.Contains(scoreRedName))
         {
-            string formatColored = $"<b><color=#{colorHexFun}>FUN</color></b>";
-            theString = theString.Replace("FUN", formatColored);
+            string formatColored = $"<b><color=#{colorHexRed}>{scoreRedName}</color></b>";
+            theString = theString.Replace(scoreRedName, formatColored);
         }
 
-        if (theString.Contains("SKILL"))
+        if (theString.Contains(scoreYellowName))
         {
-            string formatColored = $"<b><color=#{colorHexSkill}>Skill</color></b>";
-            theString = theString.Replace("SKILL", formatColored);
+            string formatColored = $"<b><color=#{colorHexYellow}>{scoreYellowName}</color></b>";
+            theString = theString.Replace(scoreYellowName, formatColored);
         }
 
-        if (theString.Contains("NOVELTY"))
+        if (theString.Contains(scoreBlueName))
         {
-            string formatColored = $"<b><color=#{colorHexNovelty}>NOVELTY</color></b>";
-            theString = theString.Replace("NOVELTY", formatColored);
+            string formatColored = $"<b><color=#{colorHexBlue}>{scoreBlueName}</color></b>";
+            theString = theString.Replace(scoreBlueName, formatColored);
         }
 
         return theString;
