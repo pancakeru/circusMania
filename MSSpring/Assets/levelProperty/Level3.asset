@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: 
   targetScore: 20000
-  allowedTurn: 4
+  allowedTurn: 3
   totalN: 10
-  redA: 40
+  redA: 60
   redB: 20
   yellowA: 20
   yellowB: 15

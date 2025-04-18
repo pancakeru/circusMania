@@ -416,7 +416,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//SetTurnEnableState(false);
 		//SetHandAnimal(false, new List<animalProperty>(switchhand.properies));
 		//SetIfChangeTroupePrice(false);
-		SetIfUpdatePopularity(false);
+		//SetIfUpdatePopularity(false);
         curTurn = 1;
 		blacker.Initial();
 		onStage = new GameObject[6];
@@ -425,7 +425,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		myHandControls = new List<iconAnimal>();
 		myHand = new List<GameObject>();
 		initialPos = new List<Vector2>();
-		SetUpAnLevel(testLevel);
+		SetUpAnLevel(GlobalManager.instance.GetCurrentGlobalLevel().levelProperty);
 		totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0,6)
                          .Select(i => infoContainer.GetEmptyPosLocalX(i))
                          .ToArray(), Enumerable.Range(0, 6)
@@ -454,6 +454,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void SetUpAnLevel(LevelProperty level)
 	{
 		curLevel = level;
+		Debug.Log("关卡是"+level.name+",回合数是"+level.allowedTurn);
 		curScore = 0;
 		curTurn = 1;
 		GetComponent<ShowScoreManager>().StartTurn();
@@ -566,7 +567,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
                 //表演
                 if(Input.GetKeyDown(KeyCode.E)) {
                     if (speedRatio == 1) speedRatio = 2;
-                    else if (speedRatio == 2) speedRatio = 10;
+                    else if (speedRatio == 2) speedRatio = 5;
                     else if (speedRatio == 5) speedRatio = 1;
 
                     Time.timeScale = speedRatio;
@@ -683,6 +684,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		if (tContainer.ifChangePrice)
 		{
 			GlobalManager.instance.CalculateAnimalPrice();
+			GlobalManager.instance.UnlockAnimal();
 		}
 		else
 		{

@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b155c276830174251ad04a79005b7e72, type: 3}
-  m_Name: Level1
+  m_Name: Level0
   m_EditorClassIdentifier: 
-  targetScore: 5000
+  targetScore: 2000
   allowedTurn: 3
   totalN: 10
-  redA: 40
-  redB: 20
-  yellowA: 15
-  yellowB: 10
+  redA: 30
+  redB: 0
+  yellowA: 5
+  yellowB: 20
   blueA: 10
   blueB: 10

@@ -213,16 +213,25 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
 	public void UnlockAnimal()
 	{
-		if (DataManager.instance.unlockLoader.unlockData.Count > currentLevelIndex)
-		{
-			foreach (string animalName in DataManager.instance.unlockLoader.unlockData[currentLevelIndex].animalToUnlock)
-			{
-				if (isAnimalUnlocked.ContainsKey(animalName))
-				{
-					isAnimalUnlocked[animalName] = true;
-				}
-			}
-		}
+        foreach (UnlockData entry in DataManager.instance.unlockLoader.unlockData)
+        {
+            if (entry.level == currentLevelIndex)
+            {
+                foreach (string animalName in entry.animalToUnlock)
+                {
+                    if (isAnimalUnlocked.ContainsKey(animalName))
+                    {
+                        isAnimalUnlocked[animalName] = true;
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"动物名 {animalName} 不在解锁字典中！");
+                    }
+                }
+                return; // 找到了就退出
+            }
+        }
+
     }
 
     public Dictionary<string, int> animalPrices = new Dictionary<string, int>();

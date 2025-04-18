@@ -131,7 +131,7 @@ public class LevelPreviewController : MonoBehaviour
 
         nextSpotImage.sprite = currentGlobalLevel.showVisual;
         nextSpotName.text = currentGlobalLevel.levelName;
-        nextSpotTurnText.text = GlobalManager.instance.GetCurrentGlobalLevel().levelIndex.ToString() + "/" + GlobalManager.instance.GetGlobalLevelArray().Length.ToString();
+        nextSpotTurnText.text = (GlobalManager.instance.GetCurrentGlobalLevel().levelIndex+1).ToString() + "/" + GlobalManager.instance.GetGlobalLevelArray().Length.ToString();
 
         float[] targetScoreArray = CalculateTargetScore(currentLevelProperty);
         float funTargetScore = targetScoreArray[0];

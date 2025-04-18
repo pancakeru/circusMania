@@ -283,7 +283,7 @@ public class iconAnimal : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
 
-        audioScript.PlayUISound(audioScript.UI[1]);
+        //audioScript.PlayUISound(audioScript.UI[1]);
         
         isHovered = true;
     }

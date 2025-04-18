@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5378d917cc20940e1a2d5af6d1b34047, type: 3}
-  m_Name: TestGlobalLevel2
+  m_Name: TestGlobalLevel6
   m_EditorClassIdentifier: 
-  levelIndex: 2
-  showVisual: {fileID: 21300000, guid: 7c28f33ea71ca4b5aab043870ee777b5, type: 3}
-  levelName: Egypt
+  levelIndex: 6
+  showVisual: {fileID: 21300000, guid: 2633d76a44ce84676ab8b61f38ca9170, type: 3}
+  levelName: London
   animalPool: {fileID: 11400000, guid: d488b1db97e8a4fbc8f9209b0c903aa6, type: 2}
-  levelProperty: {fileID: 11400000, guid: 3df8d350491cb4568b94124b568a2135, type: 2}
+  levelProperty: {fileID: 11400000, guid: 3e91794efc84542ba82d3dabc436b12c, type: 2}
