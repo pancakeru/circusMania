@@ -1,16 +1,26 @@
 
+using System.Runtime.ConstrainedExecution;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 
 [CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "Animal System/AnimalProperty")]
 public class animalProperty : ScriptableObject
 {
     [Header("Must Set In Inspector")]
+
     public string animalName;
     public Sprite animalCoreImg;
     public Sprite explainImg;
 
+    public int baseBallChange;
+
     public MechanicNumberType mechanicNumberType;
+    public ScoreColor skillScoreColor;
+
+    public string textSkill;
+    public string textMechanicScore;
+    public string textMechanicExtra;
 
     [Header("Must Not Set In Inspector")]
 
@@ -18,7 +28,6 @@ public class animalProperty : ScriptableObject
     public float baseRedChange;
     public float baseYellowChange;
     public float baseBlueChange;
-    public int baseBallChange;
     public int restTurn;
 
     [Header("     For Mechanic & Skill")]
@@ -26,63 +35,117 @@ public class animalProperty : ScriptableObject
     public int skillNum;
 
     [Header("     For explain")]
-    /// <summary>
-    /// 得分动作的文本模板，例如 "得分 {0} 分，并额外获得 {1} 点奖励"
-    /// </summary>
-    
-    public string ballAction1;
+    string formatScore = "<b><color=#{0}>+{1} {2}</color></b>";
 
-    /// <summary>
-    /// 传球动作的文本模板，例如 "向{0}传球，进入{1}回合冷却"
-    /// </summary>
-    public string scoreAction1;
-    public string scoreAction2;
-    public string scoreAction3;
+    string formatPower = "<b><color=#{0}>POWER</color></b>: +1 POWER per ball passed.{1}{2}.";
+    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2}, then deactives until next round.";
+    string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
 
-    /// <summary>
-    /// 生成得分动作的最终文本
-    /// </summary>
-    /// <returns>格式化后的得分描述字符串</returns>
+    string colorHexRed = "D3458F";
+    string colorHexYellow = "E4CF7B";
+    string colorHexBlue = "45A9D2";
 
-    public string returnBallAction()
+    string scoreRedName = "JOY";
+    string scoreYellowName = "SKILL";
+    string scoreBlueName = "NOVELTY";
+
+    public string ReturnAllExplanation()
     {
+        string banana = animalName == "Giraffe" ? $" and {ReturnBanana()}" : "";
+        string skill = string.IsNullOrEmpty(textSkill) ? "" : "\n" + ReturnSkillScore();
+        textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill + ".";
+        string mechanic = mechanicNumberType == MechanicNumberType.None || mechanicNumberType == MechanicNumberType.Power ? "" : "\n" + ReturnSkillMechanic();
+
+        string finalExplanation = $"{ReturnScore()}{banana} per ball passed.{skill}{textSkill}{mechanic}";
+        return ColorKeyWord(finalExplanation);
+    }
+
+    string ReturnScore()
+    {
+        (string textColor, string textScore, string textScoreName)
+                         = baseRedChange != 0 ? (colorHexRed, baseRedChange.ToString(), scoreRedName)
+                         : baseYellowChange != 0 ? (colorHexYellow, baseYellowChange.ToString(), scoreYellowName)
+                         : baseBlueChange != 0 ? (colorHexBlue, baseBlueChange.ToString(), scoreBlueName)
+                         : ("ERROR", "ERROR", "ERROR");
+
         return string.Format
         (
-            "Throw ball to {0},",
-            string.IsNullOrEmpty(ballAction1) ? "" : ballAction1
+            formatScore,
+            textColor, textScore, textScoreName
         );
     }
 
-    public string returnScoreAction()
+    string ReturnBanana()
     {
+        string textColor = "FFFFFF";
+        string textScore = skillNum.ToString();
+        string textScoreName = "Banana";
+
         return string.Format
         (
-            "Gain {0}, Rest {1}. \n{2}",
-            string.IsNullOrEmpty(scoreAction1) ? "" : scoreAction1,
-            string.IsNullOrEmpty(scoreAction2) ? "" : scoreAction2,
-            string.IsNullOrEmpty(scoreAction3) ? "" : scoreAction3
+            formatScore,
+            textColor, textScore, textScoreName
         );
     }
 
-    public string returnBallAction1Only()
+    string ReturnSkillScore()
     {
+        (string textColor, string textScore, string textScoreName)
+                         = skillScoreColor == ScoreColor.Red ? (colorHexRed, skillNum.ToString(), scoreRedName)
+                         : skillScoreColor == ScoreColor.Yellow ? (colorHexYellow, skillNum.ToString(), scoreYellowName)
+                         : skillScoreColor == ScoreColor.Blue ? (colorHexBlue, skillNum.ToString(), scoreBlueName)
+                         : ("ERROR", "ERROR", "ERROR");
+
         return string.Format
         (
-            "{0}",
-            string.IsNullOrEmpty(ballAction1) ? "" : ballAction1
+            formatScore,
+            textColor, textScore, textScoreName
         );
     }
 
-    public string returnScoreActionNoRest()
+    string ReturnSkillMechanic()
     {
+        if (mechanicNumberType == MechanicNumberType.None) return "";
+
+        string formatMechanic = mechanicNumberType == MechanicNumberType.Power ? formatPower
+                              : mechanicNumberType == MechanicNumberType.WarmUp ? formatWarmUp
+                              : mechanicNumberType == MechanicNumberType.Excited ? formatExcited
+                              : "ERROR";
+
+        string color = "FFFFFF";
+        string condition = mechanicActiveNum.ToString();
+        string mechanicScore = textMechanicScore == "useSkillNum" ? ReturnSkillScore().ToString() : textMechanicScore;
+        string mechanicExtra = textMechanicExtra;
+
         return string.Format
         (
-            "Gain {0}. \n{1}",
-            string.IsNullOrEmpty(scoreAction1) ? "" : scoreAction1,
-            string.IsNullOrEmpty(scoreAction3) ? "" : scoreAction3
+            formatMechanic,
+            color, condition, mechanicScore, mechanicExtra
         );
     }
 
+    string ColorKeyWord(string theString)
+    {
+        if (theString.Contains(scoreRedName))
+        {
+            string formatColored = $"<b><color=#{colorHexRed}>{scoreRedName}</color></b>";
+            theString = theString.Replace(scoreRedName, formatColored);
+        }
+
+        if (theString.Contains(scoreYellowName))
+        {
+            string formatColored = $"<b><color=#{colorHexYellow}>{scoreYellowName}</color></b>";
+            theString = theString.Replace(scoreYellowName, formatColored);
+        }
+
+        if (theString.Contains(scoreBlueName))
+        {
+            string formatColored = $"<b><color=#{colorHexBlue}>{scoreBlueName}</color></b>";
+            theString = theString.Replace(scoreBlueName, formatColored);
+        }
+
+        return theString;
+    }
 }
 
 public enum MechanicNumberType
@@ -93,6 +156,14 @@ public enum MechanicNumberType
     Excited,
 }
 
+public enum ScoreColor
+{
+    None,
+    Red,
+    Yellow,
+    Blue,
+}
+
 //Dropdown menu in hierachy
 #if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(MechanicNumberType))]
@@ -101,6 +172,15 @@ public class MechanicNumberTypeDrawer : PropertyDrawer
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         property.enumValueIndex = (int)(MechanicNumberType)EditorGUI.EnumPopup(position, label, (MechanicNumberType)property.enumValueIndex);
+    }
+}
+
+[CustomPropertyDrawer(typeof(ScoreColor))]
+public class ScoreColorDrawer : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        property.enumValueIndex = (int)(ScoreColor)EditorGUI.EnumPopup(position, label, (ScoreColor)property.enumValueIndex);
     }
 }
 #endif

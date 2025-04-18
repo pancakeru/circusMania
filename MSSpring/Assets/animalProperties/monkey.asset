@@ -15,15 +15,14 @@ MonoBehaviour:
   animalName: Monkey
   animalCoreImg: {fileID: 21300000, guid: 8d6ea11d1b47ad043a10a96621441c76, type: 3}
   explainImg: {fileID: 21300000, guid: 0c9a8e8a6c4a7425ab1d33abff98699c, type: 3}
-  animalPrice: 3
-  baseYellowChange: 0
-  baseRedChange: 10
-  baseBlueChange: 0
   baseBallChange: 1
-  restTurn: 3
   mechanicNumberType: 0
-  mechanicActiveNum: 0
-  ballAction1: <b>Right(1)</b>
-  scoreAction1: <b><color=#DA6CA8>+10 Fun</color></b>
-  scoreAction2: <b>2</b>
-  scoreAction3: 
+  skillScoreColor: 0
+  textSkill: 
+  textMechanic: 
+  baseRedChange: -99
+  baseYellowChange: -99
+  baseBlueChange: -99
+  restTurn: -99
+  mechanicActiveNum: -99
+  skillNum: -99
