@@ -15,15 +15,15 @@ MonoBehaviour:
   animalName: Seal
   animalCoreImg: {fileID: 21300000, guid: 97fa7a91d45458348a566013725f8853, type: 3}
   explainImg: {fileID: 21300000, guid: c1fd7c1af684a4f519b22504afd95c45, type: 3}
-  animalPrice: 3
-  baseYellowChange: 0
-  baseRedChange: 20
-  baseBlueChange: 0
   baseBallChange: -2
-  restTurn: 3
   mechanicNumberType: 3
-  mechanicActiveNum: 7
-  ballAction1: <b>Left(2)</b>
-  scoreAction1: <b><color=#DA6CA8>+20 Fun</color></b>
-  scoreAction2: <b>3</b>
-  scoreAction3: '<b>Excited(7)</b>: All animals gain 2 more times, throw to Left(1),'
+  skillScoreColor: 0
+  textSkill: 
+  textMechanicScore: 
+  textMechanicExtra: gain 2 more Times and change to Left 1
+  baseRedChange: 20
+  baseYellowChange: 0
+  baseBlueChange: 0
+  restTurn: 3
+  mechanicActiveNum: 3
+  skillNum: -99

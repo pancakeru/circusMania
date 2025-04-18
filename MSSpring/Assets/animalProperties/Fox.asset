@@ -15,15 +15,15 @@ MonoBehaviour:
   animalName: Fox
   animalCoreImg: {fileID: 21300000, guid: 2d554d214aaa9aa49b923ce524f5f0b0, type: 3}
   explainImg: {fileID: 21300000, guid: 5032bb0cd8994477b9fa76dce11a3340, type: 3}
-  animalPrice: 3
-  baseYellowChange: 0
-  baseRedChange: 4
-  baseBlueChange: 0
   baseBallChange: 1
-  restTurn: 3
   mechanicNumberType: 0
-  mechanicActiveNum: 0
-  ballAction1: <b>Right(1)</b>
-  scoreAction1: <b><color=#DA6CA8>+4 Fun</color></b>
-  scoreAction2: <b>3</b>
-  scoreAction3: 'When nearby gains Fun, gain extra +4 Fun. '
+  skillScoreColor: 1
+  textSkill: ' when neighbours pass a ball and generate FUN'
+  textMechanicScore: 
+  textMechanicExtra: 
+  baseRedChange: 4
+  baseYellowChange: 0
+  baseBlueChange: 0
+  restTurn: 3
+  mechanicActiveNum: -99
+  skillNum: 4
