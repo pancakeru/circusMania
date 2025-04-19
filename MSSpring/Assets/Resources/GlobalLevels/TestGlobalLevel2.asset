@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelIndex: 2
   showVisual: {fileID: 21300000, guid: 7c28f33ea71ca4b5aab043870ee777b5, type: 3}
-  levelName: Egypt
+  levelName: Cairo
   animalPool: {fileID: 11400000, guid: d488b1db97e8a4fbc8f9209b0c903aa6, type: 2}
   levelProperty: {fileID: 11400000, guid: 3df8d350491cb4568b94124b568a2135, type: 2}
