@@ -26,4 +26,4 @@ MonoBehaviour:
   baseBlueChange: 0
   restTurn: 2
   mechanicActiveNum: -99
-  skillNum: 1
+  skillNum: -99
