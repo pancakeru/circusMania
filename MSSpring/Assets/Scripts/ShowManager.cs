@@ -679,11 +679,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	public void LeaveShow()
+	public void LeaveShow(int curMoneyEarned)
 	{
 		if (tContainer.ifChangePrice)
 		{
-			GlobalManager.instance.CalculateAnimalPrice();
+            GlobalManager.instance.changeCoinAmount(curMoneyEarned);
+            GlobalManager.instance.CalculateAnimalPrice();
 			GlobalManager.instance.UnlockAnimal();
 		}
 		else

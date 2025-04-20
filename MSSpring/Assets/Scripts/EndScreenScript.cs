@@ -122,10 +122,9 @@ public class EndScreenScript : MonoBehaviour
 	public void Leave()
 	{
         GlobalManager.instance.ToNextGlobalLevel();
-		GlobalManager.instance.changeCoinAmount(curMoneyEarned);
 		//修改，把是否改变动物价格交给showManager判断
         //GlobalManager.instance.CalculateAnimalPrice();
-        ShowManager.instance.LeaveShow();
+        ShowManager.instance.LeaveShow(curMoneyEarned);
 	}
 
 	void DisplayText(TMP_Text text, float value, DisplaySequence nextState)
