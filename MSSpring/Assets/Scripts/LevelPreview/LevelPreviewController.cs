@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class LevelPreviewController : MonoBehaviour
 {
-    private float scoreFillMax = 1000f;
+    private float scoreFillMax = 500f;
 
     private RectTransform backgroundRectTransform;
 

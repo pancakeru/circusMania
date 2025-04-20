@@ -20,11 +20,10 @@ MonoBehaviour:
   skillScoreColor: 0
   textSkill: 
   textMechanicScore: 
-  textMechanicExtra: 'Throwing distance equals POWER (ex: POWER 1 = Throw ball to
-    right 1)'
-  baseRedChange: 20
+  textMechanicExtra: 
+  baseRedChange: 40
   baseYellowChange: 0
   baseBlueChange: 0
   restTurn: 2
   mechanicActiveNum: -99
-  skillNum: -99
+  skillNum: 1
