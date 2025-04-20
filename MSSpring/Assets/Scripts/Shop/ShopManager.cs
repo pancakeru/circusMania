@@ -24,7 +24,6 @@ public class ShopManager : MonoBehaviour
 	private GameObject audioObj;
 	private AudioManagerScript audioScript;
 
-	/*
 	private void Awake()
 	{
 		if (Instance != null) {
@@ -92,8 +91,9 @@ public class ShopManager : MonoBehaviour
 	public bool Buy(GameObject gameObject)
 	{
 		ShopAnimal shopAnimal = gameObject.GetComponent<ShopDisplayUnit>().GetShopAnimal();
-		int shopAnimalPrice = shopAnimal.GetAnimalProperty().animalPrice;
-		if (coin >= shopAnimalPrice) {
+		//int shopAnimalPrice = shopAnimal.GetAnimalProperty().animalPrice;
+		int shopAnimalPrice = 10;
+        if (coin >= shopAnimalPrice) {
 			coin -= shopAnimalPrice;
             DisplayCoin();
             animalInventory.Remove(shopAnimal);
@@ -158,5 +158,4 @@ public class ShopManager : MonoBehaviour
 	public void CallUISound() {
 		audioScript.PlayUISound(audioScript.UI[0]);
 	}
-	*/
 }

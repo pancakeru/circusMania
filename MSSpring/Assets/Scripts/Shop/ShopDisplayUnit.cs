@@ -17,13 +17,12 @@ public class ShopDisplayUnit : MonoBehaviour
 	private GameObject audioObj;
 	private AudioManagerScript audioScript;
 
-	/*
 	public void SetUp(ShopAnimal shopAnimal)
 	{
 		this.shopAnimal = shopAnimal;
 		//Debug.Log(shopAnimal== null);
 		image.sprite = shopAnimal.GetAnimalProperty().animalCoreImg;
-		priceText.text = "$ " + shopAnimal.GetAnimalProperty().animalPrice.ToString();
+		//priceText.text = "$ " + shopAnimal.GetAnimalProperty().animalPrice.ToString();
 		outOfStock.SetActive(false);
 
 		hoverExplainSystem.OnHover += HoverExplainSystem_OnHover;
@@ -60,5 +59,4 @@ public class ShopDisplayUnit : MonoBehaviour
 
 		audioScript.PlayUISound(audioScript.UI[4]);
 	}
-	*/
 }

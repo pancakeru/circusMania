@@ -13,6 +13,8 @@ public class MenuController : MonoBehaviour
 
     public GameObject managerPrefab;
 
+    public GameObject shopButton;
+
     void Start()
     {
         //Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
@@ -21,11 +23,12 @@ public class MenuController : MonoBehaviour
         //showManager = FindFirstObjectByType<ShowManager>();
 
         troupeController.GetComponent<Canvas>().enabled = false;
-        //shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
+        shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
         //showManager.gameObject.SetActive(false);
         coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         lvlsDisplay.SetActive(false);
 
+        Enable();
     }
 
     // Update is called once per frame
@@ -40,13 +43,11 @@ public class MenuController : MonoBehaviour
         Disable();
     }
 
-    /*
     public void ButtonShop()
     {
         shopManager.Enable();
         Disable();
     }
-    */
 
     public void ButtonShow()
     {
@@ -71,6 +72,17 @@ public class MenuController : MonoBehaviour
         }
         coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
         GetComponent<Canvas>().enabled = true;
+
+        bool isAllAnimalUnlocked = true;
+        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        {
+            if (!GlobalManager.instance.isAnimalUnlocked[animal.animalName])
+            {
+                isAllAnimalUnlocked = false;
+                break;
+            }
+        }
+        shopButton.SetActive(isAllAnimalUnlocked);
     }
 
     public void Disable()

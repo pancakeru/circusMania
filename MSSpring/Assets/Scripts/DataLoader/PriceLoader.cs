@@ -25,7 +25,7 @@ public class PriceLoader : MonoBehaviour
             data.pricePerLv = int.Parse(rows[i][2]);
 
             priceData.Add(data);
-            Debug.Log($"{priceData[i - 1].animalName}: {priceData[i - 1].basePrice}, {priceData[i - 1].pricePerLv}");
+            //Debug.Log($"{priceData[i - 1].animalName}: {priceData[i - 1].basePrice}, {priceData[i - 1].pricePerLv}");
         }
     }
 }
