@@ -121,7 +121,6 @@ public class EndScreenScript : MonoBehaviour
 
 	public void Leave()
 	{
-        GlobalManager.instance.ToNextGlobalLevel();
 		//修改，把是否改变动物价格交给showManager判断
         //GlobalManager.instance.CalculateAnimalPrice();
         ShowManager.instance.LeaveShow(curMoneyEarned);

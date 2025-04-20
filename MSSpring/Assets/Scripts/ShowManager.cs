@@ -683,6 +683,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		if (tContainer.ifChangePrice)
 		{
+            GlobalManager.instance.ToNextGlobalLevel();
             GlobalManager.instance.changeCoinAmount(curMoneyEarned);
             GlobalManager.instance.CalculateAnimalPrice();
 			GlobalManager.instance.UnlockAnimal();
