@@ -15,14 +15,16 @@ MonoBehaviour:
   animalName: Bear
   animalCoreImg: {fileID: 21300000, guid: b29e9af7870f69a49a5c96617b493a28, type: 3}
   explainImg: {fileID: 21300000, guid: dfe9d89684e5340298fb9df67b3c6192, type: 3}
-  baseBallChange: 0
+  baseBallChange: 1
   mechanicNumberType: 1
   skillScoreColor: 0
   textSkill: 
-  textMechanic: 
-  baseRedChange: -99
-  baseYellowChange: -99
-  baseBlueChange: -99
-  restTurn: -99
+  textMechanicScore: 
+  textMechanicExtra: 'Throwing distance equals POWER (ex: POWER 1 = Throw ball to
+    right 1)'
+  baseRedChange: 20
+  baseYellowChange: 0
+  baseBlueChange: 0
+  restTurn: 2
   mechanicActiveNum: -99
   skillNum: -99

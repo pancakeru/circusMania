@@ -37,8 +37,8 @@ public class animalProperty : ScriptableObject
     [Header("     For explain")]
     string formatScore = "<b><color=#{0}>+{1} {2}</color></b>";
 
-    string formatPower = "<b><color=#{0}>POWER</color></b>: +1 POWER per ball passed.{1}{2}.";
-    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2}, then deactives until next round.";
+    string formatPower = "<b><color=#{0}>POWER</color></b>: +1 POWER per ball passed.{1}{2} {3}.";
+    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2} {3}, then deactives until next round.";
     string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
 
     string colorHexRed = "D3458F";
@@ -54,7 +54,7 @@ public class animalProperty : ScriptableObject
         string banana = animalName == "Giraffe" ? $" and {ReturnBanana()}" : "";
         string skill = string.IsNullOrEmpty(textSkill) ? "" : "\n" + ReturnSkillScore();
         textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill + ".";
-        string mechanic = mechanicNumberType == MechanicNumberType.None || mechanicNumberType == MechanicNumberType.Power ? "" : "\n" + ReturnSkillMechanic();
+        string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : "\n" + ReturnSkillMechanic();
 
         string finalExplanation = $"{ReturnScore()}{banana} per ball passed.{skill}{textSkill}{mechanic}";
         return ColorKeyWord(finalExplanation);
@@ -113,7 +113,7 @@ public class animalProperty : ScriptableObject
                               : "ERROR";
 
         string color = "FFFFFF";
-        string condition = mechanicActiveNum.ToString();
+        string condition = mechanicNumberType == MechanicNumberType.Power ? "" : mechanicActiveNum.ToString();
         string mechanicScore = textMechanicScore == "useSkillNum" ? ReturnSkillScore().ToString() : textMechanicScore;
         string mechanicExtra = textMechanicExtra;
 
