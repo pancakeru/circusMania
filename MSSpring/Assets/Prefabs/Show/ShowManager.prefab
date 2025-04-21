@@ -4001,7 +4001,7 @@ MonoBehaviour:
   blacker: {fileID: 7464349264640751192}
   explainer: {fileID: 5278052055861880444}
   testLevel: {fileID: 11400000, guid: 1a17f8f76d2cd4bb5ae7c7a9d8db9631, type: 2}
-  switchhand: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
+  switchhand: {fileID: 11400000, guid: 24b1f2a2335224849ace71469437da38, type: 2}
   addhand: {fileID: 11400000, guid: e03bcde6684594403a9ab211a7e75c60, type: 2}
 --- !u!114 &5278052055861880444
 MonoBehaviour:

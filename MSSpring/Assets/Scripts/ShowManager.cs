@@ -461,7 +461,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			//SetScoreEnableState(true, false, false, false);
 			SetBananaEnableState(false);
 			SetTurnEnableState(false);
-			SetHandAnimal(false, new List<animalProperty>(switchhand.properies));
+			SetHandAnimal(true, new List<animalProperty>(switchhand.properies));
 			SetIfChangeTroupePrice(false);
 			SetIfUpdatePopularity(false);
 			curTurn = 1;
