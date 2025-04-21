@@ -48,11 +48,12 @@ public class TroupeDetailController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey = 10;
             SetLineChart();
-        }
+        }*/
     }
 
     public void SetLineChart()
