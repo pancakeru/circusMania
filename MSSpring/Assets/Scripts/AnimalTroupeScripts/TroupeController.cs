@@ -128,9 +128,13 @@ public class TroupeController : MonoBehaviour
         animalProperty theAnimalProperty = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
         troupeCardDetailed.coreImage.sprite = theAnimalProperty.animalCoreImg;
         troupeCardDetailed.animalName.text = theAnimalProperty.animalName;
-        troupeCardDetailed.ballAction.text = theAnimalProperty.baseBallChange.ToString();
+        troupeCardDetailed.ballActionName.text = theAnimalProperty.baseBallChange < 0 ? "LEFT" : theAnimalProperty.baseBallChange > 0 ? "RIGHT" : "SPECIAL";
+        troupeCardDetailed.ballActionNum.text = Mathf.Abs(theAnimalProperty.baseBallChange).ToString();
         troupeCardDetailed.restTurn.text = theAnimalProperty.restTurn.ToString();
         troupeCardDetailed.scoreAction.text = theAnimalProperty.ReturnAllExplanation();
+
+        troupeCardDetailed.ballActionImage.sprite = theAnimalProperty.baseBallChange < 0 ? troupeCardDetailed.spriteLeft
+                                                  : theAnimalProperty.baseBallChange > 0 ? troupeCardDetailed.spriteRight : troupeCardDetailed.spriteSpecial;
 
         troupeCardDetailed.SetLineChart();
     }

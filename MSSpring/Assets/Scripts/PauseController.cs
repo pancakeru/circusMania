@@ -21,12 +21,12 @@ public class PauseController : MonoBehaviour
         ShowManager.instance.PauseResume();
     }
 
-    public void ButtonEndThisRound()
+    public void ButtonReturnToBackstage()
     {
-        CanvasMain.instance.DisplaySelection("Are you sure you want to end this round?", EndThisRound);
+        CanvasMain.instance.DisplaySelection("Are you sure you want to return to backstage?", ReturnToBackstage);
     }
 
-    public void EndThisRound()
+    public void ReturnToBackstage()
     {
         Time.timeScale = 1;
         ShowManager.instance.curTurn = ShowManager.instance.curLevel.allowedTurn;

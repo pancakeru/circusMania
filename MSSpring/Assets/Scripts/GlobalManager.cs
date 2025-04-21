@@ -322,7 +322,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 		int priceLvUpPerPass = 3;
 		int maxPriceLvUpAmount = 3;
 		animalPriceLevel[animalName] += basePriceLv + Math.Clamp(ballPassTimes / priceLvUpPerPass, 0, maxPriceLvUpAmount);
-	}
+        animalPriceLevel[animalName] = Math.Clamp(animalPriceLevel[animalName], 1, 9);
+    }
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;

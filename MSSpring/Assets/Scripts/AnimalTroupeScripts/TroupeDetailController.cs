@@ -11,11 +11,18 @@ public class TroupeDetailController : MonoBehaviour
     public TroupeLineChart troupeLineChart;
     public Image coreImage;
     public TextMeshProUGUI animalName;
-    public TextMeshProUGUI ballAction;
+    public TextMeshProUGUI ballActionName;
+    public TextMeshProUGUI ballActionNum;
     public TextMeshProUGUI restTurn;
     public TextMeshProUGUI scoreAction;
-    public TextMeshProUGUI numInTroupe;
     public GameObject lineChartIcon;
+
+    [Header("Icon Sprites")]
+    public Image ballActionImage;
+    public Sprite spriteLeft;
+    public Sprite spriteRight;
+    public Sprite spriteSpecial;
+    public Sprite spriteRest;
 
     Dictionary<string, List<int>> animalPriceChanges = new Dictionary<string, List<int>>();
     List<GameObject> lineChartIcons = new List<GameObject>();

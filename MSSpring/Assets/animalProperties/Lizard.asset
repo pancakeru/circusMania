@@ -19,10 +19,11 @@ MonoBehaviour:
   mechanicNumberType: 1
   skillScoreColor: 2
   textSkill: 
-  textMechanic: 
+  textMechanicScore: 
+  textMechanicExtra: SKILL is multiplied by POWER
   baseRedChange: 0
   baseYellowChange: 10
   baseBlueChange: 0
   restTurn: 2
   mechanicActiveNum: -99
-  skillNum: 1
+  skillNum: -99
