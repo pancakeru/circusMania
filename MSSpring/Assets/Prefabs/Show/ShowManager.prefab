@@ -3900,6 +3900,7 @@ GameObject:
   - component: {fileID: 5278052055861880444}
   - component: {fileID: 3009902585751033064}
   - component: {fileID: 5468650533219672821}
+  - component: {fileID: 441057128664575835}
   m_Layer: 0
   m_Name: ShowManager
   m_TagString: showManager
@@ -4001,7 +4002,7 @@ MonoBehaviour:
   blacker: {fileID: 7464349264640751192}
   explainer: {fileID: 5278052055861880444}
   testLevel: {fileID: 11400000, guid: 1a17f8f76d2cd4bb5ae7c7a9d8db9631, type: 2}
-  switchhand: {fileID: 11400000, guid: 24b1f2a2335224849ace71469437da38, type: 2}
+  switchhand: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
   addhand: {fileID: 11400000, guid: e03bcde6684594403a9ab211a7e75c60, type: 2}
 --- !u!114 &5278052055861880444
 MonoBehaviour:
@@ -4058,6 +4059,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monkey: 0
+--- !u!114 &441057128664575835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6762093361612340398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa58e430fb754911ad7c6416d7dd596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  switchHand: {fileID: 11400000, guid: 24b1f2a2335224849ace71469437da38, type: 2}
+  addHand: {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
 --- !u!1 &6995440386726810138
 GameObject:
   m_ObjectHideFlags: 0

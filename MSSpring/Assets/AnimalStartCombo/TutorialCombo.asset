@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f638fb69d22c488082edaa744544dd9, type: 3}
   m_Name: TutorialCombo
   m_EditorClassIdentifier: 
-  properies: []
+  properies:
+  - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
+  - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
+  - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}
+  - {fileID: 11400000, guid: ba14e76775f1345b59fdb6f05924f77c, type: 2}

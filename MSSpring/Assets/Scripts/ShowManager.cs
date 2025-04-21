@@ -176,6 +176,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		private ShowManager father;
 
+		public bool isTutorial = false;
+
 		public TutorialRelatedFunctionContainer(ShowManager manager)
 		{
 			father = manager;
@@ -406,7 +408,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		if (!isTutorial)
 		{
-			Debug.Log("我是SHowManager，我是的obj是" + gameObject.name);
+			//Debug.Log("我是SHowManager，我是的obj是" + gameObject.name);
 			//x = -750;
 			//offset = 300;
 			yStart = -600;
@@ -457,11 +459,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			yStart = -600;
 			tContainer = new TutorialRelatedFunctionContainer(this);
+			tContainer.isTutorial = true;
 			SetShowPositionNum(4);
-			//SetScoreEnableState(true, false, false, false);
+			SetScoreEnableState(true, false, false, false);
 			SetBananaEnableState(false);
 			SetTurnEnableState(false);
-			SetHandAnimal(true, new List<animalProperty>(switchhand.properies));
+			SetHandAnimal(true, new List<animalProperty>(GetComponent<ShowTutorialManager>().switchHand.properies));
 			SetIfChangeTroupePrice(false);
 			SetIfUpdatePopularity(false);
 			curTurn = 1;
@@ -498,7 +501,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private void SetUpAnLevel(LevelProperty level)
 	{
 		curLevel = level;
-		Debug.Log("关卡是" + level.name + ",回合数是" + level.allowedTurn);
+		//Debug.Log("关卡是" + level.name + ",回合数是" + level.allowedTurn);
 		curScore = 0;
 		curTurn = 1;
 		GetComponent<ShowScoreManager>().StartTurn();
@@ -703,6 +706,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		tContainer.DoBananaMoverAction(bananaUiMover, BanannaInDecision.anchoredPosition);
 		tContainer.DoBananaMoverAction(showBanana, ShowBanannaInDecision.anchoredPosition);
 		moveCounter.SetUpCount(count + tContainer.TakeCount());
+
+		if (tContainer.isTutorial)
+		{
+			SetScoreEnableState(true, true, false, false);
+			AddAnimalToHand(GetComponent<ShowTutorialManager>().addHand);
+		}
 	}
 
 	public void StartDecide()
@@ -995,7 +1004,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect())
 					{
 						//进入上下
-						Debug.Log(firstDetect.transform.parent.name);
+						//Debug.Log(firstDetect.transform.parent.name);
 						foreach (iconAnimal animal in myHandControls)
 						{
 							if (animal.gameObject != firstDetect.transform.parent.gameObject)

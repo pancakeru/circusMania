@@ -53,7 +53,7 @@ public class MenuController : MonoBehaviour
     {
         CallSound();
         BGMSwap("battle");
-        Debug.Log("重新创建一个界面");
+        //Debug.Log("重新创建一个界面");
         GameObject instance = Instantiate(
             managerPrefab
             );

@@ -6,54 +6,58 @@ using System.Data;
 
 public class GlobalManager : MonoBehaviour, IGeneralManager
 {
-	public static GlobalManager instance;
+    public static GlobalManager instance;
 
-	public static event Action<GlobalLevel> OnNextGlobalLevel;
+    public static event Action<GlobalLevel> OnNextGlobalLevel;
 
-	private string globalLevelFolderPath = "GlobalLevels";
-	private GlobalLevel[] globalLevelArray;
-	public int currentLevelIndex = 0;
+    private string globalLevelFolderPath = "GlobalLevels";
+    private GlobalLevel[] globalLevelArray;
+    public int currentLevelIndex = 0;
     public AnimalStart allAnimals; //all kinds of animal
 
     public AnimalBallPassTimes animalBallPassTimes;
 
     [Header("Show Score Effect Color")]
-	public Color redEffect;
-	public Color blueEffect;
-	public Color yellowEffect;
+    public Color redEffect;
+    public Color blueEffect;
+    public Color yellowEffect;
 
-	[Header("For test")]
-	[SerializeField]
-	private AnimalStart testProperties;
-	[SerializeField]
-	private int testCoinNum;
-	[SerializeField]
-	private bool ifDoTestInitialize;
-	[SerializeField]
-	private TestAction testAction;
-	[SerializeField]
-	private bool ifTestAction = false;
-	[SerializeField]
-	private animalProperty toTestAdd;
+    [Header("For test")]
+    [SerializeField]
+    private AnimalStart testProperties;
+    [SerializeField]
+    private int testCoinNum;
+    [SerializeField]
+    private bool ifDoTestInitialize;
+    [SerializeField]
+    private TestAction testAction;
+    [SerializeField]
+    private bool ifTestAction = false;
+    [SerializeField]
+    private animalProperty toTestAdd;
 
-	[Header("Others")]
+    [Header("Others")]
 
     [SerializeField] LevelPreviewController levelPreviewController;
 
 
     private void Awake()
-	{
-		if (instance == null) {
-			instance = this;
-			DontDestroyOnLoad(gameObject);
-		} else {
-			Destroy(gameObject);
-		}
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
-		globalLevelArray = Resources.LoadAll<GlobalLevel>(globalLevelFolderPath);
-		if (globalLevelArray.Length > 1) {
-			Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
-		}
+        globalLevelArray = Resources.LoadAll<GlobalLevel>(globalLevelFolderPath);
+        if (globalLevelArray.Length > 1)
+        {
+            Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
+        }
 
         if (ifDoTestInitialize)
         {
@@ -61,15 +65,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             foreach (animalProperty apt in testProperties.properies)
                 addAnAnimal(apt);
             curCoinAmount = testCoinNum;
-			
-			
+
+
         }
 
         //Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
     }
 
-	private void Start()
-	{
+    private void Start()
+    {
         DataManager.instance.animalLoader.Load();
         DataManager.instance.unlockLoader.Load();
         DataManager.instance.priceLoader.Load();
@@ -116,7 +120,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         if (Input.GetKeyUp(KeyCode.U))
         {
-			currentLevelIndex++;
+            currentLevelIndex++;
             UnlockAnimal();
         }
     }
@@ -127,82 +131,84 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     }
 
     public GlobalLevel GetCurrentGlobalLevel()
-	{
-		return globalLevelArray[currentLevelIndex];
-	}
+    {
+        return globalLevelArray[currentLevelIndex];
+    }
 
-	public void ToNextGlobalLevel()
-	{
-		if (currentLevelIndex + 1 < globalLevelArray.Length) {
-			currentLevelIndex += 1;
-			OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
-		}
-	}
+    public void ToNextGlobalLevel()
+    {
+        if (currentLevelIndex + 1 < globalLevelArray.Length)
+        {
+            currentLevelIndex += 1;
+            OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
+        }
+    }
 
-	// 动物管理
-	#region 动物管理
-	private List<animalProperty> animals = new List<animalProperty>();
+    // 动物管理
+    #region 动物管理
+    private List<animalProperty> animals = new List<animalProperty>();
 
-	public List<animalProperty> getAllAnimals()
-	{
-		//Debug.Log("动物list有这些: " + animals.Count);
-		return animals;
-	}
+    public List<animalProperty> getAllAnimals()
+    {
+        //Debug.Log("动物list有这些: " + animals.Count);
+        return animals;
+    }
 
-	public void addAnAnimal(animalProperty newAnimal)
-	{
-		animals.Add(newAnimal);
-	}
+    public void addAnAnimal(animalProperty newAnimal)
+    {
+        animals.Add(newAnimal);
+    }
 
-	public void removeAnAnimal(animalProperty theAnimal)
-	{
-		animals.Remove(theAnimal);
-	}
+    public void removeAnAnimal(animalProperty theAnimal)
+    {
+        animals.Remove(theAnimal);
+    }
 
-	void SetAnimalProperty()
-	{
-		foreach (animalProperty animal in allAnimals.properies)
-		{
-			AnimalData animalData = DataManager.instance.animalLoader.animalData[animal.animalName];
-			animal.baseRedChange = animalData.scoreColor == "Red Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
+    void SetAnimalProperty()
+    {
+        foreach (animalProperty animal in allAnimals.properies)
+        {
+            AnimalData animalData = DataManager.instance.animalLoader.animalData[animal.animalName];
+            animal.baseRedChange = animalData.scoreColor == "Red Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
             animal.baseYellowChange = animalData.scoreColor == "Yellow Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
             animal.baseBlueChange = animalData.scoreColor == "Blue Score" ? animalData.score[animalLevels[animal.animalName]] : 0;
-			animal.restTurn = animalData.restTurn[animalLevels[animal.animalName]];
-			animal.mechanicActiveNum = animalData.skillCondition.Count > 1 ? animalData.skillCondition[animalLevels[animal.animalName]] : animalData.skillCondition[0];
-			animal.skillNum = animalData.skillNumber.Count > 1 ? animalData.skillNumber[animalLevels[animal.animalName]] : animalData.skillNumber[0];
+            animal.restTurn = animalData.restTurn[animalLevels[animal.animalName]];
+            animal.mechanicActiveNum = animalData.skillCondition.Count > 1 ? animalData.skillCondition[animalLevels[animal.animalName]] : animalData.skillCondition[0];
+            animal.skillNum = animalData.skillNumber.Count > 1 ? animalData.skillNumber[animalLevels[animal.animalName]] : animalData.skillNumber[0];
 
-			Debug.Log($"{animal.animalName}: {animalData.skillCondition.Count}");
+            //Debug.Log($"{animal.animalName}: {animalData.skillCondition.Count}");
         }
-	}
+    }
 
-	#endregion
-	// 金币管理
-	#region 金币管理
-	private int curCoinAmount = 0;
+    #endregion
+    // 金币管理
+    #region 金币管理
+    private int curCoinAmount = 0;
 
-	public int getCurCoinAmount()
-	{
-		return curCoinAmount;
-	}
+    public int getCurCoinAmount()
+    {
+        return curCoinAmount;
+    }
 
-	public bool checkIfCanChangeCoin(int n)
-	{
-		return curCoinAmount + n >= 0;
-	}
+    public bool checkIfCanChangeCoin(int n)
+    {
+        return curCoinAmount + n >= 0;
+    }
 
-	public bool changeCoinAmount(int n)
-	{
-		if (checkIfCanChangeCoin(n)) {
-			curCoinAmount += n;
-			return true;
-		}
-		return false;
-	}
+    public bool changeCoinAmount(int n)
+    {
+        if (checkIfCanChangeCoin(n))
+        {
+            curCoinAmount += n;
+            return true;
+        }
+        return false;
+    }
 
-	public void setCoinAmount(int n)
-	{
-		curCoinAmount = n;
-	}
+    public void setCoinAmount(int n)
+    {
+        curCoinAmount = n;
+    }
     #endregion
 
     #region 动物解锁/价格/等级
@@ -214,11 +220,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         {
             isAnimalUnlocked[animal.animalName] = false;
         }
-		UnlockAnimal();
+        UnlockAnimal();
     }
 
-	public void UnlockAnimal()
-	{
+    public void UnlockAnimal()
+    {
         foreach (UnlockData entry in DataManager.instance.unlockLoader.unlockData)
         {
             if (entry.level == currentLevelIndex)
@@ -247,13 +253,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public int maxPrice = 40;
     public void InitAnimalPrice()
-	{
+    {
         foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
         {
-			animalPriceLevel[dataRow.animalName] = 5;
-			animalBasePrice[dataRow.animalName] = dataRow.basePrice;
-			animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
-			UpdatePrice(dataRow.animalName);
+            animalPriceLevel[dataRow.animalName] = 5;
+            animalBasePrice[dataRow.animalName] = dataRow.basePrice;
+            animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
+            UpdatePrice(dataRow.animalName);
         }
     }
 
@@ -263,13 +269,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         foreach (animalProperty animal in allAnimals.properies)
         {
-			bool isNumberZero = true;
-			foreach(animalProperty checkAnimal in getAllAnimals())
-			{
-				if (checkAnimal.animalName == animal.animalName) isNumberZero = false;
+            bool isNumberZero = true;
+            foreach (animalProperty checkAnimal in getAllAnimals())
+            {
+                if (checkAnimal.animalName == animal.animalName) isNumberZero = false;
 
             }
-			if (isNumberZero) return;
+            if (isNumberZero) return;
 
             int myBallPassTimes = 0;
             switch (animal.animalName.ToLower())
@@ -291,37 +297,37 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     Debug.LogWarning($"Bug Found"); break;
             }
 
-			Debug.Log($"{animal.animalName}'s BPT: {myBallPassTimes}");
+            //Debug.Log($"{animal.animalName}'s BPT: {myBallPassTimes}");
 
-			UpdatePriceLevel(animal.animalName, myBallPassTimes);
+            UpdatePriceLevel(animal.animalName, myBallPassTimes);
             UpdatePrice(animal.animalName);
 
-            Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
+            //Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
             ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
         }
     }
 
 
-	public void DirectResetAnimalBallPassTime()
-	{
-		foreach (animalProperty animal in allAnimals.properies)
-		{
+    public void DirectResetAnimalBallPassTime()
+    {
+        foreach (animalProperty animal in allAnimals.properies)
+        {
             ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().ResetAnimalBallPassTimes(animal.animalName);
         }
-	}
+    }
 
     void UpdatePrice(string animalName)
     {
         animalPrices[animalName] = animalBasePrice[animalName] + animalPricePerLv[animalName] * animalPriceLevel[animalName];
     }
 
-	void UpdatePriceLevel(string animalName, int ballPassTimes)
-	{
-		int basePriceLv = -2;
-		int priceLvUpPerPass = 3;
-		int maxPriceLvUpAmount = 3;
-		animalPriceLevel[animalName] += basePriceLv + Math.Clamp(ballPassTimes / priceLvUpPerPass, 0, maxPriceLvUpAmount);
+    void UpdatePriceLevel(string animalName, int ballPassTimes)
+    {
+        int basePriceLv = -2;
+        int priceLvUpPerPass = 3;
+        int maxPriceLvUpAmount = 3;
+        animalPriceLevel[animalName] += basePriceLv + Math.Clamp(ballPassTimes / priceLvUpPerPass, 0, maxPriceLvUpAmount);
         animalPriceLevel[animalName] = Math.Clamp(animalPriceLevel[animalName], 1, 9);
     }
 
@@ -330,7 +336,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public int maxLevel;
     public void InitAnimalLevel()
     {
-		maxLevel = 5;
+        maxLevel = 5;
 
         foreach (animalProperty animal in allAnimals.properies)
         {
@@ -342,16 +348,16 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         animalLevels[animalName] += updateAmount;
         animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
-		SetAnimalProperty();
+        SetAnimalProperty();
         TroupeController.instance.DisplayCardDetail(TroupeController.instance.troupeCardSelected);
     }
 
     #endregion
 
     public enum TestAction
-	{
-		Add,
-		LogInfo,
-		LogCoin
-	}
+    {
+        Add,
+        LogInfo,
+        LogCoin
+    }
 }

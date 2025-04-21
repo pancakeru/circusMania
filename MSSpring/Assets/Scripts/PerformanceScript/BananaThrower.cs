@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class  BananaThrower : MonoBehaviour
+public class BananaThrower : MonoBehaviour
 {
     public GameObject bananaPrefab;
     public int maxBanana = 20;
@@ -40,8 +40,8 @@ public class  BananaThrower : MonoBehaviour
         {
             return;
         }
-            
-        if (Input.GetMouseButtonDown(0)&& selfManager.GetIfBananaEnabled())
+
+        if (Input.GetMouseButtonDown(0) && selfManager.GetIfBananaEnabled())
         {
             if (curBanana <= 0)
                 return;
@@ -70,7 +70,7 @@ public class  BananaThrower : MonoBehaviour
         //animalManager.Instance.curLeft.changeLeft(curBanana);
 
         GameObject audioObj = GameObject.FindWithTag("audio manager");
-		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[3]);
+        audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[3]);
     }
 
     public void reportUiReach()
@@ -81,7 +81,7 @@ public class  BananaThrower : MonoBehaviour
 
     public void changeCount(int n)
     {
-        
+
         curBanana = n;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
@@ -90,7 +90,7 @@ public class  BananaThrower : MonoBehaviour
 
     public void changeCount()
     {
-        
+
         curBanana = maxBanana;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
@@ -99,7 +99,7 @@ public class  BananaThrower : MonoBehaviour
 
     public void addBanana(int n)
     {
-        Debug.Log("添加了"+n);
+        //Debug.Log("添加了"+n);
         curBanana += n;
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
