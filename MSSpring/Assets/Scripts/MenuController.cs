@@ -34,7 +34,7 @@ public class MenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void ButtonAnimalTroupe()
@@ -49,7 +49,7 @@ public class MenuController : MonoBehaviour
         Disable();
     }
 
-    public void ButtonShow()
+    public void ButtonShow(bool isTutorial)
     {
         CallSound();
         BGMSwap("battle");
@@ -58,9 +58,9 @@ public class MenuController : MonoBehaviour
             managerPrefab
             );
         instance.SetActive(true);
-        instance.GetComponent<ShowManager>().EnterOneShow();
+        instance.GetComponent<ShowManager>().EnterOneShow(isTutorial);
         Disable();
-        
+
     }
 
     public void Enable()
@@ -90,34 +90,41 @@ public class MenuController : MonoBehaviour
         GetComponent<Canvas>().enabled = false;
     }
 
-    public void ShowLevels() {
-       if (lvlsDisplay.activeSelf) {
-        lvlsDisplay.SetActive(false);
-       } else {
-        lvlsDisplay.SetActive(true);
-       }
+    public void ShowLevels()
+    {
+        if (lvlsDisplay.activeSelf)
+        {
+            lvlsDisplay.SetActive(false);
+        }
+        else
+        {
+            lvlsDisplay.SetActive(true);
+        }
 
     }
 
-    public void CallSound() {
+    public void CallSound()
+    {
         GameObject audioObj = GameObject.FindWithTag("audio manager");
-		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[0]);
+        audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[0]);
     }
 
-    public void BGMSwap(string name) {
+    public void BGMSwap(string name)
+    {
         GameObject audioObj = GameObject.FindWithTag("audio manager");
         AudioManagerScript audioScript = audioObj.GetComponent<AudioManagerScript>();
-		
+
         //audioScript.FadeOutEnvironment(2);
 
-        switch (name) {
+        switch (name)
+        {
             case "battle":
                 audioScript.PlayEnvironmentSound(audioScript.Environment[0]);
-            break;
+                break;
 
             case "idle":
                 audioScript.PlayEnvironmentSound(audioScript.Environment[1]);
-            break;
+                break;
 
         }
     }
