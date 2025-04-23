@@ -26,6 +26,11 @@ public class TutorialManager : MonoBehaviour
         sprites.Add(troupeSprites);
         sprites.Add(showSprites);
 
+        button.GetComponent<RectTransform>().anchoredPosition = id == 1 ? Vector3.zero
+                                                              : id == 2 ? new Vector3(-455.2f, 456.4f, 0)
+                                                              : id == 3 ? new Vector3(790, -450, 0)
+                                                              : Vector3.zero;
+
         image.raycastTarget = false;
     }
 

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3159819648540548342
+--- !u!1 &1134962406698114459
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,51 +8,51 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2468336565542396687}
-  - component: {fileID: 140858312307446488}
-  - component: {fileID: 467723700355075070}
-  - component: {fileID: 4357298606503328805}
+  - component: {fileID: 4953681648571606990}
+  - component: {fileID: 4586715838190456490}
+  - component: {fileID: 7032934384616689253}
+  - component: {fileID: 1034138627756639653}
   m_Layer: 0
-  m_Name: QuestionMark
+  m_Name: QuestionMark (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &2468336565542396687
+--- !u!224 &4953681648571606990
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3159819648540548342}
+  m_GameObject: {fileID: 1134962406698114459}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2097298287942896448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 887, y: 462}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -455.2, y: 456.4}
+  m_SizeDelta: {x: 333, y: 147}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &140858312307446488
+--- !u!222 &4586715838190456490
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3159819648540548342}
+  m_GameObject: {fileID: 1134962406698114459}
   m_CullTransparentMesh: 1
---- !u!114 &467723700355075070
+--- !u!114 &7032934384616689253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3159819648540548342}
+  m_GameObject: {fileID: 1134962406698114459}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4bdf71055545b0746bba18e67a7b0738, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6648b44f0175f3b439d805f5bb4bb963, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -76,13 +76,13 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4357298606503328805
+--- !u!114 &1034138627756639653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3159819648540548342}
+  m_GameObject: {fileID: 1134962406698114459}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -116,7 +116,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 467723700355075070}
+  m_TargetGraphic: {fileID: 7032934384616689253}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -236,7 +236,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 2468336565542396687}
+  - {fileID: 4953681648571606990}
   - {fileID: 4434448920456379828}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -257,7 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6f2e0fd83fa9d4c8b320ff6d1f186d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 3159819648540548342}
+  button: {fileID: 1134962406698114459}
   image: {fileID: 5486306624250674876}
   MenuSprites: []
   troupeSprites:
