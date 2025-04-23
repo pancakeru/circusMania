@@ -1812,8 +1812,8 @@ MonoBehaviour:
   cardsGroup: {fileID: 1742412358327387845}
   slide: {fileID: 8872018641433075898}
   textCoin: {fileID: 6184609963440859624}
-  upgradePrice: 0
   isFirstGameCompleted: 0
+  multis: {fileID: 11400000, guid: 4331a6662658f4ecaab982da536bf25c, type: 2}
 --- !u!114 &1763336207284734554
 MonoBehaviour:
   m_ObjectHideFlags: 0

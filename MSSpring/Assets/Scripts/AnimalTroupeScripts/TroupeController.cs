@@ -6,7 +6,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class TroupeController : MonoBehaviour
 {
@@ -30,12 +29,14 @@ public class TroupeController : MonoBehaviour
     int visibleRows = 3;
 
     public TextMeshProUGUI textCoin;
-    [HideInInspector] public int upgradePrice;
+    private int upgradePrice;
     int coin = -1;
 
     public bool isFirstGameCompleted = false;
 
     List<animalProperty> newAnimalOrder;
+
+    [SerializeField] private priceMultiplier multis;
 
     void Awake()
     {
@@ -228,9 +229,9 @@ public class TroupeController : MonoBehaviour
         animalProperty animal = troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty;
         if (GlobalManager.instance.animalLevels[animal.animalName] < GlobalManager.instance.maxLevel)
         {
-            if (coin >= upgradePrice)
+            if (coin >= GetUpgradePrice(animal))
             {
-                coin -= upgradePrice;
+                coin -= GetUpgradePrice(animal);
                 GlobalManager.instance.UpdateLevel(animal.animalName, 1);
                 UpdateText();
             }
@@ -238,5 +239,10 @@ public class TroupeController : MonoBehaviour
         }
         else CanvasMain.instance.DisplayWarning("Already reached max level!");
 
+    }
+
+    public int GetUpgradePrice( animalProperty property)
+    {
+        return (int)Mathf.Floor(upgradePrice * multis.multipliers[GlobalManager.instance.animalLevels[property.animalName]-1]);
     }
 }
