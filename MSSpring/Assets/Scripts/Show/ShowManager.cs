@@ -171,6 +171,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[SerializeField] private animalProperty addhand;
 	#endregion
 
+	[Header("Tutorial")]
+	[SerializeField] private ShowTutorialManager showTutorialManager;
+
 	//这个类的作用是方便管理一些功能的开关
 	private class TutorialRelatedFunctionContainer
 	{
@@ -454,6 +457,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			//TODO:改成到地方再可以交互
 			startButtonMover.GetComponent<Button>().interactable = true;
 			camMover.SetTo(CamInDecition.position, DecideCamScale);
+
+			showTutorialManager.gameObject.SetActive(false);
 		}
 		else
 		{
@@ -464,7 +469,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			SetScoreEnableState(true, false, false, false);
 			SetBananaEnableState(false);
 			SetTurnEnableState(false);
-			SetHandAnimal(true, new List<animalProperty>(GetComponent<ShowTutorialManager>().switchHand.properies));
+			SetHandAnimal(true, new List<animalProperty>(showTutorialManager.switchHand.properies));
 			SetIfChangeTroupePrice(false);
 			SetIfUpdatePopularity(false);
 			curTurn = 1;
@@ -495,6 +500,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			stagePanelMover.gameObject.SetActive(true);
 			startButtonMover.GetComponent<Button>().interactable = true;
 			camMover.SetTo(CamInDecition.position, DecideCamScale);
+
+			showTutorialManager.gameObject.SetActive(true);
 		}
 	}
 
@@ -710,7 +717,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		if (tContainer.isTutorial)
 		{
 			SetScoreEnableState(true, true, false, false);
-			AddAnimalToHand(GetComponent<ShowTutorialManager>().addHand);
+			AddAnimalToHand(showTutorialManager.addHand);
 		}
 	}
 

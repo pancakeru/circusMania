@@ -1,11 +1,17 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewTutorialDialogue", menuName = "Tutorial/TutorialDialogue")]
-public class TutorialDialogue : ScriptableObject
+[System.Serializable]
+public class TutorialDialogue
 {
-    public Sprite sprite;
-    public List<string> dialogueList;
+    public Sprite speakerSprite;
+    [TextArea(5, 20)] public string speakerDialogue;
+
+    public bool isWholeMask;
+}
+
+[CreateAssetMenu(fileName = "NewShowTutorial", menuName = "Tutorial/ShowTutorial")]
+public class ShowTutorial : ScriptableObject
+{
+    public TutorialDialogue[] tutorialDialogueList;
 }
