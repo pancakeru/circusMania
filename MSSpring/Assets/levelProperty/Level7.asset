@@ -16,8 +16,8 @@ MonoBehaviour:
   allowedTurn: 3
   totalN: 10
   redA: 100
-  redB: 50
-  yellowA: 30
-  yellowB: 30
-  blueA: 40
-  blueB: 40
+  redB: 100
+  yellowA: 90
+  yellowB: 90
+  blueA: 80
+  blueB: 80

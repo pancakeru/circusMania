@@ -1,5 +1,5 @@
 ﻿Category,Level 1,Level 2,Level 3,Level 4,Level 5
-Red Score,5,10,15,20,25
-Rest Turn,3,3,3,3,2
-Skill Condition,3,2,2,2,2
-Skill Number,50,60,70,80,90
+Red Score,5,10,20,30,40
+Rest Turn,3,3,3,3,3
+Skill Condition,3,3,3,3,3
+Skill Number,50,100,150,250,350

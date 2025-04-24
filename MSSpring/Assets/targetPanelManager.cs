@@ -13,13 +13,13 @@ public class targetPanelManager : MonoBehaviour
 
 	[Header("控制分数显示开关")]
 	[SerializeField] private GameObject redGroup;
-    [SerializeField] private GameObject blueGroup;
-    [SerializeField] private GameObject yellowGroup;
-    [SerializeField] private GameObject popularityGroup;
+	[SerializeField] private GameObject blueGroup;
+	[SerializeField] private GameObject yellowGroup;
+	[SerializeField] private GameObject popularityGroup;
 
-    public void ChangeLevelState(int curTurn, float curRepu, float[] targets, int totalTurn)
+	public void ChangeLevelState(int curTurn, float curRepu, float[] targets, int totalTurn)
 	{
-		Debug.Log("现在的repu是" + curRepu);
+		//Debug.Log("现在的repu是" + curRepu);
 		turnText.text = curTurn.ToString() + "/" + totalTurn.ToString();
 		float[] targetScoreArray = targets;
 		redText.text = targetScoreArray[0].ToString();

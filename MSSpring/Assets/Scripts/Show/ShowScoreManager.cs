@@ -13,7 +13,7 @@ public class ShowScoreManager : MonoBehaviour
 	private float targetBlueScore;
 	private float defaultReputation = 50f;
 	public float currentReputation { get; private set; }
-	private float reputationConversionRate = 0.5f;
+	private float reputationConversionRate = 0.2f;
 	public Queue repuChanges;
 
 	private GlobalLevel currentGlobalLevel;
