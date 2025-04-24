@@ -1040,7 +1040,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6952102906128197698, guid: 5d9aca32a87cc564dbd105f2823cee2d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1197,6 +1197,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631396220}
   m_CullTransparentMesh: 1
+--- !u!114 &1720607116 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2880798897087785778, guid: d2e71877bbea30f42b1f8d27c0a3148e, type: 3}
+  m_PrefabInstance: {fileID: 1273170198}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee6468757645254d95c276446429b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1774923534 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 595282102877779790, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
@@ -1240,6 +1251,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 2505855674852534218, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2530674947785245674, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1248,6 +1263,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2712240092604029547, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
+      propertyPath: startScreen
+      value: 
+      objectReference: {fileID: 1720607116}
     - target: {fileID: 2712240092604029547, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: managerPrefab
       value: 
@@ -1358,6 +1377,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500705388888632337, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8622790436948980431, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8931687819553431447, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}

@@ -10,10 +10,13 @@ public class MenuController : MonoBehaviour
     //ShowManager showManager;
     public GameObject lvlsDisplay;
     [SerializeField] private TextMeshProUGUI coinDisplay;
+    [SerializeField] private TextMeshProUGUI levelDisplay;
 
     public GameObject managerPrefab;
 
     public GameObject shopButton;
+
+    public StartScreenManager startScreen;
 
     void Start()
     {
@@ -25,7 +28,7 @@ public class MenuController : MonoBehaviour
         troupeController.GetComponent<Canvas>().enabled = false;
         shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
         //showManager.gameObject.SetActive(false);
-        coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
+
         lvlsDisplay.SetActive(false);
 
         Enable();
@@ -70,7 +73,8 @@ public class MenuController : MonoBehaviour
         {
             ShowLevels();
         }
-        coinDisplay.text = "Coin: " + GlobalManager.instance.getCurCoinAmount();
+        coinDisplay.text = GlobalManager.instance.getCurCoinAmount().ToString();
+        levelDisplay.text = GlobalManager.instance.currentLevelIndex + " / 8";
         GetComponent<Canvas>().enabled = true;
 
         bool isAllAnimalUnlocked = true;
