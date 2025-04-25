@@ -8,6 +8,8 @@ public class TutorialDialogue
     [TextArea(5, 20)] public string speakerDialogue;
 
     public bool isWholeMask;
+    public Vector2 maskSizeDelta;
+    public Vector2 maskAnchoredPosition;
 }
 
 [CreateAssetMenu(fileName = "NewShowTutorial", menuName = "Tutorial/ShowTutorial")]

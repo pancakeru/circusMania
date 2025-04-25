@@ -16,6 +16,16 @@ MonoBehaviour:
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Boss, finally you are here!
     isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: We are about to perform so let us rehearse first!
     isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Here are all the animals in the circus, from which you can choose
+      the animals to perform.
+    isWholeMask: 0
+    maskSizeDelta: {x: 175, y: 175}
+    maskAnchoredPosition: {x: -800, y: -450}

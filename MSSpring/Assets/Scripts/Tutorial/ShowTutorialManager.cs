@@ -48,7 +48,7 @@ public class ShowTutorialManager : MonoBehaviour
         }
         else
         {
-            ShowPartialMask();
+            ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
         }
     }
 
@@ -65,23 +65,37 @@ public class ShowTutorialManager : MonoBehaviour
         }
     }
 
-    private void ShowPartialMask()
+    private void ShowPartialMask(Vector2 maskSizeDelta, Vector2 maskAnchoredPosition)
     {
         mask.gameObject.SetActive(true);
         mask.sprite = partialMask9Sliced;
         mask.raycastTarget = false;
+        RectTransform maskTransform = mask.GetComponent<RectTransform>();
+        maskTransform.sizeDelta = maskSizeDelta;
+        maskTransform.anchoredPosition = maskAnchoredPosition;
         for (int i = 0; i < raycastImageArray.Length; i++)
         {
-            Image raycastImage = raycastImageArray[i];
+            RectTransform raycastImageTransform = raycastImageArray[i].GetComponent<RectTransform>();
+            raycastImageTransform.gameObject.SetActive(true);
             if (i == 0)
             {
-                raycastImage.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 540f - mask.GetComponent<RectTransform>().anchoredPosition.y - mask.GetComponent<RectTransform>().sizeDelta.y / 2f);
-                raycastImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, mask.GetComponent<RectTransform>().sizeDelta.y / 2f);
+                raycastImageTransform.sizeDelta = new Vector2(1920f, 540f - maskAnchoredPosition.y - maskSizeDelta.y / 2f);
+                raycastImageTransform.anchoredPosition = new Vector2(0f, 270f + maskAnchoredPosition.y / 2f + maskSizeDelta.y / 4f);
+            }
+            else if (i == 1)
+            {
+                raycastImageTransform.sizeDelta = new Vector2(960f - maskAnchoredPosition.x - maskSizeDelta.x / 2f, maskSizeDelta.y);
+                raycastImageTransform.anchoredPosition = new Vector2(480f + maskAnchoredPosition.x / 2f + maskSizeDelta.x / 4f, maskAnchoredPosition.y);
             }
             else if (i == 2)
             {
-                raycastImage.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 540f + mask.GetComponent<RectTransform>().anchoredPosition.y - mask.GetComponent<RectTransform>().sizeDelta.y / 2f);
-                raycastImage.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -Mathf.Abs(mask.GetComponent<RectTransform>().anchoredPosition.y) - mask.GetComponent<RectTransform>().sizeDelta.y / 2f);
+                raycastImageTransform.sizeDelta = new Vector2(1920f, 540f + maskAnchoredPosition.y - maskSizeDelta.y / 2f);
+                raycastImageTransform.anchoredPosition = new Vector2(0f, -270f + maskAnchoredPosition.y / 2f - maskSizeDelta.y / 4f);
+            }
+            else if (i == 3)
+            {
+                raycastImageTransform.sizeDelta = new Vector2(960f + maskAnchoredPosition.x - maskSizeDelta.x / 2f, maskSizeDelta.y);
+                raycastImageTransform.anchoredPosition = new Vector2(-480f + maskAnchoredPosition.x / 2f - maskSizeDelta.x / 4f, maskAnchoredPosition.y);
             }
         }
     }
