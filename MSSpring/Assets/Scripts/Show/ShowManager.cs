@@ -96,7 +96,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	#region 每次表演的记录变量
 	private List<GameObject> myHand;//需要重置
-	private GameObject[] onStage;//需要重置
+	public GameObject[] onStage { get; private set; }//需要重置
 	private List<Vector2> initialPos = new List<Vector2>();//需要重置
 	private List<iconAnimal> myHandControls = new List<iconAnimal>();//需要重置
 	private areaReport[] posRecord;//需要重置

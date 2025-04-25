@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class TutorialDialogue
@@ -8,8 +8,10 @@ public class TutorialDialogue
     [TextArea(5, 20)] public string speakerDialogue;
 
     public bool isWholeMask;
-    public Vector2 maskSizeDelta;
-    public Vector2 maskAnchoredPosition;
+    public Vector2 maskSizeDelta = Vector2.zero;
+    public Vector2 maskAnchoredPosition = Vector2.zero;
+
+    public string proceedCondition = "N/A";
 }
 
 [CreateAssetMenu(fileName = "NewShowTutorial", menuName = "Tutorial/ShowTutorial")]

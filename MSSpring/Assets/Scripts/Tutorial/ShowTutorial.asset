@@ -18,14 +18,51 @@ MonoBehaviour:
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    proceedCondition:
+      m_PersistentCalls:
+        m_Calls: []
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: We are about to perform so let us rehearse first!
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    proceedCondition:
+      m_PersistentCalls:
+        m_Calls: []
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Here are all the animals in the circus, from which you can choose
       the animals to perform.
     isWholeMask: 0
-    maskSizeDelta: {x: 175, y: 175}
-    maskAnchoredPosition: {x: -800, y: -450}
+    maskSizeDelta: {x: 1750, y: 175}
+    maskAnchoredPosition: {x: 0, y: -350}
+    proceedCondition:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: This is the stage, where the animals will pass the ball.
+    isWholeMask: 0
+    maskSizeDelta: {x: 1750, y: 480}
+    maskAnchoredPosition: {x: 0, y: -20}
+    proceedCondition:
+      m_PersistentCalls:
+        m_Calls: []
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Let's drag the animals into position.
+    isWholeMask: 0
+    maskSizeDelta: {x: 1750, y: 700}
+    maskAnchoredPosition: {x: 0, y: -100}
+    proceedCondition:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: 
+          m_MethodName: 
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2

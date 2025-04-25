@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ShowTutorialManager : MonoBehaviour
 {
     [SerializeField] private ShowTutorial showTutorial;
+    //private enum State { WaitingForClickToProceed, WaitingForProceedConditionToBeFulfilled }
 
     [Header("Hand")]
     public AnimalStart switchHand;
@@ -21,6 +22,9 @@ public class ShowTutorialManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speakerDialogue;
 
     private int dialogueIndex = -1;
+    private bool isProceedConditionNull = false;
+    private delegate bool ProceedConditionCheck();
+    private ProceedConditionCheck IsProceedConditionFulfilled;
 
     private void Start()
     {
@@ -29,9 +33,19 @@ public class ShowTutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (isProceedConditionNull)
         {
-            ProceedTutorialDialouge();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                ProceedTutorialDialouge();
+            }
+        }
+        else
+        {
+            if (IsProceedConditionFulfilled())
+            {
+                ProceedTutorialDialouge();
+            }
         }
     }
 
@@ -49,6 +63,17 @@ public class ShowTutorialManager : MonoBehaviour
         else
         {
             ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
+        }
+
+        switch (currentTutorialDialogue.proceedCondition)
+        {
+            case "N/A":
+                isProceedConditionNull = true;
+                break;
+            case "FourMonkeysOnStage":
+                isProceedConditionNull = false;
+                IsProceedConditionFulfilled = IsFourMonkeysOnStage;
+                break;
         }
     }
 
@@ -99,4 +124,31 @@ public class ShowTutorialManager : MonoBehaviour
             }
         }
     }
+
+    #region Proceed Conditions
+    private bool IsFourMonkeysOnStage()
+    {
+        int monkeyCount = 0;
+
+        foreach (GameObject animal in ShowManager.instance.onStage)
+        {
+            if (animal != null)
+            {
+                if (animal.TryGetComponent(out AnimalControlMonkey animalControlMonkey))
+                {
+                    monkeyCount++;
+                }
+            }
+        }
+
+        if (monkeyCount == 4)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    #endregion
 }

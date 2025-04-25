@@ -50,9 +50,11 @@ MonoBehaviour:
   blueEffect: {r: 0, g: 0.74509805, b: 0.9098039, a: 1}
   yellowEffect: {r: 1, g: 0.85490197, b: 0.38039216, a: 1}
   testProperties: {fileID: 11400000, guid: ae1adc6ef1d2845c08c876ac4a993ce6, type: 2}
-  testCoinNum: 10
-  ifDoTestInitialize: 0
+  testCoinNum: 50
+  ifDoTestInitialize: 1
   testAction: 2
   ifTestAction: 0
   toTestAdd: {fileID: 0}
-  messageBox: {fileID: 1266231390577246562, guid: d8465fded50ec17499996f1eebad7c86, type: 3}
+  levelPreviewController: {fileID: 0}
+  maxPrice: 40
+  maxLevel: 0
