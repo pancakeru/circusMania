@@ -14,8 +14,8 @@ public class TroupeCardController : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public Image profile;
     public Image bg;
+    public Image star;
     public TextMeshProUGUI textNum;
-    public TextMeshProUGUI textLv;
 
     public void Init(animalProperty givenAnimalProperty)
     {
