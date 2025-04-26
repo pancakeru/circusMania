@@ -9,60 +9,141 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 8d41e375eac544bee92581f346cdbba4, type: 3}
   m_Name: ShowTutorial
-  m_EditorClassIdentifier: Assembly-CSharp::ShowTutorial
+  m_EditorClassIdentifier: 
   tutorialDialogueList:
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Boss, finally you are here!
+    audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
-    proceedCondition:
-      m_PersistentCalls:
-        m_Calls: []
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: We are about to perform so let us rehearse first!
+    audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
-    proceedCondition:
-      m_PersistentCalls:
-        m_Calls: []
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Here are all the animals in the circus, from which you can choose
       the animals to perform.
+    audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 1750, y: 175}
     maskAnchoredPosition: {x: 0, y: -350}
-    proceedCondition:
-      m_PersistentCalls:
-        m_Calls: []
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: This is the stage, where the animals will pass the ball.
+    audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 1750, y: 480}
     maskAnchoredPosition: {x: 0, y: -20}
-    proceedCondition:
-      m_PersistentCalls:
-        m_Calls: []
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Let's drag the animals into position.
+    audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 1750, y: 700}
     maskAnchoredPosition: {x: 0, y: -100}
-    proceedCondition:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
-          m_Mode: 0
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: FourMonkeysOnStage
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: 8d6ea11d1b47ad043a10a96621441c76, type: 3}
+    animalIntroductionString: The monkey will pass the received ball one position
+      to the right and get Joy points.
+    proceedCondition: N/A
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: The audience is not to be trifled with! Their expectations are
+      shown in the upper left corner.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 300, y: 150}
+    maskAnchoredPosition: {x: -800, y: 465}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: However, as a rehearsal, we can start right away.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 440, y: 220}
+    maskAnchoredPosition: {x: 735, y: 430}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: ShowStart
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Great, the first rehearsal is done!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: But the audience said our performance was too monotonous...
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: The audience wants to see more Skill and Joy.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 700, y: 150}
+    maskAnchoredPosition: {x: -600, y: 465}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Oh, we can use elephants!
+    audioToBePlayed: {fileID: 8300000, guid: db37889fb284d61478a1909f7596aefe, type: 3}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: N/A
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: 952d4894f08d41d48a3b575f16126be8, type: 3}
+    animalIntroductionString: The elephant will pass the received ball to the left
+      2 places and get Skill points.
+    proceedCondition: N/A

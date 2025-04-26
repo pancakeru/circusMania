@@ -24,9 +24,3 @@ public class TutorialDialogue
     [Header("Proceed Condition")]
     public string proceedCondition = "N/A";
 }
-
-[CreateAssetMenu(fileName = "NewShowTutorial", menuName = "Tutorial/ShowTutorial")]
-public class ShowTutorial : ScriptableObject
-{
-    public TutorialDialogue[] tutorialDialogueList;
-}

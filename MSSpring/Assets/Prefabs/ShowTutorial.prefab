@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa58e430fb754911ad7c6416d7dd596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showTutorial: {fileID: 11400000, guid: 79a3bdae3eca44330bed404db02407d2, type: 2}
+  showTutorial: {fileID: 11400000, guid: f159992f9657c42daa21c80975c12f1d, type: 2}
   switchHand: {fileID: 11400000, guid: 24b1f2a2335224849ace71469437da38, type: 2}
   addHand: {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
   mask: {fileID: 2098545568993760507}
