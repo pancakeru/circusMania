@@ -274,64 +274,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testCoinNum
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties
-      value: 
-      objectReference: {fileID: 11400000, guid: ae1adc6ef1d2845c08c876ac4a993ce6, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: ifDoTestInitialize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
       propertyPath: levelPreviewController
       value: 
       objectReference: {fileID: 1774923534}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.size
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 6c0e14ed1c90f48de99e01ac00132a1a, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: cf324ce1a3f5c4498a0064f28e1d3ff8, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: e03bcde6684594403a9ab211a7e75c60, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8005f9a816bf6ef44bc5714629ac085b, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: 81d9c42e3ec1b4664ac2327407c6495e, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[9]
-      value: 
-      objectReference: {fileID: 11400000, guid: a91cd24bf07324135b8dabc83e0e8d54, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[10]
-      value: 
-      objectReference: {fileID: 11400000, guid: c9b7b8ccf034349d5b05aee0ba556030, type: 2}
-    - target: {fileID: 8698562038579987015, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: testProperties.Array.data[11]
-      value: 
-      objectReference: {fileID: 11400000, guid: 8005f9a816bf6ef44bc5714629ac085b, type: 2}
     - target: {fileID: 9045721959131190937, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
       propertyPath: m_Name
       value: GlobalManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 9045721959131190937, guid: 3ab85863e673f46caa562cea50abd80c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -748,6 +696,10 @@ PrefabInstance:
     - target: {fileID: 4412811271280498799, guid: d2e71877bbea30f42b1f8d27c0a3148e, type: 3}
       propertyPath: m_Name
       value: StartScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 4412811271280498799, guid: d2e71877bbea30f42b1f8d27c0a3148e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

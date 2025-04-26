@@ -78,7 +78,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private int soundIndex;
 	private MenuController menu;
 	private ShowScoreManager scoreManager;
-	private bool ifToShow = false;
+	public bool ifToShow { get; private set; } = false;
 	private TutorialRelatedFunctionContainer tContainer;
 
 	//icon的开始y
@@ -96,7 +96,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	#region 每次表演的记录变量
 	private List<GameObject> myHand;//需要重置
-	private GameObject[] onStage;//需要重置
+	public GameObject[] onStage { get; private set; }//需要重置
 	private List<Vector2> initialPos = new List<Vector2>();//需要重置
 	private List<iconAnimal> myHandControls = new List<iconAnimal>();//需要重置
 	private areaReport[] posRecord;//需要重置
@@ -170,6 +170,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[Header("测试添加")]
 	[SerializeField] private animalProperty addhand;
 	#endregion
+
+	[Header("Tutorial")]
+	[SerializeField] private ShowTutorialManager showTutorialManager;
 
 	//这个类的作用是方便管理一些功能的开关
 	private class TutorialRelatedFunctionContainer
@@ -454,6 +457,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			//TODO:改成到地方再可以交互
 			startButtonMover.GetComponent<Button>().interactable = true;
 			camMover.SetTo(CamInDecition.position, DecideCamScale);
+
+			showTutorialManager.gameObject.SetActive(false);
 		}
 		else
 		{
@@ -464,7 +469,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			SetScoreEnableState(true, false, false, false);
 			SetBananaEnableState(false);
 			SetTurnEnableState(false);
-			SetHandAnimal(true, new List<animalProperty>(GetComponent<ShowTutorialManager>().switchHand.properies));
+			SetHandAnimal(true, new List<animalProperty>(showTutorialManager.switchHand.properies));
 			SetIfChangeTroupePrice(false);
 			SetIfUpdatePopularity(false);
 			curTurn = 1;
@@ -495,6 +500,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			stagePanelMover.gameObject.SetActive(true);
 			startButtonMover.GetComponent<Button>().interactable = true;
 			camMover.SetTo(CamInDecition.position, DecideCamScale);
+
+			showTutorialManager.gameObject.SetActive(true);
 		}
 	}
 
@@ -710,7 +717,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		if (tContainer.isTutorial)
 		{
 			SetScoreEnableState(true, true, false, false);
-			AddAnimalToHand(GetComponent<ShowTutorialManager>().addHand);
+			AddAnimalToHand(showTutorialManager.addHand);
+			showTutorialManager.gameObject.SetActive(true);
 		}
 	}
 
