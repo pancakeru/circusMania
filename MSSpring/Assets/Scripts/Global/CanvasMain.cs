@@ -53,7 +53,7 @@ public class CanvasMain : MonoBehaviour
         OnUIInteractionEnabled += UnlockMouse;
         OnUIInteractionDisabled += LockMouse;
 
-        CheckFontUsage();
+        //CheckFonts();
     }
 
     void Update()
@@ -129,13 +129,24 @@ public class CanvasMain : MonoBehaviour
         else popUpTargets.Add(image, text);
     }
 
-    void CheckFontUsage()
+    void CheckFonts()
     {
         Dictionary<TMP_FontAsset, int> fontUsage = new Dictionary<TMP_FontAsset, int>();
+        TMP_FontAsset defaultFont = TMP_Settings.defaultFontAsset;
+        int fixedCount = 0;
 
-        foreach (var tmp in FindObjectsOfType<TextMeshProUGUI>(true)) // (true) = include inactive objects
+        foreach (var tmp in FindObjectsOfType<TextMeshProUGUI>(true))
         {
-            if (tmp.font == null) continue;
+            if (tmp.font == null)
+            {
+                if (defaultFont != null)
+                {
+                    tmp.font = defaultFont;
+                    Debug.LogWarning($"[AutoFix] Assigned default font to: {tmp.gameObject.name}", tmp.gameObject);
+                    fixedCount++;
+                }
+                continue;
+            }
 
             if (!fontUsage.ContainsKey(tmp.font))
                 fontUsage[tmp.font] = 0;
@@ -147,5 +158,8 @@ public class CanvasMain : MonoBehaviour
         {
             Debug.Log($"Font: {pair.Key.name} - Used {pair.Value} times");
         }
+
+        if (fixedCount > 0)
+            Debug.Log($"Fixed {fixedCount} TMP texts with missing fonts.");
     }
 }
