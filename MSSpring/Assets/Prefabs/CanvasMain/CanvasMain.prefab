@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageBox: {fileID: 1266231390577246562, guid: d8465fded50ec17499996f1eebad7c86, type: 3}
+  popUp: {fileID: 470195668100746226, guid: fdaf399a743eab742bb81a8893cd05bd, type: 3}
 --- !u!223 &8536814029697126761
 Canvas:
   m_ObjectHideFlags: 0

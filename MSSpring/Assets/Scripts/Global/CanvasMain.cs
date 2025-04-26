@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public enum MessageType
@@ -18,12 +19,20 @@ public class CanvasMain : MonoBehaviour
     public static event Action OnUIInteractionDisabled;
 
     [SerializeField] GameObject messageBox;
+    [SerializeField] GameObject popUp;
+
+    GameObject myPopUp;
+    Image popUpTarget;
+    string popUpText;
 
     void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+
+        myPopUp = Instantiate(popUp, transform);
+        myPopUp.SetActive(false);
     }
 
     void Start()
@@ -33,6 +42,14 @@ public class CanvasMain : MonoBehaviour
 
         OnUIInteractionEnabled += UnlockMouse;
         OnUIInteractionDisabled += LockMouse;
+    }
+
+    void Update()
+    {
+        if (myPopUp.activeSelf)
+        {
+
+        }
     }
 
     public void DisplayWarning(string text)
@@ -70,5 +87,11 @@ public class CanvasMain : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void ShowPopUp(Image image, string text)
+    {
+        if (!myPopUp.activeSelf) myPopUp.SetActive(true);
+        
     }
 }
