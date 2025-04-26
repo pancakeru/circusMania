@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageBox: {fileID: 1266231390577246562, guid: d8465fded50ec17499996f1eebad7c86, type: 3}
   popUp: {fileID: 470195668100746226, guid: fdaf399a743eab742bb81a8893cd05bd, type: 3}
+  isCheatEnabled: 1
+  cheatPrefab: {fileID: 3290390908282643116, guid: 415c83d16df56764bb4c52ec79028551, type: 3}
 --- !u!223 &8536814029697126761
 Canvas:
   m_ObjectHideFlags: 0
@@ -71,7 +73,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 10

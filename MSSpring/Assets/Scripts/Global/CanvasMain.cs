@@ -22,9 +22,13 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] GameObject messageBox;
     [SerializeField] GameObject popUp;
 
+    [Header("CHEAT")]
+    [SerializeField] bool isCheatEnabled;
+    [SerializeField] GameObject cheatPrefab;
+    GameObject myCheat;
+
     GameObject myPopUp;
     RectTransform myPopUpRect;
-    Image currentHoverTarget;
     Dictionary<Image, string> popUpTargets = new Dictionary<Image, string>();
 
     void Awake()
@@ -36,6 +40,9 @@ public class CanvasMain : MonoBehaviour
         myPopUp = Instantiate(popUp, transform);
         myPopUp.SetActive(false);
         myPopUpRect = myPopUp.GetComponent<RectTransform>();
+
+        if (isCheatEnabled) myCheat = Instantiate(cheatPrefab, transform);
+        myCheat.SetActive(false);
     }
 
     void Start()
@@ -54,7 +61,6 @@ public class CanvasMain : MonoBehaviour
         {
             if (RectTransformUtility.RectangleContainsScreenPoint(pair.Key.rectTransform, Input.mousePosition))
             {
-                currentHoverTarget = pair.Key;
                 myPopUp.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = pair.Value;
 
                 myPopUp.SetActive(true);
@@ -69,7 +75,11 @@ public class CanvasMain : MonoBehaviour
         if (!hovering)
         {
             myPopUp.SetActive(false);
-            currentHoverTarget = null;
+        }
+
+        if (Input.GetKeyUp(KeyCode.BackQuote))
+        {
+            myCheat.SetActive(true);
         }
     }
 
