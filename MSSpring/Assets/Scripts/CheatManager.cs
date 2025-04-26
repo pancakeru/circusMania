@@ -7,6 +7,7 @@ using UnityEngine;
 public class CheatManager : MonoBehaviour
 {
     public TMP_InputField inputField;
+    [SerializeField] TextMeshProUGUI cheatList;
 
     Dictionary<string, Action> cheatCodes;
 
@@ -17,6 +18,12 @@ public class CheatManager : MonoBehaviour
             { "infiniteMoney", InfiniteMoney },
             { "unlockAll", UnlockAll }
         };
+
+        cheatList.text = "Cheat will not be applied until refreshing UI. \nCheat List: \n";
+        foreach (string key in cheatCodes.Keys)
+        {
+            cheatList.text += "\n" + key;
+        }
 
         inputField.onEndEdit.AddListener(CheckCheat);
     }

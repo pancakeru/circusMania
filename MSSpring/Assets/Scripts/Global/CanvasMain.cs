@@ -79,7 +79,8 @@ public class CanvasMain : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.BackQuote))
         {
-            myCheat.SetActive(true);
+            if (myCheat.activeSelf) myCheat.SetActive(false);
+            else myCheat.SetActive(true);
         }
     }
 
