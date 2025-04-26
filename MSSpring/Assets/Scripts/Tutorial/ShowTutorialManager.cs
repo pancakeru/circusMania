@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class ShowTutorialManager : MonoBehaviour
 {
     [SerializeField] private ShowTutorial showTutorial;
-    //private enum State { WaitingForClickToProceed, WaitingForProceedConditionToBeFulfilled }
 
     [Header("Hand")]
     public AnimalStart switchHand;
