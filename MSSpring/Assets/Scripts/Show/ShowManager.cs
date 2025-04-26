@@ -78,7 +78,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private int soundIndex;
 	private MenuController menu;
 	private ShowScoreManager scoreManager;
-	private bool ifToShow = false;
+	public bool ifToShow { get; private set; } = false;
 	private TutorialRelatedFunctionContainer tContainer;
 
 	//icon的开始y
@@ -718,6 +718,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			SetScoreEnableState(true, true, false, false);
 			AddAnimalToHand(showTutorialManager.addHand);
+			showTutorialManager.gameObject.SetActive(true);
 		}
 	}
 

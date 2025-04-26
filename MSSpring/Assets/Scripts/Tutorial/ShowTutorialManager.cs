@@ -21,6 +21,10 @@ public class ShowTutorialManager : MonoBehaviour
     [SerializeField] private Image speakerImage;
     [SerializeField] private TextMeshProUGUI speakerDialogue;
 
+    [Header("Animal Introduction")]
+    [SerializeField] private Image animalIntroductionImage;
+    [SerializeField] private TextMeshProUGUI animalIntroductionTMP;
+
     private int dialogueIndex = -1;
     private bool isProceedConditionNull = false;
     private delegate bool ProceedConditionCheck();
@@ -51,29 +55,60 @@ public class ShowTutorialManager : MonoBehaviour
 
     private void ProceedTutorialDialouge()
     {
-        dialogueIndex++;
-        TutorialDialogue currentTutorialDialogue = showTutorial.tutorialDialogueList[dialogueIndex];
+        if (dialogueIndex + 1 < showTutorial.tutorialDialogueList.Length)
+        {
+            dialogueIndex++;
+            TutorialDialogue currentTutorialDialogue = showTutorial.tutorialDialogueList[dialogueIndex];
 
-        speakerImage.sprite = currentTutorialDialogue.speakerSprite;
-        speakerDialogue.text = currentTutorialDialogue.speakerDialogue;
-        if (currentTutorialDialogue.isWholeMask)
-        {
-            ShowWholeMask();
-        }
-        else
-        {
-            ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
-        }
+            if (!currentTutorialDialogue.isAnimalIntroduction)
+            {
+                speakerImage.gameObject.SetActive(true);
+                speakerImage.sprite = currentTutorialDialogue.speakerSprite;
+                speakerDialogue.gameObject.SetActive(true);
+                speakerDialogue.text = currentTutorialDialogue.speakerDialogue;
 
-        switch (currentTutorialDialogue.proceedCondition)
-        {
-            case "N/A":
-                isProceedConditionNull = true;
-                break;
-            case "FourMonkeysOnStage":
-                isProceedConditionNull = false;
-                IsProceedConditionFulfilled = IsFourMonkeysOnStage;
-                break;
+                animalIntroductionImage.gameObject.SetActive(false);
+                animalIntroductionTMP.gameObject.SetActive(false);
+            }
+            else
+            {
+                animalIntroductionImage.gameObject.SetActive(true);
+                animalIntroductionImage.sprite = currentTutorialDialogue.animalIntroductionSprite;
+                animalIntroductionTMP.gameObject.SetActive(true);
+                animalIntroductionTMP.text = currentTutorialDialogue.animalIntroductionString;
+
+                speakerImage.gameObject.SetActive(false);
+                speakerDialogue.gameObject.SetActive(false);
+            }
+
+            if (currentTutorialDialogue.audioToBePlayed != null)
+            {
+                AudioManagerScript.Instance.uiSource.PlayOneShot(currentTutorialDialogue.audioToBePlayed);
+            }
+
+            if (currentTutorialDialogue.isWholeMask)
+            {
+                ShowWholeMask();
+            }
+            else
+            {
+                ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
+            }
+
+            switch (currentTutorialDialogue.proceedCondition)
+            {
+                case "N/A":
+                    isProceedConditionNull = true;
+                    break;
+                case "FourMonkeysOnStage":
+                    isProceedConditionNull = false;
+                    IsProceedConditionFulfilled = IsFourMonkeysOnStage;
+                    break;
+                case "ShowStart":
+                    isProceedConditionNull = false;
+                    IsProceedConditionFulfilled = IsShowStarted;
+                    break;
+            }
         }
     }
 
@@ -143,6 +178,19 @@ public class ShowTutorialManager : MonoBehaviour
 
         if (monkeyCount == 4)
         {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool IsShowStarted()
+    {
+        if (ShowManager.instance.ifToShow)
+        {
+            gameObject.SetActive(false);
             return true;
         }
         else
