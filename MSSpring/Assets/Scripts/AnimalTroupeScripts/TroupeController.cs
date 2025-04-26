@@ -188,7 +188,7 @@ public class TroupeController : MonoBehaviour
             */
         }
 
-        textCoin.text = $"Coin: {coin}";
+        textCoin.text = $"{coin}";
     }
 
     public int NumberInTroupe(string animalName)
