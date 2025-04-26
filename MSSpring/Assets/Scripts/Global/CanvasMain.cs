@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
@@ -22,8 +23,9 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] GameObject popUp;
 
     GameObject myPopUp;
-    Image popUpTarget;
-    string popUpText;
+    RectTransform myPopUpRect;
+    Image currentHoverTarget;
+    Dictionary<Image, string> popUpTargets = new Dictionary<Image, string>();
 
     void Awake()
     {
@@ -33,6 +35,7 @@ public class CanvasMain : MonoBehaviour
 
         myPopUp = Instantiate(popUp, transform);
         myPopUp.SetActive(false);
+        myPopUpRect = myPopUp.GetComponent<RectTransform>();
     }
 
     void Start()
@@ -46,9 +49,27 @@ public class CanvasMain : MonoBehaviour
 
     void Update()
     {
-        if (myPopUp.activeSelf)
+        bool hovering = false;
+        foreach (var pair in popUpTargets)
         {
+            if (RectTransformUtility.RectangleContainsScreenPoint(pair.Key.rectTransform, Input.mousePosition))
+            {
+                currentHoverTarget = pair.Key;
+                myPopUp.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = pair.Value;
 
+                myPopUp.SetActive(true);
+
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(myPopUpRect.parent as RectTransform, Input.mousePosition, null, out Vector2 pos);
+                myPopUpRect.anchoredPosition = pos;
+                hovering = true;
+                break;
+            }
+        }
+
+        if (!hovering)
+        {
+            myPopUp.SetActive(false);
+            currentHoverTarget = null;
         }
     }
 
@@ -91,7 +112,7 @@ public class CanvasMain : MonoBehaviour
 
     public void ShowPopUp(Image image, string text)
     {
-        if (!myPopUp.activeSelf) myPopUp.SetActive(true);
-        
+        if (popUpTargets.ContainsKey(image)) popUpTargets[image] = text; 
+        else popUpTargets.Add(image, text);
     }
 }

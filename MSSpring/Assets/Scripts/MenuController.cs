@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -20,14 +21,11 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-        //Screen.SetResolution(1920, 1080, FullScreenMode.FullScreenWindow);
         troupeController = FindFirstObjectByType<TroupeController>();
         shopManager = FindFirstObjectByType<ShopManager>();
-        //showManager = FindFirstObjectByType<ShowManager>();
 
         troupeController.GetComponent<Canvas>().enabled = false;
         shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
-        //showManager.gameObject.SetActive(false);
 
         lvlsDisplay.SetActive(false);
 
@@ -77,6 +75,7 @@ public class MenuController : MonoBehaviour
         levelDisplay.text = GlobalManager.instance.currentLevelIndex + " / 8";
         GetComponent<Canvas>().enabled = true;
 
+        /*
         bool isAllAnimalUnlocked = true;
         foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
         {
@@ -87,6 +86,21 @@ public class MenuController : MonoBehaviour
             }
         }
         shopButton.SetActive(isAllAnimalUnlocked);
+        */
+
+        if (GlobalManager.instance.currentLevelIndex >= 2)
+        {
+            shopButton.GetComponent<Button>().enabled = true;
+            shopButton.transform.GetChild(0).gameObject.SetActive(false);
+            shopButton.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            shopButton.GetComponent<Button>().enabled = false;
+            shopButton.transform.GetChild(0).gameObject.SetActive(true);
+            shopButton.transform.GetChild(1).gameObject.SetActive(true);
+            CanvasMain.instance.ShowPopUp(shopButton.GetComponent<Image>(), "Mr. Shop will not be present until two shows are completed.");
+        }
     }
 
     public void Disable()
