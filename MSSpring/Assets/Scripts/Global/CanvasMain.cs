@@ -52,6 +52,8 @@ public class CanvasMain : MonoBehaviour
 
         OnUIInteractionEnabled += UnlockMouse;
         OnUIInteractionDisabled += LockMouse;
+
+        CheckFontUsage();
     }
 
     void Update()
@@ -125,5 +127,25 @@ public class CanvasMain : MonoBehaviour
     {
         if (popUpTargets.ContainsKey(image)) popUpTargets[image] = text; 
         else popUpTargets.Add(image, text);
+    }
+
+    void CheckFontUsage()
+    {
+        Dictionary<TMP_FontAsset, int> fontUsage = new Dictionary<TMP_FontAsset, int>();
+
+        foreach (var tmp in FindObjectsOfType<TextMeshProUGUI>(true)) // (true) = include inactive objects
+        {
+            if (tmp.font == null) continue;
+
+            if (!fontUsage.ContainsKey(tmp.font))
+                fontUsage[tmp.font] = 0;
+
+            fontUsage[tmp.font]++;
+        }
+
+        foreach (var pair in fontUsage)
+        {
+            Debug.Log($"Font: {pair.Key.name} - Used {pair.Value} times");
+        }
     }
 }
