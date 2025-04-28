@@ -474,7 +474,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			yStart = -600;
 			tContainer = new TutorialRelatedFunctionContainer(this);
-			tContainer.isTutorial = true;
+            interContainer = new ShowInteractionStateRecorder();
+            tContainer.isTutorial = true;
 			SetShowPositionNum(4);
 			SetScoreEnableState(true, false, false, false);
 			SetBananaEnableState(false);
@@ -1300,9 +1301,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	}
     private class ShowInteractionStateRecorder
     {
-        public bool ifSlide;
-        public bool ifSelectDown;
-        public bool ifSelectUp;
+        public bool ifSlide = true;
+        public bool ifSelectDown = true;
+        public bool ifSelectUp = true;
 
         public void DisableAll()
         {
