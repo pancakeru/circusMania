@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +6,7 @@ using UnityEngine.UI;
 public class ShowTutorialManager : MonoBehaviour
 {
     [SerializeField] private ShowTutorial showTutorial;
+    public GameObject content;
 
     [Header("Hand")]
     public AnimalStart switchHand;
@@ -19,6 +21,7 @@ public class ShowTutorialManager : MonoBehaviour
     [Header("Speaker")]
     [SerializeField] private Image speakerImage;
     [SerializeField] private TextMeshProUGUI speakerDialogue;
+    private bool isTyping = false;
 
     [Header("Animal Introduction")]
     [SerializeField] private Image animalIntroductionImage;
@@ -28,6 +31,7 @@ public class ShowTutorialManager : MonoBehaviour
     private bool isProceedConditionNull = false;
     private delegate bool ProceedConditionCheck();
     private ProceedConditionCheck IsProceedConditionFulfilled;
+    private bool isProceedCoroutineRunning = false;
 
     private void Start()
     {
@@ -36,18 +40,39 @@ public class ShowTutorialManager : MonoBehaviour
 
     private void Update()
     {
-        if (isProceedConditionNull)
+        if (isTyping && speakerDialogue.gameObject.GetComponent<TypewriterEffect>().isDoneTyping)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            isTyping = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (isTyping)
             {
-                ProceedTutorialDialouge();
+                speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StopAllCoroutines();
+                speakerDialogue.gameObject.GetComponent<TypewriterEffect>().isDoneTyping = true;
+                speakerDialogue.text = speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText;
+                isTyping = false;
+            }
+            else
+            {
+                if (isProceedConditionNull)
+                {
+                    if (!isProceedCoroutineRunning)
+                    {
+                        isProceedCoroutineRunning = true;
+                        StartCoroutine(WaitUntilContentIsActiveAndProceed());
+                    }
+                }
             }
         }
-        else
+
+        if (!isProceedConditionNull && IsProceedConditionFulfilled())
         {
-            if (IsProceedConditionFulfilled())
+            if (!isProceedCoroutineRunning)
             {
-                ProceedTutorialDialouge();
+                isProceedCoroutineRunning = true;
+                StartCoroutine(WaitUntilContentIsActiveAndProceed());
             }
         }
     }
@@ -64,7 +89,9 @@ public class ShowTutorialManager : MonoBehaviour
                 speakerImage.gameObject.SetActive(true);
                 speakerImage.sprite = currentTutorialDialogue.speakerSprite;
                 speakerDialogue.gameObject.SetActive(true);
-                speakerDialogue.text = currentTutorialDialogue.speakerDialogue;
+                speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText = currentTutorialDialogue.speakerDialogue;
+                speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StartTyping();
+                isTyping = true;
 
                 animalIntroductionImage.gameObject.SetActive(false);
                 animalIntroductionTMP.gameObject.SetActive(false);
@@ -159,6 +186,16 @@ public class ShowTutorialManager : MonoBehaviour
         }
     }
 
+    private IEnumerator WaitUntilContentIsActiveAndProceed()
+    {
+        while (!content.gameObject.activeSelf)
+        {
+            yield return null;
+        }
+        isProceedCoroutineRunning = false;
+        ProceedTutorialDialouge();
+    }
+
     #region Proceed Conditions
     private bool IsFourMonkeysOnStage()
     {
@@ -189,7 +226,7 @@ public class ShowTutorialManager : MonoBehaviour
     {
         if (ShowManager.instance.ifToShow)
         {
-            gameObject.SetActive(false);
+            content.gameObject.SetActive(false);
             return true;
         }
         else
