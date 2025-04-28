@@ -80,6 +80,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	private ShowScoreManager scoreManager;
 	public bool ifToShow { get; private set; } = false;
 	private TutorialRelatedFunctionContainer tContainer;
+	private ShowInteractionStateRecorder interContainer;
 
 	//icon的开始y
 	private float yStart;
@@ -404,10 +405,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		myHandControls.Add(iconComp);
 	}
 
-	#endregion
+	public void BanAllInteraction() => interContainer.DisableAll();
+	public void EnableAllInteraction() => interContainer.EnableAll();
+	public void SetSlideAnimalEnableState(bool ifEnable) => interContainer.ifSlide = ifEnable;
+    public void SetSelectAnimalInDownEnableState(bool ifEnable) => interContainer.ifSelectDown= ifEnable;
+    public void SetSelectAnimalInUpEnableState(bool ifEnable) => interContainer.ifSelectUp = ifEnable;
 
-	#region Fuctions
-	public void EnterOneShow(bool isTutorial = false)
+    #endregion
+
+    #region Fuctions
+    public void EnterOneShow(bool isTutorial = false)
 	{
 		if (!isTutorial)
 		{
@@ -416,6 +423,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			//offset = 300;
 			yStart = -600;
 			tContainer = new TutorialRelatedFunctionContainer(this);
+			interContainer = new ShowInteractionStateRecorder();
 			//areaOffset = 2;
 			//SetShowPositionNum(3);
 			//SetScoreEnableState(true, false, false, false);
@@ -424,6 +432,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			//SetHandAnimal(false, new List<animalProperty>(switchhand.properies));
 			//SetIfChangeTroupePrice(false);
 			//SetIfUpdatePopularity(false);
+			//BanAllInteraction();
+			SetSelectAnimalInDownEnableState(true);
 			curTurn = 1;
 			blacker.Initial();
 			onStage = new GameObject[6];
@@ -993,7 +1003,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				{
 					//enterInteraction = true;
 
-					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)&& interContainer.ifSelectUp)
 					{
 						//选择到了表演小动物
 						holdingAnimalObj = firstDetect;
@@ -1002,14 +1012,14 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						StartDecideState(DecideScreenState.moveAnimal);
 
 					}
-					else if (!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio))
+					else if ((!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio))&&interContainer.ifSlide)
 					{
 
 						StartDecideState(DecideScreenState.slide);
 
 						//进入滑动
 					}
-					else if (firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect())
+					else if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) &&firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()&& interContainer.ifSelectDown)
 					{
 						//进入上下
 						//Debug.Log(firstDetect.transform.parent.name);
@@ -1288,6 +1298,27 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		CanvasMain.OnUIInteractionEnabled -= EnableCanvas;
 		CanvasMain.OnUIInteractionDisabled -= DisableCanvas;
 	}
+    private class ShowInteractionStateRecorder
+    {
+        public bool ifSlide;
+        public bool ifSelectDown;
+        public bool ifSelectUp;
+
+        public void DisableAll()
+        {
+            ifSlide = false;
+            ifSelectDown = false;
+            ifSelectUp = false;
+
+        }
+
+        public void EnableAll()
+        {
+            ifSlide = true;
+            ifSelectDown = true;
+            ifSelectUp = true;
+        }
+    }
 }
 
 public class BiDictionary<TKey, TValue>
