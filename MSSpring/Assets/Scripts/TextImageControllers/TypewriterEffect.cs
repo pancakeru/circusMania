@@ -8,7 +8,7 @@ public class TypewriterEffect : MonoBehaviour
     [TextArea]
     public string fullText;
     private TextMeshProUGUI textComponent;
-    public bool isDoneTyping = false; 
+    public bool isDoneTyping = false;
 
     private void Awake()
     {
@@ -17,7 +17,8 @@ public class TypewriterEffect : MonoBehaviour
 
     public void StartTyping()
     {
-        StopAllCoroutines(); 
+        StopAllCoroutines();
+        isDoneTyping = false;
         StartCoroutine(TypeText());
     }
 

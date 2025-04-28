@@ -718,7 +718,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			SetScoreEnableState(true, true, false, false);
 			AddAnimalToHand(showTutorialManager.addHand);
-			showTutorialManager.gameObject.SetActive(true);
+			showTutorialManager.content.gameObject.SetActive(true);
 		}
 	}
 
