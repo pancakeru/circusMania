@@ -152,11 +152,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	#region 动物解释相关
 	[Header("动物解释相关")]
-	[SerializeField] private tempShowExplain explainer;
-	#endregion
+    //private tempShowExplain explainer;
+    [SerializeField] private GameObject explainingCardPrefab;
+    ExplainingCardController myExplainingCard;
+    #endregion
 
-	#region 测试相关变量
-	[Header("For test")]
+    #region 测试相关变量
+    [Header("For test")]
 	//[SerializeField]
 	private bool ifTest;
 	//[SerializeField]
@@ -262,6 +264,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		Camera.main.GetComponent<moveReporter>().reportReceiver = gameObject;
 		pauseShow.SetActive(false);
 
+		myExplainingCard = Instantiate(explainingCardPrefab, canvasTrans).GetComponent<ExplainingCardController>();
 	}
 
 	void Start()
@@ -987,7 +990,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				break;
 
 			case DecideScreenState.empty:
-				explainer.DownExplain();
+				myExplainingCard.DoneExplain();
 				break;
 		}
 	}
@@ -1047,17 +1050,17 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
 					{
 						if (firstDetect != null)
-							explainer.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
+							myExplainingCard.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
 					}
 					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
 					{
 						if (firstDetect != null)
-							explainer.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
+                            myExplainingCard.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
 						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
 					}
 					else
 					{
-						explainer.DownExplain();
+                        myExplainingCard.DoneExplain();
 					}
 					/*
 					 * } else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {

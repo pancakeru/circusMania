@@ -143,12 +143,16 @@ public class PerformAnimalControl : MonoBehaviour
 
 			if (ball.GetPasser() != null) {
 				if (ball.GetPasser().animalBrain.soul.name == "Goat") {
+					Debug.Log("羊在这里！");
+					Debug.Log("我是"+animalBrain.soul.name+"我的力量是"+ animalBrain.animalInfo.power);
 					if (animalBrain.animalInfo.power > 1) {
 						int powerDifference = animalBrain.animalInfo.power - 1;
 						animalBrain.animalInfo.power = 1;
 						for (int i = 0; i < powerDifference; i++) {
-							animalBrain.Scoring(new float[] { 0, 0, 0.5f });
+							animalBrain.Scoring(new float[] { 0, 0, 100f });
+							//Debug.Log("加了100分！");
 						}
+						//Debug.Log("完成了羊结算");
 					}
 				}
 			}
@@ -265,6 +269,12 @@ public class PerformAnimalControl : MonoBehaviour
 		animalBrain.ResetWhenBackToInitial();
 		Destroy(mechanicNumberUI.gameObject);
 	}
+
+    private void OnDestroy()
+    {
+		if (mechanicNumberUI != null)
+            Destroy(mechanicNumberUI.gameObject);
+    }
 }
 
 public abstract class AbstractSpecialAnimal : MonoBehaviour

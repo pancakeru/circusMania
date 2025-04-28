@@ -495,6 +495,11 @@ public class PerformUnit : MonoBehaviour
 	{
 		return new float[] { curRedScore, curYellowScore, curBlueScore };
 	}
+
+    private void OnDestroy()
+    {
+		if (curBall != null) Destroy(curBall.gameObject);
+    }
 }
 
 

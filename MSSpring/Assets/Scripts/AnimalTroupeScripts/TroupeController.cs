@@ -21,7 +21,7 @@ public class TroupeController : MonoBehaviour
     public GameObject cardsGroup;
     public GameObject slide;
 
-    Vector2 cardStartPos = new Vector2 (215f, -400f);
+    Vector2 cardStartPos = new Vector2(215f, -400f);
     Vector2 cardOffset = new Vector2(330f, -275f);
     Vector2 slideStartPos = new Vector2();
     Vector2 slideEndPos = new Vector2();
@@ -35,6 +35,7 @@ public class TroupeController : MonoBehaviour
     public bool isFirstGameCompleted = false;
 
     List<animalProperty> newAnimalOrder;
+    float[] starFills = new float[] { 0, 0.175f, 0.383f, 0.622f, 0.8f, 1f };
 
     [SerializeField] private priceMultiplier multis;
 
@@ -176,15 +177,18 @@ public class TroupeController : MonoBehaviour
         foreach (GameObject card in troupeCards)
         {
             TroupeCardController cardController = card.GetComponent<TroupeCardController>();
-            cardController.textLv.text = GlobalManager.instance.animalLevels[cardController.myAnimalProperty.animalName].ToString();
+            cardController.star.fillAmount = starFills[GlobalManager.instance.animalLevels[cardController.myAnimalProperty.animalName]];
 
             int animalCount = NumberInTroupe(cardController.myAnimalProperty.animalName);
             cardController.textNum.text = animalCount.ToString(); 
+
+            /* Black Animals
             if (animalCount == 0) cardController.profile.color = Color.black; 
             else cardController.profile.color = Color.white;
+            */
         }
 
-        textCoin.text = $"Coin: {coin}";
+        textCoin.text = $"{coin}";
     }
 
     public int NumberInTroupe(string animalName)

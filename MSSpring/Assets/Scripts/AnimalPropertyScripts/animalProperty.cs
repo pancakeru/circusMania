@@ -42,7 +42,7 @@ public class animalProperty : ScriptableObject
     string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
 
     string colorHexRed = "D3458F";
-    string colorHexYellow = "E4CF7B";
+    string colorHexYellow = "BF8B00"; //"E4CF7B";
     string colorHexBlue = "45A9D2";
 
     string scoreRedName = "JOY";
