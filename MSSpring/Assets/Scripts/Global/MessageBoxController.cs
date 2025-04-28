@@ -14,7 +14,8 @@ public class MessageBoxController : MonoBehaviour
     public Image uiBg;
     public GameObject yesButton;
     public GameObject noButton;
-    
+
+    [SerializeField] GameObject darkBackground;
 
     void Start()
     {
@@ -24,11 +25,13 @@ public class MessageBoxController : MonoBehaviour
 
             yesButton.SetActive(false);
             noButton.SetActive(false);
+            darkBackground.SetActive(false);
         }
         else
         {
             yesButton.SetActive(true);
             noButton.SetActive(true);
+            darkBackground.SetActive(true);
         }
     }
 
