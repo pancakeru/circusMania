@@ -27,15 +27,15 @@ public class BuffManager : MonoBehaviour
 	public void AddGiveExtraBuff(BuffGiveExtra giveExtra)
 	{
 		//未来可能要有buff顺序问题，需要添加时排序，现在没有。
-		if(giveExtra is BuffFox)//Debug.Log("添加了狐狸buff");
-		buffsGiveExtraWhenScore.Add(giveExtra);
+		if (giveExtra is BuffFox)//Debug.Log("添加了狐狸buff");
+			buffsGiveExtraWhenScore.Add(giveExtra);
 	}
 
 	public void AddChangeBaseBuff(BuffChangeBase changeBase)
 	{
 		buffsChangeBaseWhenScore.Add(changeBase);
 
-    }
+	}
 
 	public void RemoveGiveExtraBuff(BuffGiveExtra toRemove)
 	{
@@ -61,21 +61,21 @@ public class BuffManager : MonoBehaviour
 											animalInfo.yellowScore,
 											animalInfo.blueScore };
 
-		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl,messages));
+		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl, messages));
 
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore) {
 			//Debug.Log("正在检查buff"+buff.GetType().ToString());
-			if (buff.Check(myBaseScore, animalInfo.performAnimalControl,messages)) {
+			if (buff.Check(myBaseScore, animalInfo.performAnimalControl, messages)) {
 				//Debug.Log(buff.GetType().ToString()+"应用成功");
 				//Debug.Log("是soul吗？"+ animalInfo.performAnimalControl == null);
-                List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul, animalInfo.performAnimalControl)
-																{
-																	redScore = buff.Apply()[0],
-																	yellowScore = buff.Apply()[1],
-																	blueScore = buff.Apply()[2]
-																}, buff.GetMessages());
+				List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul, animalInfo.performAnimalControl)
+				{
+					redScore = buff.Apply()[0],
+					yellowScore = buff.Apply()[1],
+					blueScore = buff.Apply()[2]
+				}, buff.GetMessages());
 				//AnimalInfoPack's parameter has changed.
-                foreach (float[] toA in toAdd)
+				foreach (float[] toA in toAdd)
 					returnScoreList.Add(toA);
 			}
 
@@ -92,7 +92,7 @@ public class BuffManager : MonoBehaviour
 		float[] buffScoreTotal = new float[] { 0, 0, 0 };
 
 		foreach (BuffChangeBase buff in buffsChangeBaseWhenScore) {
-			var checkResult = buff.Check(baseScore, performAnimalControl,messages);
+			var checkResult = buff.Check(baseScore, performAnimalControl, messages);
 			if (checkResult.isValid) {
 				for (int i = 0; i < 3; i++) {
 					if (checkResult.isMult) buffScoreMult[i] *= buff.Apply()[i];
@@ -106,6 +106,18 @@ public class BuffManager : MonoBehaviour
 		}
 
 		return buffScoreTotal;
+	}
+
+
+	private float tempGoatPower;
+	public void Temp_RecordGoatPower(float toRecord)
+	{
+		tempGoatPower = toRecord;
+	}
+
+	public float Temp_GetGoatPower()
+	{
+		return tempGoatPower;
 	}
 }
 
