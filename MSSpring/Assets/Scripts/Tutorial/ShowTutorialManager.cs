@@ -35,6 +35,7 @@ public class ShowTutorialManager : MonoBehaviour
 
     private void Start()
     {
+        ShowManager.instance.BanAllInteraction();
         ProceedTutorialDialouge();
     }
 
@@ -127,6 +128,7 @@ public class ShowTutorialManager : MonoBehaviour
                     isProceedConditionNull = true;
                     break;
                 case "FourMonkeysOnStage":
+                    ShowManager.instance.SetSelectAnimalInDownEnableState(true);
                     isProceedConditionNull = false;
                     IsProceedConditionFulfilled = IsFourMonkeysOnStage;
                     break;
@@ -214,6 +216,7 @@ public class ShowTutorialManager : MonoBehaviour
 
         if (monkeyCount == 4)
         {
+            ShowManager.instance.BanAllInteraction();
             return true;
         }
         else
