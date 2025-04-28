@@ -82,7 +82,6 @@ public class ShowTutorialManager : MonoBehaviour
         if (dialogueIndex + 1 < showTutorial.tutorialDialogueList.Length)
         {
             dialogueIndex++;
-            Debug.Log(dialogueIndex);
             TutorialDialogue currentTutorialDialogue = showTutorial.tutorialDialogueList[dialogueIndex];
 
             if (!currentTutorialDialogue.isAnimalIntroduction)
