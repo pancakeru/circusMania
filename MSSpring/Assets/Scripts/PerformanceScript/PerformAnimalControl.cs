@@ -143,6 +143,7 @@ public class PerformAnimalControl : MonoBehaviour
 
 			if (ball.GetPasser() != null) {
 				if (ball.GetPasser().animalBrain.soul.name == "Goat") {
+					Debug.Log("羊在这里！");
 					if (animalBrain.animalInfo.power > 1) {
 						int powerDifference = animalBrain.animalInfo.power - 1;
 						animalBrain.animalInfo.power = 1;
