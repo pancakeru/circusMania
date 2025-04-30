@@ -602,7 +602,6 @@ RectTransform:
   - {fileID: 3838591407051453473}
   - {fileID: 4396193163091457535}
   - {fileID: 2777659332053925459}
-  - {fileID: 6058986433737436810}
   - {fileID: 4732931199994720953}
   - {fileID: 1222823605342174796}
   - {fileID: 1156922426002495224}
@@ -1367,6 +1366,7 @@ GameObject:
   - component: {fileID: 2777659332053925459}
   - component: {fileID: 856768892157947940}
   - component: {fileID: 6392039474058036906}
+  - component: {fileID: 1577212377464668502}
   m_Layer: 5
   m_Name: picksBG
   m_TagString: Untagged
@@ -1385,7 +1385,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 4, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6058986433737436810}
   m_Father: {fileID: 6074955686872047321}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1431,6 +1432,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1577212377464668502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5673687951844149757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760392cf31dbbf545afa9a6c5034f49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 1
 --- !u!1 &5718891979079890636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1646,6 +1660,7 @@ MonoBehaviour:
   - Moscow
   - Paris
   titleText: {fileID: 9011790646609165779}
+  ap_bg: {fileID: 5673687951844149757}
   pinObj: {fileID: 5506416455315950412, guid: 182eba331c05e9f4f8c6f706a2120a83, type: 3}
   bigText: {fileID: 4659750399568053568}
   resultsText: {fileID: 8947408163083951385}
@@ -1884,16 +1899,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7720541319927221116}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.13, y: 0.35500008, z: 0.35500008}
+  m_LocalScale: {x: 0.5325, y: 0.39444453, z: 0.35500008}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 6074955686872047321}
+  m_Father: {fileID: 2777659332053925459}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -270.3, y: -45}
+  m_AnchoredPosition: {x: -21.324997, y: 64.44446}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &884612506232310716

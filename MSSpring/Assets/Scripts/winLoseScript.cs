@@ -35,6 +35,7 @@ public class winLoseScript : MonoBehaviour
     [SerializeField] private Transform canvasTransform; // Set this to your Canvas transform in Inspector
     public String[] Locations;
     public GameObject titleText;
+    public GameObject ap_bg;
 
     private GameObject[] locationPics;
     private GameObject[] animalPicks;
@@ -67,6 +68,7 @@ public class winLoseScript : MonoBehaviour
         bPerf.SetActive(false);
         fourPanel.SetActive(false);
         endButton.SetActive(false);
+        ap_bg.SetActive(false);
     }
 
 
@@ -177,6 +179,7 @@ private IEnumerator TopThings() {
             break;
 
             case displaySeq.animalPicks:
+                ap_bg.SetActive(true);
                 StartCoroutine(SpawnAnimalPicksWithDelay());
             break;
 
