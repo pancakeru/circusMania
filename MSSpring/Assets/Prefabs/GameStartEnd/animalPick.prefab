@@ -85,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6747300045802893241}
   - component: {fileID: 6179757527301378829}
+  - component: {fileID: 5431369029578051180}
   m_Layer: 0
   m_Name: animalPick
   m_TagString: Untagged
@@ -121,6 +122,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 0.6
+--- !u!114 &5431369029578051180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4545302670825642425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb2bf32268bbb24ea76f917b0e0c83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 7896209788923083465}
+  finalValue: 10
+  duration: 0.7
 --- !u!1 &5842938687020724178
 GameObject:
   m_ObjectHideFlags: 0

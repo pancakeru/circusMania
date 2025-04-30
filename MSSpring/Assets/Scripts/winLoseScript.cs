@@ -40,6 +40,8 @@ public class winLoseScript : MonoBehaviour
     private GameObject[] locationPics;
     private GameObject[] animalPicks;
     public GameObject pinObj;
+    public GameObject bPerfText;
+    public GameObject bPassText;
 
     public GameObject bigText;
     public GameObject resultsText;
@@ -125,6 +127,7 @@ private IEnumerator SpawnAnimalPicksWithDelay()
         GameObject temp = Instantiate(animalPick, canvasTransform);
         temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
         animalPicks[i] = temp;
+        temp.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(12);
 
         yield return new WaitForSeconds(0.5f); // Delay between spawns (adjust as needed)
     }
@@ -134,10 +137,12 @@ private IEnumerator SpawnAnimalPicksWithDelay()
 
 private IEnumerator TopThings() {
     bPerf.SetActive(true);
+    bPerfText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(2300);
 
-    yield return new WaitForSeconds(0.5f);
+    yield return new WaitForSeconds(0.8f);
 
     bPass.SetActive(true);
+    bPassText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(20);
 
     ChangeState();
 }
@@ -189,7 +194,8 @@ private IEnumerator TopThings() {
 
             case displaySeq.stats:
                fourPanel.SetActive(true);
-               currentState = displaySeq.playAgain;
+               bigText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(200);
+               resultsText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(30);
             break;
 
             case displaySeq.playAgain:

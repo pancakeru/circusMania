@@ -689,6 +689,7 @@ GameObject:
   - component: {fileID: 7734138637184808736}
   - component: {fileID: 4509091043641625929}
   - component: {fileID: 4521738365423320793}
+  - component: {fileID: 1875527655529748487}
   m_Layer: 5
   m_Name: bottomtext
   m_TagString: Untagged
@@ -812,6 +813,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1875527655529748487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3661900896901668492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb2bf32268bbb24ea76f917b0e0c83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 4521738365423320793}
+  finalValue: 2300
+  duration: 1
 --- !u!1 &4659750399568053568
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +840,7 @@ GameObject:
   - component: {fileID: 279894382169124940}
   - component: {fileID: 3687375775788941702}
   - component: {fileID: 4112311655980135823}
+  - component: {fileID: 6516169467085917623}
   m_Layer: 5
   m_Name: coinsEarned
   m_TagString: Untagged
@@ -962,6 +979,21 @@ MonoBehaviour:
   typingSpeed: 0.03
   fullText: World Famous
   isDoneTyping: 0
+--- !u!114 &6516169467085917623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4659750399568053568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb2bf32268bbb24ea76f917b0e0c83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 3687375775788941702}
+  finalValue: 200
+  duration: 1
 --- !u!1 &5157659362962643029
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +1006,7 @@ GameObject:
   - component: {fileID: 6210334511928387957}
   - component: {fileID: 4563236154279496557}
   - component: {fileID: 6366904994012712100}
+  - component: {fileID: 8131958362971018483}
   m_Layer: 5
   m_Name: comboText
   m_TagString: Untagged
@@ -1112,6 +1145,21 @@ MonoBehaviour:
   typingSpeed: 0.03
   fullText: World Famous
   isDoneTyping: 0
+--- !u!114 &8131958362971018483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5157659362962643029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb2bf32268bbb24ea76f917b0e0c83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 4563236154279496557}
+  finalValue: 30
+  duration: 1
 --- !u!1 &5205333326189983202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1590,7 +1638,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.323
+  m_FillAmount: 0.137
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1662,8 +1710,10 @@ MonoBehaviour:
   titleText: {fileID: 9011790646609165779}
   ap_bg: {fileID: 5673687951844149757}
   pinObj: {fileID: 5506416455315950412, guid: 182eba331c05e9f4f8c6f706a2120a83, type: 3}
+  bPerfText: {fileID: 3661900896901668492}
+  bPassText: {fileID: 7148274799588926532}
   bigText: {fileID: 4659750399568053568}
-  resultsText: {fileID: 8947408163083951385}
+  resultsText: {fileID: 5157659362962643029}
   startingAnim: 1
 --- !u!1 &7148274799588926532
 GameObject:
@@ -1676,8 +1726,9 @@ GameObject:
   - component: {fileID: 7148583018746824913}
   - component: {fileID: 735761917958511446}
   - component: {fileID: 3039743948316680016}
+  - component: {fileID: 5955956556856410082}
   m_Layer: 5
-  m_Name: bottomtext
+  m_Name: bottomtextPass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1799,6 +1850,21 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5955956556856410082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7148274799588926532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb2bf32268bbb24ea76f917b0e0c83e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tmpText: {fileID: 3039743948316680016}
+  finalValue: 20
+  duration: 1
 --- !u!1 &7537919021497516925
 GameObject:
   m_ObjectHideFlags: 0
