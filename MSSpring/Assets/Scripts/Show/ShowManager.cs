@@ -81,6 +81,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public bool ifToShow { get; private set; } = false;
 	private TutorialRelatedFunctionContainer tContainer;
 	private ShowInteractionStateRecorder interContainer;
+	private bool ifExplainEnabled = true;
 
 	//icon的开始y
 	private float yStart;
@@ -414,6 +415,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
     public void SetSelectAnimalInDownEnableState(bool ifEnable) => interContainer.ifSelectDown= ifEnable;
     public void SetSelectAnimalInUpEnableState(bool ifEnable) => interContainer.ifSelectUp = ifEnable;
 
+	void SwitchExplainEnableState(bool enable) => ifExplainEnabled = enable;
+
     #endregion
 
     #region Fuctions
@@ -652,6 +655,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					{
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
+						thrower.SwitchThrowEnableWhenPause(false);
+
 					}
 					else
 					{
@@ -672,7 +677,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		Time.timeScale = speedRatio;
 		pauseShow.SetActive(false);
-	}
+        thrower.SwitchThrowEnableWhenPause(true);
+		SwitchExplainEnableState(true);
+    }
 
 
 	public void StartMoveToShow()
@@ -1003,7 +1010,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			case DecideScreenState.empty:
 
-				if (Input.GetMouseButtonDown(0))
+				if (Input.GetMouseButtonDown(0)&& !pauseShow.activeInHierarchy)
 				{
 					//enterInteraction = true;
 
@@ -1047,12 +1054,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				else
 				{
 					//解释动物
-					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect)&& ifExplainEnabled)
 					{
 						if (firstDetect != null)
 							myExplainingCard.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
 					}
-					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect) && ifExplainEnabled)
 					{
 						if (firstDetect != null)
                             myExplainingCard.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
@@ -1075,6 +1082,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					{
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
+						SwitchExplainEnableState(false);
 					}
 					else
 					{

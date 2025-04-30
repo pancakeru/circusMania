@@ -60,11 +60,12 @@ public class BananaThrower : MonoBehaviour
 
     void throwBanana(Vector3 pos)
     {
+        if (isInPause)
+            return;
         BananaScript banana = Instantiate(bananaPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity).GetComponent<BananaScript>();
         banana.ThrowObject(pos);
         curBanana -= 1;
 
-        //TODO:改变ui显示的数量
         if (InDecisionText != null) InDecisionText.text = curBanana.ToString();
         if (InShowText != null) InShowText.text = curBanana.ToString();
         //animalManager.Instance.curLeft.changeLeft(curBanana);
@@ -119,4 +120,7 @@ public class BananaThrower : MonoBehaviour
         return toTake;
 
     }
+
+    private bool isInPause = false;
+    public void SwitchThrowEnableWhenPause(bool ifEnable) => isInPause = !ifEnable;
 }
