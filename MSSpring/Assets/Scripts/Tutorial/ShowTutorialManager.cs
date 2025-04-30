@@ -20,7 +20,9 @@ public class ShowTutorialManager : MonoBehaviour
 
     [Header("Speaker")]
     [SerializeField] private Image speakerImage;
+    [SerializeField] private Image speakerShadow;
     [SerializeField] private TextMeshProUGUI speakerDialogue;
+    [SerializeField] private Image speakerBubble;
     private bool isTyping = false;
 
     [Header("Animal Introduction")]
@@ -89,7 +91,8 @@ public class ShowTutorialManager : MonoBehaviour
             {
                 speakerImage.gameObject.SetActive(true);
                 speakerImage.sprite = currentTutorialDialogue.speakerSprite;
-                speakerDialogue.gameObject.SetActive(true);
+                speakerShadow.gameObject.SetActive(true);
+                speakerBubble.gameObject.SetActive(true);
                 speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText = currentTutorialDialogue.speakerDialogue;
                 speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StartTyping();
                 isTyping = true;
@@ -105,7 +108,8 @@ public class ShowTutorialManager : MonoBehaviour
                 animalIntroductionTMP.text = currentTutorialDialogue.animalIntroductionString;
 
                 speakerImage.gameObject.SetActive(false);
-                speakerDialogue.gameObject.SetActive(false);
+                speakerShadow.gameObject.SetActive(false);
+                speakerBubble.gameObject.SetActive(false);
             }
 
             if (currentTutorialDialogue.audioToBePlayed != null)
