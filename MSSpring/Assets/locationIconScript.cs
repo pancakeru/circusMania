@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,12 +13,15 @@ public class locationIconScript : MonoBehaviour
     public Sprite passedSprite;
     public Sprite noneSprite;
     public Sprite failedSprite;
+    public String location;
+    private TMP_Text myText;
 
     public enum Status
     {
         passed,
         none,
-        failed
+        failed,
+        current
     }
 
     public Status currentState;
@@ -25,6 +30,8 @@ public class locationIconScript : MonoBehaviour
     void Start()
     {
         myImage = GetComponentInChildren<Image>();
+        myText = GetComponentInChildren<TMP_Text>();
+       // myText.text = location;
         previousState = currentState; // To force a refresh on start
         UpdateSprite();               // Initial sprite setup
     }
@@ -45,15 +52,28 @@ public class locationIconScript : MonoBehaviour
         {
             case Status.passed:
                 myImage.sprite = passedSprite;
+                myText.text = location;
+                myText.fontSize = 20;
+                myText.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 50);
                 break;
 
             case Status.none:
                 myImage.sprite = noneSprite;
+                myText.text = " ";
                 break;
 
             case Status.failed:
                 myImage.sprite = failedSprite;
+                 myText.text = " ";
                 break;
+
+            case Status.current:
+                myImage.sprite = passedSprite;
+                myText.text = location;
+                myText.fontSize = 23;
+                myText.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 90);
+            break;
+
         }
     }
 }

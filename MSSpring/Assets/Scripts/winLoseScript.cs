@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,11 @@ public class winLoseScript : MonoBehaviour
     [SerializeField] private GameObject locationIcon;
     [SerializeField] private GameObject animalPick;
     [SerializeField] private Transform canvasTransform; // Set this to your Canvas transform in Inspector
+    public String[] Locations;
 
     private GameObject[] locationPics;
     private GameObject[] animalPicks;
+    public GameObject pinObj;
 
     public GameObject bigText;
     public GameObject resultsText;
@@ -64,8 +67,16 @@ public class winLoseScript : MonoBehaviour
     for (int i = 0; i < 8; i++)
     {
         GameObject temp = Instantiate(locationIcon, canvasTransform);
-        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-317 + (i * 107), 75);
+        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-317 + (i * 90), 75);
+        temp.GetComponent<locationIconScript>().location = Locations[i];
         locationPics[i] = temp;
+
+        if (i == 0) {
+            temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.current;
+        } else {
+            temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
+        }
+
     }
 
     for (int i = 0; i < 5; i++)
@@ -74,6 +85,9 @@ public class winLoseScript : MonoBehaviour
         temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
         animalPicks[i] = temp;
     }
+
+    Instantiate(pinObj, canvasTransform);
+    pinObj.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-312, 100);
 
     }
 
