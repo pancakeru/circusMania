@@ -1,14 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
+using Unity.Mathematics;
+
+//using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class winLoseScript : MonoBehaviour
 {
-    public GameObject[] pictures;
     int index = 0;
     float delay = 0.25f;
+
+    public Image travelBar;
 
     public string locations; //locations completed
     public string coins; //coins earned
@@ -17,7 +23,12 @@ public class winLoseScript : MonoBehaviour
     private Vector2 endPos;
     private Vector2 startPos;
 
-    public bool startingAnim = false;
+    [SerializeField] private GameObject locationIcon;
+    [SerializeField] private GameObject animalPick;
+    [SerializeField] private Transform canvasTransform; // Set this to your Canvas transform in Inspector
+
+    private GameObject[] locationPics;
+    private GameObject[] animalPicks;
 
     public GameObject bigText;
     public GameObject resultsText;
@@ -44,12 +55,31 @@ public class winLoseScript : MonoBehaviour
         currentState = displaySeq.header;
         startPos = endButton.GetComponent<RectTransform>().anchoredPosition;
         endPos = new Vector2(0, -195);
-        gameObject.SetActive(false);
+     //   gameObject.SetActive(false);
        // BeginSeq();
+
+        locationPics = new GameObject[8];
+    animalPicks = new GameObject[5];
+
+    for (int i = 0; i < 8; i++)
+    {
+        GameObject temp = Instantiate(locationIcon, canvasTransform);
+        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-317 + (i * 107), 75);
+        locationPics[i] = temp;
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        GameObject temp = Instantiate(animalPick, canvasTransform);
+        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
+        animalPicks[i] = temp;
+    }
+
     }
 
     void Update()
     {
+        /*
         if (startingAnim) {
             if(bScript.isDoneTyping && currentState == displaySeq.header) {
                     currentState = displaySeq.pics;
@@ -61,9 +91,11 @@ public class winLoseScript : MonoBehaviour
                     BeginSeq();
                 }
         }
+        */
 
     }
 
+/*
     public void BeginSeq() {
         startingAnim = true;
         ebScript.GetComponent<RectTransform>().anchoredPosition = startPos;
@@ -94,7 +126,7 @@ public class winLoseScript : MonoBehaviour
 
     public void StartPictureSequence()
     {
-        StartCoroutine(PlayPictureSequence());
+       // StartCoroutine(PlayPictureSequence());
     }
 
     private IEnumerator PlayPictureSequence() {
@@ -108,20 +140,10 @@ public class winLoseScript : MonoBehaviour
     BeginSeq();
     }
     
+    */
 
     public void ResetGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        /*
-        startingAnim = false;
-        currentState = displaySeq.header;
-        bScript.isDoneTyping = false;
-        rScript.isDoneTyping = false;
-        bScript.fullText = "";
-        rScript.fullText = "";
-        startScreen.SetActive(true);
-        AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
-        gameObject.SetActive(false);
-        */
     }
 
 }
