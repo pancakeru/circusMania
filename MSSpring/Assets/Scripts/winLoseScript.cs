@@ -21,6 +21,12 @@ public class winLoseScript : MonoBehaviour
     public string coins; //coins earned
     public GameObject endButton;
     private UiMover ebScript;
+    public GameObject fourPanel;
+    private UiMover fourScript;
+
+    public GameObject bPerf;
+    public GameObject bPass;
+
     private Vector2 endPos;
     private Vector2 startPos;
 
@@ -28,6 +34,7 @@ public class winLoseScript : MonoBehaviour
     [SerializeField] private GameObject animalPick;
     [SerializeField] private Transform canvasTransform; // Set this to your Canvas transform in Inspector
     public String[] Locations;
+    public GameObject titleText;
 
     private GameObject[] locationPics;
     private GameObject[] animalPicks;
@@ -37,29 +44,50 @@ public class winLoseScript : MonoBehaviour
     public GameObject resultsText;
     private TypewriterEffect rScript;
     private TypewriterEffect bScript;
+    public bool startingAnim;
+    private int stateIndex = 0;
 
    // public GameObject startScreen;
 
     private enum displaySeq {
         header,
-        pics,
-        message,
+        map,
+        animalPicks,
+        topScorer,
+        stats,
         playAgain
 
     }
-
+    private List<displaySeq> dIndexes = new List<displaySeq>();
     private displaySeq currentState;
+
+    void Awake()
+    {
+        bPass.SetActive(false);
+        bPerf.SetActive(false);
+        fourPanel.SetActive(false);
+        endButton.SetActive(false);
+    }
+
 
     void Start()
     {
         bScript = bigText.GetComponent<TypewriterEffect>();
         rScript = resultsText.GetComponent<TypewriterEffect>();
         ebScript = endButton.GetComponent<UiMover>();
+        fourScript = fourPanel.GetComponent<UiMover>();
         currentState = displaySeq.header;
         startPos = endButton.GetComponent<RectTransform>().anchoredPosition;
         endPos = new Vector2(0, -195);
+
+        dIndexes.Add(displaySeq.header);
+    dIndexes.Add(displaySeq.map);
+    dIndexes.Add(displaySeq.animalPicks);
+    dIndexes.Add(displaySeq.topScorer);
+    dIndexes.Add(displaySeq.stats);
+    dIndexes.Add(displaySeq.playAgain);
      //   gameObject.SetActive(false);
-       // BeginSeq();
+        BeginSeq();
 
         locationPics = new GameObject[8];
     animalPicks = new GameObject[5];
@@ -79,58 +107,90 @@ public class winLoseScript : MonoBehaviour
 
     }
 
+    Instantiate(pinObj, canvasTransform);
+    pinObj.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-312, 100);
+
+    fourScript.MoveTo(new Vector2(31.20644f, -187.2645f));
+    ebScript.MoveTo(new Vector2(326, -195));
+    }
+
+private IEnumerator SpawnAnimalPicksWithDelay()
+{
+   // Debug.Log("spawing");
+
     for (int i = 0; i < 5; i++)
     {
         GameObject temp = Instantiate(animalPick, canvasTransform);
         temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
         animalPicks[i] = temp;
+
+        yield return new WaitForSeconds(0.5f); // Delay between spawns (adjust as needed)
     }
 
-    Instantiate(pinObj, canvasTransform);
-    pinObj.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-312, 100);
+   ChangeState();
+}
 
-    }
+private IEnumerator TopThings() {
+    bPerf.SetActive(true);
+
+    yield return new WaitForSeconds(0.5f);
+
+    bPass.SetActive(true);
+
+    ChangeState();
+}
+
 
     void Update()
     {
-        /*
         if (startingAnim) {
-            if(bScript.isDoneTyping && currentState == displaySeq.header) {
-                    currentState = displaySeq.pics;
-                    BeginSeq();
-                }
             
-             if (rScript.isDoneTyping && currentState == displaySeq.message) {
-                    currentState = displaySeq.playAgain;
-                    BeginSeq();
-                }
         }
-        */
 
     }
 
-/*
+    public void ChangeState() {
+        stateIndex++;
+
+         if (stateIndex < dIndexes.Count)
+    {
+        currentState = dIndexes[stateIndex];
+        BeginSeq();
+       // Debug.Log(currentState);
+    }
+    }
+
+
     public void BeginSeq() {
-        startingAnim = true;
-        ebScript.GetComponent<RectTransform>().anchoredPosition = startPos;
+       // ebScript.GetComponent<RectTransform>().anchoredPosition = startPos;
 
         switch (currentState) {
             case displaySeq.header:
-                bScript.StartTyping();
-              //  Debug.Log(currentState);
+                titleText.GetComponent<UiMover>().MoveTo(new Vector2(0, 163));
+               // currentState = displaySeq.map;
             break;
 
-            case displaySeq.pics:
-                StartPictureSequence();
+            case displaySeq.map:
+               //MAP display
+               ChangeState();
+               // currentState = displaySeq.animalPicks;
             break;
 
-            case displaySeq.message:
-                rScript.fullText = "You have completed shows in " + $"<color=#D41818>{locations}</color>" + " Earning a total of " + $"<color=#D41818>{coins}</color> coins."  + "\n\nWe look forward to seeing you recreate the legend in the future!";
-                rScript.StartTyping();
+            case displaySeq.animalPicks:
+                StartCoroutine(SpawnAnimalPicksWithDelay());
+            break;
+
+            case displaySeq.topScorer:
+               StartCoroutine(TopThings());
+            break;
+
+            case displaySeq.stats:
+               fourPanel.SetActive(true);
+               currentState = displaySeq.playAgain;
             break;
 
             case displaySeq.playAgain:
-                ebScript.MoveTo(endPos);
+               endButton.SetActive(true);
             break;
 
         }
@@ -143,6 +203,7 @@ public class winLoseScript : MonoBehaviour
        // StartCoroutine(PlayPictureSequence());
     }
 
+/*
     private IEnumerator PlayPictureSequence() {
     for (int i = 0; i < pictures.Length; i++)
     {
@@ -153,7 +214,6 @@ public class winLoseScript : MonoBehaviour
     currentState = displaySeq.message;
     BeginSeq();
     }
-    
     */
 
     public void ResetGame() {
