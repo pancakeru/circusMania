@@ -17,4 +17,16 @@ public class AnimalControlGoat : AbstractSpecialAnimal
 
 		BallSound();
 	}
+
+	public override void DoWhenShowStart()
+	{
+        base.DoWhenShowStart();
+		BuffManager.instance.Temp_RecordGoatPower(soul.skillNum);
+    }
+
+    public override void ResetWhenBackToInitial()
+    {
+        base.ResetWhenBackToInitial();
+        BuffManager.instance.Temp_RecordGoatPower(0);
+    }
 }

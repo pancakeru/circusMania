@@ -81,6 +81,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public bool ifToShow { get; private set; } = false;
 	private TutorialRelatedFunctionContainer tContainer;
 	private ShowInteractionStateRecorder interContainer;
+	private bool ifExplainEnabled = true;
 
 	//icon的开始y
 	private float yStart;
@@ -298,6 +299,35 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		infoContainer.SetPosNum(n);
 	}
 
+	void SetShowPositionNumDuringShow(int n)
+	{
+        foreach (GameObject an in onStage)
+        {
+            if (an != null)
+                SetUnSelectIconInHand(an);
+        }
+        foreach (areaReport report in posRecord)
+			if(report != null)Destroy(report.gameObject);
+        yStart = -600;
+        infoContainer.SetPosNum(n);
+        onStage = new GameObject[6];
+        posRecord = new areaReport[6];
+        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+        totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0, 6)
+                             .Select(i => infoContainer.GetEmptyPosLocalX(i))
+                             .ToArray(), Enumerable.Range(0, 6)
+                             .Select(i => infoContainer.GetStageLocalX(i))
+                             .ToArray());
+        for (int i = 0; i < infoContainer.posNum; i++)
+        {
+            GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
+            temp.GetComponent<areaReport>().spotNum = i;
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + infoContainer.areaOffset * i + infoContainer.centerOffset, 0);
+            posRecord[i] = temp.GetComponent<areaReport>();
+        }
+
+    }
+
 	void SetScoreEnableState(bool ifRed, bool ifYellow, bool ifBlue, bool ifPopularity)
 	{
 		//首先是选人界面的不显示
@@ -413,6 +443,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public void SetSlideAnimalEnableState(bool ifEnable) => interContainer.ifSlide = ifEnable;
     public void SetSelectAnimalInDownEnableState(bool ifEnable) => interContainer.ifSelectDown= ifEnable;
     public void SetSelectAnimalInUpEnableState(bool ifEnable) => interContainer.ifSelectUp = ifEnable;
+
+	void SwitchExplainEnableState(bool enable) => ifExplainEnabled = enable;
 
     #endregion
 
@@ -588,6 +620,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void Update()
 	{
+		
 		if (ifTest)
 		{
 			ifTest = false;
@@ -652,6 +685,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					{
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
+						thrower.SwitchThrowEnableWhenPause(false);
+
 					}
 					else
 					{
@@ -672,7 +707,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		Time.timeScale = speedRatio;
 		pauseShow.SetActive(false);
-	}
+        thrower.SwitchThrowEnableWhenPause(true);
+		SwitchExplainEnableState(true);
+    }
 
 
 	public void StartMoveToShow()
@@ -1003,7 +1040,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			case DecideScreenState.empty:
 
-				if (Input.GetMouseButtonDown(0))
+				if (Input.GetMouseButtonDown(0)&& !pauseShow.activeInHierarchy)
 				{
 					//enterInteraction = true;
 
@@ -1047,12 +1084,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				else
 				{
 					//解释动物
-					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect))
+					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect)&& ifExplainEnabled)
 					{
 						if (firstDetect != null)
 							myExplainingCard.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
 					}
-					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect))
+					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect) && ifExplainEnabled)
 					{
 						if (firstDetect != null)
                             myExplainingCard.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
@@ -1075,6 +1112,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					{
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
+						SwitchExplainEnableState(false);
 					}
 					else
 					{

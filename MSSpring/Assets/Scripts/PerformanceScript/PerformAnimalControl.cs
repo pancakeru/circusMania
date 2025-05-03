@@ -149,11 +149,12 @@ public class PerformAnimalControl : MonoBehaviour
 						int powerDifference = animalBrain.animalInfo.power - 1;
 						animalBrain.animalInfo.power = 1;
 						for (int i = 0; i < powerDifference; i++) {
-							animalBrain.Scoring(new float[] { 0, 0, 100f });
-							//Debug.Log("加了100分！");
-						}
-						//Debug.Log("完成了羊结算");
-					}
+							animalBrain.Scoring(new float[] { 0, 0, BuffManager.instance.Temp_GetGoatPower() });
+                            //Debug.Log("加了100分！");
+                        }
+                        mechanicNumberUI.UpdateText();
+                        //Debug.Log("完成了羊结算");
+                    }
 				}
 			}
 			ifJustInteract = false;
