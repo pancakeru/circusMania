@@ -176,6 +176,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	#endregion
 
 	[Header("Tutorial")]
+	[SerializeField] private GameObject regularTutorial;
 	[SerializeField] private ShowTutorialManager showTutorialManager;
 
 	//这个类的作用是方便管理一些功能的开关
@@ -503,6 +504,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			startButtonMover.GetComponent<Button>().interactable = true;
 			camMover.SetTo(CamInDecition.position, DecideCamScale);
 
+			regularTutorial.SetActive(true);
 			showTutorialManager.gameObject.SetActive(false);
 		}
 		else
@@ -547,6 +549,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			startButtonMover.GetComponent<Button>().interactable = true;
 			camMover.SetTo(CamInDecition.position, DecideCamScale);
 
+			regularTutorial.SetActive(false);
 			showTutorialManager.gameObject.SetActive(true);
 		}
 	}
@@ -772,14 +775,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			{
 				case 1:
 					SetScoreEnableState(true, true, false, false);
-					AddAnimalToHand(showTutorialManager.addHand);
-					showTutorialManager.content.gameObject.SetActive(true);
+					AddAnimalToHand(showTutorialManager.addHandElephant);
 					break;
 				case 2:
 					SetBananaEnableState(true);
-					showTutorialManager.content.gameObject.SetActive(true);
+					break;
+				case 3:
+					SetShowPositionNumDuringShow(6);
+					SetScoreEnableState(true, true, true, false);
+					AddAnimalToHand(showTutorialManager.addHandLion);
 					break;
 			}
+			showTutorialManager.content.gameObject.SetActive(true);
 		}
 	}
 

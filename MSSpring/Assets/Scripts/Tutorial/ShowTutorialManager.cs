@@ -11,7 +11,8 @@ public class ShowTutorialManager : MonoBehaviour
 
     [Header("Hand")]
     public AnimalStart switchHand;
-    public animalProperty addHand;
+    public animalProperty addHandElephant;
+    public animalProperty addHandLion;
 
     [Header("Mask")]
     [SerializeField] private Image mask;
@@ -95,24 +96,27 @@ public class ShowTutorialManager : MonoBehaviour
                 speakerImage.gameObject.SetActive(true);
                 speakerImage.sprite = currentTutorialDialogue.speakerSprite;
                 speakerShadow.gameObject.SetActive(true);
-                speakerBubble.gameObject.SetActive(true);
-                speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText = currentTutorialDialogue.speakerDialogue;
-                speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StartTyping();
-                isTyping = true;
+                if (currentTutorialDialogue.speakerDialogue == " ")
+                {
+                    speakerBubble.gameObject.SetActive(false);
+                }
+                else
+                {
+                    speakerBubble.gameObject.SetActive(true);
+                    speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText = currentTutorialDialogue.speakerDialogue;
+                    speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StartTyping();
+                    isTyping = true;
+                }
 
-                animalIntroductionImage.gameObject.SetActive(false);
-                animalIntroductionTMP.gameObject.SetActive(false);
+                SetAnimalIntroductionActiveSelf(false);
             }
             else
             {
-                animalIntroductionImage.gameObject.SetActive(true);
+                SetAnimalIntroductionActiveSelf(true);
                 animalIntroductionImage.sprite = currentTutorialDialogue.animalIntroductionSprite;
-                animalIntroductionTMP.gameObject.SetActive(true);
                 animalIntroductionTMP.text = currentTutorialDialogue.animalIntroductionString;
 
-                speakerImage.gameObject.SetActive(false);
-                speakerShadow.gameObject.SetActive(false);
-                speakerBubble.gameObject.SetActive(false);
+                SetSpeakerActiveSelf(false);
             }
 
             if (currentTutorialDialogue.audioToBePlayed != null)
@@ -125,6 +129,11 @@ public class ShowTutorialManager : MonoBehaviour
             {
                 ShowWholeMask();
             }
+            else if (currentTutorialDialogue.isWholeImage)
+            {
+                SetSpeakerActiveSelf(false);
+                ShowWholeImage(currentTutorialDialogue.imageSprite);
+            }
             else
             {
                 ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
@@ -132,9 +141,6 @@ public class ShowTutorialManager : MonoBehaviour
 
             switch (currentTutorialDialogue.proceedCondition)
             {
-                case "N/A":
-                    isProceedConditionNull = true;
-                    break;
                 case "AudioPlayed":
                     isProceedConditionNull = false;
                     IsProceedConditionFulfilled = IsAudioPlayed;
@@ -153,6 +159,14 @@ public class ShowTutorialManager : MonoBehaviour
                     isProceedConditionNull = false;
                     IsProceedConditionFulfilled = IsElephantOn4thPosition;
                     break;
+                case "OneLionOnStage":
+                    ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                    isProceedConditionNull = false;
+                    IsProceedConditionFulfilled = IsOneLionOnStage;
+                    break;
+                default:
+                    isProceedConditionNull = true;
+                    break;
             }
         }
     }
@@ -160,9 +174,11 @@ public class ShowTutorialManager : MonoBehaviour
     private void ShowWholeMask()
     {
         mask.gameObject.SetActive(true);
+        mask.GetComponent<ImageFade>().enabled = false;
         mask.sprite = wholeMask;
         mask.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 1080);
         mask.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        mask.color = new Color(0, 0, 0, 0.7843137f);
         mask.raycastTarget = true;
         foreach (Image raycastImage in raycastImageArray)
         {
@@ -173,11 +189,13 @@ public class ShowTutorialManager : MonoBehaviour
     private void ShowPartialMask(Vector2 maskSizeDelta, Vector2 maskAnchoredPosition)
     {
         mask.gameObject.SetActive(true);
+        mask.GetComponent<ImageFade>().enabled = false;
         mask.sprite = partialMask9Sliced;
-        mask.raycastTarget = false;
+        mask.color = new Color(0, 0, 0, 0.7843137f);
         RectTransform maskTransform = mask.GetComponent<RectTransform>();
         maskTransform.sizeDelta = maskSizeDelta;
         maskTransform.anchoredPosition = maskAnchoredPosition;
+        mask.raycastTarget = false;
         for (int i = 0; i < raycastImageArray.Length; i++)
         {
             RectTransform raycastImageTransform = raycastImageArray[i].GetComponent<RectTransform>();
@@ -203,6 +221,34 @@ public class ShowTutorialManager : MonoBehaviour
                 raycastImageTransform.anchoredPosition = new Vector2(-480f + maskAnchoredPosition.x / 2f - maskSizeDelta.x / 4f, maskAnchoredPosition.y);
             }
         }
+    }
+
+    private void ShowWholeImage(Sprite imageSprite)
+    {
+        mask.gameObject.SetActive(true);
+        mask.GetComponent<ImageFade>().enabled = true;
+        mask.sprite = imageSprite;
+        mask.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 1080);
+        mask.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        mask.color = Color.white;
+        mask.raycastTarget = true;
+        foreach (Image raycastImage in raycastImageArray)
+        {
+            raycastImage.gameObject.SetActive(false);
+        }
+    }
+
+    private void SetSpeakerActiveSelf(bool isActive)
+    {
+        speakerImage.gameObject.SetActive(isActive);
+        speakerShadow.gameObject.SetActive(isActive);
+        speakerBubble.gameObject.SetActive(isActive);
+    }
+
+    private void SetAnimalIntroductionActiveSelf(bool isActive)
+    {
+        animalIntroductionImage.gameObject.SetActive(isActive);
+        animalIntroductionTMP.gameObject.SetActive(isActive);
     }
 
     private IEnumerator WaitUntilContentIsActiveAndProceed()
@@ -296,6 +342,34 @@ public class ShowTutorialManager : MonoBehaviour
             }
         }
         if (isAnimalsOnPosition)
+        {
+            ShowManager.instance.BanAllInteraction();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool IsOneLionOnStage()
+    {
+        bool isOneLionOnStage = false;
+        int animalCount = 0;
+
+        foreach (GameObject animal in ShowManager.instance.onStage)
+        {
+            if (animal != null)
+            {
+                animalCount++;
+                if (animal.TryGetComponent(out AnimalControlLion animalControlLion))
+                {
+                    isOneLionOnStage = true;
+                }
+            }
+        }
+
+        if (isOneLionOnStage && animalCount == 6)
         {
             ShowManager.instance.BanAllInteraction();
             return true;

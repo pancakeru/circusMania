@@ -4004,6 +4004,7 @@ MonoBehaviour:
   testLevel: {fileID: 11400000, guid: 1a17f8f76d2cd4bb5ae7c7a9d8db9631, type: 2}
   switchhand: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
   addhand: {fileID: 11400000, guid: e03bcde6684594403a9ab211a7e75c60, type: 2}
+  regularTutorial: {fileID: 4930937852026860117}
   showTutorialManager: {fileID: 5369678948300952224}
 --- !u!114 &5278052055861880444
 MonoBehaviour:
@@ -5502,6 +5503,11 @@ PrefabInstance:
 --- !u!224 &1968980566937732905 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2097298287942896448, guid: fb68c8c6017bdb34dbd609c3c746441f, type: 3}
+  m_PrefabInstance: {fileID: 452647818485009513}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4930937852026860117 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4766520427146198588, guid: fb68c8c6017bdb34dbd609c3c746441f, type: 3}
   m_PrefabInstance: {fileID: 452647818485009513}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &972161654708954447
