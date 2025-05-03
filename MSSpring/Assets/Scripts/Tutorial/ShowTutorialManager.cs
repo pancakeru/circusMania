@@ -7,6 +7,7 @@ public class ShowTutorialManager : MonoBehaviour
 {
     [SerializeField] private ShowTutorial showTutorial;
     public GameObject content;
+    public int turotialShowTurn = 0;
 
     [Header("Hand")]
     public AnimalStart switchHand;
@@ -277,7 +278,7 @@ public class ShowTutorialManager : MonoBehaviour
             {
                 if (animal != null)
                 {
-                    if (!animal.TryGetComponent(out AnimalControlMonkey animalControlElephant))
+                    if (!animal.TryGetComponent(out AnimalControlElephant animalControlElephant))
                     {
                         isAnimalsOnPosition = false;
                     }

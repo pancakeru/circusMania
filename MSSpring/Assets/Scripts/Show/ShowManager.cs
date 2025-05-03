@@ -153,13 +153,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	#region 动物解释相关
 	[Header("动物解释相关")]
-    //private tempShowExplain explainer;
-    [SerializeField] private GameObject explainingCardPrefab;
-    ExplainingCardController myExplainingCard;
-    #endregion
+	//private tempShowExplain explainer;
+	[SerializeField] private GameObject explainingCardPrefab;
+	ExplainingCardController myExplainingCard;
+	#endregion
 
-    #region 测试相关变量
-    [Header("For test")]
+	#region 测试相关变量
+	[Header("For test")]
 	//[SerializeField]
 	private bool ifTest;
 	//[SerializeField]
@@ -301,32 +301,32 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void SetShowPositionNumDuringShow(int n)
 	{
-        foreach (GameObject an in onStage)
-        {
-            if (an != null)
-                SetUnSelectIconInHand(an);
-        }
-        foreach (areaReport report in posRecord)
-			if(report != null)Destroy(report.gameObject);
-        yStart = -600;
-        infoContainer.SetPosNum(n);
-        onStage = new GameObject[6];
-        posRecord = new areaReport[6];
-        iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
-        totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0, 6)
-                             .Select(i => infoContainer.GetEmptyPosLocalX(i))
-                             .ToArray(), Enumerable.Range(0, 6)
-                             .Select(i => infoContainer.GetStageLocalX(i))
-                             .ToArray());
-        for (int i = 0; i < infoContainer.posNum; i++)
-        {
-            GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
-            temp.GetComponent<areaReport>().spotNum = i;
-            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + infoContainer.areaOffset * i + infoContainer.centerOffset, 0);
-            posRecord[i] = temp.GetComponent<areaReport>();
-        }
+		foreach (GameObject an in onStage)
+		{
+			if (an != null)
+				SetUnSelectIconInHand(an);
+		}
+		foreach (areaReport report in posRecord)
+			if (report != null) Destroy(report.gameObject);
+		yStart = -600;
+		infoContainer.SetPosNum(n);
+		onStage = new GameObject[6];
+		posRecord = new areaReport[6];
+		iconToOnStage = new BiDictionary<iconAnimal, GameObject>();
+		totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0, 6)
+							 .Select(i => infoContainer.GetEmptyPosLocalX(i))
+							 .ToArray(), Enumerable.Range(0, 6)
+							 .Select(i => infoContainer.GetStageLocalX(i))
+							 .ToArray());
+		for (int i = 0; i < infoContainer.posNum; i++)
+		{
+			GameObject temp = Instantiate(areaPrefab, stagePanelTransform);
+			temp.GetComponent<areaReport>().spotNum = i;
+			temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-5 + infoContainer.areaOffset * i + infoContainer.centerOffset, 0);
+			posRecord[i] = temp.GetComponent<areaReport>();
+		}
 
-    }
+	}
 
 	void SetScoreEnableState(bool ifRed, bool ifYellow, bool ifBlue, bool ifPopularity)
 	{
@@ -441,15 +441,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public void BanAllInteraction() => interContainer.DisableAll();
 	public void EnableAllInteraction() => interContainer.EnableAll();
 	public void SetSlideAnimalEnableState(bool ifEnable) => interContainer.ifSlide = ifEnable;
-    public void SetSelectAnimalInDownEnableState(bool ifEnable) => interContainer.ifSelectDown= ifEnable;
-    public void SetSelectAnimalInUpEnableState(bool ifEnable) => interContainer.ifSelectUp = ifEnable;
+	public void SetSelectAnimalInDownEnableState(bool ifEnable) => interContainer.ifSelectDown = ifEnable;
+	public void SetSelectAnimalInUpEnableState(bool ifEnable) => interContainer.ifSelectUp = ifEnable;
 
 	void SwitchExplainEnableState(bool enable) => ifExplainEnabled = enable;
 
-    #endregion
+	#endregion
 
-    #region Fuctions
-    public void EnterOneShow(bool isTutorial = false)
+	#region Fuctions
+	public void EnterOneShow(bool isTutorial = false)
 	{
 		if (!isTutorial)
 		{
@@ -509,8 +509,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			yStart = -600;
 			tContainer = new TutorialRelatedFunctionContainer(this);
-            interContainer = new ShowInteractionStateRecorder();
-            tContainer.isTutorial = true;
+			interContainer = new ShowInteractionStateRecorder();
+			tContainer.isTutorial = true;
 			SetShowPositionNum(4);
 			SetScoreEnableState(true, false, false, false);
 			SetBananaEnableState(false);
@@ -620,7 +620,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	void Update()
 	{
-		
+
 		if (ifTest)
 		{
 			ifTest = false;
@@ -707,9 +707,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		Time.timeScale = speedRatio;
 		pauseShow.SetActive(false);
-        thrower.SwitchThrowEnableWhenPause(true);
+		thrower.SwitchThrowEnableWhenPause(true);
 		SwitchExplainEnableState(true);
-    }
+	}
 
 
 	public void StartMoveToShow()
@@ -767,9 +767,19 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 		if (tContainer.isTutorial)
 		{
-			SetScoreEnableState(true, true, false, false);
-			AddAnimalToHand(showTutorialManager.addHand);
-			showTutorialManager.content.gameObject.SetActive(true);
+			showTutorialManager.turotialShowTurn++;
+			switch (showTutorialManager.turotialShowTurn)
+			{
+				case 1:
+					SetScoreEnableState(true, true, false, false);
+					AddAnimalToHand(showTutorialManager.addHand);
+					showTutorialManager.content.gameObject.SetActive(true);
+					break;
+				case 2:
+					SetBananaEnableState(true);
+					showTutorialManager.content.gameObject.SetActive(true);
+					break;
+			}
 		}
 	}
 
@@ -1040,11 +1050,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			case DecideScreenState.empty:
 
-				if (Input.GetMouseButtonDown(0)&& !pauseShow.activeInHierarchy)
+				if (Input.GetMouseButtonDown(0) && !pauseShow.activeInHierarchy)
 				{
 					//enterInteraction = true;
 
-					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect)&& interContainer.ifSelectUp)
+					if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect) && interContainer.ifSelectUp)
 					{
 						//选择到了表演小动物
 						holdingAnimalObj = firstDetect;
@@ -1053,14 +1063,14 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						StartDecideState(DecideScreenState.moveAnimal);
 
 					}
-					else if ((!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio))&&interContainer.ifSlide)
+					else if ((!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio)) && interContainer.ifSlide)
 					{
 
 						StartDecideState(DecideScreenState.slide);
 
 						//进入滑动
 					}
-					else if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) &&firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect()&& interContainer.ifSelectDown)
+					else if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) && firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect() && interContainer.ifSelectDown)
 					{
 						//进入上下
 						//Debug.Log(firstDetect.transform.parent.name);
@@ -1084,7 +1094,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				else
 				{
 					//解释动物
-					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect)&& ifExplainEnabled)
+					if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) && ifExplainEnabled)
 					{
 						if (firstDetect != null)
 							myExplainingCard.StartExplain(firstDetect.GetComponent<RectTransform>(), true, firstDetect.GetComponentInParent<iconAnimal>().selfProperty);
@@ -1092,12 +1102,12 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					else if (CheckIfRayCastWorldObject2DWithTag("animalTag", out firstDetect) && ifExplainEnabled)
 					{
 						if (firstDetect != null)
-                            myExplainingCard.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
+							myExplainingCard.StartExplain(firstDetect.transform.position, false, iconToOnStage.GetKeyByValue(firstDetect).selfProperty);
 						//Debug.Log(iconToOnStage.GetByValue(firstDetect).selfProperty.animalName);
 					}
 					else
 					{
-                        myExplainingCard.DoneExplain();
+						myExplainingCard.DoneExplain();
 					}
 					/*
 					 * } else if (CheckIfRayCastElementWithTag("mechanicExplain", out firstDetect)) {
@@ -1340,27 +1350,27 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		CanvasMain.OnUIInteractionEnabled -= EnableCanvas;
 		CanvasMain.OnUIInteractionDisabled -= DisableCanvas;
 	}
-    private class ShowInteractionStateRecorder
-    {
-        public bool ifSlide = true;
-        public bool ifSelectDown = true;
-        public bool ifSelectUp = true;
+	private class ShowInteractionStateRecorder
+	{
+		public bool ifSlide = true;
+		public bool ifSelectDown = true;
+		public bool ifSelectUp = true;
 
-        public void DisableAll()
-        {
-            ifSlide = false;
-            ifSelectDown = false;
-            ifSelectUp = false;
+		public void DisableAll()
+		{
+			ifSlide = false;
+			ifSelectDown = false;
+			ifSelectUp = false;
 
-        }
+		}
 
-        public void EnableAll()
-        {
-            ifSlide = true;
-            ifSelectDown = true;
-            ifSelectUp = true;
-        }
-    }
+		public void EnableAll()
+		{
+			ifSlide = true;
+			ifSelectDown = true;
+			ifSelectUp = true;
+		}
+	}
 }
 
 public class BiDictionary<TKey, TValue>
