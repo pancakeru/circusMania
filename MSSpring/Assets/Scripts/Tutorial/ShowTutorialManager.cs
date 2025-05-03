@@ -35,6 +35,8 @@ public class ShowTutorialManager : MonoBehaviour
     private ProceedConditionCheck IsProceedConditionFulfilled;
     private bool isProceedCoroutineRunning = false;
 
+    private bool isAudioPlayed = false;
+
     private void Start()
     {
         ShowManager.instance.BanAllInteraction();
@@ -115,6 +117,7 @@ public class ShowTutorialManager : MonoBehaviour
             if (currentTutorialDialogue.audioToBePlayed != null)
             {
                 AudioManagerScript.Instance.uiSource.PlayOneShot(currentTutorialDialogue.audioToBePlayed);
+                isAudioPlayed = true;
             }
 
             if (currentTutorialDialogue.isWholeMask)
@@ -131,6 +134,10 @@ public class ShowTutorialManager : MonoBehaviour
                 case "N/A":
                     isProceedConditionNull = true;
                     break;
+                case "AudioPlayed":
+                    isProceedConditionNull = false;
+                    IsProceedConditionFulfilled = IsAudioPlayed;
+                    break;
                 case "FourMonkeysOnStage":
                     ShowManager.instance.SetSelectAnimalInDownEnableState(true);
                     isProceedConditionNull = false;
@@ -139,6 +146,11 @@ public class ShowTutorialManager : MonoBehaviour
                 case "ShowStart":
                     isProceedConditionNull = false;
                     IsProceedConditionFulfilled = IsShowStarted;
+                    break;
+                case "ElephantOn4thPosition":
+                    ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                    isProceedConditionNull = false;
+                    IsProceedConditionFulfilled = IsElephantOn4thPosition;
                     break;
             }
         }
@@ -234,6 +246,57 @@ public class ShowTutorialManager : MonoBehaviour
         if (ShowManager.instance.ifToShow)
         {
             content.gameObject.SetActive(false);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool IsAudioPlayed()
+    {
+        if (isAudioPlayed && !AudioManagerScript.Instance.uiSource.isPlaying)
+        {
+            isAudioPlayed = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool IsElephantOn4thPosition()
+    {
+        bool isAnimalsOnPosition = true;
+        for (int i = 0; i < ShowManager.instance.onStage.Length; i++)
+        {
+            GameObject animal = ShowManager.instance.onStage[i];
+            if (i == 3)
+            {
+                if (animal != null)
+                {
+                    if (!animal.TryGetComponent(out AnimalControlMonkey animalControlElephant))
+                    {
+                        isAnimalsOnPosition = false;
+                    }
+                }
+            }
+            else
+            {
+                if (animal != null)
+                {
+                    if (!animal.TryGetComponent(out AnimalControlMonkey animalControlMonkey))
+                    {
+                        isAnimalsOnPosition = false;
+                    }
+                }
+            }
+        }
+        if (isAnimalsOnPosition)
+        {
+            ShowManager.instance.BanAllInteraction();
             return true;
         }
         else

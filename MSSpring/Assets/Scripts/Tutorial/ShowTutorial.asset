@@ -127,8 +127,18 @@ MonoBehaviour:
     animalIntroductionString: 
     proceedCondition: N/A
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: Oh, we can use elephants!
+    speakerDialogue: ' '
     audioToBePlayed: {fileID: 8300000, guid: db37889fb284d61478a1909f7596aefe, type: 3}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: AudioPlayed
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Oh, we can use elephants!
+    audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
@@ -147,3 +157,13 @@ MonoBehaviour:
     animalIntroductionString: The elephant will pass the received ball to the left
       2 places and get Skill points.
     proceedCondition: N/A
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Let's drag the elephant to the 4th position on the stage.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 1750, y: 700}
+    maskAnchoredPosition: {x: 0, y: -100}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    proceedCondition: ElephantOn4thPosition
