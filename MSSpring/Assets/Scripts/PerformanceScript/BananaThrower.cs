@@ -109,6 +109,8 @@ public class BananaThrower : MonoBehaviour
 
     public int takeBanana(int expectedNum)
     {
+        if (!ShowManager.instance.GetIfBananaEnabled())
+            return 0;
         int toTake = curBanana >= expectedNum ? expectedNum : curBanana;
         if (curBanana - expectedNum < 0)
         {
