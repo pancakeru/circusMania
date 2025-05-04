@@ -40,7 +40,7 @@ public class ShowTutorialManager : MonoBehaviour
     private bool isAudioPlayed = false;
 
     //Banana
-    public int bananaHitTimes { get; private set; } = 0;
+    [HideInInspector] public int bananaHitTimes = 0;
     [HideInInspector] public bool isRehearsalGoalActive = false;
 
     private void Start()
@@ -155,6 +155,15 @@ public class ShowTutorialManager : MonoBehaviour
                     ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
                 }
 
+                if (currentTutorialDialogue.isAllInteractionActive)
+                {
+                    ShowManager.instance.EnableAllInteraction();
+                }
+                else
+                {
+                    ShowManager.instance.BanAllInteraction();
+                }
+
                 switch (currentTutorialDialogue.proceedCondition)
                 {
                     case "AudioPlayed":
@@ -177,6 +186,7 @@ public class ShowTutorialManager : MonoBehaviour
                         break;
                     case "OneLionOnStage":
                         ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                        ShowManager.instance.SetSelectAnimalInUpEnableState(true);
                         isProceedConditionNull = false;
                         IsProceedConditionFulfilled = IsOneLionOnStage;
                         break;
@@ -248,7 +258,7 @@ public class ShowTutorialManager : MonoBehaviour
         mask.GetComponent<RectTransform>().sizeDelta = new Vector2(1920, 1080);
         mask.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         mask.color = Color.white;
-        mask.raycastTarget = true;
+        mask.raycastTarget = false;
         foreach (Image raycastImage in raycastImageArray)
         {
             raycastImage.gameObject.SetActive(false);

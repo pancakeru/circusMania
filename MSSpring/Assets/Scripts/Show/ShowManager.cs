@@ -793,6 +793,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					SetScoreEnableState(true, true, true, false);
 					AddAnimalToHand(showTutorialManager.addHandLion);
 					break;
+				case 4:
+					showTutorialManager.bananaHitTimes = 0;
+					break;
 				case 5:
 					if (showTutorialManager.bananaHitTimes >= 3)
 					{

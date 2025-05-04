@@ -22,6 +22,9 @@ public class TutorialDialogue
     public Sprite animalIntroductionSprite;
     [TextArea(5, 20)] public string animalIntroductionString;
 
+    [Header("Interaction")]
+    public bool isAllInteractionActive = false;
+
     [Header("Proceed Condition")]
     public string proceedCondition = "";
 }
