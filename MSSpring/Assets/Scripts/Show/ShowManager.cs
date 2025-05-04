@@ -814,6 +814,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					{
 						showTutorialManager.isRehearsalGoalActive = false;
 						SetTurnEnableState(true);
+						showTutorialManager.ChangeGoalTickVisual(true);
 					}
 					else
 					{

@@ -31,6 +31,12 @@ public class ShowTutorialManager : MonoBehaviour
     [SerializeField] private Image animalIntroductionImage;
     [SerializeField] private TextMeshProUGUI animalIntroductionTMP;
 
+    [Header("Goal")]
+    [SerializeField] private GameObject goal;
+    [SerializeField] private TextMeshProUGUI goalText;
+    [SerializeField] private Image goalTickOn;
+    [SerializeField] private Image goalTickOff;
+
     private int dialogueIndex = -1;
     private bool isProceedConditionNull = false;
     private delegate bool ProceedConditionCheck();
@@ -42,6 +48,12 @@ public class ShowTutorialManager : MonoBehaviour
     //Banana
     [HideInInspector] public int bananaHitTimes = 0;
     [HideInInspector] public bool isRehearsalGoalActive = false;
+
+    private void Awake()
+    {
+        ChangeGoalTickVisual(false);
+        goal.SetActive(false);
+    }
 
     private void Start()
     {
@@ -97,7 +109,7 @@ public class ShowTutorialManager : MonoBehaviour
             dialogueIndex++;
             TutorialDialogue currentTutorialDialogue = showTutorial.tutorialDialogueList[dialogueIndex];
 
-            if (currentTutorialDialogue.speakerDialogue == "END")
+            if (currentTutorialDialogue.speakerDialogue == "END")//End
             {
                 content.gameObject.SetActive(false);
                 Time.timeScale = 1;
@@ -107,7 +119,7 @@ public class ShowTutorialManager : MonoBehaviour
             }
             else
             {
-                if (!currentTutorialDialogue.isAnimalIntroduction)
+                if (!currentTutorialDialogue.isAnimalIntroduction)//Speaker
                 {
                     speakerImage.gameObject.SetActive(true);
                     speakerImage.sprite = currentTutorialDialogue.speakerSprite;
@@ -126,7 +138,7 @@ public class ShowTutorialManager : MonoBehaviour
 
                     SetAnimalIntroductionActiveSelf(false);
                 }
-                else
+                else//Animal Introduction
                 {
                     SetAnimalIntroductionActiveSelf(true);
                     animalIntroductionImage.sprite = currentTutorialDialogue.animalIntroductionSprite;
@@ -135,12 +147,25 @@ public class ShowTutorialManager : MonoBehaviour
                     SetSpeakerActiveSelf(false);
                 }
 
+                //Audio
                 if (currentTutorialDialogue.audioToBePlayed != null)
                 {
                     AudioManagerScript.Instance.uiSource.PlayOneShot(currentTutorialDialogue.audioToBePlayed);
                     isAudioPlayed = true;
                 }
 
+                //Goal
+                if (currentTutorialDialogue.isGoalActiveSelfChanging)
+                {
+                    if (goal.activeSelf == false)
+                    {
+                        goalText.text = currentTutorialDialogue.goalText;
+                        ChangeGoalTickVisual(false);
+                    }
+                    goal.SetActive(!goal.activeSelf);
+                }
+
+                //Mask
                 if (currentTutorialDialogue.isWholeMask)
                 {
                     ShowWholeMask();
@@ -155,6 +180,7 @@ public class ShowTutorialManager : MonoBehaviour
                     ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
                 }
 
+                //Interaction
                 if (currentTutorialDialogue.isAllInteractionActive)
                 {
                     ShowManager.instance.EnableAllInteraction();
@@ -164,6 +190,7 @@ public class ShowTutorialManager : MonoBehaviour
                     ShowManager.instance.BanAllInteraction();
                 }
 
+                //ProceedCondition
                 switch (currentTutorialDialogue.proceedCondition)
                 {
                     case "AudioPlayed":
@@ -174,6 +201,7 @@ public class ShowTutorialManager : MonoBehaviour
                         ShowManager.instance.SetSelectAnimalInDownEnableState(true);
                         isProceedConditionNull = false;
                         IsProceedConditionFulfilled = IsFourMonkeysOnStage;
+                        ChangeGoalTickVisual(false);
                         break;
                     case "ShowStart":
                         isProceedConditionNull = false;
@@ -181,14 +209,17 @@ public class ShowTutorialManager : MonoBehaviour
                         break;
                     case "ElephantOn4thPosition":
                         ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                        ShowManager.instance.SetSelectAnimalInUpEnableState(true);
                         isProceedConditionNull = false;
                         IsProceedConditionFulfilled = IsElephantOn4thPosition;
+                        ChangeGoalTickVisual(false);
                         break;
                     case "OneLionOnStage":
                         ShowManager.instance.SetSelectAnimalInDownEnableState(true);
                         ShowManager.instance.SetSelectAnimalInUpEnableState(true);
                         isProceedConditionNull = false;
                         IsProceedConditionFulfilled = IsOneLionOnStage;
+                        ChangeGoalTickVisual(false);
                         break;
                     default:
                         isProceedConditionNull = true;
@@ -290,7 +321,24 @@ public class ShowTutorialManager : MonoBehaviour
 
     private void BananaScript_OnAnyBananaHitsBall()
     {
-        bananaHitTimes++;
+        if (turotialShowTurn == 5)
+        {
+            bananaHitTimes++;
+            if (goal.activeSelf)
+            {
+                goalText.text = "Let the banana hits the ball for 3 times (" + bananaHitTimes + "/3).";
+                if (bananaHitTimes >= 3)
+                {
+                    ChangeGoalTickVisual(true);
+                }
+            }
+        }
+    }
+
+    public void ChangeGoalTickVisual(bool isFulfilled)
+    {
+        goalTickOn.gameObject.SetActive(isFulfilled);
+        goalTickOff.gameObject.SetActive(!isFulfilled);
     }
 
     #region Proceed Conditions
@@ -312,6 +360,7 @@ public class ShowTutorialManager : MonoBehaviour
         if (monkeyCount == 4)
         {
             ShowManager.instance.BanAllInteraction();
+            ChangeGoalTickVisual(true);
             return true;
         }
         else
@@ -376,6 +425,7 @@ public class ShowTutorialManager : MonoBehaviour
         if (isAnimalsOnPosition)
         {
             ShowManager.instance.BanAllInteraction();
+            ChangeGoalTickVisual(true);
             return true;
         }
         else
@@ -404,6 +454,7 @@ public class ShowTutorialManager : MonoBehaviour
         if (isOneLionOnStage && animalCount == 6)
         {
             ShowManager.instance.BanAllInteraction();
+            ChangeGoalTickVisual(true);
             return true;
         }
         else

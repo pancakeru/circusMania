@@ -22,6 +22,10 @@ public class TutorialDialogue
     public Sprite animalIntroductionSprite;
     [TextArea(5, 20)] public string animalIntroductionString;
 
+    [Header("Goal")]
+    public bool isGoalActiveSelfChanging;
+    public string goalText;
+
     [Header("Interaction")]
     public bool isAllInteractionActive = false;
 

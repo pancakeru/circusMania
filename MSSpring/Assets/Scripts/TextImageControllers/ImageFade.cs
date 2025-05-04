@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ImageFade : MonoBehaviour
 {
+    public bool willFadeOut = true;
     public float fadeInDuration = 1f;
     public float fadeOutDuration = 1f;
     public float visibleDuration = 1f;
@@ -17,21 +18,26 @@ public class ImageFade : MonoBehaviour
         images.AddRange(GetComponentsInChildren<Image>());
     }
 
-    private void Start()
+    private void OnEnable()
     {
         StartCoroutine(FadeImagesSequence());
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
     }
 
     IEnumerator FadeImagesSequence()
     {
         for (int i = 0; i < images.Count; i++)
         {
-            StartCoroutine(FadeInOut(images[i]));
+            StartCoroutine(FadeIn(images[i]));
             yield return new WaitForSeconds(staggerDelay);
         }
     }
 
-    IEnumerator FadeInOut(Image img)
+    IEnumerator FadeIn(Image img)
     {
         SetAlpha(img, 0f);
 
@@ -49,7 +55,15 @@ public class ImageFade : MonoBehaviour
         yield return new WaitForSeconds(visibleDuration);
 
         // Fade Out
-        t = 0f;
+        if (willFadeOut)
+        {
+            StartCoroutine(FadeOut(img));
+        }
+    }
+
+    private IEnumerator FadeOut(Image img)
+    {
+        float t = 0f;
         while (t < fadeOutDuration)
         {
             t += Time.deltaTime;

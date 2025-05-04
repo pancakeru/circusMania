@@ -69,9 +69,21 @@ PrefabInstance:
       value: PerformAnimalElephant
       objectReference: {fileID: 0}
     - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_Size.x
+      value: 28.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_Size.y
+      value: 34.793846
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: dc8ddb1f92b7e4f5fa7e70b423bc171a, type: 3}
+      objectReference: {fileID: 21300000, guid: 952d4894f08d41d48a3b575f16126be8, type: 3}
+    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
