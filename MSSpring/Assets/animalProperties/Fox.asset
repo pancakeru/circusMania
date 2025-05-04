@@ -21,9 +21,9 @@ MonoBehaviour:
   textSkill: ' when neighbours pass a ball and generate JOY'
   textMechanicScore: 
   textMechanicExtra: 
-  baseRedChange: 4
+  baseRedChange: 5
   baseYellowChange: 0
   baseBlueChange: 0
   restTurn: 3
   mechanicActiveNum: -99
-  skillNum: 4
+  skillNum: 5
