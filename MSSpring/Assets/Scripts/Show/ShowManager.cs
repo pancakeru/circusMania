@@ -739,6 +739,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		totalPerformanceControl.GetInfoFromShowManager(toGive.ToArray(), this);
 
 		AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
+
+		if (tContainer.isTutorial)
+		{
+			showTutorialManager.turotialShowTurn++;
+			if (showTutorialManager.turotialShowTurn == 5 || showTutorialManager.turotialShowTurn == 6)
+			{
+				showTutorialManager.isRehearsalGoalActive = true;
+			}
+		}
 	}
 
 	void StartShow()
@@ -770,7 +779,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 		if (tContainer.isTutorial)
 		{
-			showTutorialManager.turotialShowTurn++;
 			switch (showTutorialManager.turotialShowTurn)
 			{
 				case 1:
@@ -784,6 +792,31 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					SetShowPositionNumDuringShow(6);
 					SetScoreEnableState(true, true, true, false);
 					AddAnimalToHand(showTutorialManager.addHandLion);
+					break;
+				case 5:
+					if (showTutorialManager.bananaHitTimes >= 3)
+					{
+						showTutorialManager.isRehearsalGoalActive = false;
+						GetComponent<ShowScoreManager>().SetReputation(10f);
+						SetScoreEnableState(true, true, true, true);
+						SetIfUpdatePopularity(true);
+					}
+					else
+					{
+						showTutorialManager.turotialShowTurn--;
+					}
+					break;
+				case 6:
+					if (GetComponent<ShowScoreManager>().currentReputation >= 0)
+					{
+						showTutorialManager.isRehearsalGoalActive = false;
+						SetTurnEnableState(true);
+					}
+					else
+					{
+						GetComponent<ShowScoreManager>().SetReputation(10f);
+						showTutorialManager.turotialShowTurn--;
+					}
 					break;
 			}
 			showTutorialManager.content.gameObject.SetActive(true);

@@ -39,8 +39,14 @@ public class ShowTutorialManager : MonoBehaviour
 
     private bool isAudioPlayed = false;
 
+    //Banana
+    public int bananaHitTimes { get; private set; } = 0;
+    [HideInInspector] public bool isRehearsalGoalActive = false;
+
     private void Start()
     {
+        BananaScript.OnAnyBananaHitsBall += BananaScript_OnAnyBananaHitsBall;
+
         ShowManager.instance.BanAllInteraction();
         ProceedTutorialDialouge();
     }
@@ -86,87 +92,98 @@ public class ShowTutorialManager : MonoBehaviour
 
     private void ProceedTutorialDialouge()
     {
-        if (dialogueIndex + 1 < showTutorial.tutorialDialogueList.Length)
+        if (dialogueIndex + 1 < showTutorial.tutorialDialogueList.Length && !isRehearsalGoalActive)
         {
             dialogueIndex++;
             TutorialDialogue currentTutorialDialogue = showTutorial.tutorialDialogueList[dialogueIndex];
 
-            if (!currentTutorialDialogue.isAnimalIntroduction)
+            if (currentTutorialDialogue.speakerDialogue == "END")
             {
-                speakerImage.gameObject.SetActive(true);
-                speakerImage.sprite = currentTutorialDialogue.speakerSprite;
-                speakerShadow.gameObject.SetActive(true);
-                if (currentTutorialDialogue.speakerDialogue == " ")
+                content.gameObject.SetActive(false);
+                Time.timeScale = 1;
+                ShowManager.instance.curTurn = ShowManager.instance.curLevel.allowedTurn;
+                ShowManager.instance.SetIfChangeTroupePrice(false);
+                ShowManager.instance.StartDecide();
+            }
+            else
+            {
+                if (!currentTutorialDialogue.isAnimalIntroduction)
                 {
-                    speakerBubble.gameObject.SetActive(false);
+                    speakerImage.gameObject.SetActive(true);
+                    speakerImage.sprite = currentTutorialDialogue.speakerSprite;
+                    speakerShadow.gameObject.SetActive(true);
+                    if (currentTutorialDialogue.speakerDialogue == " ")
+                    {
+                        speakerBubble.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        speakerBubble.gameObject.SetActive(true);
+                        speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText = currentTutorialDialogue.speakerDialogue;
+                        speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StartTyping();
+                        isTyping = true;
+                    }
+
+                    SetAnimalIntroductionActiveSelf(false);
                 }
                 else
                 {
-                    speakerBubble.gameObject.SetActive(true);
-                    speakerDialogue.gameObject.GetComponent<TypewriterEffect>().fullText = currentTutorialDialogue.speakerDialogue;
-                    speakerDialogue.gameObject.GetComponent<TypewriterEffect>().StartTyping();
-                    isTyping = true;
+                    SetAnimalIntroductionActiveSelf(true);
+                    animalIntroductionImage.sprite = currentTutorialDialogue.animalIntroductionSprite;
+                    animalIntroductionTMP.text = currentTutorialDialogue.animalIntroductionString;
+
+                    SetSpeakerActiveSelf(false);
                 }
 
-                SetAnimalIntroductionActiveSelf(false);
-            }
-            else
-            {
-                SetAnimalIntroductionActiveSelf(true);
-                animalIntroductionImage.sprite = currentTutorialDialogue.animalIntroductionSprite;
-                animalIntroductionTMP.text = currentTutorialDialogue.animalIntroductionString;
+                if (currentTutorialDialogue.audioToBePlayed != null)
+                {
+                    AudioManagerScript.Instance.uiSource.PlayOneShot(currentTutorialDialogue.audioToBePlayed);
+                    isAudioPlayed = true;
+                }
 
-                SetSpeakerActiveSelf(false);
-            }
+                if (currentTutorialDialogue.isWholeMask)
+                {
+                    ShowWholeMask();
+                }
+                else if (currentTutorialDialogue.isWholeImage)
+                {
+                    SetSpeakerActiveSelf(false);
+                    ShowWholeImage(currentTutorialDialogue.imageSprite);
+                }
+                else
+                {
+                    ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
+                }
 
-            if (currentTutorialDialogue.audioToBePlayed != null)
-            {
-                AudioManagerScript.Instance.uiSource.PlayOneShot(currentTutorialDialogue.audioToBePlayed);
-                isAudioPlayed = true;
-            }
-
-            if (currentTutorialDialogue.isWholeMask)
-            {
-                ShowWholeMask();
-            }
-            else if (currentTutorialDialogue.isWholeImage)
-            {
-                SetSpeakerActiveSelf(false);
-                ShowWholeImage(currentTutorialDialogue.imageSprite);
-            }
-            else
-            {
-                ShowPartialMask(currentTutorialDialogue.maskSizeDelta, currentTutorialDialogue.maskAnchoredPosition);
-            }
-
-            switch (currentTutorialDialogue.proceedCondition)
-            {
-                case "AudioPlayed":
-                    isProceedConditionNull = false;
-                    IsProceedConditionFulfilled = IsAudioPlayed;
-                    break;
-                case "FourMonkeysOnStage":
-                    ShowManager.instance.SetSelectAnimalInDownEnableState(true);
-                    isProceedConditionNull = false;
-                    IsProceedConditionFulfilled = IsFourMonkeysOnStage;
-                    break;
-                case "ShowStart":
-                    isProceedConditionNull = false;
-                    IsProceedConditionFulfilled = IsShowStarted;
-                    break;
-                case "ElephantOn4thPosition":
-                    ShowManager.instance.SetSelectAnimalInDownEnableState(true);
-                    isProceedConditionNull = false;
-                    IsProceedConditionFulfilled = IsElephantOn4thPosition;
-                    break;
-                case "OneLionOnStage":
-                    ShowManager.instance.SetSelectAnimalInDownEnableState(true);
-                    isProceedConditionNull = false;
-                    IsProceedConditionFulfilled = IsOneLionOnStage;
-                    break;
-                default:
-                    isProceedConditionNull = true;
-                    break;
+                switch (currentTutorialDialogue.proceedCondition)
+                {
+                    case "AudioPlayed":
+                        isProceedConditionNull = false;
+                        IsProceedConditionFulfilled = IsAudioPlayed;
+                        break;
+                    case "FourMonkeysOnStage":
+                        ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                        isProceedConditionNull = false;
+                        IsProceedConditionFulfilled = IsFourMonkeysOnStage;
+                        break;
+                    case "ShowStart":
+                        isProceedConditionNull = false;
+                        IsProceedConditionFulfilled = IsShowStarted;
+                        break;
+                    case "ElephantOn4thPosition":
+                        ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                        isProceedConditionNull = false;
+                        IsProceedConditionFulfilled = IsElephantOn4thPosition;
+                        break;
+                    case "OneLionOnStage":
+                        ShowManager.instance.SetSelectAnimalInDownEnableState(true);
+                        isProceedConditionNull = false;
+                        IsProceedConditionFulfilled = IsOneLionOnStage;
+                        break;
+                    default:
+                        isProceedConditionNull = true;
+                        break;
+                }
             }
         }
     }
@@ -259,6 +276,11 @@ public class ShowTutorialManager : MonoBehaviour
         }
         isProceedCoroutineRunning = false;
         ProceedTutorialDialouge();
+    }
+
+    private void BananaScript_OnAnyBananaHitsBall()
+    {
+        bananaHitTimes++;
     }
 
     #region Proceed Conditions

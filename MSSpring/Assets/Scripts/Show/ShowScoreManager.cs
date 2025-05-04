@@ -106,6 +106,12 @@ public class ShowScoreManager : MonoBehaviour
 		repuChanges = new Queue();
 	}
 
+	public void SetReputation(float newReputation)
+	{
+		currentReputation = newReputation;
+		repuChanges = new Queue();
+	}
+
 	private float CalculateTargetScore(ScoreType scoreType, int n)
 	{
 		switch (scoreType)

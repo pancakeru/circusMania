@@ -69,6 +69,7 @@ MonoBehaviour:
   speakerBubble: {fileID: 6362608095063166994}
   animalIntroductionImage: {fileID: 7051643166730650502}
   animalIntroductionTMP: {fileID: 1314344513539563495}
+  isRehearsalGoalActive: 0
 --- !u!1 &1531836050014609137
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,8 +767,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -800, y: -450}
-  m_SizeDelta: {x: 175, y: 175}
+  m_AnchoredPosition: {x: 155, y: 465}
+  m_SizeDelta: {x: 200, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1998262979582555730
 CanvasRenderer:
@@ -819,9 +820,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 098b007110cc6c14ab26a3e4742fb387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeInDuration: 1
+  fadeInDuration: 0.5
   fadeOutDuration: 1
-  visibleDuration: 60
+  visibleDuration: 1200
   staggerDelay: 0.5
 --- !u!1 &7422126811681004857
 GameObject:

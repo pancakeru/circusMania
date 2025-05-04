@@ -23,5 +23,5 @@ public class TutorialDialogue
     [TextArea(5, 20)] public string animalIntroductionString;
 
     [Header("Proceed Condition")]
-    public string proceedCondition = "N/A";
+    public string proceedCondition = "";
 }
