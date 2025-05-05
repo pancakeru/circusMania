@@ -8,8 +8,8 @@ using static UnityEngine.Rendering.DebugUI;
 
 public enum MessageType
 {
-    Warning, 
-    Selection, 
+    Warning,
+    Selection,
 }
 
 public class CanvasMain : MonoBehaviour
@@ -30,6 +30,8 @@ public class CanvasMain : MonoBehaviour
     GameObject myPopUp;
     RectTransform myPopUpRect;
     Dictionary<Image, string> popUpTargets = new Dictionary<Image, string>();
+
+    public bool isStartScreenCanvasEnabled;
 
     void Awake()
     {
@@ -61,7 +63,7 @@ public class CanvasMain : MonoBehaviour
         bool hovering = false;
         foreach (var pair in popUpTargets)
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(pair.Key.rectTransform, Input.mousePosition))
+            if (RectTransformUtility.RectangleContainsScreenPoint(pair.Key.rectTransform, Input.mousePosition) && !isStartScreenCanvasEnabled)
             {
                 myPopUp.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = pair.Value;
 
@@ -125,7 +127,7 @@ public class CanvasMain : MonoBehaviour
 
     public void ShowPopUp(Image image, string text)
     {
-        if (popUpTargets.ContainsKey(image)) popUpTargets[image] = text; 
+        if (popUpTargets.ContainsKey(image)) popUpTargets[image] = text;
         else popUpTargets.Add(image, text);
     }
 
