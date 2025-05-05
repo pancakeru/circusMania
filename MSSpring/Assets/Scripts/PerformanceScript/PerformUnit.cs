@@ -146,12 +146,14 @@ public class PerformUnit : MonoBehaviour
 		if (startAnimal != null)
 		{
 			curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
+			curBall.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = MrShopManager.instance.myBallSprite;
 			curBall.DoInitialDrop(startAnimal.AcceptPos.position, startAnimal, this);
 		}
 		else
 		{
 			curBall = Instantiate(ballPrefab).GetComponent<BallScript>();
-			curBall.DoInitialDrop(GetPositionWhenThrowToEmpty(0), null, this);
+            curBall.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = MrShopManager.instance.myBallSprite;
+            curBall.DoInitialDrop(GetPositionWhenThrowToEmpty(0), null, this);
 		}
 		//Debug.LogError("没有起始动物");
 
