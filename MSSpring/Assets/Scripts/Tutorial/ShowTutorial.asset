@@ -520,7 +520,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: However, the circus master always pays attention to their reputation!
+    speakerDialogue: However, the circus master always pays attention to their Popularity!
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
@@ -541,7 +541,7 @@ MonoBehaviour:
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
     isWholeImage: 1
-    imageSprite: {fileID: 21300000, guid: 20e53c88d76635943b6358184196dcd7, type: 3}
+    imageSprite: {fileID: 21300000, guid: 699da7ee1772a6c41a926bc30562ab50, type: 3}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
@@ -550,7 +550,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: Our current reputation is 10, but can you keep it, or make it
+    speakerDialogue: Our current Popularity is 10, but can you keep it, or make it
       even higher...?
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
@@ -566,7 +566,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: As long as your reputation is greater than 0 after the next
+    speakerDialogue: As long as your Popularity is greater than 0 after the next
       performance, you can embark on a global tour!
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
@@ -578,7 +578,7 @@ MonoBehaviour:
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
     isGoalActiveSelfChanging: 1
-    goalText: Keep reputation > 0.
+    goalText: Keep Popularity > 0.
     isAllInteractionActive: 1
     proceedCondition: ShowStart
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
