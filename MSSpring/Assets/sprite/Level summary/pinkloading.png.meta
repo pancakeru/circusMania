@@ -121,7 +121,196 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: pinkloading_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 18
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a03a4df5250841edae49da3b1116641
+      internalID: 2089778279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_1
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 18
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f9df8b07a086d4eda93e093e1331703e
+      internalID: -341115934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_2
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 18
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcfc5362508674a44839f2eb1cead0e8
+      internalID: -1530083623
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 9
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dff4e30d677ac40de928fb60d4052e1e
+      internalID: 406118292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_4
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 9
+        width: 25
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05d1ea048d47949fca0d27b7fac1adeb
+      internalID: 377904923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_5
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 9
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bc35c950f31749c3b871ebcc4919ced
+      internalID: 595232819
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9400c002e879940e4ad53ca0e82f9344
+      internalID: -311818863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_7
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 0
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3033a0c6450e94f619f28c92cbcdfc42
+      internalID: 581302322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pinkloading_8
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 0
+        width: 25.333334
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23fb6004da7f64a23a83cd2cbdaba8eb
+      internalID: 1853520675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +321,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pinkloading_0: 2089778279
+      pinkloading_1: -341115934
+      pinkloading_2: -1530083623
+      pinkloading_3: 406118292
+      pinkloading_4: 377904923
+      pinkloading_5: 595232819
+      pinkloading_6: -311818863
+      pinkloading_7: 581302322
+      pinkloading_8: 1853520675
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
