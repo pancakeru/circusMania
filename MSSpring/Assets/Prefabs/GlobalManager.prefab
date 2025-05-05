@@ -49,6 +49,7 @@ MonoBehaviour:
   redEffect: {r: 0.99607843, g: 0.003921569, b: 0.5058824, a: 1}
   blueEffect: {r: 0, g: 0.74509805, b: 0.9098039, a: 1}
   yellowEffect: {r: 1, g: 0.85490197, b: 0.38039216, a: 1}
+  tutorialProperty: {fileID: 11400000, guid: 5eec1dd2adabc414b9b17fa9385c0e1c, type: 2}
   testProperties: {fileID: 11400000, guid: ae1adc6ef1d2845c08c876ac4a993ce6, type: 2}
   testCoinNum: 50
   ifDoTestInitialize: 1
