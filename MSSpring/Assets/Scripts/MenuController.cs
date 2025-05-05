@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MenuController : MonoBehaviour
 {
     TroupeController troupeController;
-    ShopManager shopManager;
+    MrShopManager shopManager;
     //ShowManager showManager;
     public GameObject lvlsDisplay;
     [SerializeField] private TextMeshProUGUI coinDisplay;
@@ -22,10 +22,10 @@ public class MenuController : MonoBehaviour
     void Start()
     {
         troupeController = FindFirstObjectByType<TroupeController>();
-        shopManager = FindFirstObjectByType<ShopManager>();
+        shopManager = FindFirstObjectByType<MrShopManager>();
 
         troupeController.GetComponent<Canvas>().enabled = false;
-        shopManager.transform.parent.GetComponent<Canvas>().enabled = false;
+        shopManager.transform.GetComponent<Canvas>().enabled = false;
 
         lvlsDisplay.SetActive(false);
 

@@ -21,7 +21,7 @@ public class BackController : MonoBehaviour
         if (transform.parent.GetComponent<MenuController>() == null)
         {
             if (transform.parent.GetComponent<TroupeController>() != null) transform.parent.GetComponent<TroupeController>().Disable();
-            if (transform.parent.GetComponent<ShopManager>() != null) transform.parent.GetComponent<ShopManager>().Disable();
+            if (transform.parent.GetComponent<MrShopManager>() != null) transform.parent.GetComponent<MrShopManager>().Disable();
         }
         else
         {

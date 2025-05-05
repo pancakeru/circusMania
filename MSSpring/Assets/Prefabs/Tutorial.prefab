@@ -262,12 +262,12 @@ MonoBehaviour:
   MenuSprites: []
   troupeSprites:
   - {fileID: 21300000, guid: 0aa1dc33209befd41b8bcef5bbc79732, type: 3}
-  - {fileID: 21300000, guid: 619d5d45a50d5604cb57a0c164b36cef, type: 3}
+  - {fileID: 21300000, guid: 002cbc459573b954e8730f0e5bc0a686, type: 3}
   - {fileID: 21300000, guid: 5068e32438ba83641bc8cab2704719e5, type: 3}
   showSprites:
   - {fileID: 21300000, guid: bf1a98c9096b10b47bebd88602bed7fa, type: 3}
   - {fileID: 21300000, guid: a284e788a654f8d43a213c92c43531fc, type: 3}
-  - {fileID: 21300000, guid: 20e53c88d76635943b6358184196dcd7, type: 3}
+  - {fileID: 21300000, guid: 699da7ee1772a6c41a926bc30562ab50, type: 3}
   - {fileID: 21300000, guid: e9ca7e76a9b5034469871d339cee5a34, type: 3}
   blank: {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
   id: 0
