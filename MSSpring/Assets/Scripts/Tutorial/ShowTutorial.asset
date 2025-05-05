@@ -19,20 +19,30 @@ MonoBehaviour:
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: We are about to perform so let us rehearse first!
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Here are all the animals in the circus, from which you can choose
       the animals to perform.
@@ -40,29 +50,59 @@ MonoBehaviour:
     isWholeMask: 0
     maskSizeDelta: {x: 1750, y: 175}
     maskAnchoredPosition: {x: 0, y: -350}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: This is the stage, where the animals will pass the ball.
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 1750, y: 480}
     maskAnchoredPosition: {x: 0, y: -20}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: Let's drag the animals into position.
+    speakerDialogue: Let's drag the monkeys into position!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 1750, y: 700}
     maskAnchoredPosition: {x: 0, y: -100}
-    isAnimalIntroduction: 0
-    animalIntroductionSprite: {fileID: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
     animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: Have 4 monkeys on stage.
+    isAllInteractionActive: 0
     proceedCondition: FourMonkeysOnStage
   - speakerSprite: {fileID: 0}
     speakerDialogue: 
@@ -70,11 +110,16 @@ MonoBehaviour:
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 1
     animalIntroductionSprite: {fileID: 21300000, guid: 8d6ea11d1b47ad043a10a96621441c76, type: 3}
     animalIntroductionString: The monkey will pass the received ball one position
       to the right and get Joy points.
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: The audience is not to be trifled with! Their expectations are
       shown in the upper left corner.
@@ -82,19 +127,29 @@ MonoBehaviour:
     isWholeMask: 0
     maskSizeDelta: {x: 300, y: 150}
     maskAnchoredPosition: {x: -800, y: 465}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 1
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: However, as a rehearsal, we can start right away.
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 440, y: 220}
     maskAnchoredPosition: {x: 735, y: 430}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
     proceedCondition: ShowStart
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: Great, the first rehearsal is done!
@@ -102,48 +157,472 @@ MonoBehaviour:
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: But the audience said our performance was too monotonous...
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
     speakerDialogue: The audience wants to see more Skill and Joy.
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 700, y: 150}
     maskAnchoredPosition: {x: -600, y: 465}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: Oh, we can use elephants!
+    speakerDialogue: ' '
     audioToBePlayed: {fileID: 8300000, guid: db37889fb284d61478a1909f7596aefe, type: 3}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 0
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: AudioPlayed
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Oh, we can use elephants!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
   - speakerSprite: {fileID: 0}
     speakerDialogue: 
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
     maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
     isAnimalIntroduction: 1
     animalIntroductionSprite: {fileID: 21300000, guid: 952d4894f08d41d48a3b575f16126be8, type: 3}
     animalIntroductionString: The elephant will pass the received ball to the left
       2 places and get Skill points.
-    proceedCondition: N/A
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Let's drag the elephant to the 4th position on the stage.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 1750, y: 700}
+    maskAnchoredPosition: {x: 0, y: -100}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: Have the elephant on #4 position.
+    isAllInteractionActive: 0
+    proceedCondition: ElephantOn4thPosition
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Let's see what the elephant can do!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 440, y: 220}
+    maskAnchoredPosition: {x: 735, y: 430}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: ShowStart
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: The elephant's performance is full of skills, but it needs more
+      time to rest...
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Why not use my favorite banana to help it recover?
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 130, y: 150}
+    maskAnchoredPosition: {x: 840, y: 230}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: d8310af17b3e64a02be790dd61bad5a5, type: 3}
+    animalIntroductionString: Each performance will earn you 10 bananas, and when
+      the animal catches the ball, it will automatically consume the same number
+      of bananas as their rest turns to recover instantly.
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Try it again!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 440, y: 220}
+    maskAnchoredPosition: {x: 735, y: 430}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: ShowStart
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Great, bananas help us perform better.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Bring some Novelty to the audience and it will be a successful
+      performance!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 300, y: 150}
+    maskAnchoredPosition: {x: -130, y: 465}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: 939305793ddd7484f925ae9bf62fde94, type: 3}
+    animalIntroductionString: The lion will pass the ball to position #1, #3, #5
+      in order and get Novelty points. Be careful when it passes the ball to itself
+      and wastes the banana!
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Let's drag the lion onto the stage.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 1750, y: 700}
+    maskAnchoredPosition: {x: 0, y: -100}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 1
+    animalIntroductionSprite: {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: Have all animals on stage.
+    isAllInteractionActive: 0
+    proceedCondition: OneLionOnStage
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Showtime! With the help of the lion, this will definitely be
+      a successful show.
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 440, y: 220}
+    maskAnchoredPosition: {x: 735, y: 430}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: ShowStart
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Haha, I know you can't wait to start the real performance...
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: "But there is one last crucial trick\u2014the banana shot!"
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 1
+    imageSprite: {fileID: 21300000, guid: e9ca7e76a9b5034469871d339cee5a34, type: 3}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Let's try using the banana to hit the ball for 3 times!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 1
+    imageSprite: {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: Let the banana hits the ball for 3 times (0/3).
+    isAllInteractionActive: 1
+    proceedCondition: ShowStart
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Finally! You are almost ready to become the circus master!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: However, the circus master always pays attention to their reputation!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: 
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 1
+    imageSprite: {fileID: 21300000, guid: 20e53c88d76635943b6358184196dcd7, type: 3}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Our current reputation is 10, but can you keep it, or make it
+      even higher...?
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 200, y: 120}
+    maskAnchoredPosition: {x: 155, y: 465}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: As long as your reputation is greater than 0 after the next
+      performance, you can embark on a global tour!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 0
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 1
+    imageSprite: {fileID: 21300000, guid: e4985dad20709c847a29911a212e4069, type: 3}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: Keep reputation > 0.
+    isAllInteractionActive: 1
+    proceedCondition: ShowStart
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Congratulations on completing your first full performance!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 1
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
+    speakerDialogue: Next, keep working hard to become the circus master!
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 
+  - speakerSprite: {fileID: 0}
+    speakerDialogue: END
+    audioToBePlayed: {fileID: 0}
+    isWholeMask: 1
+    maskSizeDelta: {x: 0, y: 0}
+    maskAnchoredPosition: {x: 0, y: 0}
+    isWholeImage: 0
+    imageSprite: {fileID: 0}
+    isAnimalIntroduction: 0
+    animalIntroductionSprite: {fileID: 0}
+    animalIntroductionString: 
+    isGoalActiveSelfChanging: 0
+    goalText: 
+    isAllInteractionActive: 0
+    proceedCondition: 

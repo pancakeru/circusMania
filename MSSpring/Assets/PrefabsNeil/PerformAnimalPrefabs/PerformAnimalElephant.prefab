@@ -15,15 +15,15 @@ PrefabInstance:
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: dc8ddb1f92b7e4f5fa7e70b423bc171a, type: 3}
+      objectReference: {fileID: 21300000, guid: 952d4894f08d41d48a3b575f16126be8, type: 3}
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: f328afc10e83b4be6829d8e64a0b89e6, type: 3}
+      objectReference: {fileID: 21300000, guid: 77a45ce28923f2c4d938f4d864de55a3, type: 3}
     - target: {fileID: 1305159361164706486, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: displaySprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: d2bf2d60b865e4178aefbb04c1343af6, type: 3}
+      objectReference: {fileID: 21300000, guid: 9aee9af9903214c4b9f9a111b426fef9, type: 3}
     - target: {fileID: 1823180584734265639, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -69,9 +69,21 @@ PrefabInstance:
       value: PerformAnimalElephant
       objectReference: {fileID: 0}
     - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_Size.x
+      value: 28.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_Size.y
+      value: 34.793846
+      objectReference: {fileID: 0}
+    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: dc8ddb1f92b7e4f5fa7e70b423bc171a, type: 3}
+      objectReference: {fileID: 21300000, guid: 952d4894f08d41d48a3b575f16126be8, type: 3}
+    - target: {fileID: 8010994126054449278, guid: e8ff4a07ca03f46838f21a7a271eb8e3, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

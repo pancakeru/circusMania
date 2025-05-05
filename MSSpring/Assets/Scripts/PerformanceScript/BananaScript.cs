@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class BananaScript : MonoBehaviour
     public float h;
     public float t;
     public Vector3 targetScale = new Vector3(0.8f, 0.8f, 0.8f); // 目标缩放比例
+
+    public static Action OnAnyBananaHitsBall;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,6 +113,7 @@ public class BananaScript : MonoBehaviour
                 //Debug.Log("Detected an object with ballTag: " + collider.gameObject.name);
                 BallScript ball = collider.GetComponent<BallScript>();
                 ball.takeBanana();
+                OnAnyBananaHitsBall?.Invoke();
                 break;
             }
         }

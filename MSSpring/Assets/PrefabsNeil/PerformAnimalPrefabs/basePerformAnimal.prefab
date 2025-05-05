@@ -289,9 +289,9 @@ MonoBehaviour:
   animalBrain: {fileID: 0}
   renderer: {fileID: 8010994126054449278}
   displaySprites:
-  - {fileID: 21300000, guid: a7cc6e29d13b34b92b2019a080f9ca93, type: 3}
-  - {fileID: 21300000, guid: 9c53f9ef175fe4459a0fa422eacc09b3, type: 3}
-  - {fileID: 21300000, guid: 557f00ef5d43741249fbec75e74b3176, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   flipDuration: 0.5
   ThrowPos: {fileID: 6527025514987002019}
   AcceptPos: {fileID: 4486114369944327467}
