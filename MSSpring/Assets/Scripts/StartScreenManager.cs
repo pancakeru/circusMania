@@ -4,30 +4,32 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class StartScreenManager : MonoBehaviour
-{ 
+{
     [SerializeField] Canvas canvas;
-    [SerializeField] GameObject balloon; 
+    [SerializeField] GameObject balloon;
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void Enable()
     {
         canvas.enabled = true;
         balloon.GetComponent<BalloonController>().Enable();
+        CanvasMain.instance.isStartScreenCanvasEnabled = true;
     }
 
     public void Disable()
     {
         canvas.enabled = false;
+        CanvasMain.instance.isStartScreenCanvasEnabled = false;
     }
 
     public void Exit()
