@@ -45,6 +45,8 @@ public class CanvasMain : MonoBehaviour
 
         if (isCheatEnabled) myCheat = Instantiate(cheatPrefab, transform);
         myCheat.SetActive(false);
+
+        isStartScreenCanvasEnabled = true;
     }
 
     void Start()
