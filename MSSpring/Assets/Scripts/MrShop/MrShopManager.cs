@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq.Expressions;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class MrShopManager : MonoBehaviour
 
     [SerializeField] GameObject mrShopItemPrefab;
     [SerializeField] List<Sprite> ballSprites = new List<Sprite>();
+    [SerializeField] GameObject notification;
 
     [HideInInspector] public List<GameObject> mrShopItems = new List<GameObject>();
     [HideInInspector] public Sprite myBallSprite;
@@ -32,12 +34,12 @@ public class MrShopManager : MonoBehaviour
         ballInfos = new List<BallInfo>()
         {
             new BallInfo("Circus Ball", true, "You always have this.", ballSprites[0]),
-            new BallInfo("Basketball", true, "???", ballSprites[1]),
-            new BallInfo("Pixel Ball", true, "Finish the tutorial.", ballSprites[2]),
-            new BallInfo("Tennis Ball", true, "Complete a level with at least 3 foxes.", ballSprites[3]),
-            new BallInfo("Yarn Ball", true, "Complete a level with at least 3 lions.", ballSprites[4]),
-            new BallInfo("Beach Ball", true, "Complete a level with at least 3 seals.", ballSprites[5]),
-            new BallInfo("Chip Ball", true, "Upgrade 7 animals to max level.", ballSprites[6]),
+            new BallInfo("Basketball", false, "Interact with the chicken for 7 times.", ballSprites[1]),
+            new BallInfo("Pixel Ball", false, "Finish the tutorial.", ballSprites[2]),
+            new BallInfo("Tennis Ball", false, "Complete a level with at least 3 foxes.", ballSprites[3]),
+            new BallInfo("Yarn Ball", false, "Complete a level with at least 3 lions.", ballSprites[4]),
+            new BallInfo("Beach Ball", false, "Complete a level with at least 3 seals.", ballSprites[5]),
+            new BallInfo("Chip Ball", false, "Upgrade 7 animals to max level.", ballSprites[6]),
         };
 
         myBallSprite = ballSprites[0];
@@ -70,6 +72,27 @@ public class MrShopManager : MonoBehaviour
         AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
         GetComponent<Canvas>().enabled = false;
         menuController.Enable();
+    }
+
+    public void AchievementUnlocked(int achievementIndex)
+    {
+        if (!ballInfos[achievementIndex].isUnlocked)
+        {
+            ballInfos[achievementIndex].isUnlocked = true;
+            GameObject newNotification = Instantiate(notification, CanvasMain.instance.transform);
+            newNotification.GetComponent<NotificationController>().ballImage.sprite = ballInfos[achievementIndex].ballSprite;
+        }
+    }
+
+    private void Update()
+    {
+        for (int i = 1; i <= 9; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+            {
+                AchievementUnlocked(i);
+            }
+        }
     }
 }
 

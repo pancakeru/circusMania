@@ -17,6 +17,7 @@ public class ShowScoreManager : MonoBehaviour
 	public Queue repuChanges;
 
 	private GlobalLevel currentGlobalLevel;
+	private LevelProperty currentLevelProperty;
 
 	private void Awake()
 	{
@@ -28,11 +29,11 @@ public class ShowScoreManager : MonoBehaviour
 		showManager = FindFirstObjectByType<ShowManager>();
 	}
 
-	public void StartTurn()
+	public void StartTurn(LevelProperty curProperty)
 	{
-		currentGlobalLevel = GlobalManager.instance.GetCurrentGlobalLevel();
-
-		int[] nArray = GenerateNArray(currentGlobalLevel.levelProperty.totalN);
+		//currentGlobalLevel = GlobalManager.instance.GetCurrentGlobalLevel();
+		currentLevelProperty = curProperty;
+		int[] nArray = GenerateNArray(curProperty.totalN);
 		targetRedScore = CalculateTargetScore(ScoreType.Red, nArray[0]);
 		targetYellowScore = CalculateTargetScore(ScoreType.Yellow, nArray[1]);
 		targetBlueScore = CalculateTargetScore(ScoreType.Blue, nArray[2]);
@@ -117,11 +118,11 @@ public class ShowScoreManager : MonoBehaviour
 		switch (scoreType)
 		{
 			case ScoreType.Red:
-				return currentGlobalLevel.levelProperty.redA * n + currentGlobalLevel.levelProperty.redB;
+				return currentLevelProperty.redA * n + currentLevelProperty.redB;
 			case ScoreType.Yellow:
-				return currentGlobalLevel.levelProperty.yellowA * n + currentGlobalLevel.levelProperty.yellowB;
+				return currentLevelProperty.yellowA * n + currentLevelProperty.yellowB;
 			case ScoreType.Blue:
-				return currentGlobalLevel.levelProperty.blueA * n + currentGlobalLevel.levelProperty.blueB;
+				return currentLevelProperty.blueA * n + currentLevelProperty.blueB;
 			default:
 				Debug.LogError(this + ": Unknown Score Type!");
 				return -1;

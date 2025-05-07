@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -108,6 +109,11 @@ public class ShowTutorialManager : MonoBehaviour
         {
             dialogueIndex++;
             TutorialDialogue currentTutorialDialogue = showTutorial.tutorialDialogueList[dialogueIndex];
+
+            if ((dialogueIndex + 1 < showTutorial.tutorialDialogueList.Count()) && showTutorial.tutorialDialogueList[dialogueIndex + 1].speakerDialogue == "END")
+            {
+                MrShopManager.instance.AchievementUnlocked(2);
+            }
 
             if (currentTutorialDialogue.speakerDialogue == "END")//End
             {

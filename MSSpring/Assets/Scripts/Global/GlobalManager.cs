@@ -22,6 +22,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public Color blueEffect;
     public Color yellowEffect;
 
+    [Header("test Level")]
+    public LevelProperty tutorialProperty;
+
     [Header("For test")]
     [SerializeField]
     private AnimalStart testProperties;
@@ -133,6 +136,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public GlobalLevel GetCurrentGlobalLevel()
     {
         return globalLevelArray[currentLevelIndex];
+    }
+
+    public LevelProperty GetTutorialLevel()
+    {
+        Debug.Log("获取了教程level");
+        return tutorialProperty;
     }
 
     public void ToNextGlobalLevel()

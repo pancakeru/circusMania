@@ -528,7 +528,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			myHandControls = new List<iconAnimal>();
 			myHand = new List<GameObject>();
 			initialPos = new List<Vector2>();
-			SetUpAnLevel(GlobalManager.instance.GetCurrentGlobalLevel().levelProperty);
+			SetUpAnLevel(GlobalManager.instance.GetTutorialLevel());
 			totalPerformanceControl.InitShow(infoContainer.posNum, Enumerable.Range(0, 6)
 							 .Select(i => infoContainer.GetEmptyPosLocalX(i))
 							 .ToArray(), Enumerable.Range(0, 6)
@@ -560,7 +560,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		//Debug.Log("关卡是" + level.name + ",回合数是" + level.allowedTurn);
 		curScore = 0;
 		curTurn = 1;
-		GetComponent<ShowScoreManager>().StartTurn();
+		GetComponent<ShowScoreManager>().StartTurn(curLevel);
 		curRepu = GetComponent<ShowScoreManager>().currentReputation;
 		targetDisplayManager.ChangeLevelState(curTurn, curRepu, scoreManager.GetTargetScore(), level.allowedTurn);
 	}
@@ -610,7 +610,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	public void ChangeTargetPanelDisplay(float reputation)
 	{
 		tContainer.EndTurnScoreChange();
-		scoreManager.StartTurn();
+		scoreManager.StartTurn(curLevel);
 		targetDisplayManager.ChangeLevelState(curTurn, (int)reputation, scoreManager.GetTargetScore(), curLevel.allowedTurn);
 	}
 
