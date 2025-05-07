@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 4526457681881104007}
   - component: {fileID: 1270388021483983656}
   m_Layer: 5
-  m_Name: MrShopCanvas
+  m_Name: CanvasMrShop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
