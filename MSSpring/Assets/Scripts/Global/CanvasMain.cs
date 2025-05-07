@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -19,6 +21,9 @@ public class CanvasMain : MonoBehaviour
     public static event Action OnUIInteractionEnabled;
     public static event Action OnUIInteractionDisabled;
 
+    [SerializeField] List<Canvas> canvasList = new List<Canvas>();
+    List<GraphicRaycaster> raycasters = new List<GraphicRaycaster>();
+
     [SerializeField] GameObject messageBox;
     [SerializeField] GameObject popUp;
 
@@ -27,11 +32,10 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] GameObject cheatPrefab;
     GameObject myCheat;
 
+    GraphicRaycaster raycaster;
     GameObject myPopUp;
     RectTransform myPopUpRect;
     Dictionary<Image, string> popUpTargets = new Dictionary<Image, string>();
-
-    public bool isStartScreenCanvasEnabled;
 
     void Awake()
     {
@@ -39,12 +43,18 @@ public class CanvasMain : MonoBehaviour
         else Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
 
+        raycaster = GetComponent<GraphicRaycaster>();
         myPopUp = Instantiate(popUp, transform);
         myPopUp.SetActive(false);
         myPopUpRect = myPopUp.GetComponent<RectTransform>();
 
         if (isCheatEnabled) myCheat = Instantiate(cheatPrefab, transform);
         myCheat.SetActive(false);
+
+        foreach (Canvas canvas in canvasList)
+        {
+            raycasters.Add(canvas.GetComponent<GraphicRaycaster>());
+        }
     }
 
     void Start()
@@ -60,32 +70,57 @@ public class CanvasMain : MonoBehaviour
 
     void Update()
     {
-        bool hovering = false;
-        foreach (var pair in popUpTargets)
-        {
-            if (RectTransformUtility.RectangleContainsScreenPoint(pair.Key.rectTransform, Input.mousePosition) && !isStartScreenCanvasEnabled)
-            {
-                myPopUp.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = pair.Value;
+        bool isHovering = false;
+        var pointer = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
 
+        List<RaycastResult> allHits = new List<RaycastResult>();
+        foreach (var raycaster in raycasters)
+        {
+            var hits = new List<RaycastResult>();
+            raycaster.Raycast(pointer, hits);
+            allHits.AddRange(hits);
+        }
+
+        // Sort all hits manually by sorting order (higher goes first)
+        allHits = allHits
+            .OrderByDescending(hit => hit.gameObject.GetComponentInParent<Canvas>()?.sortingOrder ?? 0)
+            .ToList();
+
+        foreach (var hit in allHits)
+        {
+            // Skip tooltip itself
+            if (hit.gameObject == myPopUp || hit.gameObject.transform.IsChildOf(myPopUp.transform))
+                continue;
+
+            var img = hit.gameObject.GetComponent<Image>();
+            if (img != null && popUpTargets.TryGetValue(img, out string text))
+            {
+                myPopUp.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = text;
                 myPopUp.SetActive(true);
 
-                RectTransformUtility.ScreenPointToLocalPointInRectangle(myPopUpRect.parent as RectTransform, Input.mousePosition, null, out Vector2 pos);
-                myPopUpRect.anchoredPosition = pos;
-                hovering = true;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    myPopUpRect.parent as RectTransform,
+                    Input.mousePosition,
+                    null,
+                    out Vector2 localPos
+                );
+                myPopUpRect.anchoredPosition = localPos;
+
+                isHovering = true;
+                break;
+            }
+            else
+            {
+                // Some UI is on top, but it's not a tooltip target
                 break;
             }
         }
 
-        if (!hovering)
-        {
+        if (!isHovering)
             myPopUp.SetActive(false);
-        }
 
         if (Input.GetKeyUp(KeyCode.BackQuote))
-        {
-            if (myCheat.activeSelf) myCheat.SetActive(false);
-            else myCheat.SetActive(true);
-        }
+            myCheat.SetActive(!myCheat.activeSelf);
     }
 
     public void DisplayWarning(string text)

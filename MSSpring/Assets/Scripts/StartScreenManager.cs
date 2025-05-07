@@ -23,13 +23,11 @@ public class StartScreenManager : MonoBehaviour
     {
         canvas.enabled = true;
         balloon.GetComponent<BalloonController>().Enable();
-        CanvasMain.instance.isStartScreenCanvasEnabled = true;
     }
 
     public void Disable()
     {
         canvas.enabled = false;
-        CanvasMain.instance.isStartScreenCanvasEnabled = false;
     }
 
     public void Exit()

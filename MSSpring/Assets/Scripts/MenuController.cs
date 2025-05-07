@@ -99,7 +99,7 @@ public class MenuController : MonoBehaviour
             shopButton.GetComponent<Button>().enabled = false;
             shopButton.transform.GetChild(0).gameObject.SetActive(true);
             shopButton.transform.GetChild(1).gameObject.SetActive(true);
-            CanvasMain.instance.ShowPopUp(shopButton.GetComponent<Image>(), "Mr. Shop will not be present until two shows are completed.");
+            CanvasMain.instance.ShowPopUp(shopButton.transform.GetChild(0).GetComponent<Image>(), "Mr. Shop will not be present until two shows are completed.");
         }
     }
 
