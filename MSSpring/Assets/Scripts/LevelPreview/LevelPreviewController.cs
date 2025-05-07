@@ -31,7 +31,7 @@ public class LevelPreviewController : MonoBehaviour
 
     private bool isLetsGoButtonPressed = false;
     [Header("Miscellaneous")]
-    [SerializeField] private GameObject decidePanel;
+    [SerializeField] private DecidePanelController decidePanel;
     [SerializeField] private GameObject container;
 
     private void Awake()
@@ -131,7 +131,7 @@ public class LevelPreviewController : MonoBehaviour
 
         nextSpotImage.sprite = currentGlobalLevel.showVisual;
         nextSpotName.text = currentGlobalLevel.levelName;
-        nextSpotTurnText.text = (GlobalManager.instance.GetCurrentGlobalLevel().levelIndex+1).ToString() + "/" + GlobalManager.instance.GetGlobalLevelArray().Length.ToString();
+        nextSpotTurnText.text = (GlobalManager.instance.GetCurrentGlobalLevel().levelIndex + 1).ToString() + "/" + GlobalManager.instance.GetGlobalLevelArray().Length.ToString();
 
         float[] targetScoreArray = CalculateTargetScore(currentLevelProperty);
         float funTargetScore = targetScoreArray[0];
@@ -172,12 +172,12 @@ public class LevelPreviewController : MonoBehaviour
     public void LetsGoButtonPressed()
     {
         isLetsGoButtonPressed = true;
-        decidePanel.SetActive(true);
+        decidePanel.ButtonShow();
     }
 
     public void DecidePanelCancelled()
     {
         isLetsGoButtonPressed = false;
-        decidePanel.SetActive(false);
+        decidePanel.Cancel();
     }
 }

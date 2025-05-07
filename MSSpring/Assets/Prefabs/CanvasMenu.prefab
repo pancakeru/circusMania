@@ -727,10 +727,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2712240092604029547}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: ButtonShow
-        m_Mode: 6
+      - m_Target: {fileID: 5236799186704747739}
+        m_TargetAssemblyTypeName: DecidePanelController, Assembly-CSharp
+        m_MethodName: Confirm
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1857,10 +1857,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2712240092604029547}
-        m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: ButtonShow
-        m_Mode: 6
+      - m_Target: {fileID: 5236799186704747739}
+        m_TargetAssemblyTypeName: DecidePanelController, Assembly-CSharp
+        m_MethodName: ButtonTutorial
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3070,6 +3070,7 @@ GameObject:
   - component: {fileID: 6300966928644996020}
   - component: {fileID: 6207460372509030754}
   - component: {fileID: 2872196217260956585}
+  - component: {fileID: 5236799186704747739}
   m_Layer: 5
   m_Name: DecidePanel
   m_TagString: Untagged
@@ -3139,6 +3140,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5236799186704747739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5685633158985995881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44dfbae970fab445eb43ea43c0e1e89f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuController: {fileID: 2712240092604029547}
+  mainText: {fileID: 2405325207062513086}
+  subText: {fileID: 5828897933682936786}
 --- !u!1 &5917108684150518301
 GameObject:
   m_ObjectHideFlags: 0
@@ -4117,7 +4133,7 @@ PrefabInstance:
     - target: {fileID: 6433276060346271447, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
       propertyPath: decidePanel
       value: 
-      objectReference: {fileID: 5685633158985995881}
+      objectReference: {fileID: 5236799186704747739}
     - target: {fileID: 8341754903594587731, guid: f43e197fec52441c681acc6a3e44f32a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
