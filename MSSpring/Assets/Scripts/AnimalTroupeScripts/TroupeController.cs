@@ -31,6 +31,7 @@ public class TroupeController : MonoBehaviour
     public TextMeshProUGUI textCoin;
     private int upgradePrice;
     int coin = -1;
+    private int temporaryCoinUsedForUpgrade = 0;
 
     public bool isFirstGameCompleted = false;
 
@@ -100,7 +101,7 @@ public class TroupeController : MonoBehaviour
             Destroy(troupeCards[i]);
         }
         troupeCards.Clear();
-        
+
         foreach (animalProperty animal in newAnimalOrder)
         {
             if (GlobalManager.instance.isAnimalUnlocked[animal.animalName])
@@ -162,6 +163,8 @@ public class TroupeController : MonoBehaviour
     public void Disable()
     {
         GlobalManager.instance.setCoinAmount(coin);
+        GlobalManager.instance.SetCoinUsedForUpgrade(temporaryCoinUsedForUpgrade);
+        temporaryCoinUsedForUpgrade = 0;
         AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
         GetComponent<Canvas>().enabled = false;
         menuController.Enable();
@@ -180,7 +183,7 @@ public class TroupeController : MonoBehaviour
             cardController.star.fillAmount = starFills[GlobalManager.instance.animalLevels[cardController.myAnimalProperty.animalName]];
 
             int animalCount = NumberInTroupe(cardController.myAnimalProperty.animalName);
-            cardController.textNum.text = animalCount.ToString(); 
+            cardController.textNum.text = animalCount.ToString();
 
             /* Black Animals
             if (animalCount == 0) cardController.profile.color = Color.black; 
@@ -236,6 +239,7 @@ public class TroupeController : MonoBehaviour
             if (coin >= GetUpgradePrice(animal))
             {
                 coin -= GetUpgradePrice(animal);
+                temporaryCoinUsedForUpgrade += GetUpgradePrice(animal);
                 GlobalManager.instance.UpdateLevel(animal.animalName, 1);
                 UpdateText();
             }
@@ -245,8 +249,8 @@ public class TroupeController : MonoBehaviour
 
     }
 
-    public int GetUpgradePrice( animalProperty property)
+    public int GetUpgradePrice(animalProperty property)
     {
-        return (int)Mathf.Floor(upgradePrice * multis.multipliers[GlobalManager.instance.animalLevels[property.animalName]-1]);
+        return (int)Mathf.Floor(upgradePrice * multis.multipliers[GlobalManager.instance.animalLevels[property.animalName] - 1]);
     }
 }

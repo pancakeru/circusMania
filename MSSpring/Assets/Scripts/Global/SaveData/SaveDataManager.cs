@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class SaveDataManager : MonoBehaviour
 {
+    [Header("File Storage Config")]
+    [SerializeField] private string fileName;
+
     public static SaveDataManager Instance { get; private set; }
 
     private GlobalSaveData globalSaveData;
+    private FileDataHandler fileDataHandler;
 
     private void Awake()
     {
@@ -16,21 +20,30 @@ public class SaveDataManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
     }
 
     public GlobalSaveData NewGame()
     {
-        globalSaveData = new GlobalSaveData(new List<List<animalProperty>>() { GlobalManager.instance.animals }, 0, new List<Dictionary<string, int>>(), new AnimalBallPassTimes(), GlobalManager.instance.curCoinAmount, 0, 0, new List<Dictionary<string, int>>(), new List<Dictionary<string, int>>(), new List<BallInfo>());
+        globalSaveData = new GlobalSaveData(new List<List<animalProperty>>(), 0, new Dictionary<string, int>(), new AnimalBallPassTimes(), GlobalManager.instance.curCoinAmount, 0, 0, GlobalManager.instance.animals, new Dictionary<string, int>(), new Dictionary<string, int>(), new List<BallInfo>());
         return globalSaveData;
     }
 
-    public void SaveGame(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, List<Dictionary<string, int>> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<Dictionary<string, int>> animalLevelList, List<Dictionary<string, int>> animalPriceList, List<BallInfo> ballInfoList)
+    public void SaveGame(GlobalSaveData globalSaveData)
     {
-        globalSaveData = new GlobalSaveData(animalPropertyListByLevel, currentLevelIndex, pointsByAnimal, animalBallPassTimes, currentCoin, coinUsedForUpgrade, maxBallPassTimes, animalLevelList, animalPriceList, ballInfoList);
+        this.globalSaveData = globalSaveData;
+
+        //Save the data to a file using the data handler
+        fileDataHandler.Save(this.globalSaveData);
     }
 
     public GlobalSaveData LoadGame()
     {
+        //Load any saved data from a file using the data handler
+        globalSaveData = fileDataHandler.Load();
+
+        //If no data can be loaded, initialize to a new game
         if (globalSaveData == null)
         {
             Debug.Log("No save data found. Start a new game.");

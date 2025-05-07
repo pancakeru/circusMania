@@ -98,10 +98,13 @@ public class PerformAnimalControl : MonoBehaviour
 	{
 		//Debug.Log(name + "开始了");
 		//如果有球
-		if (ifHaveBall) {
+		if (ifHaveBall)
+		{
 			animalBrain.InteractWithBall();
 
-		} else if (!ifReadyToInteract) {
+		}
+		else if (!ifReadyToInteract)
+		{
 			//如果无球并且在休息状态，就休息
 			animalBrain.DoRest();
 		}
@@ -112,10 +115,13 @@ public class PerformAnimalControl : MonoBehaviour
 	public void DoTurnEnd()
 	{
 		//Debug.Log("回合结束行动");
-		if (ifJustInteract) {
+		if (ifJustInteract)
+		{
 			animalBrain.EnterRest(false);
 			ifJustInteract = false;
-		} else if (curRestTurn <= 1 && !ifReadyToInteract) {
+		}
+		else if (curRestTurn <= 1 && !ifReadyToInteract)
+		{
 			animalBrain.Recover();
 		}
 		animalBrain.TurnEndAction();
@@ -123,38 +129,45 @@ public class PerformAnimalControl : MonoBehaviour
 
 	public void TakeBall(BallScript b)
 	{
-		if (ifHaveBall) {
+		if (ifHaveBall)
+		{
 			b.DoDrop();
-		} else {
+		}
+		else
+		{
 			//Debug.Log("拿到球");
-			if (!ifReadyToInteract) {
+			if (!ifReadyToInteract)
+			{
 				if (ifJustInteract)
 					animalBrain.EnterRest(true);
 				int realTake = animalBrain.controlUnit.thrower.takeBanana(curRestTurn);
-				if (realTake < curRestTurn) {
+				if (realTake < curRestTurn)
+				{
 					b.DoDrop();
 					return;
-				} else {
+				}
+				else
+				{
 					TakeBanana(realTake);
 				}
 			}
 			ball = b;
 			b.gameObject.SetActive(false);
 
-			if (ball.GetPasser() != null) {
-				if (ball.GetPasser().animalBrain.soul.name == "Goat") {
-					Debug.Log("羊在这里！");
-					Debug.Log("我是"+animalBrain.soul.name+"我的力量是"+ animalBrain.animalInfo.power);
-					if (animalBrain.animalInfo.power > 1) {
+			if (ball.GetPasser() != null)
+			{
+				if (ball.GetPasser().animalBrain.soul.name == "Goat")
+				{
+					if (animalBrain.animalInfo.power > 1)
+					{
 						int powerDifference = animalBrain.animalInfo.power - 1;
 						animalBrain.animalInfo.power = 1;
-						for (int i = 0; i < powerDifference; i++) {
+						for (int i = 0; i < powerDifference; i++)
+						{
 							animalBrain.Scoring(new float[] { 0, 0, BuffManager.instance.Temp_GetGoatPower() });
-                            //Debug.Log("加了100分！");
-                        }
-                        mechanicNumberUI.UpdateText();
-                        //Debug.Log("完成了羊结算");
-                    }
+						}
+						mechanicNumberUI.UpdateText();
+					}
 				}
 			}
 			ifJustInteract = false;
@@ -169,17 +182,22 @@ public class PerformAnimalControl : MonoBehaviour
 		BananaSound();
 		curRestTurn = Mathf.Max(curRestTurn - n, 0);
 		animalBrain.ConsumeBanana(n);
-		if (ifInRest) {
-			if (curRestTurn < 1) {
+		if (ifInRest)
+		{
+			if (curRestTurn < 1)
+			{
 				animalBrain.Recover();
-			} else {
+			}
+			else
+			{
 				ChangeRestCount(curRestTurn);
 			}
 		}
 		bananaEffect.Play();
 	}
 
-	public void BananaSound() {
+	public void BananaSound()
+	{
 		GameObject audioObj = GameObject.FindWithTag("audio manager");
 		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[3]);
 	}
@@ -188,19 +206,23 @@ public class PerformAnimalControl : MonoBehaviour
 	{
 		//TODO:实现改变休息count 的逻辑
 		curRestTurn = num;
-		if (curRestTurn > 0) {
+		if (curRestTurn > 0)
+		{
 			restText.text = curRestTurn.ToString();
 			if (!restText.gameObject.activeInHierarchy)
 				restText.gameObject.SetActive(true);
 
-		} else {
+		}
+		else
+		{
 			restText.gameObject.SetActive(false);
 		}
 	}
 
 	public void FlipSprite(int state, bool ifDirect, Action doInFlip = null)
 	{
-		if (flipCor != null) {
+		if (flipCor != null)
+		{
 			//Debug.Log("在翻面执行中时再次翻面");
 			StopCoroutine(flipCor);
 			//return;
@@ -229,11 +251,15 @@ public class PerformAnimalControl : MonoBehaviour
 
 
 
-		if (ifDirect) {
+		if (ifDirect)
+		{
 			baseRatio = new Vector3(0, originalScale.y, originalScale.z);
-		} else {
+		}
+		else
+		{
 			float elapsedTime = 0f;
-			while (elapsedTime < halfDuration) {
+			while (elapsedTime < halfDuration)
+			{
 				float t = elapsedTime / halfDuration;
 				baseRatio = Vector3.Lerp(originalScale, new Vector3(0, originalScale.y, originalScale.z), t);
 				elapsedTime += Time.deltaTime;
@@ -247,7 +273,8 @@ public class PerformAnimalControl : MonoBehaviour
 		renderer.sprite = toSprite;
 
 		elapsedTime = 0f;
-		while (elapsedTime < halfDuration) {
+		while (elapsedTime < halfDuration)
+		{
 			float t = elapsedTime / halfDuration;
 			baseRatio = Vector3.Lerp(new Vector3(0, originalScale.y, originalScale.z), originalScale, t);
 			elapsedTime += Time.deltaTime;
@@ -271,11 +298,11 @@ public class PerformAnimalControl : MonoBehaviour
 		Destroy(mechanicNumberUI.gameObject);
 	}
 
-    private void OnDestroy()
-    {
+	private void OnDestroy()
+	{
 		if (mechanicNumberUI != null)
-            Destroy(mechanicNumberUI.gameObject);
-    }
+			Destroy(mechanicNumberUI.gameObject);
+	}
 }
 
 public abstract class AbstractSpecialAnimal : MonoBehaviour
@@ -322,7 +349,7 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 		BallSound();
-		
+
 		GenerateScore(animalInfo);
 
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
@@ -330,24 +357,30 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 		animalBody.ifReadyToInteract = false;
 	}
 
-	public void BallSound() {
+	public void BallSound()
+	{
 		GameObject audioObj = GameObject.FindWithTag("audio manager");
 		audioObj.GetComponent<AudioManagerScript>().PlayBattleSound(audioObj.GetComponent<AudioManagerScript>().Battle[0]);
 	}
 
 	internal void Scoring(float[] inputScore)
 	{
-
-		if (inputScore[0] != 0) {
+		if (inputScore[0] != 0)
+		{
 			controlUnit.ChangeRedScore(inputScore[0]);
+			GlobalManager.instance.AddPointsToTemporaryPointsByAnimal(soul.animalName, (int)inputScore[0]);
 			animalBody.generator.RequestTextEffect(inputScore[0], ScoreTextEffectGenerator.ScoreType.Red);
 		}
-		if (inputScore[1] != 0) {
+		if (inputScore[1] != 0)
+		{
 			controlUnit.ChangeYellowScore(inputScore[1]);
+			GlobalManager.instance.AddPointsToTemporaryPointsByAnimal(soul.animalName, (int)inputScore[1]);
 			animalBody.generator.RequestTextEffect(inputScore[1], ScoreTextEffectGenerator.ScoreType.Yellow);
 		}
-		if (inputScore[2] != 0) {
+		if (inputScore[2] != 0)
+		{
 			controlUnit.ChangeBlueScore(inputScore[2]);
+			GlobalManager.instance.AddPointsToTemporaryPointsByAnimal(soul.animalName, (int)inputScore[2]);
 			animalBody.generator.RequestTextEffect(inputScore[2], ScoreTextEffectGenerator.ScoreType.Blue);
 		}
 	}
@@ -355,9 +388,12 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	public virtual void DoRest()
 	{
 		animalBody.curRestTurn = Mathf.Max(animalBody.curRestTurn - 1, 0);
-		if (animalBody.curRestTurn < 1) {
+		if (animalBody.curRestTurn < 1)
+		{
 			Recover();
-		} else {
+		}
+		else
+		{
 			animalBody.ChangeRestCount(animalBody.curRestTurn);
 		}
 	}
@@ -391,7 +427,8 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	{
 		//TODO:目前没有带特殊Message的动物，先空着list
 		List<float[]> scoresAfterBuff = BuffManager.instance.BuffInteractionWhenScore(animalInfo, new List<BuffExtraMessage>());
-		foreach (float[] inputScore in scoresAfterBuff) {
+		foreach (float[] inputScore in scoresAfterBuff)
+		{
 			Scoring(inputScore);
 		}
 	}
