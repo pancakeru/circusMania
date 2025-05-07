@@ -36,8 +36,6 @@ public class LevelPreviewController : MonoBehaviour
 
     private void Awake()
     {
-        container.SetActive(false);
-
         backgroundRectTransform = GetComponent<RectTransform>();
 
         redColor = new Color(0.827451f, 0.2745098f, 0.5607843f);
