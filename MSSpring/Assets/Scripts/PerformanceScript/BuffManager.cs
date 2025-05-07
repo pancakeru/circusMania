@@ -62,7 +62,7 @@ public class BuffManager : MonoBehaviour
 											animalInfo.blueScore };
 
 		returnScoreList.Add(BuffInteractionWhenScoreChangeBase(myBaseScore, animalInfo.performAnimalControl, messages));
-
+		//TODO:可以在这里记录分数
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore) {
 			//Debug.Log("正在检查buff"+buff.GetType().ToString());
 			if (buff.Check(myBaseScore, animalInfo.performAnimalControl, messages)) {
