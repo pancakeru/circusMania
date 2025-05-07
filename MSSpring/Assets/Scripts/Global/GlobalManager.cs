@@ -155,7 +155,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     // 动物管理
     #region 动物管理
-    private List<animalProperty> animals = new List<animalProperty>();
+    public List<animalProperty> animals { get; private set; } = new List<animalProperty>();
 
     public List<animalProperty> getAllAnimals()
     {
@@ -192,7 +192,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     #endregion
     // 金币管理
     #region 金币管理
-    private int curCoinAmount = 0;
+    public int curCoinAmount { get; private set; } = 0;
 
     public int getCurCoinAmount()
     {
