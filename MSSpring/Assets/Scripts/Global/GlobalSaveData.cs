@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class GlobalLevelSaveData
+public class GlobalSaveData
 {
     public List<List<animalProperty>> animalPropertyListByLevel;
     public int currentLevelIndex;
@@ -13,7 +13,7 @@ public class GlobalLevelSaveData
     public List<Dictionary<string, int>> animalPriceList;
     public List<BallInfo> ballInfoList;
 
-    public GlobalLevelSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, List<Dictionary<string, int>> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<Dictionary<string, int>> animalLevelList, List<Dictionary<string, int>> animalPriceList, List<BallInfo> ballInfoList)
+    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, List<Dictionary<string, int>> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<Dictionary<string, int>> animalLevelList, List<Dictionary<string, int>> animalPriceList, List<BallInfo> ballInfoList)
     {
         this.animalPropertyListByLevel = animalPropertyListByLevel;
         this.currentLevelIndex = currentLevelIndex;
