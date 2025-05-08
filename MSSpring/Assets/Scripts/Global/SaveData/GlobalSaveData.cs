@@ -20,7 +20,7 @@ public class GlobalSaveData
     public List<BallInfo> ballInfoList;
     public int myBallIndex;
 
-    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> animals, Dictionary<string, bool> isAnimalUnlocked, Dictionary<string, int> animalPrices, Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalLevels, List<BallInfo> ballInfoList, int myBallIndex)
+    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> animals, Dictionary<string, bool> isAnimalUnlocked, Dictionary<string, int> animalPrices, Dictionary<string, int> animalPriceLevel, Dictionary<string, List<int>> animalPriceChanges, Dictionary<string, int> animalLevels, List<BallInfo> ballInfoList, int myBallIndex)
     {
         this.animalPropertyListByLevel = animalPropertyListByLevel;
         this.currentLevelIndex = currentLevelIndex;
@@ -33,6 +33,7 @@ public class GlobalSaveData
         this.isAnimalUnlocked = isAnimalUnlocked;
         this.animalPrices = animalPrices;
         this.animalPriceLevel = animalPriceLevel;
+        this.animalPriceChanges = animalPriceChanges;
         this.animalLevels = animalLevels;
         this.ballInfoList = ballInfoList;
         this.myBallIndex = myBallIndex;

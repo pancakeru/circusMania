@@ -315,16 +315,31 @@ public class TroupeController : MonoBehaviour, ISaveData
         }
 
         Dictionary<string, List<int>> globalSaveDataAnimalPriceChanges = GlobalManager.instance.GetAnimalPriceChanges();
-        if (globalSaveDataAnimalPriceChanges == null)
+        if (globalSaveDataAnimalPriceChanges.Count == 0)
         {
-            foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+            if (animalPriceChanges.Count == 0)
             {
-                animalPriceChanges[animal.animalName] = new List<int>
+                foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+                {
+                    animalPriceChanges[animal.animalName] = new List<int>
                 {
                     GlobalManager.instance.animalPrices[animal.animalName]
                 };
+                }
+                GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
             }
-            GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
+            else
+            {
+                foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+                {
+                    animalPriceChanges[animal.animalName] = new List<int>
+                {
+                    GlobalManager.instance.animalPrices[animal.animalName]
+                };
+                }
+                GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
+                previousLevelIndex = GlobalManager.instance.currentLevelIndex;
+            }
         }
         else
         {

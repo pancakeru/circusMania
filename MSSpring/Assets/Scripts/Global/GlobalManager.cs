@@ -202,11 +202,14 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         {
             if (ifDoTestInitialize)
             {
-                foreach (animalProperty apt in testProperties.properies)
+                if (animals.Count == 0)
                 {
-                    addAnAnimal(apt);
+                    foreach (animalProperty apt in testProperties.properies)
+                    {
+                        addAnAnimal(apt);
+                    }
+                    globalSaveData.animals = animals;
                 }
-                globalSaveData.animals = animals;
             }
         }
 
@@ -370,6 +373,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         IEnumerable<ISaveData> saveDataObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveData>();
         return new List<ISaveData>(saveDataObjects);
+    }
+
+    public void ClearGlobalManagerSaveData()
+    {
+        animals.Clear();
+        globalSaveData = new GlobalSaveData(new List<List<animalProperty>>(), 0, new Dictionary<string, int>(), new AnimalBallPassTimes(), 0, 0, 0, new List<animalProperty>(), new Dictionary<string, bool>(), new Dictionary<string, int>(), new Dictionary<string, int>(), new Dictionary<string, List<int>>(), new Dictionary<string, int>(), new List<BallInfo>(), 0);
     }
 
     private void OnApplicationQuit()
