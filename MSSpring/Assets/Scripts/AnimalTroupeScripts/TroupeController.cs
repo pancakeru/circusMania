@@ -59,8 +59,12 @@ public class TroupeController : MonoBehaviour
         menuController = FindAnyObjectByType<MenuController>();
 
         slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
+    }
 
+    public void Initialize()
+    {
         newAnimalOrder = new List<animalProperty>();
+
         HashSet<string> animalNames = new HashSet<string>();
         foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
         {

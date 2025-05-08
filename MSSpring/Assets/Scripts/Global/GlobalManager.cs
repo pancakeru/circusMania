@@ -227,6 +227,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         SetAnimalProperty();
 
+        TroupeController.instance.Initialize();
+
         saveDataObjectList = FindAllSaveDataObjects();
         foreach (ISaveData saveDataObject in saveDataObjectList)
         {
