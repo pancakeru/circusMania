@@ -328,6 +328,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
     }
 
+    public void SetAnimalPriceChanges(Dictionary<string, List<int>> animalPriceChanges)
+    {
+        globalSaveData.animalPriceChanges = animalPriceChanges;
+    }
+
     private List<ISaveData> FindAllSaveDataObjects()
     {
         IEnumerable<ISaveData> saveDataObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveData>();
