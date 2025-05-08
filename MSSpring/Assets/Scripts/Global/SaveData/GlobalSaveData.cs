@@ -15,6 +15,7 @@ public class GlobalSaveData
     [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, bool> isAnimalUnlocked;
     [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalPrices;
     [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalPriceLevel;
+    [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, List<int>> animalPriceChanges;
     [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalLevels;
     public List<BallInfo> ballInfoList;
 

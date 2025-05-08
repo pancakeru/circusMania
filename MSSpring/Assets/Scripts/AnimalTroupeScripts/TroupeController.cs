@@ -250,6 +250,7 @@ public class TroupeController : MonoBehaviour, ISaveData
             }
         }
 
+        Dictionary<string, List<int>> globalSaveDataAnimalPriceChanges = GlobalManager.instance.GetAnimalPriceChanges();
         foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
         {
             animalPriceChanges[animal.animalName] = new List<int>

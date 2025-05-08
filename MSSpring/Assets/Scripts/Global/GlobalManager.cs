@@ -316,6 +316,18 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         globalSaveData.isAnimalUnlocked = isAnimalUnlocked;
     }
 
+    public Dictionary<string, List<int>> GetAnimalPriceChanges()
+    {
+        if (globalSaveData.animalPriceChanges != null)
+        {
+            return globalSaveData.animalPriceChanges;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     private List<ISaveData> FindAllSaveDataObjects()
     {
         IEnumerable<ISaveData> saveDataObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveData>();

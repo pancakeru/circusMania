@@ -76,6 +76,12 @@ public class MrShopManager : MonoBehaviour, ISaveData
         if (globalSaveData.ballInfoList.Count > 0)
         {
             ballInfos = globalSaveData.ballInfoList;
+            for (int i = 0; i < ballInfos.Count; i++)
+            {
+                BallInfo ballInfo = ballInfos[i];
+                ballInfo.ballSprite = ballSprites[i];
+            }
+            globalSaveData.ballInfoList = ballInfos;
         }
         else
         {
