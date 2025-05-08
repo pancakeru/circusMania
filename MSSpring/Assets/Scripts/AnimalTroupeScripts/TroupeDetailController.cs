@@ -24,9 +24,7 @@ public class TroupeDetailController : MonoBehaviour
     public Sprite spriteSpecial;
     public Sprite spriteRest;
 
-    Dictionary<string, List<int>> animalPriceChanges = new Dictionary<string, List<int>>();
     List<GameObject> lineChartIcons = new List<GameObject>();
-    int maxChartLength = 5;
     float lengthFix = 0.5f;
     int maxChartHeight = 2;
 
@@ -34,22 +32,14 @@ public class TroupeDetailController : MonoBehaviour
 
     void Start()
     {
-        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
-        {
-            animalPriceChanges[animal.animalName] = new List<int>
-            {
-                GlobalManager.instance.animalPrices[animal.animalName]
-            };
-        }
+        troupeController = transform.parent.GetComponent<TroupeController>();
 
-        for (int i = 0; i < maxChartLength; i++)
+        for (int i = 0; i < troupeController.maxChartLength; i++)
         {
             GameObject newIcon = Instantiate(lineChartIcon, troupeLineChart.transform);
             newIcon.GetComponent<RectTransform>().anchoredPosition = lineChartIconBasePos;
             lineChartIcons.Add(newIcon);
         }
-
-        troupeController = transform.parent.GetComponent<TroupeController>();
     }
 
     // Update is called once per frame
@@ -67,16 +57,10 @@ public class TroupeDetailController : MonoBehaviour
     {
         string theAnimalName = troupeController.troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty.animalName;
 
-        if (animalPriceChanges[theAnimalName][animalPriceChanges[theAnimalName].Count - 1] != GlobalManager.instance.animalPrices[theAnimalName])
-        {
-            animalPriceChanges[theAnimalName].Add(GlobalManager.instance.animalPrices[theAnimalName]);
-            if (animalPriceChanges[theAnimalName].Count > maxChartLength) animalPriceChanges[theAnimalName].RemoveAt(0);
-        }
-
         List<Vector2> ballPassTimesToVertex = new List<Vector2>();
-        for (int i = 0; i < animalPriceChanges[theAnimalName].Count; i++)
+        for (int i = 0; i < troupeController.animalPriceChanges[theAnimalName].Count; i++)
         {
-            int clamped = Mathf.Min(animalPriceChanges[theAnimalName][i], GlobalManager.instance.maxPrice);
+            int clamped = Mathf.Min(troupeController.animalPriceChanges[theAnimalName][i], GlobalManager.instance.maxPrice);
             ballPassTimesToVertex.Add(new Vector2(i * lengthFix, (float)clamped * maxChartHeight / GlobalManager.instance.maxPrice));
 
         }

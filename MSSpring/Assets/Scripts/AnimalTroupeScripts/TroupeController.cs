@@ -39,6 +39,10 @@ public class TroupeController : MonoBehaviour
 
     [SerializeField] private priceMultiplier multis;
 
+    [HideInInspector] public Dictionary<string, List<int>> animalPriceChanges = new Dictionary<string, List<int>>();
+    [HideInInspector] public int previousLevelIndex = -1;
+    [HideInInspector] public int maxChartLength;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -46,6 +50,8 @@ public class TroupeController : MonoBehaviour
 
         cardOffset = new Vector2(cardOffset.x * troupeCardSimple.transform.localScale.x, cardOffset.y * troupeCardSimple.transform.localScale.y);
         upgradePrice = 10;
+        previousLevelIndex = 0;
+        maxChartLength = 5;
     }
 
     void Start()
@@ -75,6 +81,14 @@ public class TroupeController : MonoBehaviour
                     }
                 }
             }
+        }
+
+        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        {
+            animalPriceChanges[animal.animalName] = new List<int>
+            {
+                GlobalManager.instance.animalPrices[animal.animalName]
+            };
         }
     }
 
@@ -153,6 +167,16 @@ public class TroupeController : MonoBehaviour
     public void Enable()
     {
         GetComponent<Canvas>().enabled = true;
+
+        if (GlobalManager.instance.currentLevelIndex != previousLevelIndex)
+        {
+            foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+            {
+                animalPriceChanges[animal.animalName].Add(GlobalManager.instance.animalPrices[animal.animalName]);
+                if (animalPriceChanges[animal.animalName].Count > maxChartLength) animalPriceChanges[animal.animalName].RemoveAt(0);
+            }
+            previousLevelIndex = GlobalManager.instance.currentLevelIndex;
+        }
 
         DisplayCards();
         coin = GlobalManager.instance.getCurCoinAmount();
