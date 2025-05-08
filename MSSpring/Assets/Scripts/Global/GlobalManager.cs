@@ -45,6 +45,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     [Header("Global Save Data")]
     [SerializeField, ReadOnly] private GlobalSaveData globalSaveData;
+    private bool hasSaveData = false;
     private List<ISaveData> saveDataObjectList;
     public Dictionary<string, int> temporaryPointsByAnimal;
     [HideInInspector] public AnimalBallPassTimes temporaryAnimalBallPassTimes;
@@ -148,6 +149,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         globalSaveData = SaveDataManager.Instance.NewGame();
         StartInitialization();
+        hasSaveData = true;
         CanvasMain.instance.ShowCutScene();
     }
 
@@ -155,6 +157,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         globalSaveData = SaveDataManager.Instance.LoadGame();
         StartInitialization();
+        hasSaveData = true;
     }
 
     private void StartInitialization()
@@ -371,7 +374,10 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     private void OnApplicationQuit()
     {
-        SaveGlobalSaveData();
+        if (hasSaveData)
+        {
+            SaveGlobalSaveData();
+        }
     }
     #endregion
 
