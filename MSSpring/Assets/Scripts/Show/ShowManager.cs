@@ -852,8 +852,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			curEndScreen.GetComponent<EndScreenScript>().InitialScore( GetComponent<ShowScoreManager>().containers, (int)curRepu, 100,ifBreak);
 			curEndScreen.GetComponent<RectTransform>().anchoredPosition = endScreenDownPos.anchoredPosition;
 			curEndScreen.GetComponent<UiMover>().MoveTo(endScreenUpPos.anchoredPosition);
-			//LeaveShow();
-		}
+
+			if (ifBreak && GlobalManager.instance.currentLevelIndex == 5) MrShopManager.instance.AchievementUnlocked(3);
+
+            //LeaveShow();
+        }
 	}
 
 	public void LeaveShow(int curMoneyEarned)

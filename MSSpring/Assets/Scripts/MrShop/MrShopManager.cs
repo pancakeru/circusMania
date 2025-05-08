@@ -80,9 +80,9 @@ public class MrShopManager : MonoBehaviour, ISaveData
                 new BallInfo("Circus Ball", true, "You always have this.", ballSprites[0]),
                 new BallInfo("Basketball", false, "???", ballSprites[1]),
                 new BallInfo("Pixel Ball", false, "Finish the tutorial.", ballSprites[2]),
-                new BallInfo("Tennis Ball", false, "Complete a level with at least 3 foxes.", ballSprites[3]),
+                new BallInfo("Tennis Ball", false, "Finish the level 5.", ballSprites[3]),
                 new BallInfo("Yarn Ball", false, "Reach 1,200 Popularity in a level.", ballSprites[4]),
-                new BallInfo("Beach Ball", false, "Complete a level with at least 3 seals.", ballSprites[5]),
+                new BallInfo("Beach Ball", false, "Have all kinds of animals.", ballSprites[5]),
                 new BallInfo("Chip Ball", false, "Upgrade 7 animals to max level.", ballSprites[6]),
             };
             GlobalManager.instance.SetBallInfoList(ballInfos);
