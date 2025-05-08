@@ -14,18 +14,6 @@ public class MrShopItem : MonoBehaviour
     public GameObject locked;
     public Image ballImageSelected;
 
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void SetBallInfo(BallInfo ballInfo)
     {
         ballImageSelected.enabled = (MrShopManager.instance.myBallSprite == ballImage.sprite);
@@ -33,6 +21,14 @@ public class MrShopItem : MonoBehaviour
         ballImage.sprite = ballInfo.ballSprite;
         ballName.text = ballInfo.ballName;
         ballRequirement.text = ballInfo.unlockRequirement;
+        if (!ballInfo.isUnlocked)
+        {
+            ballImage.raycastTarget = false;
+        }
+        else
+        {
+            ballImage.raycastTarget = true;
+        }
     }
 
     public void SetMyBall()
