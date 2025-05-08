@@ -148,6 +148,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         globalSaveData = SaveDataManager.Instance.NewGame();
         StartInitialization();
+        CanvasMain.instance.ShowCutScene();
     }
 
     public void LoadGame()
@@ -227,6 +228,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
 
         SetAnimalProperty();
+
+        TroupeController.instance.Initialize();
 
         saveDataObjectList = FindAllSaveDataObjects();
         foreach (ISaveData saveDataObject in saveDataObjectList)

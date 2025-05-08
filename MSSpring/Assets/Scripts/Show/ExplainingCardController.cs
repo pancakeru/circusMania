@@ -38,7 +38,7 @@ public class ExplainingCardController : MonoBehaviour
         string directionDirection = theAnimalProperty.baseBallChange < 0 ? "LEFT" : theAnimalProperty.baseBallChange > 0 ? "RIGHT" : "SPECIAL";
         direction.text = $"{directionDirection} {Mathf.Abs(theAnimalProperty.baseBallChange)}";
         rest.text = theAnimalProperty.restTurn.ToString();
-        description.text = theAnimalProperty.ReturnAllExplanation();
+        description.text = theAnimalProperty.ReturnSimpleExplanation();
         star.fillAmount = starFills[GlobalManager.instance.animalLevels[theAnimalProperty.animalName]];
         background.sprite = theAnimalProperty.baseRedChange > 0 ? bgSprites[0]
                           : theAnimalProperty.baseYellowChange > 0 ? bgSprites[1]
