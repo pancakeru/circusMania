@@ -267,6 +267,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		pauseShow.SetActive(false);
 
 		myExplainingCard = Instantiate(explainingCardPrefab, canvasTrans).GetComponent<ExplainingCardController>();
+		CanvasMain.instance.ShowPopUp(targetDisplayManager.popularityGroup.GetComponent<Image>(), "You need a positive Popularity score to pass the level.", targetDisplayManager.transform.parent.GetComponent<Canvas>().GetComponent<GraphicRaycaster>());
 	}
 
 	void Start()

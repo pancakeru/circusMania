@@ -15,7 +15,7 @@ public class targetPanelManager : MonoBehaviour
 	[SerializeField] private GameObject redGroup;
 	[SerializeField] private GameObject blueGroup;
 	[SerializeField] private GameObject yellowGroup;
-	[SerializeField] private GameObject popularityGroup;
+	public GameObject popularityGroup;
 
 	public void ChangeLevelState(int curTurn, float curRepu, float[] targets, int totalTurn)
 	{
