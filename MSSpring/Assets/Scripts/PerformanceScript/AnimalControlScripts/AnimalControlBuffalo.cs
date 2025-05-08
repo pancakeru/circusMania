@@ -2,7 +2,15 @@
 public class AnimalControlBuffalo : AbstractSpecialAnimal
 {
 	private BuffBuffalo selfBuff;
-	public override void InteractWithBall()
+    private bool haveBuffAdded = false;
+
+
+    public override void InitOnExcitementEventListener()
+    {
+        controlUnit.OnExcitement += PerformUnit_OnExcitement;
+    }
+
+    public override void InteractWithBall()
 	{
 		PerformAnimalControl passer = animalBody.ball.GetPasser();
 
@@ -21,22 +29,54 @@ public class AnimalControlBuffalo : AbstractSpecialAnimal
 		GenerateScore(animalInfo);
 
 		controlUnit.InvokeOnExcitementEvent(animalInfo);
+        animalInfo.excited = animalInfo.mechanicActiveNum;
+        if (haveBuffAdded)
+        {
+            BuffManager.instance.RemoveChangeBaseBuff(selfBuff);
+        }
+        selfBuff = new BuffBuffalo(animalBody,soul.skillNum);
+        BuffManager.instance.AddChangeBaseBuff(selfBuff);
+        haveBuffAdded = true;
+        animalBody.mechanicNumberUI.StartEffectImpact(false);
 
-		animalBody.ifReadyToInteract = false;
+        animalBody.ifReadyToInteract = false;
 
 		BallSound();
 	}
 
-    public override void DoWhenShowStart()
+    private void PerformUnit_OnExcitement(object sender, PerformUnit.OnExcitementEventArgs e)
     {
-        base.DoWhenShowStart();
-		selfBuff = new BuffBuffalo(animalBody);
-		BuffManager.instance.AddChangeBaseBuff(selfBuff);
+        if (animalInfo.excited > 0)
+        {
+            /*
+			if (e.animalInfo.redScore > 0)
+			{
+				GenerateScore(animalInfo);
+			}*/
+            animalInfo.excited -= 1;
+            if (animalInfo.excited <= 0)
+            {
+                BuffManager.instance.RemoveChangeBaseBuff(selfBuff);
+                haveBuffAdded = false;
+            }
+            animalBody.mechanicNumberUI.UpdateText();
+            if (animalInfo.excited > 0) animalBody.mechanicNumberUI.StartEffectImpact(false);
+            else animalBody.mechanicNumberUI.StartEffectImpact(true);
+        }
     }
 
     public override void ResetWhenBackToInitial()
     {
         base.ResetWhenBackToInitial();
-		BuffManager.instance.RemoveChangeBaseBuff(selfBuff);
+        animalInfo.excited = 0;
+        if (haveBuffAdded)
+        {
+            BuffManager.instance.RemoveChangeBaseBuff(selfBuff);
+            haveBuffAdded = false;
+        }
+        animalBody.mechanicNumberUI.StartEffectDeath();
     }
+
+
+    
 }

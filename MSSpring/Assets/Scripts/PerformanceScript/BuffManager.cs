@@ -26,10 +26,11 @@ public class BuffManager : MonoBehaviour
 
 	public void AddGiveExtraBuff(BuffGiveExtra giveExtra)
 	{
-		//未来可能要有buff顺序问题，需要添加时排序，现在没有。
-		if (giveExtra is BuffFox)//Debug.Log("添加了狐狸buff");
-			buffsGiveExtraWhenScore.Add(giveExtra);
-	}
+        //未来可能要有buff顺序问题，需要添加时排序，现在没有。
+        //if (giveExtra is BuffFox)//Debug.Log("添加了狐狸buff");
+        //buffsGiveExtraWhenScore.Add(giveExtra);
+        buffsGiveExtraWhenScore.Add(giveExtra);
+    }
 
 	public void AddChangeBaseBuff(BuffChangeBase changeBase)
 	{
@@ -66,6 +67,7 @@ public class BuffManager : MonoBehaviour
 		//TODO:可以在这里记录分数
 		foreach (BuffGiveExtra buff in buffsGiveExtraWhenScore)
 		{
+			Debug.Log("有一个buff！"+buff.ToString());
 			if (buff.Check(myBaseScore, animalInfo.performAnimalControl, messages))
 			{
 				List<float[]> toAdd = BuffInteractionWhenScore(new AnimalInfoPack(animalInfo.performAnimalControl.animalBrain.soul, animalInfo.performAnimalControl)
@@ -206,11 +208,19 @@ public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate
 	private float selfBlue;
 	public BuffKangaroo(PerformAnimalControl _from, float changeBlue) : base(_from)
 	{
+		selfBlue = changeBlue;
 	}
 	public override bool Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
 	{
+		//Debug.Log("至少在这里？");
 		if (baseScore[0] > 0)
 		{
+			//Debug.Log("红分生成蓝分");
+			if (fromAnimal.animalBrain.animalInfo.excited > 0)
+			{
+				return true;
+			}
+			/*
 			PerformAnimalControl[] animalsOnStage = BuffManager.instance.performUnit.GetAllAnimalsInShow(false);
 			foreach (PerformAnimalControl performAnimal in animalsOnStage)
 			{
@@ -224,7 +234,7 @@ public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate
 						return true;
 					}
 				}
-			}
+			}*/
 		}
 		return false;
 	}
@@ -242,15 +252,17 @@ public class BuffKangaroo : BuffGiveExtra //Excited(7): when any animal generate
 
 public class BuffBuffalo : BuffChangeBase //When generate blue, blue +0.3
 {
-	public BuffBuffalo(PerformAnimalControl _from) : base(_from)
+	private float selfBlue;
+	public BuffBuffalo(PerformAnimalControl _from,float changeBlue) : base(_from)
 	{
+		selfBlue = changeBlue;
 	}
 	public override (bool isValid, bool isMult) Check(float[] baseScore, PerformAnimalControl performAnimalControl, List<BuffExtraMessage> messages)
 	{
+		//Debug.Log("检查buffalobuff");
 		foreach (PerformAnimalControl animalOnStage in BuffManager.instance.performUnit.GetAllAnimalsInShow(false))
 		{
-			if (animalOnStage != null && animalOnStage.animalBrain.soul.animalName == "Buffalo"
-				&& baseScore[2] != 0)
+			if (baseScore[2] != 0)
 				return (true, false);
 		}
 		return (false, false);
@@ -258,7 +270,7 @@ public class BuffBuffalo : BuffChangeBase //When generate blue, blue +0.3
 
 	public override float[] Apply()
 	{
-		return new float[] { 0, 0, 5f };
+		return new float[] { 0, 0, selfBlue };
 	}
 }
 
