@@ -3,7 +3,7 @@ public class AnimalControlSeal : AbstractSpecialAnimal
 {
 	private int excitedTurnAmount = 7;
 	private int ballChangeWhenExcited = -1;
-	private int scoringTimesWhenExcited = 2;
+	private int scoringTimesWhenExcited = 1;
 
 	public override void InitOnExcitementEventListener()
 	{
