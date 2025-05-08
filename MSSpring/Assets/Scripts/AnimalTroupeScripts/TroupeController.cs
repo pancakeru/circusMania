@@ -1,13 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TroupeController : MonoBehaviour
+public class TroupeController : MonoBehaviour, ISaveData
 {
     public static TroupeController instance;
 
@@ -31,7 +27,7 @@ public class TroupeController : MonoBehaviour
     public TextMeshProUGUI textCoin;
     private int upgradePrice;
     int coin = -1;
-    private int temporaryCoinUsedForUpgrade = 0;
+    private int coinUsedForUpgrade = 0;
 
     public bool isFirstGameCompleted = false;
 
@@ -47,51 +43,6 @@ public class TroupeController : MonoBehaviour
 
         cardOffset = new Vector2(cardOffset.x * troupeCardSimple.transform.localScale.x, cardOffset.y * troupeCardSimple.transform.localScale.y);
         upgradePrice = 10;
-    }
-
-    void Start()
-    {
-        menuController = FindAnyObjectByType<MenuController>();
-
-        slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
-
-        newAnimalOrder = new List<animalProperty>();
-        HashSet<string> animalNames = new HashSet<string>();
-        foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
-        {
-            foreach (string animalName in unlockData.animalToUnlock)
-            {
-                if (!animalNames.Contains(animalName))
-                {
-                    animalProperty foundAnimal = System.Array.Find(GlobalManager.instance.allAnimals.properies, ap => ap.animalName == animalName);
-
-                    if (foundAnimal != null)
-                    {
-                        newAnimalOrder.Add(foundAnimal);
-                        animalNames.Add(animalName);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Animal '{animalName}' not found in allAnimals.properies.");
-                    }
-                }
-            }
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /* Slide is not used. 
-        if (GetComponent<Canvas>().enabled)
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0 && troupeCards.Count > cardsPerRow * visibleRows)
-            {
-                slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.6f);
-            }
-        }
-        */
     }
 
     void DisplayCards()
@@ -162,9 +113,6 @@ public class TroupeController : MonoBehaviour
 
     public void Disable()
     {
-        GlobalManager.instance.setCoinAmount(coin);
-        GlobalManager.instance.SetCoinUsedForUpgrade(temporaryCoinUsedForUpgrade);
-        temporaryCoinUsedForUpgrade = 0;
         AudioManagerScript.Instance.PlayUISound(AudioManagerScript.Instance.UI[0]);
         GetComponent<Canvas>().enabled = false;
         menuController.Enable();
@@ -212,6 +160,8 @@ public class TroupeController : MonoBehaviour
         if (coin >= price)
         {
             coin -= price;
+            GlobalManager.instance.setCoinAmount(coin);
+            GlobalManager.instance.SetCoinUsedForUpgrade(0);
             GlobalManager.instance.addAnAnimal(troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty);
             UpdateText();
         }
@@ -225,6 +175,8 @@ public class TroupeController : MonoBehaviour
         {
             GlobalManager.instance.removeAnAnimal(animal);
             coin += GlobalManager.instance.animalPrices[animal.animalName];
+            GlobalManager.instance.setCoinAmount(coin);
+            GlobalManager.instance.SetCoinUsedForUpgrade(0);
 
             UpdateText();
         }
@@ -239,7 +191,9 @@ public class TroupeController : MonoBehaviour
             if (coin >= GetUpgradePrice(animal))
             {
                 coin -= GetUpgradePrice(animal);
-                temporaryCoinUsedForUpgrade += GetUpgradePrice(animal);
+                coinUsedForUpgrade = GetUpgradePrice(animal);
+                GlobalManager.instance.setCoinAmount(coin);
+                GlobalManager.instance.SetCoinUsedForUpgrade(coinUsedForUpgrade);
                 GlobalManager.instance.UpdateLevel(animal.animalName, 1);
                 UpdateText();
             }
@@ -252,5 +206,35 @@ public class TroupeController : MonoBehaviour
     public int GetUpgradePrice(animalProperty property)
     {
         return (int)Mathf.Floor(upgradePrice * multis.multipliers[GlobalManager.instance.animalLevels[property.animalName] - 1]);
+    }
+
+    public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
+    {
+        menuController = FindAnyObjectByType<MenuController>();
+
+        slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
+
+        newAnimalOrder = new List<animalProperty>();
+        HashSet<string> animalNames = new HashSet<string>();
+        foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
+        {
+            foreach (string animalName in unlockData.animalToUnlock)
+            {
+                if (!animalNames.Contains(animalName))
+                {
+                    animalProperty foundAnimal = System.Array.Find(GlobalManager.instance.allAnimals.properies, ap => ap.animalName == animalName);
+
+                    if (foundAnimal != null)
+                    {
+                        newAnimalOrder.Add(foundAnimal);
+                        animalNames.Add(animalName);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Animal '{animalName}' not found in allAnimals.properies.");
+                    }
+                }
+            }
+        }
     }
 }

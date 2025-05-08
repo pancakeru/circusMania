@@ -1,23 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class StartScreenManager : MonoBehaviour
 {
     [SerializeField] Canvas canvas;
     [SerializeField] GameObject balloon;
-
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void Enable()
     {
@@ -25,13 +11,21 @@ public class StartScreenManager : MonoBehaviour
         balloon.GetComponent<BalloonController>().Enable();
     }
 
-    public void Disable()
+    public void StartButton()
     {
+        GlobalManager.instance.NewGame();
+        canvas.enabled = false;
+    }
+
+    public void LoadButton()
+    {
+        GlobalManager.instance.LoadGame();
         canvas.enabled = false;
     }
 
     public void Exit()
     {
+        GlobalManager.instance.SaveGlobalSaveData();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

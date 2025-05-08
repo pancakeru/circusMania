@@ -2,10 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Linq;
 
-public class TroupeDetailController : MonoBehaviour
+public class TroupeDetailController : MonoBehaviour, ISaveData
 {
     TroupeController troupeController;
     public TroupeLineChart troupeLineChart;
@@ -31,37 +29,6 @@ public class TroupeDetailController : MonoBehaviour
     int maxChartHeight = 2;
 
     Vector2 lineChartIconBasePos = Vector2.one * 9000;
-
-    void Start()
-    {
-        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
-        {
-            animalPriceChanges[animal.animalName] = new List<int>
-            {
-                GlobalManager.instance.animalPrices[animal.animalName]
-            };
-        }
-
-        for (int i = 0; i < maxChartLength; i++)
-        {
-            GameObject newIcon = Instantiate(lineChartIcon, troupeLineChart.transform);
-            newIcon.GetComponent<RectTransform>().anchoredPosition = lineChartIconBasePos;
-            lineChartIcons.Add(newIcon);
-        }
-
-        troupeController = transform.parent.GetComponent<TroupeController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().monkey = 10;
-            SetLineChart();
-        }*/
-    }
 
     public void SetLineChart()
     {
@@ -100,7 +67,26 @@ public class TroupeDetailController : MonoBehaviour
             }
         }
 
-        
+
     }
 
+    public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
+    {
+        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        {
+            animalPriceChanges[animal.animalName] = new List<int>
+            {
+                GlobalManager.instance.animalPrices[animal.animalName]
+            };
+        }
+
+        for (int i = 0; i < maxChartLength; i++)
+        {
+            GameObject newIcon = Instantiate(lineChartIcon, troupeLineChart.transform);
+            newIcon.GetComponent<RectTransform>().anchoredPosition = lineChartIconBasePos;
+            lineChartIcons.Add(newIcon);
+        }
+
+        troupeController = transform.parent.GetComponent<TroupeController>();
+    }
 }

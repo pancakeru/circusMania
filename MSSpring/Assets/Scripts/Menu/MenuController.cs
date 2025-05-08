@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class MenuController : MonoBehaviour
+public class MenuController : MonoBehaviour, ISaveData
 {
     TroupeController troupeController;
     MrShopManager shopManager;
@@ -30,12 +28,6 @@ public class MenuController : MonoBehaviour
         lvlsDisplay.SetActive(false);
 
         Enable();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void ButtonAnimalTroupe()
@@ -145,5 +137,10 @@ public class MenuController : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
+    {
+        coinDisplay.text = GlobalManager.instance.getCurCoinAmount().ToString();
     }
 }

@@ -10,12 +10,14 @@ public class GlobalSaveData
     public int currentCoin;
     public int coinUsedForUpgrade;
     public int maxBallPassTimes;
-    public List<animalProperty> currentAnimalList;
-    public Dictionary<string, int> animalLevelList;
-    public Dictionary<string, int> animalPriceList;
+    public List<animalProperty> animals;
+    public Dictionary<string, bool> isAnimalUnlocked;
+    public Dictionary<string, int> animalPrices;
+    public Dictionary<string, int> animalPriceLevel;
+    public Dictionary<string, int> animalLevels;
     public List<BallInfo> ballInfoList;
 
-    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> currentAnimalList, Dictionary<string, int> animalLevelList, Dictionary<string, int> animalPriceList, List<BallInfo> ballInfoList)
+    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> animals, Dictionary<string, bool> isAnimalUnlocked, Dictionary<string, int> animalPrices, Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalLevels, List<BallInfo> ballInfoList)
     {
         this.animalPropertyListByLevel = animalPropertyListByLevel;
         this.currentLevelIndex = currentLevelIndex;
@@ -24,9 +26,11 @@ public class GlobalSaveData
         this.currentCoin = currentCoin;
         this.coinUsedForUpgrade = coinUsedForUpgrade;
         this.maxBallPassTimes = maxBallPassTimes;
-        this.currentAnimalList = currentAnimalList;
-        this.animalLevelList = animalLevelList;
-        this.animalPriceList = animalPriceList;
+        this.animals = animals;
+        this.isAnimalUnlocked = isAnimalUnlocked;
+        this.animalPrices = animalPrices;
+        this.animalPriceLevel = animalPriceLevel;
+        this.animalLevels = animalLevels;
         this.ballInfoList = ballInfoList;
     }
 }

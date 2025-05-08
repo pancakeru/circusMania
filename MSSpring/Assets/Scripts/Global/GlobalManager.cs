@@ -68,38 +68,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
         }
 
-        if (ifDoTestInitialize)
-        {
-            foreach (animalProperty apt in testProperties.properies)
-                addAnAnimal(apt);
-            curCoinAmount = testCoinNum;
-        }
-
         temporaryPointsByAnimal = new Dictionary<string, int>();
         //Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
-    }
-
-    private void Start()
-    {
-        globalSaveData = SaveDataManager.Instance.LoadGame();
-        saveDataObjectList = FindAllSaveDataObjects();
-        foreach (ISaveData saveDataObject in saveDataObjectList)
-        {
-            saveDataObject.LoadGlobalSaveData(globalSaveData);
-        }
-        // animals = globalSaveData.currentAnimalList;
-        // animalLevels = globalSaveData.animalLevelList;
-        // animalPrices = globalSaveData.animalPriceList;
-
-        DataManager.instance.animalLoader.Load();
-        DataManager.instance.unlockLoader.Load();
-        DataManager.instance.priceLoader.Load();
-
-        OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
-        InitAnimalUnlock();
-        InitAnimalPrice();
-        InitAnimalLevel();
-        SetAnimalProperty();
     }
 
     private void Update()
@@ -169,6 +139,101 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     }
 
     #region Global Save Data
+    public void SaveGlobalSaveData()
+    {
+        SaveDataManager.Instance.SaveGame(globalSaveData);
+    }
+
+    public void NewGame()
+    {
+        globalSaveData = SaveDataManager.Instance.NewGame();
+        StartInitialization();
+    }
+
+    public void LoadGame()
+    {
+        globalSaveData = SaveDataManager.Instance.LoadGame();
+        StartInitialization();
+    }
+
+    private void StartInitialization()
+    {
+        DataManager.instance.animalLoader.Load();
+        DataManager.instance.unlockLoader.Load();
+        DataManager.instance.priceLoader.Load();
+
+        currentLevelIndex = globalSaveData.currentLevelIndex;
+        OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
+
+        if (globalSaveData.currentCoin == 0)
+        {
+            if (ifDoTestInitialize)
+            {
+                curCoinAmount = testCoinNum;
+                globalSaveData.currentCoin = curCoinAmount;
+            }
+        }
+        else
+        {
+            curCoinAmount = globalSaveData.currentCoin;
+        }
+
+        if (globalSaveData.animals.Count > 0)
+        {
+            animals = globalSaveData.animals;
+        }
+        else
+        {
+            if (ifDoTestInitialize)
+            {
+                foreach (animalProperty apt in testProperties.properies)
+                {
+                    addAnAnimal(apt);
+                }
+                globalSaveData.animals = animals;
+            }
+        }
+
+        if (globalSaveData.isAnimalUnlocked != null && globalSaveData.isAnimalUnlocked.Count > 0)
+        {
+            isAnimalUnlocked = globalSaveData.isAnimalUnlocked;
+        }
+        else
+        {
+            InitAnimalUnlock();
+        }
+
+        if (globalSaveData.animalPrices != null && globalSaveData.animalPriceLevel != null && globalSaveData.animalPrices.Count > 0 && globalSaveData.animalPriceLevel.Count > 0)
+        {
+            animalPriceLevel = globalSaveData.animalPriceLevel;
+            animalPrices = globalSaveData.animalPrices;
+        }
+        else
+        {
+            InitAnimalPrice();
+            globalSaveData.animalPriceLevel = animalPriceLevel;
+            globalSaveData.animalPrices = animalPrices;
+        }
+
+        if (globalSaveData.animalLevels != null && globalSaveData.animalLevels.Count > 0)
+        {
+            animalLevels = globalSaveData.animalLevels;
+        }
+        else
+        {
+            InitAnimalLevel();
+            globalSaveData.animalLevels = animalLevels;
+        }
+
+        SetAnimalProperty();
+
+        saveDataObjectList = FindAllSaveDataObjects();
+        foreach (ISaveData saveDataObject in saveDataObjectList)
+        {
+            saveDataObject.LoadGlobalSaveData(globalSaveData);
+        }
+    }
+
     private void UpdateGlobalSaveDataOnNextGlobalLevel()
     {
         globalSaveData.animalPropertyListByLevel.Add(animals);
@@ -193,7 +258,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         globalSaveData.currentCoin = curCoinAmount;
 
-        globalSaveData.currentAnimalList = animals;
+        globalSaveData.animals = animals;
     }
 
     public void AddPointsToTemporaryPointsByAnimal(string animal, int points)
@@ -211,8 +276,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public void SetCoinUsedForUpgrade(int coinUsedForUpgrade)
     {
         globalSaveData.currentCoin = curCoinAmount;
-        globalSaveData.coinUsedForUpgrade = coinUsedForUpgrade;
-        globalSaveData.currentAnimalList = animals;
+        if (coinUsedForUpgrade != 0)
+        {
+            globalSaveData.coinUsedForUpgrade += coinUsedForUpgrade;
+        }
+        globalSaveData.animals = animals;
     }
 
     public void SetMaxBallPassTimes(List<int> totalBallPassTimesListPerShow)
@@ -228,12 +296,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     private void SetAnimalLevelList(Dictionary<string, int> animalLevels)
     {
-        globalSaveData.animalLevelList = animalLevels;
+        globalSaveData.animalLevels = animalLevels;
     }
 
-    private void SetAnimalPriceList(Dictionary<string, int> animalPrices)
+    private void SetAnimalPrice(Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalPrices)
     {
-        globalSaveData.animalPriceList = animalPrices;
+        globalSaveData.animalPriceLevel = animalPriceLevel;
+        globalSaveData.animalPrices = animalPrices;
     }
 
     public void SetBallInfoList(List<BallInfo> ballInfoList)
@@ -241,10 +310,20 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         globalSaveData.ballInfoList = ballInfoList;
     }
 
+    private void SetIsAnimalUnlocked()
+    {
+        globalSaveData.isAnimalUnlocked = isAnimalUnlocked;
+    }
+
     private List<ISaveData> FindAllSaveDataObjects()
     {
         IEnumerable<ISaveData> saveDataObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveData>();
         return new List<ISaveData>(saveDataObjects);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGlobalSaveData();
     }
     #endregion
 
@@ -338,6 +417,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     if (isAnimalUnlocked.ContainsKey(animalName))
                     {
                         isAnimalUnlocked[animalName] = true;
+                        SetIsAnimalUnlocked();
                     }
                     else
                     {
@@ -406,6 +486,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
             UpdatePriceLevel(animal.animalName, myBallPassTimes);
             UpdatePrice(animal.animalName);
+            SetAnimalPrice(animalPriceLevel, animalPrices);
 
             //Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
@@ -425,8 +506,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     void UpdatePrice(string animalName)
     {
         animalPrices[animalName] = animalBasePrice[animalName] + animalPricePerLv[animalName] * animalPriceLevel[animalName];
-
-        SetAnimalPriceList(animalPrices);
     }
 
     void UpdatePriceLevel(string animalName, int ballPassTimes)

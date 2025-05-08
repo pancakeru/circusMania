@@ -17,6 +17,8 @@ public class MrShopManager : MonoBehaviour, ISaveData
     Vector2 mrShopItemStartPos = new Vector2(-750, 50);
     Vector2 mrShopItemPosOffset = new Vector2(250, -100);
 
+    private bool hasInstantiated = false;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -70,7 +72,7 @@ public class MrShopManager : MonoBehaviour, ISaveData
 
     public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
     {
-        if (globalSaveData.ballInfoList != null && globalSaveData.ballInfoList.Count > 0)
+        if (globalSaveData.ballInfoList.Count > 0)
         {
             ballInfos = globalSaveData.ballInfoList;
         }
@@ -92,11 +94,15 @@ public class MrShopManager : MonoBehaviour, ISaveData
 
         myBallSprite = ballSprites[0];
 
-        for (int i = 0; i < ballInfos.Count; i++)
+        if (!hasInstantiated)
         {
-            GameObject newMrShopItem = Instantiate(mrShopItemPrefab, transform);
-            newMrShopItem.GetComponent<RectTransform>().anchoredPosition = mrShopItemStartPos + new Vector2(mrShopItemPosOffset.x * i, mrShopItemPosOffset.y * (1 - (i % 2)));
-            mrShopItems.Add(newMrShopItem);
+            for (int i = 0; i < ballInfos.Count; i++)
+            {
+                GameObject newMrShopItem = Instantiate(mrShopItemPrefab, transform);
+                newMrShopItem.GetComponent<RectTransform>().anchoredPosition = mrShopItemStartPos + new Vector2(mrShopItemPosOffset.x * i, mrShopItemPosOffset.y * (1 - (i % 2)));
+                mrShopItems.Add(newMrShopItem);
+            }
+            hasInstantiated = true;
         }
 
         SetBallsInfo();
