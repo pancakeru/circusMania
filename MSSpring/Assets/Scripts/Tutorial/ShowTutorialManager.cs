@@ -121,7 +121,7 @@ public class ShowTutorialManager : MonoBehaviour
                 Time.timeScale = 1;
                 ShowManager.instance.curTurn = ShowManager.instance.curLevel.allowedTurn;
                 ShowManager.instance.SetIfChangeTroupePrice(false);
-                ShowManager.instance.StartDecide();
+                ShowManager.instance.StartDecide(false);
             }
             else
             {
