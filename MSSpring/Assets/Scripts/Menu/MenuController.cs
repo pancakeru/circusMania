@@ -79,6 +79,8 @@ public class MenuController : MonoBehaviour, ISaveData
         }
         shopButton.SetActive(isAllAnimalUnlocked);
         */
+
+        TryUnlockShopButton();
     }
 
     public void TryUnlockShopButton()

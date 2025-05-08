@@ -262,6 +262,11 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         globalSaveData.animals = animals;
     }
 
+    public void SetSaveDataCurrentLevelIndex()
+    {
+        globalSaveData.currentLevelIndex = currentLevelIndex;
+    }
+
     public void AddPointsToTemporaryPointsByAnimal(string animal, int points)
     {
         if (temporaryPointsByAnimal.ContainsKey(animal))
@@ -309,6 +314,16 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public void SetBallInfoList(List<BallInfo> ballInfoList)
     {
         globalSaveData.ballInfoList = ballInfoList;
+    }
+
+    public int GetMyBallIndex()
+    {
+        return globalSaveData.myBallIndex;
+    }
+
+    public void SetMyBallIndex(int index)
+    {
+        globalSaveData.myBallIndex = index;
     }
 
     private void SetIsAnimalUnlocked()

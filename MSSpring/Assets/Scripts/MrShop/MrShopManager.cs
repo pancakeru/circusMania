@@ -99,7 +99,7 @@ public class MrShopManager : MonoBehaviour, ISaveData
 
         menuController = FindAnyObjectByType<MenuController>();
 
-        myBallSprite = ballSprites[0];
+        myBallSprite = ballSprites[GlobalManager.instance.GetMyBallIndex()];
 
         if (!hasInstantiated)
         {

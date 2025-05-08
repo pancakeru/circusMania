@@ -17,13 +17,13 @@ public class MrShopItem : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetBallInfo(BallInfo ballInfo)
@@ -37,7 +37,17 @@ public class MrShopItem : MonoBehaviour
 
     public void SetMyBall()
     {
+        int index = -1;
+        for (int i = 0; i < MrShopManager.instance.ballInfos.Count; i++)
+        {
+            BallInfo ballInfo = MrShopManager.instance.ballInfos[i];
+            if (ballInfo.ballName == ballName.text)
+            {
+                index = i;
+            }
+        }
         MrShopManager.instance.myBallSprite = ballImage.sprite;
+        GlobalManager.instance.SetMyBallIndex(index);
         MrShopManager.instance.SetBallsInfo();
     }
 }

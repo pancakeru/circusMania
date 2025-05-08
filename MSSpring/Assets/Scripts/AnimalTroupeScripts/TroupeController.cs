@@ -182,6 +182,8 @@ public class TroupeController : MonoBehaviour, ISaveData
         {
             coin -= price;
             GlobalManager.instance.addAnAnimal(troupeCardSelected.GetComponent<TroupeCardController>().myAnimalProperty);
+            GlobalManager.instance.setCoinAmount(coin);
+            GlobalManager.instance.SetCoinUsedForUpgrade(0);
             UpdateText();
         }
         else CanvasMain.instance.DisplayWarning("Not enough coins!");
@@ -194,6 +196,8 @@ public class TroupeController : MonoBehaviour, ISaveData
         {
             GlobalManager.instance.removeAnAnimal(animal);
             coin += GlobalManager.instance.animalPrices[animal.animalName];
+            GlobalManager.instance.setCoinAmount(coin);
+            GlobalManager.instance.SetCoinUsedForUpgrade(0);
 
             UpdateText();
         }
@@ -208,6 +212,8 @@ public class TroupeController : MonoBehaviour, ISaveData
             if (coin >= GetUpgradePrice(animal))
             {
                 coin -= GetUpgradePrice(animal);
+                GlobalManager.instance.setCoinAmount(coin);
+                GlobalManager.instance.SetCoinUsedForUpgrade(GetUpgradePrice(animal));
                 GlobalManager.instance.UpdateLevel(animal.animalName, 1);
                 UpdateText();
             }

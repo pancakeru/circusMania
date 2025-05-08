@@ -47,5 +47,6 @@ public class CheatManager : MonoBehaviour
     {
         GlobalManager.instance.currentLevelIndex = 7;
         GlobalManager.instance.UnlockAnimal();
+        GlobalManager.instance.SetSaveDataCurrentLevelIndex();
     }
 }

@@ -18,8 +18,9 @@ public class GlobalSaveData
     [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, List<int>> animalPriceChanges;
     [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalLevels;
     public List<BallInfo> ballInfoList;
+    public int myBallIndex;
 
-    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> animals, Dictionary<string, bool> isAnimalUnlocked, Dictionary<string, int> animalPrices, Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalLevels, List<BallInfo> ballInfoList)
+    public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> animals, Dictionary<string, bool> isAnimalUnlocked, Dictionary<string, int> animalPrices, Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalLevels, List<BallInfo> ballInfoList, int myBallIndex)
     {
         this.animalPropertyListByLevel = animalPropertyListByLevel;
         this.currentLevelIndex = currentLevelIndex;
@@ -34,5 +35,6 @@ public class GlobalSaveData
         this.animalPriceLevel = animalPriceLevel;
         this.animalLevels = animalLevels;
         this.ballInfoList = ballInfoList;
+        this.myBallIndex = myBallIndex;
     }
 }
