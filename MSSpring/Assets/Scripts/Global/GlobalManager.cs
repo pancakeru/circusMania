@@ -148,6 +148,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         globalSaveData = SaveDataManager.Instance.NewGame();
         StartInitialization();
+        CanvasMain.instance.ShowCutScene();
     }
 
     public void LoadGame()

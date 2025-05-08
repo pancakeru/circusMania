@@ -26,6 +26,7 @@ public class CanvasMain : MonoBehaviour
 
     [SerializeField] GameObject messageBox;
     [SerializeField] GameObject popUp;
+    [SerializeField] GameObject cutScenePrefab;
 
     [Header("CHEAT")]
     [SerializeField] bool isCheatEnabled;
@@ -164,6 +165,11 @@ public class CanvasMain : MonoBehaviour
     {
         if (popUpTargets.ContainsKey(image)) popUpTargets[image] = text;
         else popUpTargets.Add(image, text);
+    }
+
+    public void ShowCutScene()
+    {
+        Instantiate(cutScenePrefab, transform);
     }
 
     void CheckFonts()
