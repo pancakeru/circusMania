@@ -57,17 +57,8 @@ public class MrShopManager : MonoBehaviour, ISaveData
             newNotification.GetComponent<NotificationController>().ballImage.sprite = ballInfos[achievementIndex].ballSprite;
 
             GlobalManager.instance.SetBallInfoList(ballInfos);
-        }
-    }
 
-    private void Update()
-    {
-        for (int i = 1; i <= 9; i++)
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-            {
-                AchievementUnlocked(i);
-            }
+            if (achievementIndex == 1) ballInfos[achievementIndex].unlockRequirement = "Interact with the chicken for 7 times.";
         }
     }
 
@@ -87,10 +78,10 @@ public class MrShopManager : MonoBehaviour, ISaveData
         {
             ballInfos = new List<BallInfo>(){
                 new BallInfo("Circus Ball", true, "You always have this.", ballSprites[0]),
-                new BallInfo("Basketball", false, "Interact with the chicken for 7 times.", ballSprites[1]),
+                new BallInfo("Basketball", false, "???", ballSprites[1]),
                 new BallInfo("Pixel Ball", false, "Finish the tutorial.", ballSprites[2]),
                 new BallInfo("Tennis Ball", false, "Complete a level with at least 3 foxes.", ballSprites[3]),
-                new BallInfo("Yarn Ball", false, "Complete a level with at least 3 lions.", ballSprites[4]),
+                new BallInfo("Yarn Ball", false, "Reach 1,200 Popularity in a level.", ballSprites[4]),
                 new BallInfo("Beach Ball", false, "Complete a level with at least 3 seals.", ballSprites[5]),
                 new BallInfo("Chip Ball", false, "Upgrade 7 animals to max level.", ballSprites[6]),
             };

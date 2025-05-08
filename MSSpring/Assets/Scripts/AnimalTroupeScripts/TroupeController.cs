@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -278,6 +279,13 @@ public class TroupeController : MonoBehaviour, ISaveData
         }
         else CanvasMain.instance.DisplayWarning("Already reached max level!");
 
+        //Check if achievementUnlocked
+        int achievementCounter = 0;
+        foreach (animalProperty tempAnimal in GlobalManager.instance.allAnimals.properies)
+        {
+            if (GlobalManager.instance.animalLevels[tempAnimal.animalName] == GlobalManager.instance.maxLevel) achievementCounter++;
+            if (achievementCounter == 7) MrShopManager.instance.AchievementUnlocked(6);
+        }
     }
 
     public int GetUpgradePrice(animalProperty property)
@@ -315,16 +323,31 @@ public class TroupeController : MonoBehaviour, ISaveData
         }
 
         Dictionary<string, List<int>> globalSaveDataAnimalPriceChanges = GlobalManager.instance.GetAnimalPriceChanges();
-        if (globalSaveDataAnimalPriceChanges == null)
+        if (globalSaveDataAnimalPriceChanges.Count == 0)
         {
-            foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+            if (animalPriceChanges.Count == 0)
             {
-                animalPriceChanges[animal.animalName] = new List<int>
+                foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+                {
+                    animalPriceChanges[animal.animalName] = new List<int>
                 {
                     GlobalManager.instance.animalPrices[animal.animalName]
                 };
+                }
+                GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
             }
-            GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
+            else
+            {
+                foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+                {
+                    animalPriceChanges[animal.animalName] = new List<int>
+                {
+                    GlobalManager.instance.animalPrices[animal.animalName]
+                };
+                }
+                GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
+                previousLevelIndex = GlobalManager.instance.currentLevelIndex;
+            }
         }
         else
         {

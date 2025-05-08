@@ -18,11 +18,13 @@ MonoBehaviour:
   baseBallChange: 2
   mechanicNumberType: 0
   skillScoreColor: 3
-  textSkill: 
-  textMechanic: 
-  baseRedChange: -99
-  baseYellowChange: -99
-  baseBlueChange: -99
-  restTurn: -99
+  textSkill: ' if receiver has POWER. Set POWER to 1 and Multiply NOVELTY by POWER
+    reduced. '
+  textMechanicScore: 
+  textMechanicExtra: 
+  baseRedChange: 0
+  baseYellowChange: 0
+  baseBlueChange: 30
+  restTurn: 3
   mechanicActiveNum: -99
-  skillNum: -99
+  skillNum: 50

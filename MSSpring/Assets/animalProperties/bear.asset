@@ -20,10 +20,10 @@ MonoBehaviour:
   skillScoreColor: 0
   textSkill: 
   textMechanicScore: 
-  textMechanicExtra: 
-  baseRedChange: 40
+  textMechanicExtra: 'Throw ball further according to POWER '
+  baseRedChange: 20
   baseYellowChange: 0
   baseBlueChange: 0
   restTurn: 2
   mechanicActiveNum: -99
-  skillNum: -99
+  skillNum: 1

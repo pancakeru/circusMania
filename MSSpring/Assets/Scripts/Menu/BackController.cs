@@ -12,6 +12,7 @@ public class BackController : MonoBehaviour
         else
         {
             GlobalManager.instance.SaveGlobalSaveData();
+            GlobalManager.instance.ClearGlobalManagerSaveData();
             transform.parent.GetComponent<MenuController>().startScreen.Enable();
         }
     }
