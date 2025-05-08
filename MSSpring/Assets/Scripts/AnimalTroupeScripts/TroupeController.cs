@@ -122,6 +122,7 @@ public class TroupeController : MonoBehaviour, ISaveData
                 animalPriceChanges[animal.animalName].Add(GlobalManager.instance.animalPrices[animal.animalName]);
                 if (animalPriceChanges[animal.animalName].Count > maxChartLength) animalPriceChanges[animal.animalName].RemoveAt(0);
             }
+            GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
             previousLevelIndex = GlobalManager.instance.currentLevelIndex;
         }
 
@@ -250,12 +251,22 @@ public class TroupeController : MonoBehaviour, ISaveData
             }
         }
 
-        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        Dictionary<string, List<int>> globalSaveDataAnimalPriceChanges = GlobalManager.instance.GetAnimalPriceChanges();
+        if (globalSaveDataAnimalPriceChanges == null)
         {
-            animalPriceChanges[animal.animalName] = new List<int>
+            foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
             {
-                GlobalManager.instance.animalPrices[animal.animalName]
-            };
+                animalPriceChanges[animal.animalName] = new List<int>
+                {
+                    GlobalManager.instance.animalPrices[animal.animalName]
+                };
+            }
+            GlobalManager.instance.SetAnimalPriceChanges(animalPriceChanges);
+        }
+        else
+        {
+            animalPriceChanges = globalSaveDataAnimalPriceChanges;
+            previousLevelIndex = GlobalManager.instance.currentLevelIndex;
         }
     }
 }

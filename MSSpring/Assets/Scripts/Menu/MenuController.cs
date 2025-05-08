@@ -79,7 +79,10 @@ public class MenuController : MonoBehaviour, ISaveData
         }
         shopButton.SetActive(isAllAnimalUnlocked);
         */
+    }
 
+    public void TryUnlockShopButton()
+    {
         if (GlobalManager.instance.currentLevelIndex >= 2)
         {
             shopButton.GetComponent<Button>().enabled = true;
@@ -142,5 +145,6 @@ public class MenuController : MonoBehaviour, ISaveData
     public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
     {
         coinDisplay.text = GlobalManager.instance.getCurCoinAmount().ToString();
+        TryUnlockShopButton();
     }
 }
