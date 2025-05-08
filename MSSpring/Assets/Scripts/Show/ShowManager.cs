@@ -667,7 +667,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 					if (ifToShow)
 						StartShow();
 					else
-						StartDecide();
+						StartDecide(true);
 				}
 				break;
 
@@ -829,7 +829,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		}
 	}
 
-	public void StartDecide()
+	public void StartDecide(bool ifBreak)
 	{
 		tContainer.DoTurnAddAction();
 		if (curTurn <= curLevel.allowedTurn)
@@ -848,7 +848,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			currentState = ShowStates.EndCheck;
 			blacker.Fade();
 			curEndScreen = Instantiate(EndScreenPrefab, canvasTrans);
-			curEndScreen.GetComponent<EndScreenScript>().InitialScore((int)curLevel.targetScore, GetComponent<ShowScoreManager>().repuChanges, (int)curRepu, (int)curScore, 100);
+			curEndScreen.GetComponent<EndScreenScript>().InitialScore( GetComponent<ShowScoreManager>().containers, (int)curRepu, 100,ifBreak);
 			curEndScreen.GetComponent<RectTransform>().anchoredPosition = endScreenDownPos.anchoredPosition;
 			curEndScreen.GetComponent<UiMover>().MoveTo(endScreenUpPos.anchoredPosition);
 			//LeaveShow();

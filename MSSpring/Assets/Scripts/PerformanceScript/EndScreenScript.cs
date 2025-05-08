@@ -29,6 +29,15 @@ public class EndScreenScript : MonoBehaviour
 	[SerializeField] private Color startBarColor;
 	[SerializeField] private Color endBarColor;
 
+
+	[Header("新的元件")]
+	public List<singleLevelSummary> summaries;
+	public TMP_Text totalPopularity;
+	public Transform winTrans;
+	public Transform loseTrans;
+
+	private List<ScoreContainer> scores;
+
 	private enum DisplaySequence
 	{
 		Wait,
@@ -44,28 +53,33 @@ public class EndScreenScript : MonoBehaviour
 	private int curTotal;
 	private int curMoneyEarned;
 	private GameObject audioObj;
+	private bool ifWinLose;
 
 	void Start()
 	{
 		//currentState = DisplaySequence.ShowScore;
-		lvlName.text = "Level " + GlobalManager.instance.GetCurrentGlobalLevel().levelIndex;
+		lvlName.text = "Level " + (GlobalManager.instance.GetCurrentGlobalLevel().levelIndex+1);
 		audioObj = GameObject.FindWithTag("audio manager");
 		audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
 	}
 
-	public void InitialScore(int required, Queue eachTurn, int curRepu,int total, int moneyEarned)
+	public void InitialScore(List<ScoreContainer>scores ,int curRepu, int moneyEarned, bool ifWinLose)
 	{
-		curReql = required;
+		//curReql = required;
 		
-		test = eachTurn.ToArray();
-		curTotal = total;
+		//test = eachTurn.ToArray();
+		//curTotal = total;
 		this.curRepu = curRepu;
 		curMoneyEarned = moneyEarned;
+
+		this.scores = scores;
+		this.ifWinLose = ifWinLose;
 	}
 
 	public void StartDisplay()
 	{
 		currentState = DisplaySequence.ShowScore;
+		starting = 0;
 	}
 
 	void Update()
@@ -87,7 +101,7 @@ public class EndScreenScript : MonoBehaviour
 				lineDelay -= 1 * Time.deltaTime;
 
 				if (lineDelay <= 0) {
-					if (currentIndex < test.Length) {
+					if (currentIndex < Mathf.Min(scores.Count,3)) {
 						DisplayList();
 					} else {
 						currentState = DisplaySequence.TotalCalc;
@@ -98,13 +112,29 @@ public class EndScreenScript : MonoBehaviour
 			//第三部分收获
 			case DisplaySequence.TotalCalc:
 				//数量
-				DisplayTextForTotalScore(totalScore, curRepu, DisplaySequence.MoneyCalc);
-
+				//DisplayTextForTotalScore(totalScore, curRepu, DisplaySequence.MoneyCalc);
+				DisplayPopularity(totalPopularity, curRepu, DisplaySequence.MoneyCalc);
 				break;
 
 			case DisplaySequence.MoneyCalc:
 				//金币
-				DisplayText(moneyEarned, curMoneyEarned, DisplaySequence.EndButton);
+				if (ifWinLose)
+				{
+					if (curRepu >= 0)
+					{
+						DisplayText(moneyEarned, curMoneyEarned, DisplaySequence.EndButton);
+					}
+					else
+					{
+						currentState = DisplaySequence.EndButton;
+					}
+				}
+				else
+				{
+					currentState = DisplaySequence.EndButton;
+				}
+				
+				
 
 				break;
 
@@ -157,10 +187,65 @@ public class EndScreenScript : MonoBehaviour
         }
     }
 
+    void DisplayPopularity(TMP_Text text, float targetValue, DisplaySequence nextState)
+    {
+        bool isIncreasing = targetValue >= 0;
+
+        if ((isIncreasing && starting < targetValue) || (!isIncreasing && starting > targetValue))
+        {
+            // 增减方向
+            float delta = addSpeed * Time.deltaTime*30f;
+            addSpeed += Time.deltaTime * 30f;
+
+            starting += isIncreasing ? delta : -delta;
+
+            // 限制不超出目标
+            if ((isIncreasing && starting > targetValue) || (!isIncreasing && starting < targetValue))
+            {
+                starting = targetValue;
+            }
+
+            text.text = Mathf.FloorToInt(starting).ToString();
+        }
+        else
+        {
+            starting = 0f;
+            addSpeed = 1f;
+            text.text = Mathf.FloorToInt(targetValue).ToString();
+            currentState = nextState;
+			if (ifWinLose)
+			{
+                if (curRepu >= 0)
+                {
+                    winTrans.gameObject.SetActive(true);
+                }
+                else
+                {
+                    loseTrans.gameObject.SetActive(true);
+                }
+            }
+			
+        }
+    }
+
     void DisplayList()
 	{
 		//ebug.Log(currentIndex);
-		scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {(int)(test[currentIndex])}\n";
+		//scoreBreakdown.text += $"Act #{currentIndex + 1,-30} {(int)(test[currentIndex])}\n";
+		summaries[currentIndex].gameObject.SetActive(true);
+		ScoreContainer ct;
+        if (currentIndex < scores.Count)
+        {
+            ct = scores[currentIndex];
+        }
+        else
+        {
+            // 取最后三个中的一个
+            int offset = currentIndex - scores.Count;
+            ct = scores[scores.Count - 3 + offset];
+        }
+
+        summaries[currentIndex].SetSliderValues(Mathf.Clamp(ct.redPlayer/ct.redRequ,0,1),Mathf.Clamp( ct.yellowPlayer/ct.yellowRequ,0,1), Mathf.Clamp(ct.bluePlayer/ct.blueRequ,0,1));
 		currentIndex += 1;
 		lineDelay = 0.5f;
 	}
@@ -170,4 +255,28 @@ public class EndScreenScript : MonoBehaviour
 		audioObj.GetComponent<AudioManagerScript>().PlayEnvironmentSound(audioObj.GetComponent<AudioManagerScript>().Environment[1]);
 	}
 
+}
+
+public class ScoreContainer
+{
+	public float redRequ;
+	public float yellowRequ;
+	public float blueRequ;
+
+	public float redPlayer;
+	public float yellowPlayer;
+	public float bluePlayer;
+
+    public ScoreContainer(
+        float redRequ, float yellowRequ, float blueRequ,
+        float redPlayer, float yellowPlayer, float bluePlayer)
+    {
+        this.redRequ = redRequ;
+        this.yellowRequ = yellowRequ;
+        this.blueRequ = blueRequ;
+
+        this.redPlayer = redPlayer;
+        this.yellowPlayer = yellowPlayer;
+        this.bluePlayer = bluePlayer;
+    }
 }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShowScoreManager : MonoBehaviour
 {
@@ -18,10 +19,12 @@ public class ShowScoreManager : MonoBehaviour
 
 	private GlobalLevel currentGlobalLevel;
 	private LevelProperty currentLevelProperty;
+	public List<ScoreContainer> containers;
 
 	private void Awake()
 	{
 		ResetReputation();
+		containers = new List<ScoreContainer>();
 	}
 
 	private void Start()
@@ -47,6 +50,9 @@ public class ShowScoreManager : MonoBehaviour
 	public void EndTurn()
 	{
 		float lastRepu = currentReputation;
+        float[] sArray = showManager.totalPerformanceControl.GetCurrentScoreArray();
+        ScoreContainer newContainer = new ScoreContainer(targetRedScore, targetYellowScore, targetBlueScore, sArray[0], sArray[1], sArray[2]);
+		containers.Add(newContainer);
 		float[] respectiveEndTurnReputationChangeArray = CalculateRespectiveEndTurnReputationChange();
 		for (int i = 0; i < 3; i++)
 		{
@@ -105,13 +111,15 @@ public class ShowScoreManager : MonoBehaviour
 	{
 		currentReputation = defaultReputation;
 		repuChanges = new Queue();
-	}
+        containers = new List<ScoreContainer>();
+    }
 
 	public void SetReputation(float newReputation)
 	{
 		currentReputation = newReputation;
 		repuChanges = new Queue();
-	}
+        containers = new List<ScoreContainer>();
+    }
 
 	private float CalculateTargetScore(ScoreType scoreType, int n)
 	{
