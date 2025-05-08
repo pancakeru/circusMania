@@ -24,6 +24,11 @@ public class CutSceneManager : MonoBehaviour
 
     public void UpdateCutScene()
     {
+        if (typewriter.isDoneTyping)
+        {
+            isTyping = false;
+        }
+
         if (isTyping)
         {
             typewriter.StopAllCoroutines();

@@ -1,5 +1,6 @@
 
 using System.Runtime.ConstrainedExecution;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
@@ -43,6 +44,10 @@ public class animalProperty : ScriptableObject
     string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2} {3}, then deactives until next round.";
     string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
 
+    string formatPowerSimple = "<b><color=#{0}>POWER</color></b>: {1}{2} {3}.";
+    string formatWarmUpSimple = "<b><color=#{0}>WARM UP ({1})</color></b>: {2} {3}.";
+    string formatExcitedSimple = "<b><color=#{0}>EXCITED ({1})</color></b>: {2} {3}.";
+
     string colorHexRed = "D3458F";
     string colorHexYellow = "BF8B00"; //"E4CF7B";
     string colorHexBlue = "45A9D2";
@@ -55,12 +60,27 @@ public class animalProperty : ScriptableObject
     {
         string banana = animalName == "Giraffe" ? $" and {ReturnBanana()}" : "";
         string skill = string.IsNullOrEmpty(textSkill) ? "" : "\n" + ReturnSkillScore();
-        textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill + ".";
-        string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : "\n" + ReturnSkillMechanic();
+        textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill;
+        string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : "\n" + ReturnSkillMechanic(false);
 
         string finalExplanation = $"{ReturnScore()}{banana} per ball passed.{skill}{textSkill}{mechanic}";
         return ColorKeyWord(finalExplanation);
     }
+
+    public string ReturnSimpleExplanation()
+    {
+        string banana = animalName == "Giraffe" ? $" and {ReturnBanana()}" : "";
+        string skill = string.IsNullOrEmpty(textSkill) ? "" : "\n" + ReturnSkillScore();
+        textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill;
+        string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : "\n" + ReturnSkillMechanic(true);
+
+        string finalExplanation = $"{ReturnScore()}{banana}.{skill}{textSkill}{mechanic}";
+
+        finalExplanation = Regex.Replace(finalExplanation, @"<color=(#FFFFFF|white)>", "<color=#000000>", RegexOptions.IgnoreCase);
+
+        return ColorKeyWord(finalExplanation);
+    }
+
 
     string ReturnScore()
     {
@@ -105,14 +125,26 @@ public class animalProperty : ScriptableObject
         );
     }
 
-    string ReturnSkillMechanic()
+    string ReturnSkillMechanic(bool isSimple)
     {
         if (mechanicNumberType == MechanicNumberType.None) return "";
 
-        string formatMechanic = mechanicNumberType == MechanicNumberType.Power ? formatPower
-                              : mechanicNumberType == MechanicNumberType.WarmUp ? formatWarmUp
-                              : mechanicNumberType == MechanicNumberType.Excited ? formatExcited
-                              : "ERROR";
+        string formatMechanic = "";
+
+        if (isSimple)
+        {
+            formatMechanic = mechanicNumberType == MechanicNumberType.Power ? formatPowerSimple
+                           : mechanicNumberType == MechanicNumberType.WarmUp ? formatWarmUpSimple
+                           : mechanicNumberType == MechanicNumberType.Excited ? formatExcitedSimple
+                           : "ERROR";
+        }
+        else
+        {
+            formatMechanic = mechanicNumberType == MechanicNumberType.Power ? formatPower
+                           : mechanicNumberType == MechanicNumberType.WarmUp ? formatWarmUp
+                           : mechanicNumberType == MechanicNumberType.Excited ? formatExcited
+                           : "ERROR";
+        }
 
         string color = "FFFFFF";
         string condition = mechanicNumberType == MechanicNumberType.Power ? "" : mechanicActiveNum.ToString();

@@ -54,6 +54,63 @@ public class TroupeController : MonoBehaviour, ISaveData
         maxChartLength = 5;
     }
 
+    void Start()
+    {
+        menuController = FindAnyObjectByType<MenuController>();
+
+        slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
+    }
+
+    public void Initialize()
+    {
+        newAnimalOrder = new List<animalProperty>();
+
+        HashSet<string> animalNames = new HashSet<string>();
+        foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
+        {
+            foreach (string animalName in unlockData.animalToUnlock)
+            {
+                if (!animalNames.Contains(animalName))
+                {
+                    animalProperty foundAnimal = System.Array.Find(GlobalManager.instance.allAnimals.properies, ap => ap.animalName == animalName);
+
+                    if (foundAnimal != null)
+                    {
+                        newAnimalOrder.Add(foundAnimal);
+                        animalNames.Add(animalName);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Animal '{animalName}' not found in allAnimals.properies.");
+                    }
+                }
+            }
+        }
+
+        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        {
+            animalPriceChanges[animal.animalName] = new List<int>
+            {
+                GlobalManager.instance.animalPrices[animal.animalName]
+            };
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        /* Slide is not used. 
+        if (GetComponent<Canvas>().enabled)
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll != 0 && troupeCards.Count > cardsPerRow * visibleRows)
+            {
+                slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.6f);
+            }
+        }
+        */
+    }
+
     void DisplayCards()
     {
         for (int i = 0; i < troupeCards.Count; i++)
