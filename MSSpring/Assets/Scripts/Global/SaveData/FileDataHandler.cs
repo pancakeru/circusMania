@@ -45,7 +45,12 @@ public class FileDataHandler
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
             //Serialize the C# Global Save Data into Json
-            string dataToStore = JsonConvert.SerializeObject(globalSaveData, Formatting.Indented);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.Indented
+            };
+            string dataToStore = JsonConvert.SerializeObject(globalSaveData, settings);
 
             //Write the serialized data to the file
             File.WriteAllText(fullPath, dataToStore);

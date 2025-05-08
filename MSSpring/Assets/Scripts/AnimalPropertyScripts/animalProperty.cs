@@ -1,17 +1,19 @@
 
 using System.Runtime.ConstrainedExecution;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Windows;
 
 [CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "Animal System/AnimalProperty")]
+[System.Serializable]
 public class animalProperty : ScriptableObject
 {
     [Header("Must Set In Inspector")]
 
     public string animalName;
-    public Sprite animalCoreImg;
-    public Sprite explainImg;
+    [JsonIgnore] public Sprite animalCoreImg;
+    [JsonIgnore] public Sprite explainImg;
 
     public int baseBallChange;
 

@@ -194,21 +194,9 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             }
         }
 
-        if (globalSaveData.isAnimalUnlocked != null)
-        {
-            foreach (string animal in globalSaveData.isAnimalUnlocked.Keys)
-            {
-                Debug.Log(animal + ": " + globalSaveData.isAnimalUnlocked[animal]);
-            }
-        }
-
         if (globalSaveData.isAnimalUnlocked != null && globalSaveData.isAnimalUnlocked.Count > 0)
         {
             isAnimalUnlocked = globalSaveData.isAnimalUnlocked;
-            // foreach (string animal in isAnimalUnlocked.Keys)
-            // {
-            //     Debug.Log(animal + ": " + isAnimalUnlocked[animal]);
-            // }
         }
         else
         {
@@ -217,12 +205,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         if (globalSaveData.animalPrices != null && globalSaveData.animalPriceLevel != null && globalSaveData.animalPrices.Count > 0 && globalSaveData.animalPriceLevel.Count > 0)
         {
+            InitAnimalPriceOnLoad();
             animalPriceLevel = globalSaveData.animalPriceLevel;
             animalPrices = globalSaveData.animalPrices;
         }
         else
         {
-            InitAnimalPrice();
+            InitAnimalPriceOnNew();
             globalSaveData.animalPriceLevel = animalPriceLevel;
             globalSaveData.animalPrices = animalPrices;
         }
@@ -325,10 +314,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     private void SetIsAnimalUnlocked()
     {
         globalSaveData.isAnimalUnlocked = isAnimalUnlocked;
-        // foreach (string animal in globalSaveData.isAnimalUnlocked.Keys)
-        // {
-        //     Debug.Log(animal + ": " + globalSaveData.isAnimalUnlocked[animal]);
-        // }
     }
 
     private List<ISaveData> FindAllSaveDataObjects()
@@ -453,7 +438,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public Dictionary<string, int> animalPricePerLv = new Dictionary<string, int>();
 
     public int maxPrice = 40;
-    public void InitAnimalPrice()
+    private void InitAnimalPriceOnNew()
     {
         foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
         {
@@ -461,6 +446,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             animalBasePrice[dataRow.animalName] = dataRow.basePrice;
             animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
             UpdatePrice(dataRow.animalName);
+        }
+    }
+
+    private void InitAnimalPriceOnLoad()
+    {
+        foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
+        {
+            animalBasePrice[dataRow.animalName] = dataRow.basePrice;
+            animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
         }
     }
 

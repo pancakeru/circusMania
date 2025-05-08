@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class MrShopManager : MonoBehaviour, ISaveData
@@ -115,7 +116,7 @@ public class BallInfo
     public string ballName;
     public bool isUnlocked;
     public string unlockRequirement;
-    public Sprite ballSprite;
+    [JsonIgnore] public Sprite ballSprite;
 
     public BallInfo(string ballName, bool isUnlocked, string unlockRequirement, Sprite ballSprite)
     {
