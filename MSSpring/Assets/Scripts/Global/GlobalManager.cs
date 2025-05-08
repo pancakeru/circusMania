@@ -379,6 +379,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     {
         animals.Clear();
         globalSaveData = new GlobalSaveData(new List<List<animalProperty>>(), 0, new Dictionary<string, int>(), new AnimalBallPassTimes(), 0, 0, 0, new List<animalProperty>(), new Dictionary<string, bool>(), new Dictionary<string, int>(), new Dictionary<string, int>(), new Dictionary<string, List<int>>(), new Dictionary<string, int>(), new List<BallInfo>(), 0);
+        hasSaveData = false;
     }
 
     private void OnApplicationQuit()
