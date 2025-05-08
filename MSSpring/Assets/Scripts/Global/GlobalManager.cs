@@ -194,9 +194,21 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             }
         }
 
+        if (globalSaveData.isAnimalUnlocked != null)
+        {
+            foreach (string animal in globalSaveData.isAnimalUnlocked.Keys)
+            {
+                Debug.Log(animal + ": " + globalSaveData.isAnimalUnlocked[animal]);
+            }
+        }
+
         if (globalSaveData.isAnimalUnlocked != null && globalSaveData.isAnimalUnlocked.Count > 0)
         {
             isAnimalUnlocked = globalSaveData.isAnimalUnlocked;
+            // foreach (string animal in isAnimalUnlocked.Keys)
+            // {
+            //     Debug.Log(animal + ": " + isAnimalUnlocked[animal]);
+            // }
         }
         else
         {
@@ -313,6 +325,10 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     private void SetIsAnimalUnlocked()
     {
         globalSaveData.isAnimalUnlocked = isAnimalUnlocked;
+        // foreach (string animal in globalSaveData.isAnimalUnlocked.Keys)
+        // {
+        //     Debug.Log(animal + ": " + globalSaveData.isAnimalUnlocked[animal]);
+        // }
     }
 
     private List<ISaveData> FindAllSaveDataObjects()
@@ -404,6 +420,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             isAnimalUnlocked[animal.animalName] = false;
         }
         UnlockAnimal();
+        SetIsAnimalUnlocked();
     }
 
     public void UnlockAnimal()
@@ -417,13 +434,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     if (isAnimalUnlocked.ContainsKey(animalName))
                     {
                         isAnimalUnlocked[animalName] = true;
-                        SetIsAnimalUnlocked();
                     }
                     else
                     {
                         Debug.LogWarning($"动物名 {animalName} 不在解锁字典中！");
                     }
                 }
+                SetIsAnimalUnlocked();
                 return; // 找到了就退出
             }
         }

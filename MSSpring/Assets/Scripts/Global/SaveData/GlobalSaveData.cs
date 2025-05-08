@@ -1,20 +1,21 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class GlobalSaveData
 {
     public List<List<animalProperty>> animalPropertyListByLevel;
     public int currentLevelIndex;
-    public Dictionary<string, int> pointsByAnimal;
+    [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> pointsByAnimal;
     public AnimalBallPassTimes animalBallPassTimes;
     public int currentCoin;
     public int coinUsedForUpgrade;
     public int maxBallPassTimes;
     public List<animalProperty> animals;
-    public Dictionary<string, bool> isAnimalUnlocked;
-    public Dictionary<string, int> animalPrices;
-    public Dictionary<string, int> animalPriceLevel;
-    public Dictionary<string, int> animalLevels;
+    [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, bool> isAnimalUnlocked;
+    [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalPrices;
+    [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalPriceLevel;
+    [JsonConverter(typeof(DictionaryConverter))] public Dictionary<string, int> animalLevels;
     public List<BallInfo> ballInfoList;
 
     public GlobalSaveData(List<List<animalProperty>> animalPropertyListByLevel, int currentLevelIndex, Dictionary<string, int> pointsByAnimal, AnimalBallPassTimes animalBallPassTimes, int currentCoin, int coinUsedForUpgrade, int maxBallPassTimes, List<animalProperty> animals, Dictionary<string, bool> isAnimalUnlocked, Dictionary<string, int> animalPrices, Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalLevels, List<BallInfo> ballInfoList)

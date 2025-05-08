@@ -25,7 +25,6 @@ public class StartScreenManager : MonoBehaviour
 
     public void Exit()
     {
-        GlobalManager.instance.SaveGlobalSaveData();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
