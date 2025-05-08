@@ -182,6 +182,18 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         if (globalSaveData.animals.Count > 0)
         {
             animals = globalSaveData.animals;
+            foreach (animalProperty animal in animals)
+            {
+                foreach (animalProperty animalStart in allAnimals.properies)
+                {
+                    if (animal.animalName == animalStart.animalName)
+                    {
+                        animal.animalCoreImg = animalStart.animalCoreImg;
+                        animal.explainImg = animalStart.explainImg;
+                    }
+                }
+            }
+            globalSaveData.animals = animals;
         }
         else
         {
