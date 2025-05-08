@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TroupeController : MonoBehaviour
+public class TroupeController : MonoBehaviour, ISaveData
 {
     public static TroupeController instance;
 
@@ -54,63 +54,6 @@ public class TroupeController : MonoBehaviour
         maxChartLength = 5;
     }
 
-    void Start()
-    {
-        menuController = FindAnyObjectByType<MenuController>();
-
-        slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
-    }
-
-    public void Initialize()
-    {
-        newAnimalOrder = new List<animalProperty>();
-
-        HashSet<string> animalNames = new HashSet<string>();
-        foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
-        {
-            foreach (string animalName in unlockData.animalToUnlock)
-            {
-                if (!animalNames.Contains(animalName))
-                {
-                    animalProperty foundAnimal = System.Array.Find(GlobalManager.instance.allAnimals.properies, ap => ap.animalName == animalName);
-
-                    if (foundAnimal != null)
-                    {
-                        newAnimalOrder.Add(foundAnimal);
-                        animalNames.Add(animalName);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Animal '{animalName}' not found in allAnimals.properies.");
-                    }
-                }
-            }
-        }
-
-        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
-        {
-            animalPriceChanges[animal.animalName] = new List<int>
-            {
-                GlobalManager.instance.animalPrices[animal.animalName]
-            };
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        /* Slide is not used. 
-        if (GetComponent<Canvas>().enabled)
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0 && troupeCards.Count > cardsPerRow * visibleRows)
-            {
-                slide.GetComponent<Slider>().value = Mathf.Clamp01(slide.GetComponent<Slider>().value - scroll * 0.6f);
-            }
-        }
-        */
-    }
-
     void DisplayCards()
     {
         for (int i = 0; i < troupeCards.Count; i++)
@@ -118,7 +61,7 @@ public class TroupeController : MonoBehaviour
             Destroy(troupeCards[i]);
         }
         troupeCards.Clear();
-        
+
         foreach (animalProperty animal in newAnimalOrder)
         {
             if (GlobalManager.instance.isAnimalUnlocked[animal.animalName])
@@ -208,7 +151,7 @@ public class TroupeController : MonoBehaviour
             cardController.star.fillAmount = starFills[GlobalManager.instance.animalLevels[cardController.myAnimalProperty.animalName]];
 
             int animalCount = NumberInTroupe(cardController.myAnimalProperty.animalName);
-            cardController.textNum.text = animalCount.ToString(); 
+            cardController.textNum.text = animalCount.ToString();
 
             /* Black Animals
             if (animalCount == 0) cardController.profile.color = Color.black; 
@@ -273,8 +216,46 @@ public class TroupeController : MonoBehaviour
 
     }
 
-    public int GetUpgradePrice( animalProperty property)
+    public int GetUpgradePrice(animalProperty property)
     {
-        return (int)Mathf.Floor(upgradePrice * multis.multipliers[GlobalManager.instance.animalLevels[property.animalName]-1]);
+        return (int)Mathf.Floor(upgradePrice * multis.multipliers[GlobalManager.instance.animalLevels[property.animalName] - 1]);
+    }
+
+    public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
+    {
+        menuController = FindAnyObjectByType<MenuController>();
+
+        slide.GetComponent<Slider>().onValueChanged.AddListener(SlideCards);
+
+        newAnimalOrder = new List<animalProperty>();
+        HashSet<string> animalNames = new HashSet<string>();
+        foreach (var unlockData in DataManager.instance.unlockLoader.unlockData)
+        {
+            foreach (string animalName in unlockData.animalToUnlock)
+            {
+                if (!animalNames.Contains(animalName))
+                {
+                    animalProperty foundAnimal = System.Array.Find(GlobalManager.instance.allAnimals.properies, ap => ap.animalName == animalName);
+
+                    if (foundAnimal != null)
+                    {
+                        newAnimalOrder.Add(foundAnimal);
+                        animalNames.Add(animalName);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Animal '{animalName}' not found in allAnimals.properies.");
+                    }
+                }
+            }
+        }
+
+        foreach (animalProperty animal in GlobalManager.instance.allAnimals.properies)
+        {
+            animalPriceChanges[animal.animalName] = new List<int>
+            {
+                GlobalManager.instance.animalPrices[animal.animalName]
+            };
+        }
     }
 }

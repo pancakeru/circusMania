@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 
 public class FileDataHandler
@@ -22,17 +23,10 @@ public class FileDataHandler
             try
             {
                 //Load the serialized data from the file
-                string dataToLoad = "";
-                using (FileStream fileStream = new FileStream(fullPath, FileMode.Open))
-                {
-                    using (StreamReader streamReader = new StreamReader(fileStream))
-                    {
-                        dataToLoad = streamReader.ReadToEnd();
-                    }
-                }
+                string dataToLoad = File.ReadAllText(fullPath);
 
                 //Deserialize the data from Json back into the C# Global Save Data
-                loadedGlobalSaveData = JsonUtility.FromJson<GlobalSaveData>(dataToLoad);
+                loadedGlobalSaveData = JsonConvert.DeserializeObject<GlobalSaveData>(dataToLoad);
             }
             catch (Exception e)
             {
@@ -51,16 +45,15 @@ public class FileDataHandler
             Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
 
             //Serialize the C# Global Save Data into Json
-            string dataToStore = JsonUtility.ToJson(globalSaveData, true);
+            JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.Indented
+            };
+            string dataToStore = JsonConvert.SerializeObject(globalSaveData, settings);
 
             //Write the serialized data to the file
-            using (FileStream fileStream = new FileStream(fullPath, FileMode.Create))
-            {
-                using (StreamWriter streamWriter = new StreamWriter(fileStream))
-                {
-                    streamWriter.Write(dataToStore);
-                }
-            }
+            File.WriteAllText(fullPath, dataToStore);
         }
         catch (Exception e)
         {

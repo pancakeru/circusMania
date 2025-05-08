@@ -206,12 +206,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
         if (globalSaveData.animalPrices != null && globalSaveData.animalPriceLevel != null && globalSaveData.animalPrices.Count > 0 && globalSaveData.animalPriceLevel.Count > 0)
         {
+            InitAnimalPriceOnLoad();
             animalPriceLevel = globalSaveData.animalPriceLevel;
             animalPrices = globalSaveData.animalPrices;
         }
         else
         {
-            InitAnimalPrice();
+            InitAnimalPriceOnNew();
             globalSaveData.animalPriceLevel = animalPriceLevel;
             globalSaveData.animalPrices = animalPrices;
         }
@@ -407,6 +408,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             isAnimalUnlocked[animal.animalName] = false;
         }
         UnlockAnimal();
+        SetIsAnimalUnlocked();
     }
 
     public void UnlockAnimal()
@@ -420,13 +422,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     if (isAnimalUnlocked.ContainsKey(animalName))
                     {
                         isAnimalUnlocked[animalName] = true;
-                        SetIsAnimalUnlocked();
                     }
                     else
                     {
                         Debug.LogWarning($"动物名 {animalName} 不在解锁字典中！");
                     }
                 }
+                SetIsAnimalUnlocked();
                 return; // 找到了就退出
             }
         }
@@ -439,7 +441,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public Dictionary<string, int> animalPricePerLv = new Dictionary<string, int>();
 
     public int maxPrice = 40;
-    public void InitAnimalPrice()
+    private void InitAnimalPriceOnNew()
     {
         foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
         {
@@ -447,6 +449,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             animalBasePrice[dataRow.animalName] = dataRow.basePrice;
             animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
             UpdatePrice(dataRow.animalName);
+        }
+    }
+
+    private void InitAnimalPriceOnLoad()
+    {
+        foreach (PriceData dataRow in DataManager.instance.priceLoader.priceData)
+        {
+            animalBasePrice[dataRow.animalName] = dataRow.basePrice;
+            animalPricePerLv[dataRow.animalName] = dataRow.pricePerLv;
         }
     }
 
