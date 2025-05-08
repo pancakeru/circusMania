@@ -84,6 +84,11 @@ public class TroupeDetailController : MonoBehaviour
             }
         }
 
+        for (int ii = 0; ii < troupeController.animalPriceChanges[theAnimalName].Count; ii++)
+        {
+            lineChartIcons[ii].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = troupeController.animalPriceChanges[theAnimalName][ii].ToString();
+        }
+
         
     }
 
