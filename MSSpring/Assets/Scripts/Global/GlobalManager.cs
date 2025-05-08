@@ -1,8 +1,8 @@
-using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Data;
+using UnityEditor;
+using System.Linq;
 
 public class GlobalManager : MonoBehaviour, IGeneralManager
 {
@@ -43,6 +43,12 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     [SerializeField] LevelPreviewController levelPreviewController;
 
+    [Header("Global Save Data")]
+    [SerializeField, ReadOnly] private GlobalSaveData globalSaveData;
+    private List<ISaveData> saveDataObjectList;
+    public Dictionary<string, int> temporaryPointsByAnimal;
+    [HideInInspector] public AnimalBallPassTimes temporaryAnimalBallPassTimes;
+
 
     private void Awake()
     {
@@ -62,30 +68,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             Array.Sort(globalLevelArray, (a, b) => a.levelIndex.CompareTo(b.levelIndex));
         }
 
-        if (ifDoTestInitialize)
-        {
-
-            foreach (animalProperty apt in testProperties.properies)
-                addAnAnimal(apt);
-            curCoinAmount = testCoinNum;
-
-
-        }
-
+        temporaryPointsByAnimal = new Dictionary<string, int>();
         //Screen.SetResolution(1920,1080,FullScreenMode.ExclusiveFullScreen);
-    }
-
-    private void Start()
-    {
-        DataManager.instance.animalLoader.Load();
-        DataManager.instance.unlockLoader.Load();
-        DataManager.instance.priceLoader.Load();
-
-        OnNextGlobalLevel?.Invoke(globalLevelArray[0]);
-        InitAnimalUnlock();
-        InitAnimalPrice();
-        InitAnimalLevel();
-        SetAnimalProperty();
     }
 
     private void Update()
@@ -140,7 +124,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public LevelProperty GetTutorialLevel()
     {
-        Debug.Log("获取了教程level");
         return tutorialProperty;
     }
 
@@ -150,12 +133,203 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         {
             currentLevelIndex += 1;
             OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
+
+            UpdateGlobalSaveDataOnNextGlobalLevel();
         }
     }
 
+    #region Global Save Data
+    public void SaveGlobalSaveData()
+    {
+        SaveDataManager.Instance.SaveGame(globalSaveData);
+    }
+
+    public void NewGame()
+    {
+        globalSaveData = SaveDataManager.Instance.NewGame();
+        StartInitialization();
+    }
+
+    public void LoadGame()
+    {
+        globalSaveData = SaveDataManager.Instance.LoadGame();
+        StartInitialization();
+    }
+
+    private void StartInitialization()
+    {
+        DataManager.instance.animalLoader.Load();
+        DataManager.instance.unlockLoader.Load();
+        DataManager.instance.priceLoader.Load();
+
+        currentLevelIndex = globalSaveData.currentLevelIndex;
+        OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
+
+        if (globalSaveData.currentCoin == 0)
+        {
+            if (ifDoTestInitialize)
+            {
+                curCoinAmount = testCoinNum;
+                globalSaveData.currentCoin = curCoinAmount;
+            }
+        }
+        else
+        {
+            curCoinAmount = globalSaveData.currentCoin;
+        }
+
+        if (globalSaveData.animals.Count > 0)
+        {
+            animals = globalSaveData.animals;
+        }
+        else
+        {
+            if (ifDoTestInitialize)
+            {
+                foreach (animalProperty apt in testProperties.properies)
+                {
+                    addAnAnimal(apt);
+                }
+                globalSaveData.animals = animals;
+            }
+        }
+
+        if (globalSaveData.isAnimalUnlocked != null && globalSaveData.isAnimalUnlocked.Count > 0)
+        {
+            isAnimalUnlocked = globalSaveData.isAnimalUnlocked;
+        }
+        else
+        {
+            InitAnimalUnlock();
+        }
+
+        if (globalSaveData.animalPrices != null && globalSaveData.animalPriceLevel != null && globalSaveData.animalPrices.Count > 0 && globalSaveData.animalPriceLevel.Count > 0)
+        {
+            animalPriceLevel = globalSaveData.animalPriceLevel;
+            animalPrices = globalSaveData.animalPrices;
+        }
+        else
+        {
+            InitAnimalPrice();
+            globalSaveData.animalPriceLevel = animalPriceLevel;
+            globalSaveData.animalPrices = animalPrices;
+        }
+
+        if (globalSaveData.animalLevels != null && globalSaveData.animalLevels.Count > 0)
+        {
+            animalLevels = globalSaveData.animalLevels;
+        }
+        else
+        {
+            InitAnimalLevel();
+            globalSaveData.animalLevels = animalLevels;
+        }
+
+        SetAnimalProperty();
+
+        saveDataObjectList = FindAllSaveDataObjects();
+        foreach (ISaveData saveDataObject in saveDataObjectList)
+        {
+            saveDataObject.LoadGlobalSaveData(globalSaveData);
+        }
+    }
+
+    private void UpdateGlobalSaveDataOnNextGlobalLevel()
+    {
+        globalSaveData.animalPropertyListByLevel.Add(animals);
+
+        globalSaveData.currentLevelIndex = currentLevelIndex;
+
+        foreach (string animal in temporaryPointsByAnimal.Keys)
+        {
+            if (globalSaveData.pointsByAnimal.ContainsKey(animal))
+            {
+                globalSaveData.pointsByAnimal[animal] += temporaryPointsByAnimal[animal];
+            }
+            else
+            {
+                globalSaveData.pointsByAnimal.Add(animal, temporaryPointsByAnimal[animal]);
+            }
+        }
+        temporaryPointsByAnimal.Clear();
+
+        globalSaveData.animalBallPassTimes += temporaryAnimalBallPassTimes;
+        temporaryAnimalBallPassTimes = new AnimalBallPassTimes();
+
+        globalSaveData.currentCoin = curCoinAmount;
+
+        globalSaveData.animals = animals;
+    }
+
+    public void AddPointsToTemporaryPointsByAnimal(string animal, int points)
+    {
+        if (temporaryPointsByAnimal.ContainsKey(animal))
+        {
+            temporaryPointsByAnimal[animal] += points;
+        }
+        else
+        {
+            temporaryPointsByAnimal.Add(animal, points);
+        }
+    }
+
+    public void SetCoinUsedForUpgrade(int coinUsedForUpgrade)
+    {
+        globalSaveData.currentCoin = curCoinAmount;
+        if (coinUsedForUpgrade != 0)
+        {
+            globalSaveData.coinUsedForUpgrade += coinUsedForUpgrade;
+        }
+        globalSaveData.animals = animals;
+    }
+
+    public void SetMaxBallPassTimes(List<int> totalBallPassTimesListPerShow)
+    {
+        foreach (int ballPassTimes in totalBallPassTimesListPerShow)
+        {
+            if (ballPassTimes > globalSaveData.maxBallPassTimes)
+            {
+                globalSaveData.maxBallPassTimes = ballPassTimes;
+            }
+        }
+    }
+
+    private void SetAnimalLevelList(Dictionary<string, int> animalLevels)
+    {
+        globalSaveData.animalLevels = animalLevels;
+    }
+
+    private void SetAnimalPrice(Dictionary<string, int> animalPriceLevel, Dictionary<string, int> animalPrices)
+    {
+        globalSaveData.animalPriceLevel = animalPriceLevel;
+        globalSaveData.animalPrices = animalPrices;
+    }
+
+    public void SetBallInfoList(List<BallInfo> ballInfoList)
+    {
+        globalSaveData.ballInfoList = ballInfoList;
+    }
+
+    private void SetIsAnimalUnlocked()
+    {
+        globalSaveData.isAnimalUnlocked = isAnimalUnlocked;
+    }
+
+    private List<ISaveData> FindAllSaveDataObjects()
+    {
+        IEnumerable<ISaveData> saveDataObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveData>();
+        return new List<ISaveData>(saveDataObjects);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGlobalSaveData();
+    }
+    #endregion
+
     // 动物管理
     #region 动物管理
-    private List<animalProperty> animals = new List<animalProperty>();
+    public List<animalProperty> animals { get; private set; } = new List<animalProperty>();
 
     public List<animalProperty> getAllAnimals()
     {
@@ -192,7 +366,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     #endregion
     // 金币管理
     #region 金币管理
-    private int curCoinAmount = 0;
+    public int curCoinAmount { get; private set; } = 0;
 
     public int getCurCoinAmount()
     {
@@ -243,6 +417,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     if (isAnimalUnlocked.ContainsKey(animalName))
                     {
                         isAnimalUnlocked[animalName] = true;
+                        SetIsAnimalUnlocked();
                     }
                     else
                     {
@@ -275,6 +450,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public void CalculateAnimalPrice()
     {
         AnimalBallPassTimes allAnimalBallPassTimes = ShowManager.instance.GetComponent<ShowAnimalBallPassTimesCounter>().GenerateAnimalBallPassTimes();
+        temporaryAnimalBallPassTimes = allAnimalBallPassTimes;
 
         foreach (animalProperty animal in allAnimals.properies)
         {
@@ -310,6 +486,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
             UpdatePriceLevel(animal.animalName, myBallPassTimes);
             UpdatePrice(animal.animalName);
+            SetAnimalPrice(animalPriceLevel, animalPrices);
 
             //Debug.Log($"{animal.animalName}'s Price: {animalPrices[animal.animalName]}");
 
@@ -359,6 +536,8 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         animalLevels[animalName] = Math.Clamp(animalLevels[animalName], initLevel, maxLevel);
         SetAnimalProperty();
         TroupeController.instance.DisplayCardDetail(TroupeController.instance.troupeCardSelected);
+
+        SetAnimalLevelList(animalLevels);
     }
 
     #endregion
@@ -368,5 +547,29 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         Add,
         LogInfo,
         LogCoin
+    }
+}
+
+public class ReadOnlyAttribute : PropertyAttribute
+{
+
+}
+
+[CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+public class ReadOnlyDrawer : PropertyDrawer
+{
+    public override float GetPropertyHeight(SerializedProperty property,
+                                            GUIContent label)
+    {
+        return EditorGUI.GetPropertyHeight(property, label, true);
+    }
+
+    public override void OnGUI(Rect position,
+                               SerializedProperty property,
+                               GUIContent label)
+    {
+        GUI.enabled = false;
+        EditorGUI.PropertyField(position, property, label, true);
+        GUI.enabled = true;
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8259983284778679572}
   - component: {fileID: 8698562038579987015}
+  - component: {fileID: 619889646585919443}
   m_Layer: 0
   m_Name: GlobalManager
   m_TagString: Untagged
@@ -46,6 +47,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevelIndex: 0
   allAnimals: {fileID: 11400000, guid: 825c690ab08fa4c52866171d8c26af1a, type: 2}
+  animalBallPassTimes:
+    monkey: 0
+    elephant: 0
+    bear: 0
+    lion: 0
+    giraffe: 0
+    snake: 0
+    fox: 0
+    seal: 0
+    ostrich: 0
+    kangaroo: 0
+    buffalo: 0
+    goat: 0
+    lizard: 0
   redEffect: {r: 0.99607843, g: 0.003921569, b: 0.5058824, a: 1}
   blueEffect: {r: 0, g: 0.74509805, b: 0.9098039, a: 1}
   yellowEffect: {r: 1, g: 0.85490197, b: 0.38039216, a: 1}
@@ -57,5 +72,53 @@ MonoBehaviour:
   ifTestAction: 0
   toTestAdd: {fileID: 0}
   levelPreviewController: {fileID: 0}
+  globalSaveData:
+    currentLevelIndex: 0
+    animalBallPassTimes:
+      monkey: 0
+      elephant: 0
+      bear: 0
+      lion: 0
+      giraffe: 0
+      snake: 0
+      fox: 0
+      seal: 0
+      ostrich: 0
+      kangaroo: 0
+      buffalo: 0
+      goat: 0
+      lizard: 0
+    currentCoin: 0
+    coinUsedForUpgrade: 0
+    maxBallPassTimes: 0
+    currentAnimalList: []
+    ballInfoList: []
+  temporaryAnimalBallPassTimes:
+    monkey: 0
+    elephant: 0
+    bear: 0
+    lion: 0
+    giraffe: 0
+    snake: 0
+    fox: 0
+    seal: 0
+    ostrich: 0
+    kangaroo: 0
+    buffalo: 0
+    goat: 0
+    lizard: 0
   maxPrice: 40
   maxLevel: 0
+--- !u!114 &619889646585919443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9045721959131190937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 487a6f9259bea458e8a4ab9deb3fbce2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileName: globalSaveData.json

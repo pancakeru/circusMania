@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq.Expressions;
-using TMPro;
 using UnityEngine;
 
-public class MrShopManager : MonoBehaviour
+public class MrShopManager : MonoBehaviour, ISaveData
 {
     public static MrShopManager instance;
 
@@ -18,38 +14,15 @@ public class MrShopManager : MonoBehaviour
     [HideInInspector] public List<BallInfo> ballInfos;
 
     MenuController menuController;
-    Vector2 mrShopItemStartPos = new Vector2 (-750, 50);
-    Vector2 mrShopItemPosOffset = new Vector2 (250, -100);
+    Vector2 mrShopItemStartPos = new Vector2(-750, 50);
+    Vector2 mrShopItemPosOffset = new Vector2(250, -100);
+
+    private bool hasInstantiated = false;
 
     void Awake()
     {
         if (instance == null) instance = this;
         else Destroy(gameObject);
-    }
-
-    void Start()
-    {
-        menuController = FindAnyObjectByType<MenuController>();
-
-        ballInfos = new List<BallInfo>()
-        {
-            new BallInfo("Circus Ball", true, "You always have this.", ballSprites[0]),
-            new BallInfo("Basketball", false, "Interact with the chicken for 7 times.", ballSprites[1]),
-            new BallInfo("Pixel Ball", false, "Finish the tutorial.", ballSprites[2]),
-            new BallInfo("Tennis Ball", false, "Complete a level with at least 3 foxes.", ballSprites[3]),
-            new BallInfo("Yarn Ball", false, "Complete a level with at least 3 lions.", ballSprites[4]),
-            new BallInfo("Beach Ball", false, "Complete a level with at least 3 seals.", ballSprites[5]),
-            new BallInfo("Chip Ball", false, "Upgrade 7 animals to max level.", ballSprites[6]),
-        };
-
-        myBallSprite = ballSprites[0];
-
-        for (int i = 0; i < ballInfos.Count; i++)
-        {
-            GameObject newMrShopItem = Instantiate(mrShopItemPrefab, transform);
-            newMrShopItem.GetComponent<RectTransform>().anchoredPosition = mrShopItemStartPos + new Vector2(mrShopItemPosOffset.x * i, mrShopItemPosOffset.y * (1 - (i % 2)));
-            mrShopItems.Add(newMrShopItem);
-        }
     }
 
     public void Enable()
@@ -81,6 +54,8 @@ public class MrShopManager : MonoBehaviour
             ballInfos[achievementIndex].isUnlocked = true;
             GameObject newNotification = Instantiate(notification, CanvasMain.instance.transform);
             newNotification.GetComponent<NotificationController>().ballImage.sprite = ballInfos[achievementIndex].ballSprite;
+
+            GlobalManager.instance.SetBallInfoList(ballInfos);
         }
     }
 
@@ -94,8 +69,47 @@ public class MrShopManager : MonoBehaviour
             }
         }
     }
+
+    public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
+    {
+        if (globalSaveData.ballInfoList.Count > 0)
+        {
+            ballInfos = globalSaveData.ballInfoList;
+        }
+        else
+        {
+            ballInfos = new List<BallInfo>(){
+                new BallInfo("Circus Ball", true, "You always have this.", ballSprites[0]),
+                new BallInfo("Basketball", false, "Interact with the chicken for 7 times.", ballSprites[1]),
+                new BallInfo("Pixel Ball", false, "Finish the tutorial.", ballSprites[2]),
+                new BallInfo("Tennis Ball", false, "Complete a level with at least 3 foxes.", ballSprites[3]),
+                new BallInfo("Yarn Ball", false, "Complete a level with at least 3 lions.", ballSprites[4]),
+                new BallInfo("Beach Ball", false, "Complete a level with at least 3 seals.", ballSprites[5]),
+                new BallInfo("Chip Ball", false, "Upgrade 7 animals to max level.", ballSprites[6]),
+            };
+            GlobalManager.instance.SetBallInfoList(ballInfos);
+        }
+
+        menuController = FindAnyObjectByType<MenuController>();
+
+        myBallSprite = ballSprites[0];
+
+        if (!hasInstantiated)
+        {
+            for (int i = 0; i < ballInfos.Count; i++)
+            {
+                GameObject newMrShopItem = Instantiate(mrShopItemPrefab, transform);
+                newMrShopItem.GetComponent<RectTransform>().anchoredPosition = mrShopItemStartPos + new Vector2(mrShopItemPosOffset.x * i, mrShopItemPosOffset.y * (1 - (i % 2)));
+                mrShopItems.Add(newMrShopItem);
+            }
+            hasInstantiated = true;
+        }
+
+        SetBallsInfo();
+    }
 }
 
+[System.Serializable]
 public class BallInfo
 {
     public string ballName;
@@ -109,6 +123,5 @@ public class BallInfo
         this.isUnlocked = isUnlocked;
         this.unlockRequirement = unlockRequirement;
         this.ballSprite = ballSprite;
-
     }
 }

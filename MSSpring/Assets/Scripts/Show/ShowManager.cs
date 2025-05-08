@@ -777,6 +777,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		tContainer.DoBananaMoverAction(showBanana, ShowBanannaInDecision.anchoredPosition);
 		moveCounter.SetUpCount(count + tContainer.TakeCount());
 
+		GetComponent<ShowAnimalBallPassTimesCounter>().DoWhenTurnEnds();
+
 		if (tContainer.isTutorial)
 		{
 			switch (showTutorialManager.turotialShowTurn)
@@ -857,14 +859,16 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	{
 		if (tContainer.ifChangePrice)
 		{
-			GlobalManager.instance.ToNextGlobalLevel();
 			GlobalManager.instance.changeCoinAmount(curMoneyEarned);
 			GlobalManager.instance.CalculateAnimalPrice();
 			GlobalManager.instance.UnlockAnimal();
+			GlobalManager.instance.SetMaxBallPassTimes(GetComponent<ShowAnimalBallPassTimesCounter>().GetTotalBallPassTimesListPerShow());
+			GlobalManager.instance.ToNextGlobalLevel();
 		}
 		else
 		{
 			GlobalManager.instance.DirectResetAnimalBallPassTime();
+			GlobalManager.instance.temporaryPointsByAnimal.Clear();
 		}
 		foreach (GameObject an in onStage)
 		{
