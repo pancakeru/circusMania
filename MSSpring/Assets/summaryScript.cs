@@ -137,7 +137,7 @@ public class summaryScript : MonoBehaviour
                 if (value > topCount)
                 {
                     topCount = value;
-                    topName = field.Name;
+                    topName = char.ToUpper(field.Name[0]) + field.Name.Substring(1);
                 }
             }
         }

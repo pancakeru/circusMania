@@ -399,6 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 551b3620696c04fc7b0d8d9b2346e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wl: {fileID: 1105490117}
 --- !u!4 &898701772
 Transform:
   m_ObjectHideFlags: 0
@@ -476,6 +477,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1105490117 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8161023722131969972, guid: 5d9aca32a87cc564dbd105f2823cee2d, type: 3}
+  m_PrefabInstance: {fileID: 2051532374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c99f42fbb60454c992092ec4ad71c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!223 &1139610626 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 8449459266273942146, guid: 2e894a72b3e479445b0b24ee2a77bf6a, type: 3}
@@ -708,6 +720,10 @@ PrefabInstance:
     - target: {fileID: 6952102906128197698, guid: 5d9aca32a87cc564dbd105f2823cee2d, type: 3}
       propertyPath: m_Name
       value: WinLoseScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6952102906128197698, guid: 5d9aca32a87cc564dbd105f2823cee2d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
