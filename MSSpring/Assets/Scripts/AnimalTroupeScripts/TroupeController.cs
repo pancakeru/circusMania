@@ -243,6 +243,14 @@ public class TroupeController : MonoBehaviour, ISaveData
             GlobalManager.instance.setCoinAmount(coin);
             GlobalManager.instance.SetCoinUsedForUpgrade(0);
             UpdateText();
+
+            //Check if achievementUnlocked
+            bool isAchievementUnlocked = true;
+            foreach (animalProperty tempAnimal in GlobalManager.instance.allAnimals.properies)
+            {
+                if (NumberInTroupe(tempAnimal.animalName) == 0) isAchievementUnlocked = false;
+            }
+            if (isAchievementUnlocked) MrShopManager.instance.AchievementUnlocked(5);
         }
         else CanvasMain.instance.DisplayWarning("Not enough coins!");
     }

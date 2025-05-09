@@ -43,10 +43,11 @@ public class BananaThrower : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && selfManager.GetIfBananaEnabled())
         {
-            if (curBanana <= 0)
-                return;
             // 获取鼠标点击位置
             Vector3 mousePosition = Input.mousePosition;
+
+            if (curBanana <= 0 || mousePosition.y > 540)
+                return;
 
             // 将鼠标屏幕坐标转换为世界坐标
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, 0));
@@ -56,6 +57,8 @@ public class BananaThrower : MonoBehaviour
 
 
         }
+
+        Debug.Log(Input.mousePosition);
     }
 
     void throwBanana(Vector3 pos)

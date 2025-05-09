@@ -15,7 +15,7 @@ MonoBehaviour:
   animalName: Goat
   animalCoreImg: {fileID: 21300000, guid: eb47b3b6065c6b54ea7f60c5ae4081bc, type: 3}
   explainImg: {fileID: 0}
-  baseBallChange: 2
+  baseBallChange: -2
   mechanicNumberType: 0
   skillScoreColor: 3
   textSkill: ' if receiver has POWER. Set POWER to 1 and Multiply NOVELTY by POWER
@@ -24,7 +24,7 @@ MonoBehaviour:
   textMechanicExtra: 
   baseRedChange: 0
   baseYellowChange: 0
-  baseBlueChange: 30
-  restTurn: 3
+  baseBlueChange: 10
+  restTurn: 5
   mechanicActiveNum: -99
-  skillNum: 50
+  skillNum: 5
