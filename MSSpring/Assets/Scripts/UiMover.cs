@@ -43,6 +43,7 @@ public class UiMover : MonoBehaviour
     /// <param name="destination">目标位置 (Vector2)</param>
     public void MoveTo(Vector2 destination, int i = 0)
     {
+        rectTransform = GetComponent<RectTransform>();
         if (rectTransform == null)
         {
             Debug.LogError("RectTransform 未找到，确保此脚本附加在 UI 对象上！");
@@ -100,8 +101,17 @@ public class UiMover : MonoBehaviour
         {
             rectTransform.anchoredPosition = targetPosition; // 确保完全对齐
             isMoving = false; // 停止移动
-            if (onMoveReachs != null && (triggerIndex >= 0) && (triggerIndex < onMoveReachs.Count))
-                onMoveReachs[triggerIndex]?.Invoke();
+            try
+            {
+                if (onMoveReachs != null && (triggerIndex >= 0) && (triggerIndex < onMoveReachs.Count))
+                    onMoveReachs[triggerIndex]?.Invoke();
+            }
+            catch (System.Exception)
+            {
+
+
+            }
+            
         }
     }
 

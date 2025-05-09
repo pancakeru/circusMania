@@ -130,16 +130,35 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public void ToNextGlobalLevel()
     {
-        if (currentLevelIndex + 1 < globalLevelArray.Length)
+        if (ShowManager.win)
         {
-            currentLevelIndex += 1;
-            OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
+            if (currentLevelIndex + 1 < globalLevelArray.Length)
+            {
+                currentLevelIndex += 1;
+                OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
 
-            UpdateGlobalSaveDataOnNextGlobalLevel();
+                UpdateGlobalSaveDataOnNextGlobalLevel();
+            }
+            else
+            {
+                currentLevelIndex += 1;
+                summaryScript.instance.SummaryLevel();
+            }
         }
+        else
+        {
+            summaryScript.instance.SummaryLevel();
+        }
+        
+        //TODO:这里要加一再触发结束
     }
 
     #region Global Save Data
+    public GlobalSaveData GetGlobalData()
+    {
+        return globalSaveData;
+    }
+
     public void SaveGlobalSaveData()
     {
         SaveDataManager.Instance.SaveGame(globalSaveData);
@@ -628,7 +647,7 @@ public class ReadOnlyAttribute : PropertyAttribute
 {
 
 }
-
+/*
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
 public class ReadOnlyDrawer : PropertyDrawer
 {
@@ -646,4 +665,4 @@ public class ReadOnlyDrawer : PropertyDrawer
         EditorGUI.PropertyField(position, property, label, true);
         GUI.enabled = true;
     }
-}
+}*/
