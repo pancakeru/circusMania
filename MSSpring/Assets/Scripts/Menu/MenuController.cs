@@ -147,6 +147,7 @@ public class MenuController : MonoBehaviour, ISaveData
     public void LoadGlobalSaveData(GlobalSaveData globalSaveData)
     {
         coinDisplay.text = GlobalManager.instance.getCurCoinAmount().ToString();
+        levelDisplay.text = GlobalManager.instance.currentLevelIndex + " / 8";
         TryUnlockShopButton();
     }
 }
