@@ -16,6 +16,7 @@ public class CheatManager : MonoBehaviour
         cheatCodes = new Dictionary<string, Action>
         {
             { "infiniteMoney", InfiniteMoney },
+            { "Unlock", Unlock },
             { "unlockAll", UnlockAll }
         };
 
@@ -46,6 +47,13 @@ public class CheatManager : MonoBehaviour
     void UnlockAll()
     {
         GlobalManager.instance.currentLevelIndex = 7;
+        GlobalManager.instance.UnlockAnimal();
+        GlobalManager.instance.SetSaveDataCurrentLevelIndex();
+    }
+
+    void Unlock()
+    {
+        GlobalManager.instance.currentLevelIndex++;
         GlobalManager.instance.UnlockAnimal();
         GlobalManager.instance.SetSaveDataCurrentLevelIndex();
     }

@@ -100,17 +100,6 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                     break;
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            levelPreviewController.gameObject.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.U))
-        {
-            currentLevelIndex++;
-            UnlockAnimal();
-        }
     }
 
     public GlobalLevel[] GetGlobalLevelArray()
