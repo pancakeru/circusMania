@@ -249,7 +249,15 @@ private IEnumerator TopThings() {
     }
     */
 
-    public void ResetGame() {
+    public void ResetGame() 
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit(); 
+#endif
+        return;
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
