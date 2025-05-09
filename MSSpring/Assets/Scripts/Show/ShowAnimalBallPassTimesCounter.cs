@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ShowAnimalBallPassTimesCounter : MonoBehaviour
 {
-	public int monkey; //public for testing animalTroupe
+	private int monkey; 
 	private int elephant;
 	private int bear;
 	private int lion;

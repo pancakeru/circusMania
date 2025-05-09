@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using TMPro;
 using UnityEngine;
 
@@ -16,7 +17,10 @@ public class CheatManager : MonoBehaviour
         cheatCodes = new Dictionary<string, Action>
         {
             { "infiniteMoney", InfiniteMoney },
-            { "unlockAll", UnlockAll }
+            { "unlock", Unlock },
+            { "unlockAll", UnlockAll },
+            { "end", ForceEnd },
+            { "balls", Unlockballs },
         };
 
         cheatList.text = "Cheat will not be applied until refreshing UI. \nCheat List: \n";
@@ -48,5 +52,26 @@ public class CheatManager : MonoBehaviour
         GlobalManager.instance.currentLevelIndex = 7;
         GlobalManager.instance.UnlockAnimal();
         GlobalManager.instance.SetSaveDataCurrentLevelIndex();
+    }
+
+    void Unlock()
+    {
+        GlobalManager.instance.currentLevelIndex++;
+        GlobalManager.instance.UnlockAnimal();
+        GlobalManager.instance.SetSaveDataCurrentLevelIndex();
+    }
+
+    void ForceEnd()
+    {
+        FindObjectOfType<summaryScript>().SummaryLevel();
+        FindObjectOfType<winLoseScript>().SetBasedOnLevelIndex(FindObjectOfType<winLoseScript>().testN);
+    }
+
+    void Unlockballs()
+    {
+        for (int i = 0; i < MrShopManager.instance.ballInfos.Count; i++)
+        {
+            MrShopManager.instance.AchievementUnlocked(i);
+        }
     }
 }
