@@ -16,12 +16,9 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 		animalBody.ifJustInteract = true;
 		animalBody.ifHaveBall = false;
 
-		GenerateScore(animalInfo);
-
-		controlUnit.InvokeOnExcitementEvent(animalInfo);
 
         if (animalInfo.warmUp > 1)
-		{
+        {
             animalInfo.warmUp -= 1;
         }
         else if (animalInfo.warmUp == 1)
@@ -30,6 +27,11 @@ public class AnimalControlSnake : AbstractSpecialAnimal
             WarmUp();
             animalBody.mechanicNumberUI.StartEffectImpact(true);
         }
+        GenerateScore(animalInfo);
+        
+		controlUnit.InvokeOnExcitementEvent(animalInfo);
+        animalInfo.yellowScore = 0;
+
 
         animalBody.ifReadyToInteract = false;
         BallSound();
@@ -40,6 +42,7 @@ public class AnimalControlSnake : AbstractSpecialAnimal
 		AnimalInfoPack warmUpAnimalInfo = new AnimalInfoPack(new animalProperty(),animalBody);
         warmUpAnimalInfo.yellowScore = soul.skillNum;
 
-		GenerateScore(warmUpAnimalInfo);
+        //GenerateScore(warmUpAnimalInfo);
+        animalInfo.yellowScore = soul.skillNum;
     }
 }
