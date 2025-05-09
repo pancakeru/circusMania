@@ -12,6 +12,8 @@ public class ShowStressManager : MonoBehaviour
     public int[] ballPassToStress = { 0, 0, 0, 0, 0, 0 };
     Vector2[] animalPos = new Vector2[6];
 
+    int collectiveStress;
+
     void Start()
     {
         Transform[] singleStages = performUnit.GetSingleStages();
@@ -33,7 +35,30 @@ public class ShowStressManager : MonoBehaviour
     public void UpdateStress(int index)
     {
         ballPassToStress[index] += 1;
-        if (ballPassToStress[index] == 5)
+        collectiveStress = 0;
+        for (int i = 0; i < ballPassToStress.Length; i++)
+        {
+            collectiveStress += ballPassToStress[i];
+        }
+
+        if (collectiveStress >= 12)
+        {
+            for (int i = 0; i < ballPassToStress.Length; i++)
+            {
+                ballPassToStress[i] = 0;
+                stressPoints[i] += 1;
+            }
+
+            GameObject newText = Instantiate(stressTextPrefab, new Vector2 (0, 2), Quaternion.identity);
+            newText.GetComponent<TextMeshPro>().text = $"*Stress*\nRest +{stressPoints[index]}";
+            newText.GetComponent<ScoreTextEffect>().MoveText(new Vector2(0, 2), new Vector2(0, 3));
+        }
+    }
+
+    public void UpdateStressIndividual(int index)
+    {
+        ballPassToStress[index] += 1;
+        if (ballPassToStress[index] == 10)
         {
             ballPassToStress[index] = 0;
             stressPoints[index] += 1;
