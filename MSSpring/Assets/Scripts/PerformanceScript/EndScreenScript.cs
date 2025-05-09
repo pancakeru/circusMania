@@ -221,6 +221,7 @@ public class EndScreenScript : MonoBehaviour
                 }
                 else
                 {
+					ShowManager.win = false;
                     loseTrans.gameObject.SetActive(true);
                 }
             }

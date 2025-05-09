@@ -5,6 +5,16 @@ using UnityEngine;
 
 public class summaryScript : MonoBehaviour
 {
+
+    public static summaryScript instance;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject); // 或者改成 DontDestroyOnLoad(gameObject); 看你需求
+    }
     public winLoseScript wl;
     // Start is called before the first frame update
     void Start()

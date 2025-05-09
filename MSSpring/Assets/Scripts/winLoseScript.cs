@@ -110,7 +110,7 @@ public class winLoseScript : MonoBehaviour
         temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-317 + (i * 90), 75);
         temp.GetComponent<locationIconScript>().location = Locations[i];
         locationPics[i] = temp;
-
+            /*
             if (i <= 3)
             {
                 temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.passed;
@@ -122,7 +122,7 @@ public class winLoseScript : MonoBehaviour
             else
             {
                 temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
-            }
+            }*/
 
     }
 

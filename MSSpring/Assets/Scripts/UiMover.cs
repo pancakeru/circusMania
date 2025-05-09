@@ -101,8 +101,17 @@ public class UiMover : MonoBehaviour
         {
             rectTransform.anchoredPosition = targetPosition; // 确保完全对齐
             isMoving = false; // 停止移动
-            if (onMoveReachs != null && (triggerIndex >= 0) && (triggerIndex < onMoveReachs.Count))
-                onMoveReachs[triggerIndex]?.Invoke();
+            try
+            {
+                if (onMoveReachs != null && (triggerIndex >= 0) && (triggerIndex < onMoveReachs.Count))
+                    onMoveReachs[triggerIndex]?.Invoke();
+            }
+            catch (System.Exception)
+            {
+
+
+            }
+            
         }
     }
 

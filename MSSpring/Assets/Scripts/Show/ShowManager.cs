@@ -9,7 +9,7 @@ using System.Linq;
 public class ShowManager : MonoBehaviour, IReportReceiver
 {
 	public static ShowManager instance;
-
+	public static bool win = true;
 	//State Machine
 	private enum ShowStates
 	{
@@ -458,6 +458,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	#region Fuctions
 	public void EnterOneShow(bool isTutorial = false)
 	{
+		win = true;
 		if (!isTutorial)
 		{
 			//Debug.Log("我是SHowManager，我是的obj是" + gameObject.name);
