@@ -3980,6 +3980,7 @@ MonoBehaviour:
   regularTutorial: {fileID: 4930937852026860117}
   showTutorialManager: {fileID: 5369678948300952224}
   speedUpButton: {fileID: 7138409924793454847}
+  scoreUIDisplay: {fileID: 6048654546314213879}
   showStressManager: {fileID: 6826543518921071051}
 --- !u!114 &5278052055861880444
 MonoBehaviour:
