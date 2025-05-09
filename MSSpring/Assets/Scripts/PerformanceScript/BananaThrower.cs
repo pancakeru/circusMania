@@ -45,7 +45,6 @@ public class BananaThrower : MonoBehaviour
         {
             // 获取鼠标点击位置
             Vector3 mousePosition = Input.mousePosition;
-
             if (curBanana <= 0 || mousePosition.y > 540)
                 return;
 
