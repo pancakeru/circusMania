@@ -45,7 +45,7 @@ public class BananaThrower : MonoBehaviour
         {
             // 获取鼠标点击位置
             Vector3 mousePosition = Input.mousePosition;
-            if (curBanana <= 0 || mousePosition.y > 540)
+            if (curBanana <= 0 || mousePosition.y > Screen.height * 0.8f)
                 return;
 
             // 将鼠标屏幕坐标转换为世界坐标
