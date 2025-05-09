@@ -142,11 +142,13 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             else
             {
                 currentLevelIndex += 1;
+                UpdateGlobalSaveDataOnNextGlobalLevel();
                 summaryScript.instance.SummaryLevel();
             }
         }
         else
         {
+            UpdateGlobalSaveDataOnNextGlobalLevel();
             summaryScript.instance.SummaryLevel();
         }
         

@@ -69,10 +69,11 @@ public class PerformUnit : MonoBehaviour
 			StartState(showState.showStart);
 		}
 
+		/*
 		if (Input.GetKeyDown(KeyCode.R))
 		{
 			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-		}
+		}*/
 	}
 
 	private void SetStageAndEmptyLocalPos(int n, float[] EmptyLocalposes, float[] StageLocalposes)

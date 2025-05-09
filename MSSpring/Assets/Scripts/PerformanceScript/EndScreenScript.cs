@@ -74,11 +74,18 @@ public class EndScreenScript : MonoBehaviour
 
 		this.scores = scores;
 		this.ifWinLose = ifWinLose;
-	}
+        if (curRepu < 0)
+        {
+            ShowManager.win = false;
+            //winTrans.gameObject.SetActive(true);
+        }
+       
+    }
 
 	public void StartDisplay()
 	{
 		currentState = DisplaySequence.ShowScore;
+
 		starting = 0;
 	}
 
