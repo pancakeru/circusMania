@@ -16,6 +16,7 @@ public class winLoseScript : MonoBehaviour
     float delay = 0.25f;
 
     public Image travelBar;
+    //public Slider travelSlider;
 
     public string locations; //locations completed
     public string coins; //coins earned
@@ -50,6 +51,11 @@ public class winLoseScript : MonoBehaviour
     public bool startingAnim;
     private int stateIndex = 0;
 
+    public int testN;
+
+    public List<animalProperty> test;
+
+    private GameObject newPin;
    // public GameObject startScreen;
 
     private enum displaySeq {
@@ -71,6 +77,8 @@ public class winLoseScript : MonoBehaviour
         fourPanel.SetActive(false);
         endButton.SetActive(false);
         ap_bg.SetActive(false);
+
+        //SetData(new SummaryRequireInfo(8, new int[]{1,1,1,1,1},10,1000,10,200, test.ToArray(), test[1], test[2]));
     }
 
 
@@ -103,18 +111,25 @@ public class winLoseScript : MonoBehaviour
         temp.GetComponent<locationIconScript>().location = Locations[i];
         locationPics[i] = temp;
 
-        if (i == 0) {
-            temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.current;
-        } else {
-            temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
-        }
+            if (i <= 3)
+            {
+                temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.passed;
+            }
+            else if (i == 4)
+            {
+                temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.failed;
+            }
+            else
+            {
+                temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
+            }
 
     }
 
-    Instantiate(pinObj, canvasTransform);
-    pinObj.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-312, 100);
+        newPin = Instantiate(pinObj, canvasTransform);
+        newPin.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-312, 100);
 
-    fourScript.MoveTo(new Vector2(31.20644f, -187.2645f));
+        fourScript.MoveTo(new Vector2(31.20644f, -187.2645f));
     ebScript.MoveTo(new Vector2(326, -195));
     }
 
@@ -122,12 +137,13 @@ private IEnumerator SpawnAnimalPicksWithDelay()
 {
    // Debug.Log("spawing");
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < selfInfo.topPicks.Length; i++)
     {
         GameObject temp = Instantiate(animalPick, canvasTransform);
         temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
         animalPicks[i] = temp;
-        temp.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(12);
+            temp.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.topPicks[i]);
+            temp.GetComponent<RapidTMPCounter>().reference.sprite = selfInfo.topProperties[i].animalCoreImg;
 
         yield return new WaitForSeconds(0.5f); // Delay between spawns (adjust as needed)
     }
@@ -137,12 +153,14 @@ private IEnumerator SpawnAnimalPicksWithDelay()
 
 private IEnumerator TopThings() {
     bPerf.SetActive(true);
-    bPerfText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(2300);
+        bPerfText.GetComponent<RapidTMPCounter>().reference.sprite = selfInfo.topScorer.animalCoreImg;
+    bPerfText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.TopScore);
 
     yield return new WaitForSeconds(0.8f);
 
     bPass.SetActive(true);
-    bPassText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(20);
+    bPassText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.TopPass);
+        bPassText.GetComponent<RapidTMPCounter>().reference.sprite = selfInfo.topPasser.animalCoreImg;
 
     ChangeState();
 }
@@ -152,6 +170,11 @@ private IEnumerator TopThings() {
     {
         if (startingAnim) {
             
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            SetBasedOnLevelIndex(testN);
         }
 
     }
@@ -178,7 +201,8 @@ private IEnumerator TopThings() {
             break;
 
             case displaySeq.map:
-               //MAP display
+                //MAP display
+                SetBasedOnLevelIndex(selfInfo.levelIndex);
                ChangeState();
                // currentState = displaySeq.animalPicks;
             break;
@@ -194,8 +218,8 @@ private IEnumerator TopThings() {
 
             case displaySeq.stats:
                fourPanel.SetActive(true);
-               bigText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(200);
-               resultsText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(30);
+               bigText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.coinCount);
+               resultsText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.maxCombo);
             break;
 
             case displaySeq.playAgain:
@@ -227,6 +251,66 @@ private IEnumerator TopThings() {
 
     public void ResetGame() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    SummaryRequireInfo selfInfo;
+    public void SetData(SummaryRequireInfo newInfo)
+    {
+        selfInfo = newInfo;
+    }
+
+    void SetBasedOnLevelIndex(int n)
+    {
+        int realIndex = Mathf.Clamp(n, 0, 8);
+        for (int i = 0; i < 8; i++)
+        {
+
+            if (i <realIndex)
+            {
+                locationPics[i].GetComponent<locationIconScript>().currentState = i == 7? locationIconScript.Status.current : locationIconScript.Status.passed;
+                
+            }
+            else if (i == realIndex)
+            {
+                locationPics[i].GetComponent<locationIconScript>().currentState = locationIconScript.Status.current;
+            }
+            else
+            {
+                locationPics[i].GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
+            }
+
+        }
+
+        newPin.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-311 + (Mathf.Clamp(realIndex,0,7) * 90), 100);
+        travelBar.fillAmount =Mathf.Clamp01( realIndex / 8);
+    }
+
+    
+}
+
+public class SummaryRequireInfo
+{
+    public int coinCount;
+    public int maxCombo;
+    public int TopScore;
+    public int TopPass;
+    public int[] topPicks;
+    public animalProperty[] topProperties;
+    public int levelIndex;
+    public animalProperty topPasser;
+    public animalProperty topScorer;
+
+    public SummaryRequireInfo( int levelIndex, int[] topPicks, int topPass, int topScore, int maxCombo, int coinCount, animalProperty[] topProperties, animalProperty topPasser, animalProperty topScorer)
+    {
+        this.levelIndex = levelIndex;
+        this.topPicks = topPicks;
+        this.TopPass = topPass;
+        this.TopScore = topScore;
+        this.maxCombo = maxCombo;
+        this.coinCount = coinCount;
+        this.topProperties = topProperties;
+        this.topPasser = topPasser;
+        this.topScorer = topScorer;
     }
 
 }

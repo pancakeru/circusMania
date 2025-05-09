@@ -137,9 +137,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
             UpdateGlobalSaveDataOnNextGlobalLevel();
         }
+        //TODO:这里要加一再触发结束
     }
 
     #region Global Save Data
+    public GlobalSaveData GetGlobalData()
+    {
+        return globalSaveData;
+    }
+
     public void SaveGlobalSaveData()
     {
         SaveDataManager.Instance.SaveGame(globalSaveData);

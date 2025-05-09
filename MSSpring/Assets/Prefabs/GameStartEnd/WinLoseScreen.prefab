@@ -828,6 +828,7 @@ MonoBehaviour:
   tmpText: {fileID: 4521738365423320793}
   finalValue: 2300
   duration: 1
+  reference: {fileID: 9223337299611279528}
 --- !u!1 &4659750399568053568
 GameObject:
   m_ObjectHideFlags: 0
@@ -994,6 +995,7 @@ MonoBehaviour:
   tmpText: {fileID: 3687375775788941702}
   finalValue: 200
   duration: 1
+  reference: {fileID: 0}
 --- !u!1 &5157659362962643029
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,6 +1162,7 @@ MonoBehaviour:
   tmpText: {fileID: 4563236154279496557}
   finalValue: 30
   duration: 1
+  reference: {fileID: 0}
 --- !u!1 &5205333326189983202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1641,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.137
+  m_FillAmount: 0.565
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1699,14 +1702,14 @@ MonoBehaviour:
   animalPick: {fileID: 4545302670825642425, guid: 7cfbe0ab183406047b28f0322d930eee, type: 3}
   canvasTransform: {fileID: 6074955686872047321}
   Locations:
-  - Shanghai
-  - Egypt
-  - Japan
-  - Seoul
-  - London
   - New York
+  - Seoul
+  - Cairo
   - Moscow
   - Paris
+  - Pisa
+  - London
+  - Shanghai
   titleText: {fileID: 9011790646609165779}
   ap_bg: {fileID: 5673687951844149757}
   pinObj: {fileID: 5506416455315950412, guid: 182eba331c05e9f4f8c6f706a2120a83, type: 3}
@@ -1715,6 +1718,13 @@ MonoBehaviour:
   bigText: {fileID: 4659750399568053568}
   resultsText: {fileID: 5157659362962643029}
   startingAnim: 1
+  testN: 0
+  test:
+  - {fileID: 11400000, guid: c9b7b8ccf034349d5b05aee0ba556030, type: 2}
+  - {fileID: 11400000, guid: 40d20d25a8143472db960d38fbc6262d, type: 2}
+  - {fileID: 11400000, guid: 58869a80842b04aafa0b39b9e5765de9, type: 2}
+  - {fileID: 11400000, guid: 8005f9a816bf6ef44bc5714629ac085b, type: 2}
+  - {fileID: 11400000, guid: a91cd24bf07324135b8dabc83e0e8d54, type: 2}
 --- !u!1 &7148274799588926532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,6 +1875,7 @@ MonoBehaviour:
   tmpText: {fileID: 3039743948316680016}
   finalValue: 20
   duration: 1
+  reference: {fileID: 6603765984494813254}
 --- !u!1 &7537919021497516925
 GameObject:
   m_ObjectHideFlags: 0
