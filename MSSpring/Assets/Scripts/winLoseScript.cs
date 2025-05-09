@@ -251,6 +251,8 @@ private IEnumerator TopThings() {
     */
 
     public void ResetGame() {
+        GlobalManager.instance.ClearGlobalManagerSaveData();
+        GlobalManager.instance.SaveGlobalSaveData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

@@ -56,7 +56,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
