@@ -57,8 +57,6 @@ public class BananaThrower : MonoBehaviour
 
 
         }
-
-        Debug.Log(Input.mousePosition);
     }
 
     void throwBanana(Vector3 pos)

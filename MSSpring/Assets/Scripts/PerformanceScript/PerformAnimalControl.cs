@@ -52,6 +52,9 @@ public class PerformAnimalControl : MonoBehaviour
 	[Header("MechanicNumber")]
 	public GameObject mechanicNumberUIPrefab;
 	public MechanicNumberController mechanicNumberUI;
+	
+	[Header("Others")]
+	public ShowStressManager showStressManager;
 
 	void Start()
 	{
@@ -59,9 +62,11 @@ public class PerformAnimalControl : MonoBehaviour
 
 		originalScale = renderer.transform.localScale; // 记录原始缩放
 		baseRatio = renderer.transform.localScale;
-		//StartState(animalSceneState.inShop);
+        //StartState(animalSceneState.inShop);
 
-	}
+        showStressManager = FindObjectOfType<ShowStressManager>();
+
+    }
 
 	private void Update()
 	{
@@ -174,7 +179,10 @@ public class PerformAnimalControl : MonoBehaviour
 			ifHaveBall = true;
 
 			OnAnyPassingBall?.Invoke(this, new OnAnyPassingBallEventArgs { animalName = animalBrain.soul.animalName });
-		}
+
+			showStressManager.UpdateStress(selfIndexInShow);
+
+        }
 	}
 
 	public void TakeBanana(int n)
@@ -414,7 +422,7 @@ public abstract class AbstractSpecialAnimal : MonoBehaviour
 	{
 		animalBody.ifInRest = true;
 		if (!ifDirect)
-			animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn); });
+			animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalBody.showStressManager.stressPoints[animalBody.selfIndexInShow]); });
 		else
 			animalBody.curRestTurn = soul.restTurn;
 	}
