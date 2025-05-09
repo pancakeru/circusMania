@@ -85,11 +85,13 @@ public class CanvasMain : MonoBehaviour
         var pointer = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
 
         List<RaycastResult> allHits = new List<RaycastResult>();
-        foreach (var raycaster in raycasters)
+        for (int i = raycasters.Count - 1; i >= 0; i--)
         {
+            var raycaster = raycasters[i];
+
             if (raycaster == null)
             {
-                raycasters.Remove(raycaster);
+                raycasters.RemoveAt(i);
                 continue;
             }
 

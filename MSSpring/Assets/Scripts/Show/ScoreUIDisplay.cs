@@ -17,8 +17,9 @@ public class ScoreUIDisplay : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI totalScoreText;
 	[SerializeField]
 	private float changeDuration;
+	[SerializeField] TextMeshProUGUI stressText;
 
-	[SerializeField] private TextMeshProUGUI targetRed;
+    [SerializeField] private TextMeshProUGUI targetRed;
 	[SerializeField] private TextMeshProUGUI targetYellow;
 	[SerializeField] private TextMeshProUGUI targetBlue;
 	private float targetRedScore;
@@ -120,6 +121,11 @@ public class ScoreUIDisplay : MonoBehaviour
 		ScoreSound();
 		ChangeFillAmount("Blue", GetScoreNormalized(newValue, targetBlueScore));
 	}
+
+	public void UpdateStressText(int stress)
+	{
+		stressText.text = stress.ToString();
+    }
 
 	public void ScoreSound()
 	{

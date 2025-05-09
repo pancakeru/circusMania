@@ -181,6 +181,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	[Header("Others")]
 	[SerializeField] Image speedUpButton;
+	public ScoreUIDisplay scoreUIDisplay;
     public ShowStressManager showStressManager;
 
     //这个类的作用是方便管理一些功能的开关
@@ -716,7 +717,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
         Time.timeScale = speedRatio;
 
 		int speedRatioToSpriteIndex = speedRatio == 1 ? 0 : speedRatio == 2 ? 1 : 2;
-        speedUpButton.sprite = speedUpButton.transform.parent.GetComponent<ScoreUIDisplay>().speedUpButtonSprites[speedRatioToSpriteIndex];
+        speedUpButton.sprite = scoreUIDisplay.speedUpButtonSprites[speedRatioToSpriteIndex];
     }
 
 	public void PauseResume()

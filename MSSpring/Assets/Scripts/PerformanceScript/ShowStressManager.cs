@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -52,6 +53,8 @@ public class ShowStressManager : MonoBehaviour
             GameObject newText = Instantiate(stressTextPrefab, new Vector2 (0, 2), Quaternion.identity);
             newText.GetComponent<TextMeshPro>().text = $"*Stress*\nRest +{stressPoints[index]}";
             newText.GetComponent<ScoreTextEffect>().MoveText(new Vector2(0, 2), new Vector2(0, 3));
+
+            performUnit.totalManager.scoreUIDisplay.UpdateStressText(stressPoints[0]);
         }
     }
 
