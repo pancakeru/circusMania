@@ -1,12 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class RapidTMPCounter : MonoBehaviour
 {
     [SerializeField] private TMP_Text tmpText;
     public int finalValue = 1000;
     [SerializeField] private float duration = 1f;
+
+    public Image reference;
 
     private Coroutine currentRoutine;
 
