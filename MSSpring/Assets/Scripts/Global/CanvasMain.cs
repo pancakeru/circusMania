@@ -26,6 +26,7 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] GameObject messageBox;
     [SerializeField] GameObject popUp;
     [SerializeField] GameObject cutScenePrefab;
+    [SerializeField] GameObject creditPrefab;
 
     [Header("CHEAT")]
     [SerializeField] bool isCheatEnabled;
@@ -192,6 +193,11 @@ public class CanvasMain : MonoBehaviour
     public void ShowCutScene()
     {
         Instantiate(cutScenePrefab, transform);
+    }
+
+    public void ShowCredit()
+    {
+        Instantiate(creditPrefab, transform);
     }
 
     void CheckFonts()

@@ -37,6 +37,11 @@ public class StartScreenManager : MonoBehaviour
         canvas.enabled = false;
     }
 
+    public void CreditButton()
+    {
+        CanvasMain.instance.ShowCredit();
+    }
+
     public void Exit()
     {
 #if UNITY_EDITOR
