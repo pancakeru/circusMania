@@ -21,7 +21,6 @@ public class CanvasMain : MonoBehaviour
     public static event Action OnUIInteractionEnabled;
     public static event Action OnUIInteractionDisabled;
 
-    [SerializeField] List<Canvas> canvasList = new List<Canvas>();
     List<GraphicRaycaster> raycasters = new List<GraphicRaycaster>();
 
     [SerializeField] GameObject messageBox;
@@ -38,6 +37,11 @@ public class CanvasMain : MonoBehaviour
     RectTransform myPopUpRect;
     Dictionary<Image, string> popUpTargets = new Dictionary<Image, string>();
 
+    Canvas canvasMenu;
+    Canvas canvasTroupe;
+    Canvas canvasMrShop;
+    Canvas canvasStartScren;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -51,11 +55,6 @@ public class CanvasMain : MonoBehaviour
 
         if (isCheatEnabled) myCheat = Instantiate(cheatPrefab, transform);
         myCheat.SetActive(false);
-
-        foreach (Canvas canvas in canvasList)
-        {
-            raycasters.Add(canvas.GetComponent<GraphicRaycaster>());
-        }
     }
 
     void Start()
@@ -65,6 +64,16 @@ public class CanvasMain : MonoBehaviour
 
         OnUIInteractionEnabled += UnlockMouse;
         OnUIInteractionDisabled += LockMouse;
+
+        canvasMenu = FindObjectOfType<MenuController>().GetComponent<Canvas>();
+        canvasTroupe = TroupeController.instance.GetComponent<Canvas>();
+        canvasMrShop = MrShopManager.instance.GetComponent<Canvas>();
+        canvasStartScren = FindObjectOfType<StartScreenManager>().GetComponent<Canvas>();
+
+        raycasters.Add(canvasMenu.GetComponent<GraphicRaycaster>());
+        raycasters.Add(canvasTroupe.GetComponent<GraphicRaycaster>());
+        raycasters.Add(canvasMrShop.GetComponent<GraphicRaycaster>());
+        raycasters.Add(canvasStartScren.GetComponent<GraphicRaycaster>());
 
         //CheckFonts();
     }
@@ -77,6 +86,12 @@ public class CanvasMain : MonoBehaviour
         List<RaycastResult> allHits = new List<RaycastResult>();
         foreach (var raycaster in raycasters)
         {
+            if (raycaster == null)
+            {
+                raycasters.Remove(raycaster);
+                continue;
+            }
+
             var hits = new List<RaycastResult>();
             raycaster.Raycast(pointer, hits);
             allHits.AddRange(hits);
@@ -89,8 +104,13 @@ public class CanvasMain : MonoBehaviour
 
         foreach (var hit in allHits)
         {
+            //Debug.Log("[Tooltip Hover] First UI hit: " + hit.gameObject.name, hit.gameObject);
             // Skip tooltip itself
             if (hit.gameObject == myPopUp || hit.gameObject.transform.IsChildOf(myPopUp.transform))
+                continue;
+
+            //Only process images
+            if (hit.gameObject.GetComponent<Image>() == null)
                 continue;
 
             var img = hit.gameObject.GetComponent<Image>();
@@ -161,8 +181,10 @@ public class CanvasMain : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void ShowPopUp(Image image, string text)
+    public void ShowPopUp(Image image, string text, GraphicRaycaster raycaster)
     {
+        if (!raycasters.Contains(raycaster)) raycasters.Add(raycaster);
+
         if (popUpTargets.ContainsKey(image)) popUpTargets[image] = text;
         else popUpTargets.Add(image, text);
     }

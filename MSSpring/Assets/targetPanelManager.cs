@@ -15,7 +15,7 @@ public class targetPanelManager : MonoBehaviour
 	[SerializeField] private GameObject redGroup;
 	[SerializeField] private GameObject blueGroup;
 	[SerializeField] private GameObject yellowGroup;
-	[SerializeField] private GameObject popularityGroup;
+	public GameObject popularityGroup;
 
 	public void ChangeLevelState(int curTurn, float curRepu, float[] targets, int totalTurn)
 	{
@@ -26,6 +26,8 @@ public class targetPanelManager : MonoBehaviour
 		yellowText.text = targetScoreArray[1].ToString();
 		blueText.text = targetScoreArray[2].ToString();
 		reputationText.text = ((int)curRepu).ToString();
+
+		if ((int)curRepu >= 1200) MrShopManager.instance.AchievementUnlocked(4);
 	}
 
 	public void ChangeLevelTargetUiDisplayStatus(bool ifShowRed, bool ifShowYellow, bool ifShowBlue, bool ifShowPopularity)

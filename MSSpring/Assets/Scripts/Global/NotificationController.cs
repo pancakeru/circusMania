@@ -20,6 +20,7 @@ public class NotificationController : MonoBehaviour
 
     IEnumerator UIAnimation()
     {
+        Time.timeScale = 1;
         float speed = 1000f;
 
         while (rectTransform.anchoredPosition.x > targetAnchoredPos.x)
