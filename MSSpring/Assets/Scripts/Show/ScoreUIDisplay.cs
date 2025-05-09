@@ -50,7 +50,15 @@ public class ScoreUIDisplay : MonoBehaviour
 	private Coroutine blueCoroutine;
 	private Coroutine totalScoreCoroutine;
 
-	private void Update()
+	ShowManager showManager;
+	public List<Sprite> speedUpButtonSprites = new List<Sprite>();
+
+    private void Start()
+    {
+        showManager = transform.parent.transform.parent.GetComponent<ShowManager>();
+    }
+
+    private void Update()
 	{
 		if (ifTest)
 		{
@@ -267,4 +275,10 @@ public class ScoreUIDisplay : MonoBehaviour
 		ChangeBlue,
 		ChangeTotalScore
 	}
+
+	public void OnSpeedUpButtonClick()
+	{
+		showManager.SpeedUp();
+
+    }
 }

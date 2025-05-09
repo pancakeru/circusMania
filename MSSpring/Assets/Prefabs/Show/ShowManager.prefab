@@ -3930,6 +3930,7 @@ MonoBehaviour:
   addhand: {fileID: 11400000, guid: e03bcde6684594403a9ab211a7e75c60, type: 2}
   regularTutorial: {fileID: 4930937852026860117}
   showTutorialManager: {fileID: 5369678948300952224}
+  speedUpButton: {fileID: 7138409924793454847}
 --- !u!114 &5278052055861880444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5308,6 +5309,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e97d15b90251944b8ac9b983031ae770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7138409924793454847 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7133797037411839781, guid: 08068ac9e6461465fac1a94c79c69d37, type: 3}
+  m_PrefabInstance: {fileID: 4763748460232666}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &8029892145315556153 stripped
