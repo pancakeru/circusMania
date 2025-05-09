@@ -116,7 +116,7 @@ public class PerformUnit : MonoBehaviour
 		scoreUI.UpdateTargetScores(targetScoreArray[0], targetScoreArray[1], targetScoreArray[2]);
 		SetStageAndEmptyLocalPos(n, EmptyLocalposes, StageLocalposes);
 		scoreUI.SetPopularityChangeVisualActiveToFalse();
-	}
+    }
 
 	public void InitShow(float last)
 	{
@@ -384,7 +384,8 @@ public class PerformUnit : MonoBehaviour
 			if (an != null)
 				an.DoTurnEnd();
 		}
-	}
+
+    }
 
 	public PerformAnimalControl[] GetAllAnimalsInShow(bool ifTest = true)
 	{
@@ -502,6 +503,11 @@ public class PerformUnit : MonoBehaviour
     {
 		if (curBall != null) Destroy(curBall.gameObject);
     }
+
+	public Transform[] GetSingleStages()
+	{
+		return singleStages;
+	}
 }
 
 

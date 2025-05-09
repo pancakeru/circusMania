@@ -26,7 +26,7 @@ public class AnimalControlLizard : AbstractSpecialAnimal
 	{
 		animalBody.ifInRest = true;
 		if (!ifDirect)
-			animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalInfo.power - 1); });
+			animalBody.FlipSprite(2, false, () => { animalBody.ChangeRestCount(soul.restTurn + animalInfo.power - 1 + animalBody.showStressManager.stressPoints[animalBody.selfIndexInShow]); });
 		else
 			animalBody.curRestTurn = soul.restTurn + animalInfo.power - 1;
 

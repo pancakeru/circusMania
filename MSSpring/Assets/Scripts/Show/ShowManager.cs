@@ -179,8 +179,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[SerializeField] private GameObject regularTutorial;
 	[SerializeField] private ShowTutorialManager showTutorialManager;
 
-	[Header("OtherUIs")]
+	[Header("Others")]
 	[SerializeField] Image speedUpButton;
+    public ShowStressManager showStressManager;
 
     //这个类的作用是方便管理一些功能的开关
     private class TutorialRelatedFunctionContainer
@@ -760,7 +761,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				showTutorialManager.isRehearsalGoalActive = true;
 			}
 		}
-	}
+
+        showStressManager.Initialize();
+    }
 
 	void StartShow()
 	{
