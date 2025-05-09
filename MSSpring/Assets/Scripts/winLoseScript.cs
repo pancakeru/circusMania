@@ -169,14 +169,6 @@ private IEnumerator TopThings() {
 
     void Update()
     {
-        if (startingAnim) {
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SetBasedOnLevelIndex(testN);
-        }
 
     }
 
@@ -262,7 +254,7 @@ private IEnumerator TopThings() {
         selfInfo = newInfo;
     }
 
-    void SetBasedOnLevelIndex(int n)
+    public void SetBasedOnLevelIndex(int n)
     {
         int realIndex = Mathf.Clamp(n, 0, 8);
         for (int i = 0; i < 8; i++)
