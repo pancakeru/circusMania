@@ -29,8 +29,6 @@ public class ShowStressManager : MonoBehaviour
             stressPoints[i] = 0;
             ballPassToStress[i] = 0;
         }
-
-        Debug.Log("Initialized");
     }
 
     public void UpdateStress(int index)
