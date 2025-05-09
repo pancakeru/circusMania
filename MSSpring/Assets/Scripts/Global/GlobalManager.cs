@@ -494,6 +494,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public void UnlockAnimal()
     {
+        //Debug.Log("解锁中，当前level index是"+currentLevelIndex);
         foreach (UnlockData entry in DataManager.instance.unlockLoader.unlockData)
         {
             if (entry.level == currentLevelIndex)

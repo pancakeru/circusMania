@@ -881,9 +881,10 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		{
 			GlobalManager.instance.changeCoinAmount(curMoneyEarned);
 			GlobalManager.instance.CalculateAnimalPrice();
-			GlobalManager.instance.UnlockAnimal();
+            GlobalManager.instance.ToNextGlobalLevel();
+            GlobalManager.instance.UnlockAnimal();
 			GlobalManager.instance.SetMaxBallPassTimes(GetComponent<ShowAnimalBallPassTimesCounter>().GetTotalBallPassTimesListPerShow());
-			GlobalManager.instance.ToNextGlobalLevel();
+			
 		}
 		else
 		{
