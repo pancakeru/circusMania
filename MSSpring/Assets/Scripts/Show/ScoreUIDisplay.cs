@@ -17,8 +17,9 @@ public class ScoreUIDisplay : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI totalScoreText;
 	[SerializeField]
 	private float changeDuration;
+	[SerializeField] TextMeshProUGUI stressText;
 
-	[SerializeField] private TextMeshProUGUI targetRed;
+    [SerializeField] private TextMeshProUGUI targetRed;
 	[SerializeField] private TextMeshProUGUI targetYellow;
 	[SerializeField] private TextMeshProUGUI targetBlue;
 	private float targetRedScore;
@@ -50,7 +51,15 @@ public class ScoreUIDisplay : MonoBehaviour
 	private Coroutine blueCoroutine;
 	private Coroutine totalScoreCoroutine;
 
-	private void Update()
+	ShowManager showManager;
+	public List<Sprite> speedUpButtonSprites = new List<Sprite>();
+
+    private void Start()
+    {
+        showManager = transform.parent.transform.parent.GetComponent<ShowManager>();
+    }
+
+    private void Update()
 	{
 		if (ifTest)
 		{
@@ -112,6 +121,11 @@ public class ScoreUIDisplay : MonoBehaviour
 		ScoreSound();
 		ChangeFillAmount("Blue", GetScoreNormalized(newValue, targetBlueScore));
 	}
+
+	public void UpdateStressText(int stress)
+	{
+		stressText.text = stress.ToString();
+    }
 
 	public void ScoreSound()
 	{
@@ -267,4 +281,10 @@ public class ScoreUIDisplay : MonoBehaviour
 		ChangeBlue,
 		ChangeTotalScore
 	}
+
+	public void OnSpeedUpButtonClick()
+	{
+		showManager.SpeedUp();
+
+    }
 }

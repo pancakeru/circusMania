@@ -179,8 +179,13 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 	[SerializeField] private GameObject regularTutorial;
 	[SerializeField] private ShowTutorialManager showTutorialManager;
 
-	//这个类的作用是方便管理一些功能的开关
-	private class TutorialRelatedFunctionContainer
+	[Header("Others")]
+	[SerializeField] Image speedUpButton;
+	public ScoreUIDisplay scoreUIDisplay;
+    public ShowStressManager showStressManager;
+
+    //这个类的作用是方便管理一些功能的开关
+    private class TutorialRelatedFunctionContainer
 	{
 		private ShowManager father;
 
@@ -676,11 +681,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				//表演
 				if (Input.GetKeyDown(KeyCode.E))
 				{
-					if (speedRatio == 1) speedRatio = 2;
-					else if (speedRatio == 2) speedRatio = 5;
-					else if (speedRatio == 5) speedRatio = 1;
-
-					Time.timeScale = speedRatio;
+					SpeedUp();
 
 				}
 				if (Input.GetKeyDown(KeyCode.Escape))
@@ -706,6 +707,18 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 
 	}
+
+	public void SpeedUp()
+	{
+        if (speedRatio == 1) speedRatio = 2;
+        else if (speedRatio == 2) speedRatio = 5;
+        else if (speedRatio == 5) speedRatio = 1;
+
+        Time.timeScale = speedRatio;
+
+		int speedRatioToSpriteIndex = speedRatio == 1 ? 0 : speedRatio == 2 ? 1 : 2;
+        speedUpButton.sprite = scoreUIDisplay.speedUpButtonSprites[speedRatioToSpriteIndex];
+    }
 
 	public void PauseResume()
 	{
@@ -749,7 +762,9 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				showTutorialManager.isRehearsalGoalActive = true;
 			}
 		}
-	}
+
+        showStressManager.Initialize();
+    }
 
 	void StartShow()
 	{
@@ -852,8 +867,11 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 			curEndScreen.GetComponent<EndScreenScript>().InitialScore( GetComponent<ShowScoreManager>().containers, (int)curRepu, 100,ifBreak);
 			curEndScreen.GetComponent<RectTransform>().anchoredPosition = endScreenDownPos.anchoredPosition;
 			curEndScreen.GetComponent<UiMover>().MoveTo(endScreenUpPos.anchoredPosition);
-			//LeaveShow();
-		}
+
+			if (ifBreak && GlobalManager.instance.currentLevelIndex == 5) MrShopManager.instance.AchievementUnlocked(3);
+
+            //LeaveShow();
+        }
 	}
 
 	public void LeaveShow(int curMoneyEarned)

@@ -51,4 +51,17 @@ public class SaveDataManager : MonoBehaviour
         }
         return globalSaveData;
     }
+
+    public bool HasSaveDataExisted()
+    {
+        GlobalSaveData saveTest = fileDataHandler.Load();
+        if (saveTest == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
