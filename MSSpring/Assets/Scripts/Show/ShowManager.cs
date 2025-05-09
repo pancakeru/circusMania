@@ -351,7 +351,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 		tContainer.ifBananaEnabled = ifBanana;
 	}
 
-	void SetTurnEnableState(bool ifTurn)
+	public void SetTurnEnableState(bool ifTurn)
 	{
 		//禁用ui
 		turnRelatedGMO.SetActive(ifTurn);

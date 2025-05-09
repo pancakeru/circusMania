@@ -145,6 +145,9 @@ public class CanvasMain : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.BackQuote))
             myCheat.SetActive(!myCheat.activeSelf);
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+            myCheat.SetActive(false);
     }
 
     public void DisplayWarning(string text)
