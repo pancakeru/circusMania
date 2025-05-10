@@ -56,9 +56,10 @@ public class winLoseScript : MonoBehaviour
     public List<animalProperty> test;
 
     private GameObject newPin;
-   // public GameObject startScreen;
+    // public GameObject startScreen;
 
-    private enum displaySeq {
+    private enum displaySeq
+    {
         header,
         map,
         animalPicks,
@@ -93,23 +94,23 @@ public class winLoseScript : MonoBehaviour
         endPos = new Vector2(0, -195);
 
         dIndexes.Add(displaySeq.header);
-    dIndexes.Add(displaySeq.map);
-    dIndexes.Add(displaySeq.animalPicks);
-    dIndexes.Add(displaySeq.topScorer);
-    dIndexes.Add(displaySeq.stats);
-    dIndexes.Add(displaySeq.playAgain);
-     //   gameObject.SetActive(false);
+        dIndexes.Add(displaySeq.map);
+        dIndexes.Add(displaySeq.animalPicks);
+        dIndexes.Add(displaySeq.topScorer);
+        dIndexes.Add(displaySeq.stats);
+        dIndexes.Add(displaySeq.playAgain);
+        //   gameObject.SetActive(false);
         BeginSeq();
 
         locationPics = new GameObject[8];
-    animalPicks = new GameObject[5];
+        animalPicks = new GameObject[5];
 
-    for (int i = 0; i < 8; i++)
-    {
-        GameObject temp = Instantiate(locationIcon, canvasTransform);
-        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-317 + (i * 90), 75);
-        temp.GetComponent<locationIconScript>().location = Locations[i];
-        locationPics[i] = temp;
+        for (int i = 0; i < 8; i++)
+        {
+            GameObject temp = Instantiate(locationIcon, canvasTransform);
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-317 + (i * 90), 75);
+            temp.GetComponent<locationIconScript>().location = Locations[i];
+            locationPics[i] = temp;
             temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
             /*
             if (i <= 3)
@@ -125,46 +126,47 @@ public class winLoseScript : MonoBehaviour
                 temp.GetComponent<locationIconScript>().currentState = locationIconScript.Status.none;
             }*/
 
-    }
+        }
 
         newPin = Instantiate(pinObj, canvasTransform);
         newPin.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-312, 100);
 
         fourScript.MoveTo(new Vector2(31.20644f, -187.2645f));
-    ebScript.MoveTo(new Vector2(326, -195));
+        ebScript.MoveTo(new Vector2(326, -195));
     }
 
-private IEnumerator SpawnAnimalPicksWithDelay()
-{
-   // Debug.Log("spawing");
-
-    for (int i = 0; i < selfInfo.topPicks.Length; i++)
+    private IEnumerator SpawnAnimalPicksWithDelay()
     {
-        GameObject temp = Instantiate(animalPick, canvasTransform);
-        temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
-        animalPicks[i] = temp;
+        // Debug.Log("spawing");
+
+        for (int i = 0; i < selfInfo.topPicks.Length; i++)
+        {
+            GameObject temp = Instantiate(animalPick, canvasTransform);
+            temp.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-316 + (i * 67), -93);
+            animalPicks[i] = temp;
             temp.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.topPicks[i]);
             temp.GetComponent<RapidTMPCounter>().reference.sprite = selfInfo.topProperties[i].animalCoreImg;
 
-        yield return new WaitForSeconds(0.5f); // Delay between spawns (adjust as needed)
+            yield return new WaitForSeconds(0.5f); // Delay between spawns (adjust as needed)
+        }
+
+        ChangeState();
     }
 
-   ChangeState();
-}
-
-private IEnumerator TopThings() {
-    bPerf.SetActive(true);
+    private IEnumerator TopThings()
+    {
+        bPerf.SetActive(true);
         bPerfText.GetComponent<RapidTMPCounter>().reference.sprite = selfInfo.topScorer.animalCoreImg;
-    bPerfText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.TopScore);
+        bPerfText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.TopScore);
 
-    yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.8f);
 
-    bPass.SetActive(true);
-    bPassText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.TopPass);
+        bPass.SetActive(true);
+        bPassText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.TopPass);
         bPassText.GetComponent<RapidTMPCounter>().reference.sprite = selfInfo.topPasser.animalCoreImg;
 
-    ChangeState();
-}
+        ChangeState();
+    }
 
 
     void Update()
@@ -172,52 +174,55 @@ private IEnumerator TopThings() {
 
     }
 
-    public void ChangeState() {
+    public void ChangeState()
+    {
         stateIndex++;
 
-         if (stateIndex < dIndexes.Count)
+        if (stateIndex < dIndexes.Count)
+        {
+            currentState = dIndexes[stateIndex];
+            BeginSeq();
+            // Debug.Log(currentState);
+        }
+    }
+
+
+    public void BeginSeq()
     {
-        currentState = dIndexes[stateIndex];
-        BeginSeq();
-       // Debug.Log(currentState);
-    }
-    }
+        // ebScript.GetComponent<RectTransform>().anchoredPosition = startPos;
 
-
-    public void BeginSeq() {
-       // ebScript.GetComponent<RectTransform>().anchoredPosition = startPos;
-
-        switch (currentState) {
+        switch (currentState)
+        {
             case displaySeq.header:
                 titleText.GetComponent<UiMover>().MoveTo(new Vector2(0, 163));
-               // currentState = displaySeq.map;
-            break;
+                // currentState = displaySeq.map;
+                break;
 
             case displaySeq.map:
                 //MAP display
                 SetBasedOnLevelIndex(selfInfo.levelIndex);
-               ChangeState();
-               // currentState = displaySeq.animalPicks;
-            break;
+                ChangeState();
+                // currentState = displaySeq.animalPicks;
+                break;
 
             case displaySeq.animalPicks:
                 ap_bg.SetActive(true);
                 StartCoroutine(SpawnAnimalPicksWithDelay());
-            break;
+                break;
 
             case displaySeq.topScorer:
-               StartCoroutine(TopThings());
-            break;
+                StartCoroutine(TopThings());
+                break;
 
             case displaySeq.stats:
-               fourPanel.SetActive(true);
-               bigText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.coinCount);
-               resultsText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.maxCombo);
-            break;
+                fourPanel.SetActive(true);
+                bigText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.coinCount);
+                resultsText.GetComponent<RapidTMPCounter>().SetFinalValueAndStart(selfInfo.maxCombo);
+                break;
 
             case displaySeq.playAgain:
-               endButton.SetActive(true);
-            break;
+                endButton.SetActive(true);
+                break;
 
         }
 
@@ -226,25 +231,25 @@ private IEnumerator TopThings() {
 
     public void StartPictureSequence()
     {
-       // StartCoroutine(PlayPictureSequence());
+        // StartCoroutine(PlayPictureSequence());
     }
 
-/*
-    private IEnumerator PlayPictureSequence() {
-    for (int i = 0; i < pictures.Length; i++)
+    /*
+        private IEnumerator PlayPictureSequence() {
+        for (int i = 0; i < pictures.Length; i++)
+        {
+            pictures[i].GetComponent<pictureIconScript>().Appear();
+            yield return new WaitForSeconds(delay);
+        }
+
+        currentState = displaySeq.message;
+        BeginSeq();
+        }
+        */
+
+    public void ResetGame()
     {
-        pictures[i].GetComponent<pictureIconScript>().Appear();
-        yield return new WaitForSeconds(delay);
-    }
-
-    currentState = displaySeq.message;
-    BeginSeq();
-    }
-    */
-
-    public void ResetGame() {
-        GlobalManager.instance.ClearGlobalManagerSaveData();
-        GlobalManager.instance.SaveGlobalSaveData();
+        SaveDataManager.Instance.DeleteSaveData();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -260,10 +265,10 @@ private IEnumerator TopThings() {
         for (int i = 0; i < 8; i++)
         {
 
-            if (i <realIndex)
+            if (i < realIndex)
             {
-                locationPics[i].GetComponent<locationIconScript>().currentState = i == 7? locationIconScript.Status.current : locationIconScript.Status.passed;
-                
+                locationPics[i].GetComponent<locationIconScript>().currentState = i == 7 ? locationIconScript.Status.current : locationIconScript.Status.passed;
+
             }
             else if (i == realIndex)
             {
@@ -276,11 +281,11 @@ private IEnumerator TopThings() {
 
         }
 
-        newPin.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-311 + (Mathf.Clamp(realIndex,0,7) * 90), 100);
-        travelBar.fillAmount =Mathf.Clamp01( realIndex / 8);
+        newPin.GetComponentInChildren<RectTransform>().anchoredPosition = new Vector2(-311 + (Mathf.Clamp(realIndex, 0, 7) * 90), 100);
+        travelBar.fillAmount = Mathf.Clamp01(realIndex / 8);
     }
 
-    
+
 }
 
 public class SummaryRequireInfo
@@ -295,7 +300,7 @@ public class SummaryRequireInfo
     public animalProperty topPasser;
     public animalProperty topScorer;
 
-    public SummaryRequireInfo( int levelIndex, int[] topPicks, int topPass, int topScore, int maxCombo, int coinCount, animalProperty[] topProperties, animalProperty topPasser, animalProperty topScorer)
+    public SummaryRequireInfo(int levelIndex, int[] topPicks, int topPass, int topScore, int maxCombo, int coinCount, animalProperty[] topProperties, animalProperty topPasser, animalProperty topScorer)
     {
         this.levelIndex = levelIndex;
         this.topPicks = topPicks;

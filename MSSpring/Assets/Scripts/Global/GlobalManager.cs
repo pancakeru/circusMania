@@ -140,7 +140,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             UpdateGlobalSaveDataOnNextGlobalLevel();
             summaryScript.instance.SummaryLevel();
         }
-        
+
         //TODO:这里要加一再触发结束
     }
 
@@ -158,19 +158,26 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
     public void NewGame()
     {
         globalSaveData = SaveDataManager.Instance.NewGame();
-        StartInitialization();
+        StartInitialization(true);
         hasSaveData = true;
         CanvasMain.instance.ShowCutScene();
     }
 
     public void LoadGame()
     {
-        globalSaveData = SaveDataManager.Instance.LoadGame();
-        StartInitialization();
-        hasSaveData = true;
+        if (SaveDataManager.Instance.HasSaveDataExisted())
+        {
+            globalSaveData = SaveDataManager.Instance.LoadGame();
+            StartInitialization(false);
+            hasSaveData = true;
+        }
+        else
+        {
+            NewGame();
+        }
     }
 
-    private void StartInitialization()
+    private void StartInitialization(bool isNewGame)
     {
         DataManager.instance.animalLoader.Load();
         DataManager.instance.unlockLoader.Load();
@@ -179,21 +186,36 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         currentLevelIndex = globalSaveData.currentLevelIndex;
         OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
 
-        if (globalSaveData.currentCoin == 0)
+        if (isNewGame)
         {
             if (ifDoTestInitialize)
             {
                 curCoinAmount = testCoinNum;
                 globalSaveData.currentCoin = curCoinAmount;
+
+                if (animals.Count == 0)
+                {
+                    foreach (animalProperty apt in testProperties.properies)
+                    {
+                        addAnAnimal(apt);
+                    }
+                    globalSaveData.animals = animals;
+                }
             }
+
+            InitAnimalUnlock();
+
+            InitAnimalPriceOnNew();
+            globalSaveData.animalPriceLevel = animalPriceLevel;
+            globalSaveData.animalPrices = animalPrices;
+
+            InitAnimalLevel();
+            globalSaveData.animalLevels = animalLevels;
         }
         else
         {
             curCoinAmount = globalSaveData.currentCoin;
-        }
 
-        if (globalSaveData.animals.Count > 0)
-        {
             animals = globalSaveData.animals;
             foreach (animalProperty animal in animals)
             {
@@ -207,52 +229,15 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
                 }
             }
             globalSaveData.animals = animals;
-        }
-        else
-        {
-            if (ifDoTestInitialize)
-            {
-                if (animals.Count == 0)
-                {
-                    foreach (animalProperty apt in testProperties.properies)
-                    {
-                        addAnAnimal(apt);
-                    }
-                    globalSaveData.animals = animals;
-                }
-            }
-        }
 
-        if (globalSaveData.isAnimalUnlocked != null && globalSaveData.isAnimalUnlocked.Count > 0)
-        {
             isAnimalUnlocked = globalSaveData.isAnimalUnlocked;
-        }
-        else
-        {
-            InitAnimalUnlock();
-        }
 
-        if (globalSaveData.animalPrices != null && globalSaveData.animalPriceLevel != null && globalSaveData.animalPrices.Count > 0 && globalSaveData.animalPriceLevel.Count > 0)
-        {
             InitAnimalPriceOnLoad();
             animalPriceLevel = globalSaveData.animalPriceLevel;
             animalPrices = globalSaveData.animalPrices;
-        }
-        else
-        {
-            InitAnimalPriceOnNew();
-            globalSaveData.animalPriceLevel = animalPriceLevel;
-            globalSaveData.animalPrices = animalPrices;
-        }
 
-        if (globalSaveData.animalLevels != null && globalSaveData.animalLevels.Count > 0)
-        {
+            maxLevel = 5;
             animalLevels = globalSaveData.animalLevels;
-        }
-        else
-        {
-            InitAnimalLevel();
-            globalSaveData.animalLevels = animalLevels;
         }
 
         SetAnimalProperty();
@@ -604,7 +589,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public Dictionary<string, int> animalLevels = new Dictionary<string, int>();
     int initLevel = 1;
-    public int maxLevel;
+    public int maxLevel = 5;
     public void InitAnimalLevel()
     {
         maxLevel = 5;

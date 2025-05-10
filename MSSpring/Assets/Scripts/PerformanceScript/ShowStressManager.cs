@@ -19,7 +19,7 @@ public class ShowStressManager : MonoBehaviour
     {
         Transform[] singleStages = performUnit.GetSingleStages();
         for (int i = 0; i < animalPos.Length; i++)
-            animalPos[i] = singleStages[i].position + new Vector3 (0, 1, 0);
+            animalPos[i] = singleStages[i].position + new Vector3(0, 1, 0);
     }
 
     public void Initialize()
@@ -29,6 +29,7 @@ public class ShowStressManager : MonoBehaviour
             stressPoints[i] = 0;
             ballPassToStress[i] = 0;
         }
+        performUnit.totalManager.scoreUIDisplay.UpdateStressText(stressPoints[0]);
     }
 
     public void UpdateStress(int index)
@@ -48,8 +49,8 @@ public class ShowStressManager : MonoBehaviour
                 stressPoints[i] += 1;
             }
 
-            GameObject newText = Instantiate(stressTextPrefab, new Vector2 (0, 2), Quaternion.identity);
-            newText.GetComponent<TextMeshPro>().text = $"*Stress*\nRest +{stressPoints[index]}";
+            GameObject newText = Instantiate(stressTextPrefab, new Vector2(0, 2), Quaternion.identity);
+            //newText.GetComponent<TextMeshPro>().text = $"*Stress*\nRest +{stressPoints[index]}";
             newText.GetComponent<ScoreTextEffect>().MoveText(new Vector2(0, 2), new Vector2(0, 3));
 
             performUnit.totalManager.scoreUIDisplay.UpdateStressText(stressPoints[0]);
@@ -65,7 +66,7 @@ public class ShowStressManager : MonoBehaviour
             stressPoints[index] += 1;
 
             GameObject newText = Instantiate(stressTextPrefab, animalPos[index], Quaternion.identity);
-            newText.GetComponent<TextMeshPro>().text = $"*Stress*\nRest +{stressPoints[index]}";
+            //newText.GetComponent<TextMeshPro>().text = $"*Stress*\nRest +{stressPoints[index]}";
             newText.GetComponent<ScoreTextEffect>().MoveText(animalPos[index], animalPos[index] + new Vector2(0, 1));
         }
     }

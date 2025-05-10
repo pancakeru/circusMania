@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -10,6 +8,7 @@ public class ScoreTextEffect : MonoBehaviour
     public float effectDuration = 1f; // 文字显示时间
 
     private TextMeshPro textMesh;
+    private SpriteRenderer sprite;
     private Vector3 moveStart;
     private Vector3 moveEnd;
     private Color originalColor;
@@ -18,8 +17,23 @@ public class ScoreTextEffect : MonoBehaviour
 
     void Start()
     {
-        textMesh = GetComponent<TextMeshPro>();
-        originalColor = textMesh.color;
+        if (TryGetComponent(out TextMeshPro textMeshPro))
+        {
+            textMesh = textMeshPro;
+        }
+        else if (TryGetComponent(out SpriteRenderer spriteRenderer))
+        {
+            sprite = spriteRenderer;
+        }
+
+        if (textMesh != null)
+        {
+            originalColor = textMesh.color;
+        }
+        else if (sprite != null)
+        {
+            originalColor = sprite.color;
+        }
     }
 
     void Update()
@@ -37,7 +51,14 @@ public class ScoreTextEffect : MonoBehaviour
 
                 // 透明度渐变
                 float alpha = fadeCurve.Evaluate(t);
-                textMesh.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                if (textMesh != null)
+                {
+                    textMesh.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                }
+                else if (sprite != null)
+                {
+                    sprite.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                }
             }
             else
             {

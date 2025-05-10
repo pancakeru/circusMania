@@ -60,4 +60,10 @@ public class FileDataHandler
             Debug.LogError("Error occured when trying to save data to file: " + fullPath + "\n" + e);
         }
     }
+
+    public void DeleteSaveData()
+    {
+        string fullPath = Path.Combine(dataDirPath, dataFileName);
+        File.Delete(fullPath);
+    }
 }

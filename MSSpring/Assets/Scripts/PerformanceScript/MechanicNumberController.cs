@@ -15,7 +15,7 @@ public class MechanicNumberController : MonoBehaviour
     public SpriteRenderer spriteRenderer;
     Vector3 initialLocalScl;
 
-    public void Begin() 
+    public void Begin()
     {
         text = transform.GetChild(0).GetComponent<TextMeshPro>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -72,7 +72,7 @@ public class MechanicNumberController : MonoBehaviour
     {
         transform.localScale = initialLocalScl;
         spriteRenderer.color = Color.white;
-        text.color = Color.black;
+        //text.color = Color.black;
     }
     public void StartEffectImpact(bool isDead)
     {
@@ -87,7 +87,7 @@ public class MechanicNumberController : MonoBehaviour
     {
         Vector3 initialScale = transform.localScale;
         Vector3 targetScale = initialScale * 2f;
-        float halfDuration = duration / 2f;  
+        float halfDuration = duration / 2f;
         float elapsed = 0f;
 
         while (elapsed < halfDuration)
@@ -117,7 +117,7 @@ public class MechanicNumberController : MonoBehaviour
     {
         Color initialColorSprite = spriteRenderer.color;
         Color initialColorText = text.color;
-        Color targetColor;  ColorUtility.TryParseHtmlString("#3D3D3D", out targetColor);
+        Color targetColor; ColorUtility.TryParseHtmlString("#3D3D3D", out targetColor);
 
         float elapsed = 0f;
 
@@ -158,7 +158,8 @@ public class MechanicNumberController : MonoBehaviour
         }
     }
 
-    public void CallSound() {
+    public void CallSound()
+    {
         GameObject audioObj = GameObject.FindWithTag("audio manager");
         audioObj.GetComponent<AudioManagerScript>().PlayUISound(audioObj.GetComponent<AudioManagerScript>().UI[2]);
     }

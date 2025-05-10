@@ -22,6 +22,7 @@ public class SaveDataManager : MonoBehaviour
         Instance = this;
 
         fileDataHandler = new FileDataHandler(Application.persistentDataPath, fileName);
+        //Debug.Log(Application.persistentDataPath);
     }
 
     public GlobalSaveData NewGame()
@@ -63,5 +64,10 @@ public class SaveDataManager : MonoBehaviour
         {
             return true;
         }
+    }
+
+    public void DeleteSaveData()
+    {
+        fileDataHandler.DeleteSaveData();
     }
 }
