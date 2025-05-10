@@ -180,6 +180,13 @@ public class animalProperty : ScriptableObject
 
         return theString;
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is not animalProperty other) return false;
+        return this.animalName == other.animalName; // 用合适的唯一标识
+    }
+
 }
 
 public enum MechanicNumberType
