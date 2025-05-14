@@ -41,8 +41,8 @@ public class animalProperty : ScriptableObject
     string formatScore = "<b><color=#{0}>+{1} {2}</color></b>";
 
     string formatPower = "<b><color=#{0}>POWER</color></b>: +1 POWER per ball passed.{1}{2} {3}.";
-    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2} {3}, then deactives until next round.";
-    string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2} {3}.";
+    string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2}{3}, then deactives until next act.";
+    string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2}{3}.";
 
     string formatPowerSimple = "<b><color=#{0}>POWER</color></b>: {1}{2} {3}.";
     string formatWarmUpSimple = "<b><color=#{0}>WARM UP ({1})</color></b>: {2} {3}.";
@@ -117,6 +117,8 @@ public class animalProperty : ScriptableObject
                          : skillScoreColor == ScoreColor.Yellow ? (colorHexYellow, skillNum.ToString(), scoreYellowName)
                          : skillScoreColor == ScoreColor.Blue ? (colorHexBlue, skillNum.ToString(), scoreBlueName)
                          : ("ERROR", "ERROR", "ERROR");
+
+        if (textColor == "ERROR") return "";
 
         return string.Format
         (

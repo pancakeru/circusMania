@@ -18,11 +18,12 @@ MonoBehaviour:
   baseBallChange: 0
   mechanicNumberType: 0
   skillScoreColor: 0
-  textSkill: 
-  textMechanic: 
-  baseRedChange: -99
-  baseYellowChange: -99
-  baseBlueChange: -99
-  restTurn: -99
+  textSkill: Lion passes the ball in sequence to positions # 1, # 3, and # 5.
+  textMechanicScore: 
+  textMechanicExtra: 
+  baseRedChange: 0
+  baseYellowChange: 0
+  baseBlueChange: 20
+  restTurn: 4
   mechanicActiveNum: -99
   skillNum: -99

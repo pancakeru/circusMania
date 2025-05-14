@@ -20,10 +20,10 @@ MonoBehaviour:
   skillScoreColor: 3
   textSkill: 
   textMechanicScore: useSkillNum
-  textMechanicExtra: ' when any animal generate JOY'
+  textMechanicExtra: when any animal generates JOY
   baseRedChange: 0
   baseYellowChange: 0
   baseBlueChange: 10
   restTurn: 5
-  mechanicActiveNum: 5
-  skillNum: 8
+  mechanicActiveNum: 4
+  skillNum: 10

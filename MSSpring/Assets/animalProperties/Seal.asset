@@ -20,7 +20,8 @@ MonoBehaviour:
   skillScoreColor: 0
   textSkill: 
   textMechanicScore: 
-  textMechanicExtra: gain 2 more times and change to Left 1
+  textMechanicExtra: double the score of all animals and reduce the left pass by
+    1
   baseRedChange: 20
   baseYellowChange: 0
   baseBlueChange: 0

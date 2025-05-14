@@ -20,7 +20,7 @@ MonoBehaviour:
   skillScoreColor: 0
   textSkill: 
   textMechanicScore: 
-  textMechanicExtra: 'Throw ball further according to POWER '
+  textMechanicExtra: Throw ball further according to POWER
   baseRedChange: 20
   baseYellowChange: 0
   baseBlueChange: 0
