@@ -85,7 +85,7 @@ public class MenuController : MonoBehaviour, ISaveData
 
     public void TryUnlockShopButton()
     {
-        if (GlobalManager.instance.currentLevelIndex >= 2)
+        if (GlobalManager.instance.currentLevelIndex >= 0)
         {
             shopButton.GetComponent<Button>().enabled = true;
             shopButton.transform.GetChild(0).gameObject.SetActive(false);

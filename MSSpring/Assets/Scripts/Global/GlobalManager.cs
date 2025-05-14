@@ -475,6 +475,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
             {
                 foreach (string animalName in entry.animalToUnlock)
                 {
+                    //Debug.Log("解锁中，当前dongwu是" +animalName);
                     if (isAnimalUnlocked.ContainsKey(animalName))
                     {
                         isAnimalUnlocked[animalName] = true;

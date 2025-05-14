@@ -1132,13 +1132,6 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						StartDecideState(DecideScreenState.moveAnimal);
 
 					}
-					else if ((!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio)) && interContainer.ifSlide)
-					{
-
-						StartDecideState(DecideScreenState.slide);
-
-						//进入滑动
-					}
 					else if (CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) && firstDetect.GetComponentInParent<iconAnimal>().CanBeSelect() && interContainer.ifSelectDown)
 					{
 						//进入上下
@@ -1158,8 +1151,15 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						}
 						StartDecideState(DecideScreenState.choose);
 					}
+                    else if ((!CheckIfRayCastElementWithTag("showAnimalInHand", out firstDetect) || !DetectMouseInDownArea(downRatio)) && interContainer.ifSlide)
+                    {
 
-				}
+                        StartDecideState(DecideScreenState.slide);
+
+                        //进入滑动
+                    }
+
+                }
 				else
 				{
 					//解释动物
