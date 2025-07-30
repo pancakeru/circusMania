@@ -11,7 +11,8 @@ public class DecidePanelController : MonoBehaviour
     public void ButtonTutorial()
     {
         gameObject.SetActive(true);
-        mainText.text = "Are you sure you want to enter the tutorial?";
+        //#文本修改
+        mainText.text = "想经历一场酣畅淋漓的教程吗:)";
         subText.gameObject.SetActive(false);
         isTutorial = true;
     }
@@ -19,7 +20,8 @@ public class DecidePanelController : MonoBehaviour
     public void ButtonShow()
     {
         gameObject.SetActive(true);
-        mainText.text = "Are you ready to start the show?";
+        //#文本修改
+        mainText.text = "准备好开始表演了吗?";
         subText.gameObject.SetActive(true);
         isTutorial = false;
     }

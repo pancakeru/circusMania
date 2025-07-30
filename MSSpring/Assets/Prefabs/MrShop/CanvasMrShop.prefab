@@ -140,6 +140,7 @@ MonoBehaviour:
   notification: {fileID: 1266231390577246562, guid: f00ab65f3ef67444191255cebe3cf8a0, type: 3}
   mrShopItems: []
   myBallSprite: {fileID: 0}
+  ballInfos: []
 --- !u!223 &5078797709591414735
 Canvas:
   m_ObjectHideFlags: 0
@@ -213,7 +214,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1054675611099238398, guid: 5b3b8818f72aaed4889ef68aaf0a7c80, type: 3}
       propertyPath: m_text
-      value: Mr. Shop
+      value: "\u5F69\u7403\u6536\u96C6"
       objectReference: {fileID: 0}
     - target: {fileID: 2903460182490407421, guid: 5b3b8818f72aaed4889ef68aaf0a7c80, type: 3}
       propertyPath: m_Name

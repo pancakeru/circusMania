@@ -3386,7 +3386,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1054675611099238398, guid: 5b3b8818f72aaed4889ef68aaf0a7c80, type: 3}
       propertyPath: m_text
-      value: Animal Troupe
+      value: "\u52A8\u7269\u5E02\u573A"
       objectReference: {fileID: 0}
     - target: {fileID: 2903460182490407421, guid: 5b3b8818f72aaed4889ef68aaf0a7c80, type: 3}
       propertyPath: m_Name
