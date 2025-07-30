@@ -137,8 +137,23 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
         }
         else
         {
+
             UpdateGlobalSaveDataOnNextGlobalLevel();
             summaryScript.instance.SummaryLevel();
+            /*
+            if (currentLevelIndex + 1 < globalLevelArray.Length)
+            {
+                currentLevelIndex += 1;
+                OnNextGlobalLevel?.Invoke(globalLevelArray[currentLevelIndex]);
+
+                UpdateGlobalSaveDataOnNextGlobalLevel();
+            }
+            else
+            {
+                currentLevelIndex += 1;
+                UpdateGlobalSaveDataOnNextGlobalLevel();
+                summaryScript.instance.SummaryLevel();
+            }*/
         }
 
         //TODO:这里要加一再触发结束

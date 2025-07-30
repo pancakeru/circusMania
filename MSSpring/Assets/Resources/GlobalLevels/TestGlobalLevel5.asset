@@ -15,5 +15,4 @@ MonoBehaviour:
   levelIndex: 5
   showVisual: {fileID: 21300000, guid: 368485bf86136421bb37186d2e237388, type: 3}
   levelName: Pisa
-  animalPool: {fileID: 11400000, guid: d488b1db97e8a4fbc8f9209b0c903aa6, type: 2}
-  levelProperty: {fileID: 11400000, guid: 6fb374e156e0c42dbbc124426ba6f1aa, type: 2}
+  levelProperty: {fileID: 11400000, guid: c7f725030089d4e8f8a478b219b83c5e, type: 2}

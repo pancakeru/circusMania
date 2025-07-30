@@ -15,5 +15,4 @@ MonoBehaviour:
   levelIndex: 3
   showVisual: {fileID: 21300000, guid: afc94cc8591b74bc3919616a0e38800d, type: 3}
   levelName: Moscow
-  animalPool: {fileID: 11400000, guid: d488b1db97e8a4fbc8f9209b0c903aa6, type: 2}
-  levelProperty: {fileID: 11400000, guid: 025a612b303864f7a9cd4cd7eea02c17, type: 2}
+  levelProperty: {fileID: 11400000, guid: 9bf4f87a36cee4de388a66d4beb02ef4, type: 2}

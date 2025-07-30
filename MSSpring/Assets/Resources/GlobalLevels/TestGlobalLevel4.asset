@@ -15,5 +15,4 @@ MonoBehaviour:
   levelIndex: 4
   showVisual: {fileID: 21300000, guid: e9339e7672767460da22a51246e91f61, type: 3}
   levelName: Paris
-  animalPool: {fileID: 11400000, guid: d488b1db97e8a4fbc8f9209b0c903aa6, type: 2}
-  levelProperty: {fileID: 11400000, guid: 2fbdc039d947b4ebf8b1c8b891ff3901, type: 2}
+  levelProperty: {fileID: 11400000, guid: 9f12b35ce8b7649ec99eff69b81f21ca, type: 2}
