@@ -15,4 +15,4 @@ MonoBehaviour:
   levelIndex: 2
   showVisual: {fileID: 21300000, guid: 7c28f33ea71ca4b5aab043870ee777b5, type: 3}
   levelName: Cairo
-  levelProperty: {fileID: 11400000, guid: a52e1a64a8a7e4304924515e6a91d761, type: 2}
+  levelProperty: {fileID: 11400000, guid: 3df8d350491cb4568b94124b568a2135, type: 2}
