@@ -34,6 +34,11 @@ public class MouseFollower : MonoBehaviour
         if (myShowManager == null) Destroy(gameObject);
     }
 
+    private void OnDisable()
+    {
+        Cursor.visible = true;
+    }
+
     IEnumerator ClickEffect()
     {
         isAnimating = true;
