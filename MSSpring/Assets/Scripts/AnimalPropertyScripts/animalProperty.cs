@@ -40,6 +40,16 @@ public class animalProperty : ScriptableObject
     [Header("     For explain")]
     string formatScore = "<b><color=#{0}>+{1} {2}</color></b>";
 
+    string formatPower = "<b><color=#{0}>“力量”</color></b>: +1 “力量”（每次传球时）。\n{1}{2} {3}。";
+    string formatWarmUp = "<b><color=#{0}>“热身”</color></b>: +1 “热身”（每次传球时）。\n当热身为 <b>{1}</b>, {2}{3}, 随后“热身”失效至下一次行动。";
+    string formatExcited = "<b><color=#{0}>“兴奋”</color></b>: <b>{1}</b> “兴奋”（每次传球时）。 \n当“兴奋”时, -1 “兴奋”（每次其他动物传球时）并{2}{3}。";
+
+    string formatPowerSimple = "<b><color=#{0}>力量</color></b>: {1}{2} {3}.";
+    string formatWarmUpSimple = "<b><color=#{0}>热身 ({1})</color></b>: {2} {3}.";
+    string formatExcitedSimple = "<b><color=#{0}>兴奋 ({1})</color></b>: {2} {3}.";
+
+    //Original format
+    /*
     string formatPower = "<b><color=#{0}>POWER</color></b>: +1 POWER per ball passed.{1}{2} {3}.";
     string formatWarmUp = "<b><color=#{0}>WARM UP</color></b>: +1 WARM UP per ball passed. When WARM UP is <b>{1}</b>, {2}{3}, then deactives until next act.";
     string formatExcited = "<b><color=#{0}>EXCITED</color></b>: <b>{1}</b> EXCITED when ball passed. When EXCITED, -1 EXCITED per ball passed by other animals and {2}{3}.";
@@ -47,6 +57,7 @@ public class animalProperty : ScriptableObject
     string formatPowerSimple = "<b><color=#{0}>POWER</color></b>: {1}{2} {3}.";
     string formatWarmUpSimple = "<b><color=#{0}>WARM UP ({1})</color></b>: {2} {3}.";
     string formatExcitedSimple = "<b><color=#{0}>EXCITED ({1})</color></b>: {2} {3}.";
+    */
 
     string colorHexRed = "D3458F";
     string colorHexYellow = "BF8B00"; //"E4CF7B";
@@ -63,7 +74,10 @@ public class animalProperty : ScriptableObject
         textSkill = string.IsNullOrEmpty(textSkill) ? "" : textSkill;
         string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : "\n" + ReturnSkillMechanic(false);
 
-        string finalExplanation = $"{ReturnScore()}{banana} per ball passed.{skill}{textSkill}{mechanic}";
+        textSkill = ForceLocalization("textSkill");
+
+        string finalExplanation = $"每次传球时{ReturnScore()}{banana}。{skill}{textSkill}{mechanic}";
+        //string finalExplanation = $"{ReturnScore()}{banana} per ball passed.{skill}{textSkill}{mechanic}";
         return ColorKeyWord(finalExplanation);
     }
 
@@ -75,6 +89,8 @@ public class animalProperty : ScriptableObject
         string mechanic = mechanicNumberType == MechanicNumberType.None ? "" : "\n" + ReturnSkillMechanic(true);
 
         string finalExplanation = $"{ReturnScore()}{banana}.{skill}{textSkill}{mechanic}";
+
+        textSkill = ForceLocalization("textSkill");
 
         finalExplanation = Regex.Replace(finalExplanation, @"<color=(#FFFFFF|white)>", "<color=#000000>", RegexOptions.IgnoreCase);
 
@@ -101,7 +117,7 @@ public class animalProperty : ScriptableObject
     {
         string textColor = "FFFFFF";
         string textScore = skillNum.ToString();
-        string textScoreName = "Banana";
+        string textScoreName = "香蕉";
 
         return string.Format
         (
@@ -153,6 +169,8 @@ public class animalProperty : ScriptableObject
         string mechanicScore = textMechanicScore == "useSkillNum" ? ReturnSkillScore().ToString() : textMechanicScore;
         string mechanicExtra = textMechanicExtra;
 
+        mechanicExtra = ForceLocalization("mechanicExtra");
+
         return string.Format
         (
             formatMechanic,
@@ -187,6 +205,32 @@ public class animalProperty : ScriptableObject
     {
         if (obj is not animalProperty other) return false;
         return this.animalName == other.animalName; // 用合适的唯一标识
+    }
+
+    string ForceLocalization(string textKind)
+    {
+        string returnText = "";
+        switch (textKind)
+        {
+            case "textSkill":
+
+                if (animalName == "Fox") returnText = "每当相邻动物传球并产出JOY时。";
+                else if (animalName == "Goat") returnText = "有“力量”的动物接球时，使他的“力量”为 1 并使获得消除的“力量”相应倍数的NOVELTY。";
+                else if (animalName == "Lion") returnText = "狮子每次传球到第一位，第三位，第五位。";
+
+                break;
+
+            case "mechanicExtra":
+
+                if (animalName == "Bear") returnText = "“力量”越高投掷距离越长";
+                else if (animalName == "Buffalo") returnText = "每当任何动物产出NOVELTY";
+                else if (animalName == "Kangaroo") returnText = "每当任何动物产出JOY";
+                else if (animalName == "Lizard") returnText = "产出的SKILL与自身“力量”相乘";
+                else if (animalName == "Seal") returnText = "翻倍所有动物产出分数并减少自身投掷距离";
+
+                break;
+        }
+        return returnText;
     }
 
 }

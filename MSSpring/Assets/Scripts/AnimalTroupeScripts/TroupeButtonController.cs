@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -70,21 +70,21 @@ public class TroupeButtonController : MonoBehaviour, IPointerExitHandler
         {
             case "buy":
 
-                buttonText.text = "Buy";
+                buttonText.text = "购买";
                 buttonBg.color = Color.white;
 
                 break;
 
             case "sell":
 
-                buttonText.text = "Sell";
+                buttonText.text = "售卖";
                 buttonBg.color = Color.white;
 
                 break;
 
             case "upgrade":
 
-                buttonText.text = "Upgrade";
+                buttonText.text = "升级";
                 buttonBg.color = Color.white;
 
                 break;

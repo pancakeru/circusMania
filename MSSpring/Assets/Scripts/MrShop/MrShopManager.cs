@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -76,6 +76,7 @@ public class MrShopManager : MonoBehaviour, ISaveData
         }
         else
         {
+            /*
             ballInfos = new List<BallInfo>(){
                 new BallInfo("Circus Ball", true, "You always have this.", ballSprites[0]),
                 new BallInfo("Basketball", false, "???", ballSprites[1]),
@@ -84,6 +85,17 @@ public class MrShopManager : MonoBehaviour, ISaveData
                 new BallInfo("Yarn Ball", false, "Reach 1,200 Popularity in a level.", ballSprites[4]),
                 new BallInfo("Beach Ball", false, "Have all kinds of animals.", ballSprites[5]),
                 new BallInfo("Chip Ball", false, "Upgrade 7 animals to max level.", ballSprites[6]),
+            };
+            */
+
+            ballInfos = new List<BallInfo>(){
+                new BallInfo("马戏球", true, "你时刻拥有马戏球", ballSprites[0]),
+                new BallInfo("篮球", false, "???", ballSprites[1]),
+                new BallInfo("像素球", false, "通过教程关", ballSprites[2]),
+                new BallInfo("网球", false, "通过第五关", ballSprites[3]),
+                new BallInfo("毛线球", false, "在一个游戏达到 1,200 声望", ballSprites[4]),
+                new BallInfo("沙滩球", false, "拥有所有种类动物", ballSprites[5]),
+                new BallInfo("筹码球", false, "将7种动物\n升值满级", ballSprites[6]),
             };
             GlobalManager.instance.SetBallInfoList(ballInfos);
         }
