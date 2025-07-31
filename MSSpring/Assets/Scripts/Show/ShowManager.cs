@@ -1190,6 +1190,7 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				{
 					if (Time.timeScale > 0)
 					{
+						Cursor.visible = true;
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
 						SwitchExplainEnableState(false);

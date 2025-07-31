@@ -1,10 +1,8 @@
 
-using System.Runtime.ConstrainedExecution;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Windows;
 
 [CreateAssetMenu(fileName = "NewAnimalInfo", menuName = "Animal System/AnimalProperty")]
 [System.Serializable]
