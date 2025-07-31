@@ -723,7 +723,8 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 
 	public void PauseResume()
 	{
-		Time.timeScale = speedRatio;
+        Cursor.visible = false;
+        Time.timeScale = speedRatio;
 		pauseShow.SetActive(false);
 		thrower.SwitchThrowEnableWhenPause(true);
 		SwitchExplainEnableState(true);

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 
 public class MouseFollower : MonoBehaviour
@@ -9,11 +8,18 @@ public class MouseFollower : MonoBehaviour
     private Quaternion defaultRotation;
     private bool isAnimating = false;
 
+    ShowManager myShowManager;
+    CanvasMain canvasMain;
+
     void Start()
     {
         Cursor.visible = false;
         defaultScale = cursorImage.localScale;
         defaultRotation = cursorImage.localRotation;
+
+        myShowManager = transform.parent.transform.parent.gameObject.GetComponent<ShowManager>();
+        canvasMain = FindFirstObjectByType<CanvasMain>();
+        transform.parent = canvasMain.transform;
     }
 
     void Update()
@@ -24,6 +30,8 @@ public class MouseFollower : MonoBehaviour
         {
             StartCoroutine(ClickEffect());
         }
+
+        if (myShowManager == null) Destroy(gameObject);
     }
 
     IEnumerator ClickEffect()
