@@ -42,7 +42,7 @@ public class animalProperty : ScriptableObject
 
     string formatPower = "每次传球时 +1 “力量”。\n{1}{2} {3}。";
     string formatWarmUp = "每次传球时 +1 “热身”。\n当热身为 <b>{1}</b>, {2}{3}。";
-    string formatExcited = "<color=#{0}>“兴奋”</color>: <b>{1}</b> “兴奋”（每次传球时）。 \n当“兴奋”时, -1 “兴奋”（每次其他动物传球时）并{2}{3}。";
+    string formatExcited = "传球后，开启持续<b>{1}</b>回合的“兴奋” 。 \n当“兴奋”时,{2}{3}。";
 
     string formatPowerSimple = "<b><color=#{0}>力量</color></b>: {1}{2} {3}.";
     string formatWarmUpSimple = "<b><color=#{0}>热身 ({1})</color></b>: {2} {3}.";

@@ -17,7 +17,7 @@ MonoBehaviour:
   totalN: 10
   redA: 30
   redB: 20
-  yellowA: 25
+  yellowA: 15
   yellowB: 15
   blueA: 10
-  blueB: 20
+  blueB: 0
