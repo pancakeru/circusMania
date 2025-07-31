@@ -135,7 +135,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u4F46\u8FD9\u662F\u4E00\u573A\u6392\u7EC3\u561B~\u8BD5\u8BD5\u4E5F\u6CA1\u4EC0\u4E48\u4EE3\u4EF7\uFF0C\u6211\u4EEC\u5F00\u59CB\u5427"
+    speakerDialogue: "\u4F46\u8FD9\u662F\u4E00\u573A\u6392\u7EC3\u561B~ \n\u8BD5\u8BD5\u4E5F\u6CA1\u4EC0\u4E48\u4EE3\u4EF7\uFF0C\u6211\u4EEC\u5F00\u59CB\u5427"
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 440, y: 220}
@@ -211,7 +211,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: AudioPlayed
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u5BF9\u4E86\uFF0C\u6211\u4EEC\u53EF\u4EE5\u8BA9\u5927\u8C61\u6765\uFF0C\u5B83\u4EEC\u662F\u5C55\u73B0
+    speakerDialogue: "\u5BF9\u4E86\uFF0C\u6211\u4EEC\u53EF\u4EE5\u8BA9\u5927\u8C61\u6765\uFF0C\n\u5B83\u4EEC\u662F\u5C55\u73B0
       Skill\u7684\u597D\u624B"
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
@@ -498,7 +498,7 @@ MonoBehaviour:
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
     isGoalActiveSelfChanging: 1
-    goalText: Let the banana hits the ball for 3 times (0/3).
+    goalText: "\u53D1\u5C04\u9999\u8549\u5E76\u51FB\u4E2D\u7403\u4E09\u6B21\uFF080/3\uFF09"
     isAllInteractionActive: 1
     proceedCondition: ShowStart
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
@@ -573,7 +573,7 @@ MonoBehaviour:
     animalIntroductionSprite: {fileID: 0}
     animalIntroductionString: 
     isGoalActiveSelfChanging: 1
-    goalText: Keep Popularity > 0.
+    goalText: "\u5728\u56DE\u5408\u7ED3\u675F\u65F6\u58F0\u671B\u5927\u4E8E\u96F6"
     isAllInteractionActive: 1
     proceedCondition: ShowStart
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}

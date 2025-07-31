@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -332,7 +332,8 @@ public class ShowTutorialManager : MonoBehaviour
             bananaHitTimes++;
             if (goal.activeSelf)
             {
-                goalText.text = "Let the banana hits the ball for 3 times (" + bananaHitTimes + "/3).";
+                goalText.text = $"发射香蕉并击中球三次（{bananaHitTimes} / 3）。"; 
+                //goalText.text = "Let the banana hits the ball for 3 times (" + bananaHitTimes + "/3).";
                 if (bananaHitTimes >= 3)
                 {
                     ChangeGoalTickVisual(true);
