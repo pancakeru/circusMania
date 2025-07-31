@@ -15,4 +15,4 @@ MonoBehaviour:
   levelIndex: 6
   showVisual: {fileID: 21300000, guid: 2633d76a44ce84676ab8b61f38ca9170, type: 3}
   levelName: London
-  levelProperty: {fileID: 11400000, guid: 20a2642adc81744888fa82114d6a682a, type: 2}
+  levelProperty: {fileID: 11400000, guid: 3e91794efc84542ba82d3dabc436b12c, type: 2}

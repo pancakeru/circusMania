@@ -15,4 +15,4 @@ MonoBehaviour:
   levelIndex: 7
   showVisual: {fileID: 21300000, guid: 10e932bdec3d24e47b111905d94c3f7f, type: 3}
   levelName: Shanghai
-  levelProperty: {fileID: 11400000, guid: 35a5e456fda1d4877b1facee3dd3f4c5, type: 2}
+  levelProperty: {fileID: 11400000, guid: 1110c7836f6f64859ab91d3e0dbb2820, type: 2}
