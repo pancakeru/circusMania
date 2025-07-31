@@ -40,9 +40,9 @@ public class animalProperty : ScriptableObject
     [Header("     For explain")]
     string formatScore = "<b><color=#{0}>+{1} {2}</color></b>";
 
-    string formatPower = "<b><color=#{0}>“力量”</color></b>: +1 “力量”（每次传球时）。\n{1}{2} {3}。";
-    string formatWarmUp = "<b><color=#{0}>“热身”</color></b>: +1 “热身”（每次传球时）。\n当热身为 <b>{1}</b>, {2}{3}, 随后“热身”失效至下一次行动。";
-    string formatExcited = "<b><color=#{0}>“兴奋”</color></b>: <b>{1}</b> “兴奋”（每次传球时）。 \n当“兴奋”时, -1 “兴奋”（每次其他动物传球时）并{2}{3}。";
+    string formatPower = "每次传球时 +1 “力量”。\n{1}{2} {3}。";
+    string formatWarmUp = "每次传球时 +1 “热身”。\n当热身为 <b>{1}</b>, {2}{3}。";
+    string formatExcited = "<color=#{0}>“兴奋”</color>: <b>{1}</b> “兴奋”（每次传球时）。 \n当“兴奋”时, -1 “兴奋”（每次其他动物传球时）并{2}{3}。";
 
     string formatPowerSimple = "<b><color=#{0}>力量</color></b>: {1}{2} {3}.";
     string formatWarmUpSimple = "<b><color=#{0}>热身 ({1})</color></b>: {2} {3}.";

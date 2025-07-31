@@ -114,7 +114,7 @@ MonoBehaviour:
     isAnimalIntroduction: 1
     animalIntroductionSprite: {fileID: 21300000, guid: 8d6ea11d1b47ad043a10a96621441c76, type: 3}
     animalIntroductionString: "\u7334\u5B50\u53EF\u4EE5\u628A\u7403\u4F20\u5230\u53F3\u4FA7\u4E00\u683C\uFF0C\u5E76\u4E14\u83B7\u5F97
-      <b><color=#D3458F>Joy(\u6B22\u4E50)</b></color> \u7C7B\u578B\u7684\u5F97\u5206."
+      <color=#D3458F>Joy(\u6B22\u4E50)</color> \u7C7B\u578B\u7684\u5F97\u5206."
     isGoalActiveSelfChanging: 0
     goalText: 
     isAllInteractionActive: 0
@@ -180,8 +180,8 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u89C2\u4F17\u4EEC\u5E0C\u671B\u770B\u5230\u66F4\u591A Skill(\u6280\u5DE7)
-      \u548C Joy."
+    speakerDialogue: "\u89C2\u4F17\u4EEC\u5E0C\u671B\u770B\u5230\u66F4\u591A <color=#BF8B00>Skill(\u6280\u5DE7)</color>
+      \u548C <color=#D3458F>Joy(\u6B22\u4E50)</color>."
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 700, y: 150}
@@ -211,8 +211,8 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: AudioPlayed
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u5BF9\u4E86\uFF0C\u6211\u4EEC\u53EF\u4EE5\u8BA9\u5927\u8C61\u6765\uFF0C\n\u5B83\u4EEC\u662F\u5C55\u73B0
-      Skill\u7684\u597D\u624B"
+    speakerDialogue: "\u5BF9\u4E86, \u6211\u4EEC\u53EF\u4EE5\u8BA9\u5927\u8C61\u6765,
+      \u5B83\u4EEC\u662F\u5C55\u73B0<color=#BF8B00>Skill</color> \u7684\u597D\u624B"
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
@@ -237,7 +237,7 @@ MonoBehaviour:
     isAnimalIntroduction: 1
     animalIntroductionSprite: {fileID: 21300000, guid: 952d4894f08d41d48a3b575f16126be8, type: 3}
     animalIntroductionString: "\u5927\u8C61\u4F1A\u5C06\u7403\u5411\u5DE6\u4F202\u683C\u5E76\u83B7\u5F97
-      <b><color=#BF8B00>Skill</color></b> \u7C7B\u578B\u7684\u5F97\u5206."
+      <color=#BF8B00>Skill</color> \u7C7B\u578B\u7684\u5F97\u5206."
     isGoalActiveSelfChanging: 0
     goalText: 
     isAllInteractionActive: 0
@@ -288,7 +288,8 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: ShowStart
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u5927\u8C61\u4EEC\u786E\u5B9E\u64C5\u957F Skill, \u4F46\u5B83\u4EEC\u4E5F\u9700\u8981\u66F4\u591A\u65F6\u95F4\u6765\u4F11\u606F..."
+    speakerDialogue: "\u5927\u8C61\u4EEC\u786E\u5B9E\u64C5\u957F<color=#BF8B00>Skill</color>
+      , \u4F46\u5B83\u4EEC\u4E5F\u9700\u8981\u66F4\u591A\u65F6\u95F4\u6765\u4F11\u606F..."
     audioToBePlayed: {fileID: 0}
     isWholeMask: 1
     maskSizeDelta: {x: 0, y: 0}
@@ -303,7 +304,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u8BD5\u8BD5\u7528\u6211\u6700\u559C\u6B22\u7684<b>\u9999\u8549</b>\u5E2E\u52A9\u5B83\u4EEC\u6062\u590D\u5427?"
+    speakerDialogue: "\u8BD5\u8BD5\u7528\u6211\u6700\u559C\u6B22\u7684\u9999\u8549\u5E2E\u52A9\u5B83\u4EEC\u6062\u590D\u5427?"
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 130, y: 150}
@@ -327,8 +328,8 @@ MonoBehaviour:
     imageSprite: {fileID: 0}
     isAnimalIntroduction: 1
     animalIntroductionSprite: {fileID: 21300000, guid: d8310af17b3e64a02be790dd61bad5a5, type: 3}
-    animalIntroductionString: "\u6BCF\u573A\u8868\u6F14\u4F60\u90FD\u4F1A\u83B7\u5F9710\u4E2A
-      <b>\u9999\u8549</b>; \u5F53\u52A8\u7269\u4EEC\u63A5\u5230\u7403\u65F6\uFF0C\u5B83\u4EEC\u4F1A\u81EA\u52A8\u6D88\u8017\u5F53\u524D\u4F11\u606F\u56DE\u5408\u6570\u7684\u9999\u8549\u6765\u76F4\u63A5\u6062\u590D"
+    animalIntroductionString: "\u6BCF\u573A\u8868\u6F14\u4F60\u90FD\u4F1A\u83B7\u5F9710\u4E2A\u9999\u8549;
+      \u5F53\u52A8\u7269\u4EEC\u63A5\u5230\u7403\u65F6\uFF0C\u5B83\u4EEC\u4F1A\u81EA\u52A8\u6D88\u8017\u5F53\u524D\u4F11\u606F\u56DE\u5408\u6570\u7684\u9999\u8549\u6765\u76F4\u63A5\u6062\u590D"
     isGoalActiveSelfChanging: 0
     goalText: 
     isAllInteractionActive: 0
@@ -364,7 +365,7 @@ MonoBehaviour:
     isAllInteractionActive: 0
     proceedCondition: 
   - speakerSprite: {fileID: 21300000, guid: c10cc911fda317541832dbd74b14b07b, type: 3}
-    speakerDialogue: "\u53EA\u8981\u518D\u7ED9\u6F14\u51FA\u5E26\u6765\u4E00\u5B9A\u7684Novelty(\u65B0\u5947)\uFF0C\u8FD9\u5C31\u662F\u4E00\u573A\u6210\u529F\u7684\u8868\u6F14\u4E86"
+    speakerDialogue: "\u53EA\u8981\u518D\u7ED9\u6F14\u51FA\u5E26\u6765\u4E00\u5B9A\u7684<color=#45A9D2>Novelty(\u65B0\u5947)</color>\uFF0C\u8FD9\u5C31\u662F\u4E00\u573A\u6210\u529F\u7684\u8868\u6F14\u4E86"
     audioToBePlayed: {fileID: 0}
     isWholeMask: 0
     maskSizeDelta: {x: 300, y: 150}
@@ -389,7 +390,7 @@ MonoBehaviour:
     isAnimalIntroduction: 1
     animalIntroductionSprite: {fileID: 21300000, guid: 939305793ddd7484f925ae9bf62fde94, type: 3}
     animalIntroductionString: "\u72EE\u5B50\u4F1A\u6309\u987A\u5E8F\u4F20\u7403\u7ED9
-      #1, #3, #5 \u53F7\u4F4D\u7F6E\u5E76\u83B7\u5F97 <b><color=#45A9D2>Novelty</b></color>
+      #1, #3, #5 \u53F7\u4F4D\u7F6E\u5E76\u83B7\u5F97 <color=#45A9D2>Novelty</color>
       \u7C7B\u578B\u7684\u5206\u6570. \u5F53\u5FC3! \u5B83\u6709\u53EF\u80FD\u4F1A\u5C06\u7403\u4F20\u7ED9\u81EA\u5DF1,
       \u6D6A\u8D39\u9999\u8549"
     isGoalActiveSelfChanging: 0

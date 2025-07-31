@@ -23,7 +23,7 @@ public class PauseController : MonoBehaviour
 
     public void ButtonReturnToBackstage()
     {
-        CanvasMain.instance.DisplaySelection("Are you sure you want to return to backstage?", ReturnToBackstage);
+        CanvasMain.instance.DisplaySelection("你希望返回后台重新开始这次表演吗?", ReturnToBackstage);
     }
 
     public void ReturnToBackstage()

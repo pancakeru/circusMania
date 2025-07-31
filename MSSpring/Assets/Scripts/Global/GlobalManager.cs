@@ -109,7 +109,7 @@ public class GlobalManager : MonoBehaviour, IGeneralManager
 
     public GlobalLevel GetCurrentGlobalLevel()
     {
-        return globalLevelArray[currentLevelIndex];
+        return currentLevelIndex<globalLevelArray.Length? globalLevelArray[currentLevelIndex]: globalLevelArray[globalLevelArray.Length-1];
     }
 
     public LevelProperty GetTutorialLevel()
