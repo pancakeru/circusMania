@@ -26,6 +26,11 @@ public class MouseFollower : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        Cursor.visible = true;
+    }
+
     IEnumerator ClickEffect()
     {
         isAnimating = true;
