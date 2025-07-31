@@ -689,11 +689,23 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 				{
 					if (Time.timeScale > 0)
 					{
+						Cursor.visible = true;
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
-						thrower.SwitchThrowEnableWhenPause(false);
+                        Transform parent = pauseShow.transform.parent;
+                        Transform cursor = parent.Find("Cursor");
 
-					}
+                        if (cursor != null)
+                        {
+                            int cursorIndex = cursor.GetSiblingIndex();
+                            int targetIndex = Mathf.Max(0, cursorIndex - 1);  // 确保不小于0
+                            pauseShow.transform.SetSiblingIndex(targetIndex);
+                            //Debug.LogError($"Cursor siblingIndex: {cursorIndex}, pauseShow set to: {targetIndex}");
+                        }
+
+                        thrower.SwitchThrowEnableWhenPause(false);
+
+                    }
 					else
 					{
 						PauseResume();
@@ -1193,7 +1205,17 @@ public class ShowManager : MonoBehaviour, IReportReceiver
 						Cursor.visible = true;
 						Time.timeScale = 0;
 						pauseShow.SetActive(true);
-						SwitchExplainEnableState(false);
+                        Transform parent = pauseShow.transform.parent;
+                        Transform cursor = parent.Find("Cursor");
+
+                        if (cursor != null)
+                        {
+                            int cursorIndex = cursor.GetSiblingIndex();
+                            int targetIndex = Mathf.Max(0, cursorIndex - 1);  // 确保不小于0
+                            pauseShow.transform.SetSiblingIndex(targetIndex);
+                            //Debug.LogError($"Cursor siblingIndex: {cursorIndex}, pauseShow set to: {targetIndex}");
+                        }
+                        SwitchExplainEnableState(false);
 					}
 					else
 					{
