@@ -76,7 +76,7 @@ public class CanvasMain : MonoBehaviour
         raycasters.Add(canvasMrShop.GetComponent<GraphicRaycaster>());
         raycasters.Add(canvasStartScren.GetComponent<GraphicRaycaster>());
 
-        //CheckFonts();
+        CheckFonts();
     }
 
     void Update()
