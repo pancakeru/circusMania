@@ -580,6 +580,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CanvasMrShop
       objectReference: {fileID: 0}
+    - target: {fileID: 4526457681881104007, guid: 1e268d2d4ac55c84ca327903caf4d8df, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7092411842837546094, guid: 1e268d2d4ac55c84ca327903caf4d8df, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -822,6 +826,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8348268009572786836, guid: 26975a3eb68efa94d83f37792fe20e0f, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -919,6 +927,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 603134245}
+    - target: {fileID: 6725013296609913051, guid: 2e894a72b3e479445b0b24ee2a77bf6a, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7417563162726198082, guid: 2e894a72b3e479445b0b24ee2a77bf6a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1048,6 +1060,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9017816353438063883, guid: 61668c9603010cd4ca3d7b842054e5f4, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1139,6 +1155,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2111287403956289391, guid: 09dfd3e3e8fb0c24ebc9f5d08562c8a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3673061037595327994, guid: 09dfd3e3e8fb0c24ebc9f5d08562c8a3, type: 3}
+      propertyPath: m_MatchWidthOrHeight
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5116166081663025215, guid: 09dfd3e3e8fb0c24ebc9f5d08562c8a3, type: 3}

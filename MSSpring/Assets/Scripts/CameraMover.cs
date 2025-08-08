@@ -26,6 +26,7 @@ public class CameraMover : MonoBehaviour
     void Awake()
     {
         mainCamera = Camera.main; // 获取主摄像机
+        Screen.SetResolution(1920, 1080, true);
     }
 
     void Update()

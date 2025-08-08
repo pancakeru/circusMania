@@ -15,9 +15,9 @@ MonoBehaviour:
   targetScore: 20000
   allowedTurn: 3
   totalN: 10
-  redA: 30
+  redA: 20
   redB: 20
   yellowA: 20
   yellowB: 20
   blueA: 20
-  blueB: 10
+  blueB: 0
